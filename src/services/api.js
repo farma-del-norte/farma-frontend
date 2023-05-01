@@ -11,6 +11,7 @@ const axiosInstance = axios.create({
 })
 
 const newPath = 'safsdadfas'
+const nuevo_endpoint = 'safsdadfas'
 
 axiosInstance.interceptors.response.use(
   response => {
