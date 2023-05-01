@@ -10,6 +10,8 @@ const axiosInstance = axios.create({
   baseURL: ''
 })
 
+const newPath = 'safsdadfas'
+
 axiosInstance.interceptors.response.use(
   response => {
     return response
