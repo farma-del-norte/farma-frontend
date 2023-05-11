@@ -24,7 +24,7 @@ export const PROFILES = {
     PERMISSIONS.ecommerceCheckout,
     PERMISSIONS.ecommerceAddProduct,
     PERMISSIONS.ecommerceOrders,
-    PERMISSIONS.ecommerceEditOrders,
+    PERMISSIONS.ecommerceEditOrders
   ],
   Socio: [
     PERMISSIONS.home,
@@ -35,7 +35,7 @@ export const PROFILES = {
     PERMISSIONS.ecommerceCheckout,
     PERMISSIONS.ecommerceAddProduct,
     PERMISSIONS.ecommerceOrders,
-    PERMISSIONS.ecommerceEditOrders,
+    PERMISSIONS.ecommerceEditOrders
   ],
   'Administrador de Productos': [
     PERMISSIONS.home,
@@ -61,7 +61,7 @@ export const PROFILES = {
     PERMISSIONS.ecommerceAddProduct,
     PERMISSIONS.ecommerceOrders,
     PERMISSIONS.ecommerceEditOrders,
-    PERMISSIONS.ordersAdmin,
+    PERMISSIONS.ordersAdmin
   ],
   default: [
     PERMISSIONS.home,
@@ -80,14 +80,14 @@ export const ROUTES_PERMISSION = {
   ['/dashboards/users']: PERMISSIONS.dashboardUsers,
   ['/dashboards/comissions']: PERMISSIONS.dashboardComissions,
   ['/profile']: PERMISSIONS.dashboardProfile,
-  ['/ecommerce/products']: PERMISSIONS.ecommerceProducts,
+  /*   ['/ecommerce/products']: PERMISSIONS.ecommerceProducts, */
   ['/ecommerce/cart']: PERMISSIONS.ecommerceCart,
   ['/ecommerce/checkout']: PERMISSIONS.ecommerceCheckout,
   ['/admin/users/new-user']: PERMISSIONS.adminUsersNewUser,
   ['/ecommerce/products/add-product']: PERMISSIONS.ecommerceAddProduct,
   ['/ecommerce/orders']: PERMISSIONS.ecommerceOrders,
   ['/ecommerce/edit-order']: PERMISSIONS.ecommerceEditOrders,
-  ['/orders/admin-orders']: PERMISSIONS.ordersAdmin,
+  ['/orders/admin-orders']: PERMISSIONS.ordersAdmin
 }
 
 export const PROFILES_USER = {

@@ -60,12 +60,12 @@ const UserDropdown = props => {
     handleDropdownClose()
   }
   const handleLogout = () => {
-    router.push('/register')
+    router.push('/login')
     handleDropdownClose()
   }
 
   const handleConvertProfile = () => {
-    router.push({pathname: '/register/address', query: {newAssociate: true}})
+    router.push({ pathname: '/register/address', query: { newAssociate: true } })
     handleDropdownClose()
   }
 
@@ -117,12 +117,6 @@ const UserDropdown = props => {
             Perfil
           </MenuItem>
         ) : null}
-        {user?.profile === PROFILES_USER.consumerUser ?
-          <MenuItem sx={{ py: 2 }} onClick={handleConvertProfile}>
-            <AccountTie sx={{ mr: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
-            Convertirme en Socio
-          </MenuItem>
-        : null}
 
         <Divider />
         {user?.id ? (

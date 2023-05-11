@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export const PROYECT = 'https://7wcx345m58.execute-api.us-east-1.amazonaws.com'
 export const HOST_CART = 'https://xucsfbspv3.execute-api.us-east-1.amazonaws.com'
 export const PROJECT_ADDRESS = 'https://4sbvck2dv1.execute-api.us-east-1.amazonaws.com'
@@ -6,12 +7,10 @@ export const PROJECT_PAYMENT_METHODS = 'https://647fpdfpo1.execute-api.us-east-1
 export const PROYECT_PRODUCTS = 'https://b3pjrwk6u3.execute-api.us-east-1.amazonaws.com'
 export const COMISSIONS = 'https://ngn5zgk4a1.execute-api.us-east-1.amazonaws.com'
 export const ORDERS = 'https://a57zeomz3a.execute-api.us-east-1.amazonaws.com'
+
 const axiosInstance = axios.create({
   baseURL: ''
 })
-
-const newPath = 'safsdadfas'
-const nuevo_endpoint = 'safsdadfas'
 
 axiosInstance.interceptors.response.use(
   response => {
@@ -21,8 +20,8 @@ axiosInstance.interceptors.response.use(
     let message = ''
     if (error.response.status === 404) {
       message = 'Error al enviar la petición.'
-    } else if (error.response.data && error.response.data.message && error.response.data.message.error) {
-      const { data } = error.response
+    } else if (error.response.data?.message?.error) {
+      const {data} = error.response
       message = data.message.error
     } else {
       message =
@@ -45,7 +44,7 @@ export const api_get = (url, headers = {}) => {
   return new Promise((res, rej) => {
     axiosInstance
       .get(url, headers)
-      .then(({ data }) => {
+      .then(({data}) => {
         res(data)
       })
       .catch(err => {
@@ -58,7 +57,7 @@ export const api_post = (url, body, headers = {}) => {
   return new Promise((res, rej) => {
     axiosInstance
       .post(url, body, headers)
-      .then(({ data }) => {
+      .then(({data}) => {
         res(data)
       })
       .catch(err => {
@@ -71,7 +70,7 @@ export const api_put = (url, body, headers = {}) => {
   return new Promise((res, rej) => {
     axiosInstance
       .put(url, body, headers)
-      .then(({ data }) => {
+      .then(({data}) => {
         res(data)
       })
       .catch(err => {
@@ -83,8 +82,8 @@ export const api_put = (url, body, headers = {}) => {
 export const api_delete = (url, body, headers = {}) => {
   return new Promise((res, rej) => {
     axiosInstance
-      .delete(url, { ...headers, data: body })
-      .then(({ data }) => {
+      .delete(url, {...headers, data: body})
+      .then(({data}) => {
         res(data)
       })
       .catch(err => {
