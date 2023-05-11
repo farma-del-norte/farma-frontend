@@ -45,7 +45,8 @@ const ContentWrapper = styled('main')(({ theme }) => ({
     paddingRight: theme.spacing(4)
   }
 }))
-
+//TODO vertical side bar
+/* Recibe config de navegacion*/
 const VerticalLayout = props => {
   // ** Props
   const { hidden, settings, children, scrollToTop } = props

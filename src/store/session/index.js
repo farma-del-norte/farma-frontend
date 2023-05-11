@@ -14,7 +14,7 @@ export const loginCall = createAsyncThunk('/session/login', async (body, thunkAp
     // thunkApi.dispatch(setUser(response.content.user))
     thunkApi.dispatch(setUser(response.content))
 
-    Router.push('/ecommerce/products')
+    Router.push('/')
 
     return response
   } catch (error) {

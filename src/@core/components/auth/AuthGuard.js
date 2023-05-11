@@ -1,25 +1,25 @@
 // ** React Imports
-import { useEffect } from 'react'
+import {useEffect} from 'react'
 
 // ** Next Imports
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 // ** Hooks Import
-import { useSelector } from 'react-redux'
-import { PROFILES, ROUTES_PERMISSION } from 'src/configs/profiles'
+import {useSelector} from 'react-redux'
+import {PROFILES, ROUTES_PERMISSION} from 'src/configs/profiles'
 
-const resolveProfile = (user, path) => {
+/* const resolveProfile = (user, path) => {
   const userProfile = user?.profile ? PROFILES[user.profile] : PROFILES.default
 
   const permission = ROUTES_PERMISSION[path]
 
   return userProfile.includes(permission)
-}
+} */
 
 const AuthGuard = props => {
-  const { children, fallback } = props
-  const { isLoading } = useSelector(state => state.session)
-  const { user } = useSelector(state => state.dashboard.general)
+  const {children, fallback} = props
+  const {isLoading} = useSelector(state => state.session)
+  const {user} = useSelector(state => state.dashboard.general)
   const router = useRouter()
 
   useEffect(
@@ -28,15 +28,8 @@ const AuthGuard = props => {
         return
       }
 
-      if (!resolveProfile(user, router.pathname)) {
-        if (router.asPath !== '/') {
-          router.replace({
-            pathname: '/ecommerce/products'
-            // query: { returnUrl: router.asPath }
-          })
-        } else {
-          router.replace('/ecommerce/products')
-        }
+      if (router.asPath === '/') {
+        router.replace('/login')
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
