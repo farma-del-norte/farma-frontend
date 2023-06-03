@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -8,10 +8,9 @@ import TextField from '@mui/material/TextField'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 
-import { Box } from '@mui/material'
+import {Box} from '@mui/material'
 
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import CheckList from 'src/pages/components/CheckList/CheckList'
 
 //utils
 const textValidations = [
@@ -30,7 +29,7 @@ export default function Register05() {
   return (
     <Box
       container
-      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', padding: '3rem' }}
+      sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', padding: '3rem'}}
     >
       <Card>
         <CardContent
@@ -41,7 +40,7 @@ export default function Register05() {
           <h1>Crea tu contraseña</h1>
           <h4>Ingresa una contraseñna segura que no uses en otras plataformas</h4>
           <TextField fullWidth label='Contraseña' />
-          <CheckList textValidations={textValidations} />
+          {/*  <CheckList textValidations={textValidations} /> */}
           <TextField fullWidth label='Confirma tu contraseña' />
         </CardContent>
         <CardActions>
@@ -50,7 +49,7 @@ export default function Register05() {
             size='large'
             type='submit'
             variant='contained'
-            sx={{ backgroundColor: '#3483fa' }}
+            sx={{backgroundColor: '#3483fa'}}
             fullWidth
           >
             Enviar codigo por SMS

@@ -4,7 +4,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import CustomCheckBox from '../CustomCheckbox/CustomCheckBox'
 const CheckList = ({ textValidations }) => {
   const [checked, setChecked] = React.useState([0]);
 
@@ -34,14 +33,6 @@ const CheckList = ({ textValidations }) => {
               dense
             >
               <ListItemIcon>
-                <CustomCheckBox 
-                  edge="start"
-                  checked={checked.indexOf(value) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
-                  color="success"
-                />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`Line item ${value }`} />
             </ListItemButton>
