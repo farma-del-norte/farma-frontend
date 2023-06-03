@@ -1,5 +1,5 @@
 // ** Toolkit imports
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import {combineReducers, configureStore} from '@reduxjs/toolkit'
 
 // ** Reducers
 import chat from 'src/store/apps/chat'
@@ -22,6 +22,9 @@ import products from 'src/store/products'
 import comissions from 'src/store/comissions'
 import orders from 'src/store/orders'
 
+//farma reducers
+import dimensions from 'src/store/catalogs/dimensions'
+
 export const store = configureStore({
   reducer: {
     user,
@@ -41,7 +44,8 @@ export const store = configureStore({
     paymentMethods,
     address,
     register,
-    dashboard: combineReducers({ general })
+    dimensions,
+    dashboard: combineReducers({general})
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

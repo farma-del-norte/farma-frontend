@@ -9,16 +9,40 @@ const navigation = () => {
     {
       title: 'Catalogos',
       icon: ViewDashboard,
-      permission: 'catalogs',
+      permission: 'catalogos',
       visible: true,
       children: [
         {
-          title: 'Sucursales',
-          path: '/dashboards/sucursales'
+          title: 'Dimensiones',
+          path: '/catalogs/dimensions/dimensions'
         },
         {
-          title: 'Proveedores',
-          path: '/dashboards/users'
+          title: 'Variables',
+          path: '/catalogs/variables/variables'
+        },
+        {
+          title: 'Conceptos',
+          path: '/catalogs/conceptos/conceptos'
+        },
+        {
+          title: 'Mantenimientos',
+          path: '/catalogs/mantenimientos/mantenimientos'
+        },
+        {
+          title: 'Materiales',
+          path: '/catalogs/materiales/materiales'
+        },
+        {
+          title: 'Requerimientos',
+          path: '/catalogs/requerimientos/requerimientos'
+        },
+        {
+          title: 'Siniestros',
+          path: '/catalogs/siniestros/siniestros'
+        },
+        {
+          title: 'Usuarios',
+          path: '/catalogs/usuarios/usuarios'
         }
       ]
     }
