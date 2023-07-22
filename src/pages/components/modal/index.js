@@ -15,12 +15,13 @@ const ReusableDialog = ({open = false, onClose = () => {}, title = '', children,
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-        {actions.length &&
-          actions.map((action, index) => (
-            <Button key={index} onClick={action.onClick} color={action.color} variant={action.variant}>
-              {action.label}
-            </Button>
-          ))}
+        {actions.length
+          ? actions.map((action, index) => (
+              <Button key={index} onClick={action.onClick} color={action.color} variant={action.variant}>
+                {action.label}
+              </Button>
+            ))
+          : null}
       </DialogActions>
     </Dialog>
   )

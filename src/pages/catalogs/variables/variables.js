@@ -1,76 +1,122 @@
 import * as React from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
+import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLabel} from '@mui/material'
 import CardTable from 'src/pages/components/cardTable'
 import ReusableDialog from 'src/pages/components/modal'
 
 import {getTitle} from 'src/utils/functions'
 import {Pencil, Delete} from 'mdi-material-ui'
 
+import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables'
+
 const columns = [
-  {
-    flex: 0.1,
-    field: 'id',
-    minWidth: 80,
-    headerName: 'ID'
-  },
   {
     flex: 0.25,
     minWidth: 200,
-    field: 'name',
+    field: 'variable',
     headerName: 'Nombre'
   },
   {
     flex: 0.25,
     minWidth: 230,
-    field: 'variable',
-    headerName: 'Variable'
+    field: 'dimension',
+    headerName: 'Nombre de Dimension'
+  },
+  {
+    flex: 0.25,
+    minWidth: 230,
+    field: 'obligation',
+    headerName: 'Obligacion'
   },
   {
     flex: 0.15,
     minWidth: 130,
-    field: 'active',
-    headerName: 'Activo'
+    field: 'specification',
+    headerName: 'Lineamientos'
+  },
+  {
+    flex: 0.15,
+    minWidth: 130,
+    field: 'maintenance',
+    headerName: 'Mantenimiento'
   }
 ]
 
 const fakeRows = [
   {
     id: 1,
-    name: 'dato de prueba',
     variable: 'dato de prueba',
-    active: 'Activado'
-  },
-  {
-    id: 2,
-    name: 'dato de prueba 2',
-    variable: 'dato de prueba 2',
-    active: 'Activado'
-  },
-  {
-    id: 3,
-    name: 'dato de prueba 3',
-    variable: 'dato de prueba 3',
-    active: 'Activado'
-  },
-  {
-    id: 4,
-    name: 'dato de prueba 3',
-    variable: 'dato de prueba 3',
+    dimension: 'dato de prueba',
+    obligation: 'dato de prueba',
+    specification: 'dato de prueba',
+    maintenance: 'dato de prueba',
     active: 'Activado'
   }
 ]
 
+/* TODO 
+create new object when is Editing form
+*/
+
+const defaultEditingValues = {
+  name: 'dato de prueba',
+  dimension: 'dato de prueba',
+  obligation: 'dato de prueba',
+  specification: 'dato de prueba',
+  maintenance: 'dato de prueba',
+  guidelines: 'dato de prueba'
+}
 const defaultValuesVariables = {
-  id: '',
-  name: '',
+  id: 1,
   variable: '',
-  active: ''
+  dimension: '',
+  obligation: '',
+  specification: '',
+  maintenance: '',
+  active: 'Activado'
 }
 
 function Variables() {
-  const handleAddItem = params => {}
+  const dispatch = useDispatch()
+
+  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.variables)
+
+  const {control, handleSubmit, reset} = useForm({
+    defaultValues: defaultValuesVariables
+  })
+
+  const resetAllFormFields = () => {
+    reset(defaultEditingValues)
+  }
+
+  React.useEffect(() => {
+    if (isEdit) resetAllFormFields()
+  }, [])
+
+  const isEdit = Boolean(modalItem)
+  const handleAddItem = () => {
+    dispatch(toggleModal(true))
+  }
+
+  const handleOpenModal = params => {
+    const {row, open} = params
+    dispatch(toggleModal(open))
+    dispatch(setModalItem(row))
+  }
+
+  const handleCloseModal = () => {
+    reset(defaultValuesVariables)
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
+  }
+
+  const handleDeleteModal = params => {
+    const {row, open} = params
+    dispatch(toggleDeleteModal(open))
+    dispatch(setDeleteItem(row))
+  }
 
   const actionableColumns = [
     ...columns,
@@ -83,13 +129,27 @@ function Variables() {
         const row = params?.row
         return (
           <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <Pencil sx={{margin: '5px'}} />
-            <Delete sx={{margin: '5px'}} />
+            <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal({row, open: true})} />
+            <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal({row, open: true})} />
           </Typography>
         )
       }
     }
   ]
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
+  }
+
+  const handleConfirm = params => {}
+
+  const onSubmit = params => {}
+
+  const editTitle = getTitle('edit') // Returns 'Editar dimension seleccionada'
+  const addTitle = getTitle('add') // Returns 'Agregar dimension'
+  const deleteTitle = getTitle('delete') // Returns 'Eliminar dimension'
 
   return (
     <React.Fragment>
@@ -99,7 +159,122 @@ function Variables() {
         rows={fakeRows}
         label='Variables'
         onAddItem={handleAddItem}
-      ></CardTable>
+      />
+      <ReusableDialog
+        open={isOpen}
+        onClose={handleCloseModal}
+        title={isEdit ? editTitle : addTitle}
+        actions={[
+          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+        ]}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <Controller
+                  name='name'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Nombre' value={value} onChange={onChange} />
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <InputLabel id='demo-simple-select-label'>Dimension</InputLabel>
+                <Controller
+                  name='dimensionName'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <Select
+                      labelId='demo-simple-select-label'
+                      id='demo-simple-select'
+                      value={value}
+                      label='Dimension' /* id dimension list of options */
+                      onChange={onChange}
+                    >
+                      <MenuItem value={10}>Prueba</MenuItem>
+                      <MenuItem value={20}>Prueba</MenuItem>
+                      <MenuItem value={30}>Prueba</MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <InputLabel id='demo-simple-select-label'>Obligacion</InputLabel>
+                <Controller
+                  name='obligacion'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <Select
+                      labelId='demo-simple-select-label'
+                      id='demo-simple-select'
+                      value={value}
+                      label='Obligation' /*  */
+                      onChange={onChange}
+                    >
+                      <MenuItem value={10}>Obligatorio</MenuItem>
+                      <MenuItem value={20}>Obligatorio en sucursal nueva</MenuItem>
+                      <MenuItem value={30}>Opcional</MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <Controller
+                  name='specification'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Especificacion' value={value} onChange={onChange} />
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <Controller
+                  name='guidelines'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Lineamientos' value={value} onChange={onChange} />
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <Controller
+                  name='maintenance'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Mantenimiento' value={value} onChange={onChange} />
+                  )}
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+        </form>
+      </ReusableDialog>
+      <ReusableDialog
+        open={isDeleteOpen}
+        onClose={handleCloseModal}
+        title='Eliminar Variable'
+        actions={[
+          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
+          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+        ]}
+      >
+        <Box>
+          <Typography variant='body2'>Seguro de eliminar la variable seleccionada?</Typography>
+        </Box>
+      </ReusableDialog>
     </React.Fragment>
   )
 }
