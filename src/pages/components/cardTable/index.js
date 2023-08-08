@@ -30,7 +30,7 @@ const CardTable = ({showAddButton = false, ...props}) => {
         }
       />
       <Box sx={{height: gridHeight}}>
-        <DataGrid columns={props.columns} rows={props.rows} localeText={getLocaleText()} />
+        <DataGrid localeText={getLocaleText()} {...props} />
       </Box>
     </Card>
   )

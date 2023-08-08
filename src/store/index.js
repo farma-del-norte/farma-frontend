@@ -24,6 +24,8 @@ import orders from 'src/store/orders'
 
 //farma reducers
 import dimensions from 'src/store/catalogs/dimensions'
+import variables from 'src/store/catalogs/variables'
+import concepts from 'src/store/catalogs/concepts'
 
 export const store = configureStore({
   reducer: {
@@ -45,6 +47,8 @@ export const store = configureStore({
     address,
     register,
     dimensions,
+    variables,
+    concepts,
     dashboard: combineReducers({general})
   },
   middleware: getDefaultMiddleware =>

@@ -22,18 +22,6 @@ const columns = [
     minWidth: 200,
     field: 'name',
     headerName: 'Nombre'
-  },
-  {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'dimension',
-    headerName: 'Dimension'
-  },
-  {
-    flex: 0.15,
-    minWidth: 130,
-    field: 'active',
-    headerName: 'Activo'
   }
 ]
 
@@ -75,13 +63,21 @@ function Dimensions() {
   const dispatch = useDispatch()
   const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.dimensions)
 
+  /* local state */
+  const [pagination, setPagination] = React.useState({
+    paginationModel: {
+      pageSize: 5
+    }
+  })
+
   const isEdit = Boolean(modalItem) //TODO check this boolean title for modal
 
-  const {control, handleSubmit} = useForm({
+  const {control, handleSubmit, reset} = useForm({
     defaultValues: defaultValuesDimensions
   })
 
   const handleCloseModal = () => {
+    reset()
     const cleanModal = null
     dispatch(toggleModal(false))
     dispatch(setModalItem(cleanModal))
@@ -150,6 +146,8 @@ function Dimensions() {
         rows={fakeRows}
         label='Dimension'
         onAddItem={handleAddItem}
+        pageSize={5}
+        rowsPerPageOptions={[7, 10, 25, 50]}
       />
       <ReusableDialog
         open={isOpen}
@@ -157,17 +155,19 @@ function Dimensions() {
         title={isEdit ? editTitle : addTitle}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleConfirm, color: 'primary', variant: 'contained'}
+          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
                   name='name'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Nombre' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -180,7 +180,7 @@ function Dimensions() {
         title={deleteTitle}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
+          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
