@@ -1,4 +1,4 @@
-import * as React from 'react'
+import {Fragment} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuItem} from '@mui/material'
@@ -6,25 +6,13 @@ import CardTable from 'src/pages/components/cardTable'
 import ReusableDialog from 'src/pages/components/modal'
 import {getTitle} from 'src/utils/functions'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {setModalItem, toggleModal} from 'src/store/catalogs/concepts'
+import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts'
 const columns = [
   {
     flex: 0.25,
     minWidth: 200,
     field: 'concept',
-    headerName: 'Nombre del Concepto'
-  },
-  {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'variableName',
-    headerName: 'Nombre de la variable'
-  },
-  {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'dimensionName',
-    headerName: 'Nombre de la Dimension'
+    headerName: 'Concepto'
   },
   {
     flex: 0.25,
@@ -36,13 +24,19 @@ const columns = [
     flex: 0.25,
     minWidth: 230,
     field: 'definition',
-    headerName: 'Definicion'
+    headerName: 'Definición'
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'observations',
     headerName: 'Observaciones'
+  },
+  {
+    flex: 0.25,
+    minWidth: 230,
+    field: 'variableName',
+    headerName: 'Variable'
   }
 ]
 
@@ -51,8 +45,7 @@ const fakeRows = [
     id: 2,
     concept: 'dato de prueba',
     variableName: 'dato de prueba',
-    dimensionName: 'dato de prueba',
-    type: 'dato de prueba',
+    type: 'Concepto',
     definition: 'dato de prueba',
     observations: 'dato de prueba'
   }
@@ -65,13 +58,27 @@ function Concepts() {
     defaultValues: {}
   })
   const handleAddItem = () => {
+    reset({})
     dispatch(toggleModal(true))
   }
 
   const handleOpenModal = params => {
     const {row, open} = params
+    reset(row)
     dispatch(toggleModal(open))
     dispatch(setModalItem(row))
+  }
+
+  const handleDeleteModal = params => {
+    const {row, open} = params
+    dispatch(toggleDeleteModal(open))
+    dispatch(setDeleteItem(row))
+  }
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
 
   const onSubmit = () => {}
@@ -88,7 +95,7 @@ function Concepts() {
         return (
           <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
             <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal({row, open: true})} />
-            <Delete sx={{margin: '5px'}} />
+            <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal({row, open: true})} />
           </Typography>
         )
       }
@@ -105,7 +112,7 @@ function Concepts() {
   const isEdit = Boolean(modalItem)
 
   return (
-    <React.Fragment>
+    <Fragment>
       <CardTable
         showAddButton
         columns={actionableColumns}
@@ -192,7 +199,7 @@ function Concepts() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='observation'
+                  name='observations'
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <TextField label='Observaciones' value={value} onChange={onChange} />
@@ -203,7 +210,20 @@ function Concepts() {
           </Grid>
         </form>
       </ReusableDialog>
-    </React.Fragment>
+      <ReusableDialog
+        open={isDeleteOpen}
+        onClose={handleCloseDeleteModal}
+        title={'Eliminar Concepto'}
+        actions={[
+          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
+          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+        ]}
+      >
+        <Box>
+          <Typography variant='body2'>Seguro de eliminar el concepto seleccionado?</Typography>
+        </Box>
+      </ReusableDialog>
+    </Fragment>
   )
 }
 

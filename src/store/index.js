@@ -26,6 +26,11 @@ import orders from 'src/store/orders'
 import dimensions from 'src/store/catalogs/dimensions'
 import variables from 'src/store/catalogs/variables'
 import concepts from 'src/store/catalogs/concepts'
+import maintenance from 'src/store/catalogs/maintenance'
+import materials from 'src/store/catalogs/materials'
+import requirements from 'src/store/catalogs/requirements'
+import claims from 'src/store/catalogs/claims'
+import zones from 'src/store/catalogs/zones'
 
 export const store = configureStore({
   reducer: {
@@ -49,6 +54,11 @@ export const store = configureStore({
     dimensions,
     variables,
     concepts,
+    maintenance,
+    materials,
+    requirements,
+    claims,
+    zones,
     dashboard: combineReducers({general})
   },
   middleware: getDefaultMiddleware =>

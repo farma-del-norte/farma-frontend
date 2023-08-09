@@ -105,11 +105,13 @@ function Variables() {
 
   const isEdit = Boolean(modalItem)
   const handleAddItem = () => {
+    reset({})
     dispatch(toggleModal(true))
   }
 
   const handleOpenModal = params => {
     const {row, open} = params
+    reset(row)
     dispatch(toggleModal(open))
     dispatch(setModalItem(row))
   }
