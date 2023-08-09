@@ -14,35 +14,39 @@ const navigation = () => {
       children: [
         {
           title: 'Dimensiones',
-          path: '/catalogs/dimensions/dimensions'
+          path: '/catalogs/dimensions'
         },
         {
           title: 'Variables',
-          path: '/catalogs/variables/variables'
+          path: '/catalogs/variables'
         },
         {
           title: 'Conceptos',
-          path: '/catalogs/conceptos/conceptos'
+          path: '/catalogs/conceptos'
         },
         {
           title: 'Mantenimientos',
-          path: '/catalogs/mantenimientos/mantenimientos'
+          path: '/catalogs/mantenimientos'
         },
         {
           title: 'Materiales',
-          path: '/catalogs/materiales/materiales'
+          path: '/catalogs/materiales'
         },
         {
           title: 'Requerimientos',
-          path: '/catalogs/requerimientos/requerimientos'
+          path: '/catalogs/requerimientos'
         },
         {
           title: 'Siniestros',
-          path: '/catalogs/siniestros/siniestros'
+          path: '/catalogs/siniestros'
+        },
+        {
+          title: 'Zonas',
+          path: '/catalogs/zonas'
         },
         {
           title: 'Usuarios',
-          path: '/catalogs/usuarios/usuarios'
+          path: '/catalogs/usuarios'
         }
       ]
     }

@@ -14,25 +14,25 @@ const columns = [
   {
     flex: 0.25,
     minWidth: 200,
-    field: 'variable',
-    headerName: 'Nombre'
-  },
-  {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'dimension',
-    headerName: 'Nombre de Dimension'
+    field: 'name',
+    headerName: 'Variable'
   },
   {
     flex: 0.25,
     minWidth: 230,
     field: 'obligation',
-    headerName: 'Obligacion'
+    headerName: 'Obligación'
   },
   {
     flex: 0.15,
     minWidth: 130,
-    field: 'specification',
+    field: 'specifications',
+    headerName: 'Especificaciones'
+  },
+  {
+    flex: 0.15,
+    minWidth: 230,
+    field: 'guidelines',
     headerName: 'Lineamientos'
   },
   {
@@ -40,16 +40,23 @@ const columns = [
     minWidth: 130,
     field: 'maintenance',
     headerName: 'Mantenimiento'
+  },
+  {
+    flex: 0.25,
+    minWidth: 230,
+    field: 'dimension',
+    headerName: 'Nombre de Dimension'
   }
 ]
 
 const fakeRows = [
   {
     id: 1,
-    variable: 'dato de prueba',
+    name: 'dato de prueba',
     dimension: 'dato de prueba',
     obligation: 'dato de prueba',
-    specification: 'dato de prueba',
+    specifications: 'dato de prueba',
+    guidelines: 'lineamientos de prueba',
     maintenance: 'dato de prueba',
     active: 'Activado'
   }
@@ -63,16 +70,18 @@ const defaultEditingValues = {
   name: 'dato de prueba',
   dimension: 'dato de prueba',
   obligation: 'dato de prueba',
-  specification: 'dato de prueba',
+  specifications: 'dato de prueba',
+  guidelines: 'lineamientos de prueba',
   maintenance: 'dato de prueba',
   guidelines: 'dato de prueba'
 }
 const defaultValuesVariables = {
   id: 1,
-  variable: '',
+  name: '',
   dimension: '',
   obligation: '',
-  specification: '',
+  specifications: '',
+  guidelines: '',
   maintenance: '',
   active: 'Activado'
 }
@@ -96,11 +105,13 @@ function Variables() {
 
   const isEdit = Boolean(modalItem)
   const handleAddItem = () => {
+    reset({})
     dispatch(toggleModal(true))
   }
 
   const handleOpenModal = params => {
     const {row, open} = params
+    reset(row)
     dispatch(toggleModal(open))
     dispatch(setModalItem(row))
   }

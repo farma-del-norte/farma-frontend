@@ -1,27 +1,18 @@
-import * as React from 'react'
+import {Fragment} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
-import {Pencil, Delete} from 'mdi-material-ui'
-
-import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/dimensions'
-
-import ReusableDialog from 'src/pages/components/modal'
 import CardTable from 'src/pages/components/cardTable'
-import {getTitle} from 'src/utils/functions'
+import ReusableDialog from 'src/pages/components/modal'
+import {Pencil, Delete} from 'mdi-material-ui'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones'
 
 const columns = [
-  {
-    flex: 0.1,
-    field: 'id',
-    minWidth: 80,
-    headerName: 'ID'
-  },
   {
     flex: 0.25,
     minWidth: 200,
     field: 'name',
-    headerName: 'Nombre'
+    headerName: 'Zona'
   }
 ]
 
@@ -29,78 +20,63 @@ const fakeRows = [
   {
     id: 1,
     name: 'dato de prueba',
-    dimension: 'dato de prueba',
+    claim: 'dato de prueba',
     active: 'Activado'
   },
   {
     id: 2,
     name: 'dato de prueba 2',
-    dimension: 'dato de prueba 2',
+    claim: 'dato de prueba 2',
     active: 'Activado'
   },
   {
     id: 3,
     name: 'dato de prueba 3',
-    dimension: 'dato de prueba 3',
+    claim: 'dato de prueba 3',
     active: 'Activado'
   },
   {
     id: 4,
     name: 'dato de prueba 3',
-    dimension: 'dato de prueba 3',
+    claim: 'dato de prueba 3',
     active: 'Activado'
   }
 ]
 
-const defaultValuesDimensions = {
+const defaultValuesClaims = {
   id: '',
   name: '',
-  dimension: '',
+  claim: '',
   active: ''
 }
 
-function Dimensions() {
+function Zones() {
   const dispatch = useDispatch()
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.dimensions)
 
-  /* local state */
-  const [pagination, setPagination] = React.useState({
-    paginationModel: {
-      pageSize: 5
-    }
-  })
-
-  const isEdit = Boolean(modalItem) //TODO check this boolean title for modal
-
+  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.zones)
   const {control, handleSubmit, reset} = useForm({
-    defaultValues: defaultValuesDimensions
+    defaultValues: {}
   })
 
-  const handleCloseModal = () => {
-    reset()
-    const cleanModal = null
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
-  }
-
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
+  const handleAddItem = () => {
+    reset({})
+    dispatch(toggleModal(true))
   }
 
   const handleOpenModal = params => {
     const {row, open} = params
+    reset(row)
     dispatch(toggleModal(open))
     dispatch(setModalItem(row))
   }
 
-  const handleAddItem = () => {
-    dispatch(toggleModal(true))
-  }
+  const onSubmit = () => {}
 
-  const handleConfirm = params => {
-    console.log('here handling confirm')
+  const handleCloseModal = () => {
+    const cleanModal = null
+    reset()
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
   }
 
   const handleDeleteModal = params => {
@@ -109,15 +85,11 @@ function Dimensions() {
     dispatch(setDeleteItem(row))
   }
 
-  const handleDeleteConfirm = params => {}
-
-  const onSubmit = values => {
-    console.log(values)
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
-
-  const editTitle = getTitle('edit') // Returns 'Editar dimension seleccionada'
-  const addTitle = getTitle('add') // Returns 'Agregar dimension'
-  const deleteTitle = getTitle('delete') // Returns 'Eliminar dimension'
 
   const actionableColumns = [
     ...columns,
@@ -139,20 +111,12 @@ function Dimensions() {
   ]
 
   return (
-    <React.Fragment>
-      <CardTable
-        showAddButton
-        columns={actionableColumns}
-        rows={fakeRows}
-        label='Dimension'
-        onAddItem={handleAddItem}
-        pageSize={5}
-        rowsPerPageOptions={[7, 10, 25, 50]}
-      />
+    <Fragment>
+      <CardTable showAddButton columns={actionableColumns} rows={fakeRows} label='Zonas' onAddItem={handleAddItem} />
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={isEdit ? editTitle : addTitle}
+        title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
@@ -160,14 +124,12 @@ function Dimensions() {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
                   name='name'
                   control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Nombre' value={value} onChange={onChange} />
-                  )}
+                  render={({field: {value, onChange}}) => <TextField label='Zona' value={value} onChange={onChange} />}
                 />
               </FormControl>
             </Grid>
@@ -176,19 +138,19 @@ function Dimensions() {
       </ReusableDialog>
       <ReusableDialog
         open={isDeleteOpen}
-        onClose={handleCloseModal}
-        title={deleteTitle}
+        onClose={handleCloseDeleteModal}
+        title={'Eliminar Zona'}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar la dimension seleccionada?</Typography>
+          <Typography variant='body2'>Seguro de eliminar la zona seleccionada?</Typography>
         </Box>
       </ReusableDialog>
-    </React.Fragment>
+    </Fragment>
   )
 }
 
-export default Dimensions
+export default Zones
