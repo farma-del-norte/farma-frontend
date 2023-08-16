@@ -31,6 +31,7 @@ import materials from 'src/store/catalogs/materials'
 import requirements from 'src/store/catalogs/requirements'
 import claims from 'src/store/catalogs/claims'
 import zones from 'src/store/catalogs/zones'
+import branches from './catalogs/branches'
 
 export const store = configureStore({
   reducer: {
@@ -59,6 +60,7 @@ export const store = configureStore({
     requirements,
     claims,
     zones,
+    branches,
     dashboard: combineReducers({general})
   },
   middleware: getDefaultMiddleware =>
