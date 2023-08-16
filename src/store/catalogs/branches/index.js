@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
 const initialState = {
   isLoaded: 'idle',
-  data: [],
+  branches: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
@@ -25,6 +25,9 @@ export const branchesSlice = createSlice({
     },
     setDeleteItem: (state, {payload}) => {
       state.modalDeleteItem = payload
+    },
+    setBranchesData: (state, {payload}) => {
+      state.branches = payload
     }
   },
   extraReducers: builder => {}
@@ -32,4 +35,4 @@ export const branchesSlice = createSlice({
 
 export default branchesSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = branchesSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setBranchesData} = branchesSlice.actions

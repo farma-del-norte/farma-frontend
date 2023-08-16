@@ -1,4 +1,4 @@
-import {Fragment, useState, useEffect} from 'react'
+import {Fragment, useEffect, useReducer} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
@@ -6,7 +6,7 @@ import CardTable from 'src/pages/components/cardTable'
 import ReusableDialog from 'src/pages/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, toggleDeleteModal} from 'src/store/catalogs/branches'
-import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../../services/apicalls'
+import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../../services/catalogs/branches'
 
 const columns = [
   {
@@ -78,23 +78,51 @@ const defaultValuesBranches = {
   active: ''
 }
 
+const initialState = {
+  data: [],
+  reload: true
+};
+
+const actionTypes = {
+  SET_DATA: 'SET_DATA',
+  START_RELOAD: 'START_RELOAD',
+  STOP_RELOAD: 'STOP_RELOAD',
+};
+
+function branchesReducer(state, action) {
+  switch (action.type) {
+    case actionTypes.SET_DATA:
+      return { ...state, data: action.payload };
+    case actionTypes.START_RELOAD:
+      return { ...state, reload: true };
+    case actionTypes.STOP_RELOAD:
+      return { ...state, reload: false };
+    default:
+      return state;
+  }
+}
+
 function Branches() {
-  const dispatch = useDispatch()
-  const [data, setData] = useState([])
+  const dispatch = useDispatch();
+  const [state, localDispatch] = useReducer(branchesReducer, initialState);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getBranchesData()
-        const dataWithIds = result.map((item, index) => ({id: index, ...item}))
-        setData(dataWithIds)
+        const result = await getBranchesData();
+        const dataWithIds = result.map((item, index) => ({id: index, ...item}));
+        localDispatch({ type: actionTypes.SET_DATA, payload: dataWithIds });
+        localDispatch({ type: actionTypes.STOP_RELOAD });
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error);
+        localDispatch({ type: actionTypes.STOP_RELOAD });
       }
     }
-
-    fetchData()
-  }, [])
+  
+    if (state.reload) {
+      fetchData();
+    }
+  }, [state.reload]);
 
   const onSubmit = async values => {
     if (modalItem) {
@@ -106,35 +134,32 @@ function Branches() {
 
   const handleAddBranch = async values => {
     try {
-      await postBranchesData(values)
-      handleCloseModal()
-      const updatedData = await getBranchesData()
-      setData(updatedData)
+      await postBranchesData(values);
+      handleCloseModal();
     } catch (error) {
-      console.error('Error adding branch:', error)
+      console.error('Error adding branch:', error);
     }
+    localDispatch({ type: actionTypes.START_RELOAD });
   }
 
   const handleUpdateBranch = async values => {
     try {
       await patchBranchData(modalItem.id, values)
       handleCloseModal()
-      const updatedData = await getBranchesData()
-      setData(updatedData)
     } catch (error) {
       console.error('Error updating branch:', error)
     }
+    localDispatch({ type: actionTypes.START_RELOAD });
   }
 
   const handleConfirmDelete = async () => {
     try {
       await deleteBranchData(modalItem.id)
       handleCloseDeleteModal()
-      const updatedData = await getBranchesData()
-      setData(updatedData)
     } catch (error) {
       console.error('Error deleting branch:', error)
     }
+    localDispatch({ type: actionTypes.START_RELOAD });
   }
 
   const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.branches)
@@ -192,7 +217,7 @@ function Branches() {
 
   return (
     <Fragment>
-      <CardTable showAddButton columns={actionableColumns} rows={data} label='Sucursales' onAddItem={handleAddItem} />
+      <CardTable showAddButton columns={actionableColumns} rows={state.data} label='Sucursales' onAddItem={handleAddItem} />
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
