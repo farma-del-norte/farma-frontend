@@ -23,7 +23,7 @@ import comissions from 'src/store/comissions'
 import orders from 'src/store/orders'
 
 //farma reducers
-import dimensions from 'src/store/catalogs/dimensions'
+import dimensions from 'src/store/catalogs/dimensions/reducer'
 import variables from 'src/store/catalogs/variables'
 import concepts from 'src/store/catalogs/concepts'
 import maintenance from 'src/store/catalogs/maintenance'
