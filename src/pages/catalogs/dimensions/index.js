@@ -26,33 +26,6 @@ const columns = [
   }
 ]
 
-const fakeRows = [
-  {
-    id: 1,
-    name: 'dato de prueba',
-    dimension: 'dato de prueba',
-    active: 'Activado'
-  },
-  {
-    id: 2,
-    name: 'dato de prueba 2',
-    dimension: 'dato de prueba 2',
-    active: 'Activado'
-  },
-  {
-    id: 3,
-    name: 'dato de prueba 3',
-    dimension: 'dato de prueba 3',
-    active: 'Activado'
-  },
-  {
-    id: 4,
-    name: 'dato de prueba 3',
-    dimension: 'dato de prueba 3',
-    active: 'Activado'
-  }
-]
-
 const defaultValuesDimensions = {
   id: '',
   name: '',
