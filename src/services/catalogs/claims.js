@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {DIMENSIONS_ENDPOINT} from '../endpoints'
+import {CLAIMS_ENDPOINT} from '../endpoints'
 
-export const getDimensionsService = async () => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions`
+export const getClaimsService = async () => {
+  const url = `${CLAIMS_ENDPOINT}/claims`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getDimensionsService = async () => {
   }
 }
 
-export const createDimensionService = async body => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions`
+export const createClaimService = async body => {
+  const url = `${CLAIMS_ENDPOINT}/claims`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createDimensionService = async body => {
   }
 }
 
-export const editDimensionService = async body => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions/${body.id}`
+export const editClaimService = async body => {
+  const url = `${CLAIMS_ENDPOINT}/claims/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,12 +31,12 @@ export const editDimensionService = async body => {
   }
 }
 
-export const deleteDimensionService = async id => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions/${id}`
+export const deleteClaimService = async id => {
+  const url = `${CLAIMS_ENDPOINT}/claims/${id}`
   try {
     const result = await api_delete(url)
     return result
-  } catch {
+  } catch (error) {
     throw error
   }
 }

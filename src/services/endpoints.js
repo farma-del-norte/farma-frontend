@@ -1,3 +1,5 @@
-export const PROJECT_ADDRESS = 'https://4sbvck2dv1.execute-api.us-east-1.amazonaws.com'
-export const BRANCHES = 'https://7hurs3hbne.execute-api.us-east-1.amazonaws.com'
-export const DIMENSIONS_HOST = 'https://z6tnhkzus3.execute-api.us-east-1.amazonaws.com'
+export const BRANCHES_ENDPOINT = 'https://7hurs3hbne.execute-api.us-east-1.amazonaws.com'
+export const DIMENSIONS_ENDPOINT = 'https://z6tnhkzus3.execute-api.us-east-1.amazonaws.com'
+export const REQUIREMENTS_ENDPOINT = 'https://hyafdleiv8.execute-api.us-east-1.amazonaws.com'
+export const CLAIMS_ENDPOINT = 'https://zvmsktgg4j.execute-api.us-east-1.amazonaws.com'
+export const ZONES_ENDPOINT = 'https://jwx69t04ea.execute-api.us-east-1.amazonaws.com'

@@ -22,35 +22,35 @@ const navigation = () => {
         },
         {
           title: 'Conceptos',
-          path: '/catalogs/conceptos'
+          path: '/catalogs/concepts'
         },
         {
           title: 'Mantenimientos',
-          path: '/catalogs/mantenimientos'
+          path: '/catalogs/maintenance'
         },
         {
           title: 'Materiales',
-          path: '/catalogs/materiales'
+          path: '/catalogs/materials'
         },
         {
           title: 'Requerimientos',
-          path: '/catalogs/requerimientos'
+          path: '/catalogs/requirements'
         },
         {
           title: 'Siniestros',
-          path: '/catalogs/siniestros'
+          path: '/catalogs/claims'
         },
         {
           title: 'Zonas',
-          path: '/catalogs/zonas'
+          path: '/catalogs/zones'
         },
         {
           title: 'Usuarios',
-          path: '/catalogs/usuarios'
+          path: '/catalogs/users'
         },
         {
           title: 'Sucursales',
-          path: '/catalogs/sucursales'
+          path: '/catalogs/branches'
         }
       ]
     }

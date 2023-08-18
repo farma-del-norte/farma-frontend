@@ -10,4 +10,16 @@ const variables_locale = {
   delete: 'Eliminar variable'
 }
 
-export {dimensions_locale, variables_locale}
+const requirements_locale = {
+  edit: 'Editar requerimiento seleccionado',
+  add: 'Agregar requerimiento',
+  delete: 'Eliminar requerimiento'
+}
+
+const claims_locale = {
+  edit: 'Editar siniestro seleccionado',
+  add: 'Agregar siniestro',
+  delete: 'Eliminar siniestro'
+}
+
+export {dimensions_locale, variables_locale, requirements_locale, claims_locale}

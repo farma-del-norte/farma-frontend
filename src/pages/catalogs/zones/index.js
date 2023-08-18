@@ -5,7 +5,7 @@ import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones/reducer'
 
 const columns = [
   {
@@ -53,7 +53,7 @@ const defaultValuesClaims = {
 function Zones() {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.zones)
+  const {zones, isOpen, modalItem, isDeleteOpen} = useSelector(state => state.zones)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })

@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {DIMENSIONS_ENDPOINT} from '../endpoints'
+import {ZONES_ENDPOINT} from '../endpoints'
 
-export const getDimensionsService = async () => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions`
+export const getZonesService = async () => {
+  const url = `${ZONES_ENDPOINT}/zones`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getDimensionsService = async () => {
   }
 }
 
-export const createDimensionService = async body => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions`
+export const createZoneService = async body => {
+  const url = `${ZONES_ENDPOINT}/zones`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createDimensionService = async body => {
   }
 }
 
-export const editDimensionService = async body => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions/${body.id}`
+export const editZoneService = async body => {
+  const url = `${ZONES_ENDPOINT}/zones/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,8 +31,8 @@ export const editDimensionService = async body => {
   }
 }
 
-export const deleteDimensionService = async id => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions/${id}`
+export const deleteZoneService = async id => {
+  const url = `${ZONES_ENDPOINT}/zones/${id}`
   try {
     const result = await api_delete(url)
     return result

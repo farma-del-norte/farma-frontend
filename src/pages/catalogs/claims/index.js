@@ -1,11 +1,16 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/claims'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/claims/reducer'
+import {createClaim, deleteClaim, editClaim, getClaims} from 'src/store/catalogs/claims/actions'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {closeSnackBar} from 'src/store/notifications'
+import {claims_locale} from 'src/utils/localization'
+import FallbackSpinner from 'src/@core/components/spinner'
 
 const columns = [
   {
@@ -16,51 +21,35 @@ const columns = [
   }
 ]
 
-const fakeRows = [
-  {
-    id: 1,
-    name: 'dato de prueba',
-    claim: 'dato de prueba',
-    active: 'Activado'
-  },
-  {
-    id: 2,
-    name: 'dato de prueba 2',
-    claim: 'dato de prueba 2',
-    active: 'Activado'
-  },
-  {
-    id: 3,
-    name: 'dato de prueba 3',
-    claim: 'dato de prueba 3',
-    active: 'Activado'
-  },
-  {
-    id: 4,
-    name: 'dato de prueba 3',
-    claim: 'dato de prueba 3',
-    active: 'Activado'
-  }
-]
-
 const defaultValuesClaims = {
   id: '',
-  name: '',
-  claim: '',
-  active: ''
+  name: ''
 }
 
 function Claims() {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.claims)
+  const {isOpen, modalItem, isDeleteOpen, claims, isLoading, modalDeleteItem} = useSelector(state => state.claims)
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
-  const handleAddItem = () => {
-    reset({})
-    dispatch(toggleModal(true))
+  useEffect(() => {
+    dispatch(getClaims())
+  }, [dispatch])
+
+  const handleCloseModal = () => {
+    reset()
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
+  }
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
 
   const handleOpenModal = params => {
@@ -70,13 +59,10 @@ function Claims() {
     dispatch(setModalItem(row))
   }
 
-  const onSubmit = () => {}
-
-  const handleCloseModal = () => {
-    const cleanModal = null
-    reset()
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
+  const handleAddItem = () => {
+    reset({})
+    dispatch(toggleModal(true))
+    dispatch(setModalItem(null))
   }
 
   const handleDeleteModal = params => {
@@ -85,10 +71,18 @@ function Claims() {
     dispatch(setDeleteItem(row))
   }
 
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
+  const handleDeleteConfirm = () => {
+    dispatch(deleteClaim(modalDeleteItem))
+    handleCloseDeleteModal()
+  }
+
+  const onSubmit = values => {
+    if (Boolean(modalItem)) {
+      dispatch(editClaim(values))
+    } else {
+      dispatch(createClaim(values))
+    }
+    handleCloseModal()
   }
 
   const actionableColumns = [
@@ -112,23 +106,27 @@ function Claims() {
 
   return (
     <Fragment>
-      <CardTable
-        showAddButton
-        columns={actionableColumns}
-        rows={fakeRows}
-        label='Siniestros'
-        onAddItem={handleAddItem}
-      />
+      {isLoading ? (
+        <FallbackSpinner />
+      ) : (
+        <CardTable
+          showAddButton
+          columns={actionableColumns}
+          rows={claims}
+          label='Siniestros'
+          onAddItem={handleAddItem}
+        />
+      )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
+        title={Boolean(modalItem) ? claims_locale.edit : claims_locale.add}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+          {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <Grid container spacing={5}>
             <Grid item xs={12} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
@@ -147,16 +145,17 @@ function Claims() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={'Eliminar Siniestro'}
+        title={claims_locale.delete}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
           <Typography variant='body2'>Seguro de eliminar el siniestro seleccionado?</Typography>
         </Box>
       </ReusableDialog>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

@@ -1,53 +1,48 @@
-import {useEffect} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
-import {Pencil, Delete} from 'mdi-material-ui'
-
-import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/dimensions/reducer'
-
-import {getDimensions, editDimension, createDimension, deleteDimension} from 'src/store/catalogs/dimensions/actions'
-
-import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
-import {dimensions_locale} from 'src/utils/localization'
-import {Fragment} from 'react'
-import FallbackSpinner from 'src/@core/components/spinner'
+import ReusableDialog from 'src/components/modal'
+import {Pencil, Delete} from 'mdi-material-ui'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/requirements/reducer'
+import {
+  createRequirement,
+  deleteRequirement,
+  editRequirement,
+  getRequirements
+} from 'src/store/catalogs/requirements/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
-import {closeSnackBar, openSnackBar} from 'src/store/notifications'
+import FallbackSpinner from 'src/@core/components/spinner'
+import {closeSnackBar} from 'src/store/notifications'
+import {requirements_locale} from 'src/utils/localization'
 
 const columns = [
   {
     flex: 0.25,
     minWidth: 200,
     field: 'name',
-    headerName: 'Nombre'
+    headerName: 'Requerimiento'
   }
 ]
 
-const defaultValuesDimensions = {
-  id: '',
-  name: '',
-  dimension: '',
-  active: ''
+const defaultValuesRequirements = {
+  requirements: ''
 }
 
-function Dimensions() {
+function Requirements() {
   const dispatch = useDispatch()
-  const {isOpen, modalItem, isDeleteOpen, isLoading, dimensions, modalDeleteItem} = useSelector(
-    state => state.dimensions
+  const {isOpen, modalItem, isDeleteOpen, isLoading, requirements, modalDeleteItem} = useSelector(
+    state => state.requirements
   )
   const {open, message, severity} = useSelector(state => state.notifications)
-
-  const isEdit = Boolean(modalItem)
-
   const {control, handleSubmit, reset} = useForm({
-    defaultValues: defaultValuesDimensions
+    defaultValues: {}
   })
 
   useEffect(() => {
-    dispatch(getDimensions())
-  }, [])
+    dispatch(getRequirements())
+  }, [dispatch])
 
   const handleCloseModal = () => {
     reset()
@@ -72,6 +67,7 @@ function Dimensions() {
   const handleAddItem = () => {
     reset({})
     dispatch(toggleModal(true))
+    dispatch(setModalItem(null))
   }
 
   const handleDeleteModal = params => {
@@ -81,22 +77,18 @@ function Dimensions() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteDimension(modalDeleteItem))
+    dispatch(deleteRequirement(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
-    if (isEdit) {
-      dispatch(editDimension(values))
+    if (Boolean(modalItem)) {
+      dispatch(editRequirement(values))
     } else {
-      dispatch(createDimension(values))
+      dispatch(createRequirement(values))
     }
     handleCloseModal()
   }
-
-  const editTitle = dimensions_locale.edit // Returns 'Editar dimension seleccionada'
-  const addTitle = dimensions_locale.add // Returns 'Agregar dimension'
-  const deleteTitle = dimensions_locale.delete // Returns 'Eliminar dimension'
 
   const actionableColumns = [
     ...columns,
@@ -125,18 +117,15 @@ function Dimensions() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={dimensions}
-          label='Dimension'
+          rows={requirements}
+          label='Requerimientos'
           onAddItem={handleAddItem}
-          pageSize={5}
-          rowsPerPageOptions={[7, 10, 25, 50]}
         />
       )}
-
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={isEdit ? editTitle : addTitle}
+        title={Boolean(modalItem) ? requirements_locale.edit : requirements_locale.add}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -144,13 +133,13 @@ function Dimensions() {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
                   name='name'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Nombre' value={value} onChange={onChange} />
+                    <TextField label='Requerimiento' value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -160,15 +149,15 @@ function Dimensions() {
       </ReusableDialog>
       <ReusableDialog
         open={isDeleteOpen}
-        onClose={handleCloseModal}
-        title={deleteTitle}
+        onClose={handleCloseDeleteModal}
+        title={requirements_locale.delete}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
+          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar la dimension seleccionada?</Typography>
+          <Typography variant='body2'>Seguro de eliminar el requerimiento seleccionado?</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
@@ -176,4 +165,4 @@ function Dimensions() {
   )
 }
 
-export default Dimensions
+export default Requirements
