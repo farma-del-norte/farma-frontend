@@ -16,7 +16,7 @@ import DialogActions from '@mui/material/DialogActions'
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
 import Delete from 'mdi-material-ui/Delete'
-import CustomSnackbar from '../components/snackbar/CustomSnackbar'
+import CustomSnackbar from '../../components/snackbar/CustomSnackbar'
 
 // ** Third Party Imports
 import {useForm, Controller} from 'react-hook-form'

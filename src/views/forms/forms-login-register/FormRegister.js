@@ -18,7 +18,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-import CustomSnackbar from 'src/views/components/snackbar/CustomSnackbar'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import Alert from '@mui/material/Alert'
 import {CircularProgress} from '@mui/material'
 

@@ -33,7 +33,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import TableContainer from '@mui/material/TableContainer'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import DialogContentText from '@mui/material/DialogContentText'
-import CustomSnackbar from 'src/views/components/snackbar/CustomSnackbar'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'

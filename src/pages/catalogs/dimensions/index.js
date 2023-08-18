@@ -8,12 +8,12 @@ import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/s
 
 import {getDimensions, editDimension, createDimension, deleteDimension} from 'src/store/catalogs/dimensions/actions'
 
-import ReusableDialog from 'src/pages/components/modal'
-import CardTable from 'src/pages/components/cardTable'
+import ReusableDialog from 'src/components/modal'
+import CardTable from 'src/components/cardTable'
 import {dimensions_locale} from 'src/utils/localization'
 import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
-import CustomSnackbar from 'src/views/components/snackbar/CustomSnackbar'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar, openSnackBar} from 'src/store/notifications'
 
 const columns = [

@@ -2,8 +2,8 @@ import * as React from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLabel} from '@mui/material'
-import CardTable from 'src/pages/components/cardTable'
-import ReusableDialog from 'src/pages/components/modal'
+import CardTable from 'src/components/cardTable'
+import ReusableDialog from 'src/components/modal'
 
 import {Pencil, Delete} from 'mdi-material-ui'
 
