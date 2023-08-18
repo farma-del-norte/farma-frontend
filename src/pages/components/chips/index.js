@@ -32,7 +32,7 @@ const Pagination = () => {
           }}
         >
           <Typography>
-            Use <code>variant='outlined'</code> prop with <code>Chip</code> component for outlined chip.
+            Use <code>variant=&apos;outlined&apos;</code> prop with <code>Chip</code> component for outlined chip.
           </Typography>
           <ChipsVariants />
         </CardSnippet>
@@ -59,7 +59,7 @@ const Pagination = () => {
             jsx: source.ChipsColorsJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use <code>color</code> prop for different colored chips.
           </Typography>
           <ChipsColors />
@@ -73,7 +73,7 @@ const Pagination = () => {
             jsx: source.ChipsOnDeleteJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use <code>onDelete</code> prop for delete icon in a chip. Use <code>deleteIcon</code> prop to change the
             default delete icon.
           </Typography>
@@ -89,7 +89,7 @@ const Pagination = () => {
           }}
         >
           <Typography>
-            Use <code>size='small'</code> prop for small chip.
+            Use <code>size=&apos;small&apos;</code> prop for small chip.
           </Typography>
           <ChipsSizes />
         </CardSnippet>
@@ -103,8 +103,8 @@ const Pagination = () => {
           }}
         >
           <Typography>
-            You can make any chip clickable by adding <code>clickable</code> prop and use <code>component='a'</code> to
-            make it a link.
+            You can make any chip clickable by adding <code>clickable</code> prop and use{' '}
+            <code>component=&apos;a&apos;</code> to make it a link.
           </Typography>
           <ChipsClickable />
         </CardSnippet>
@@ -159,7 +159,7 @@ const Pagination = () => {
         >
           <Typography>
             If you want to use light variant of the chips, you need to use our custom component with{' '}
-            <code>skin='light'</code> prop.
+            <code>skin=&apos;light&apos;</code> prop.
           </Typography>
           <ChipsLight />
         </CardSnippet>

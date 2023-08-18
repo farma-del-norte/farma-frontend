@@ -28,7 +28,7 @@ const Pagination = () => {
             jsx: source.BadgesBasicJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{mb: 2}}>
             Use <code>badgeContent</code> prop for the text inside the badge and <code>color</code> prop for different
             colors of a badge.
           </Typography>
@@ -43,8 +43,8 @@ const Pagination = () => {
             jsx: source.BadgesDotJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
-            Use <code>variant='dot'</code> prop for dot badges.
+          <Typography sx={{mb: 2}}>
+            Use <code>variant=&apos;dot&apos;</code> prop for dot badges.
           </Typography>
           <BadgesDot />
         </CardSnippet>
@@ -57,7 +57,7 @@ const Pagination = () => {
             jsx: source.BadgesAlignmentJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{mb: 2}}>
             Use <code>anchorOrigin</code> prop to move the badge to any corner of the wrapped element.
           </Typography>
           <BadgesAlignment />
@@ -71,7 +71,7 @@ const Pagination = () => {
             jsx: source.BadgesMaxValueJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{mb: 2}}>
             Use <code>max</code> prop to cap the value of the badge content.
           </Typography>
           <BadgesMaxValue />
@@ -85,7 +85,7 @@ const Pagination = () => {
             jsx: source.BadgesOverlapJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{mb: 2}}>
             Use <code>overlap</code> prop to place the badge relative to the corner of the wrapped element.
           </Typography>
           <BadgesOverlap />
@@ -99,7 +99,7 @@ const Pagination = () => {
             jsx: source.BadgesVisibilityJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{mb: 2}}>
             The visibility of badges can be controlled using <code>invisible</code> prop.
           </Typography>
           <BadgesVisibility />
@@ -113,9 +113,9 @@ const Pagination = () => {
             jsx: source.BadgesLightJSXCode
           }}
         >
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{mb: 2}}>
             If you want to use light variant of the badges, you need to use our custom component with{' '}
-            <code>skin='light'</code> prop.
+            <code>skin=&apos;light&apos;</code> prop.
           </Typography>
           <BadgesLight />
         </CardSnippet>

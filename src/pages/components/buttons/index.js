@@ -32,7 +32,8 @@ const Buttons = () => {
           }}
         >
           <Typography>
-            Use <code>variant='contained'</code> prop with <code>&lt;Button&gt;</code> component for contained buttons.
+            Use <code>variant=&apos;contained&apos;</code> prop with <code>&lt;Button&gt;</code> component for contained
+            buttons.
           </Typography>
           <ButtonsContained />
         </CardSnippet>
@@ -46,7 +47,8 @@ const Buttons = () => {
           }}
         >
           <Typography>
-            Use <code>variant='text'</code> prop with <code>&lt;Button&gt;</code> component for buttons with text only.
+            Use <code>variant=&apos;text&apos;</code> prop with <code>&lt;Button&gt;</code> component for buttons with
+            text only.
           </Typography>
           <ButtonsText />
         </CardSnippet>
@@ -60,7 +62,8 @@ const Buttons = () => {
           }}
         >
           <Typography>
-            Use <code>variant='outlined'</code> prop with <code>&lt;Button&gt;</code> component for outlined buttons.
+            Use <code>variant=&apos;outlined&apos;</code> prop with <code>&lt;Button&gt;</code> component for outlined
+            buttons.
           </Typography>
           <ButtonsOutlined />
         </CardSnippet>
@@ -145,9 +148,9 @@ const Buttons = () => {
             jsx: source.ButtonsFabJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use <code>color</code> prop with <code>&lt;Fab&gt;</code> component for different colored Floating Action
-            Button and <code>variant='extended'</code> prop for extended (not round) Floating Action Button.
+            Button and <code>variant=&apos;extended&apos;</code> prop for extended (not round) Floating Action Button.
           </Typography>
           <ButtonsFab />
         </CardSnippet>

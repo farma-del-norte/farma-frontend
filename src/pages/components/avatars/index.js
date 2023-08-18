@@ -44,8 +44,8 @@ const Avatars = () => {
         >
           <Typography>
             Write some letters inside <code>Avatar</code> component to have letter avatar. Use our custom component for
-            colored avatar and use <code>skin='light'</code> prop for light variant with opacity and{' '}
-            <code>skin='light-static'</code> prop for light variant without opacity.
+            colored avatar and use <code>skin=&apos;light&apos;</code> prop for light variant with opacity and{' '}
+            <code>skin=&apos;light-static&apos;</code> prop for light variant without opacity.
           </Typography>
           <AvatarsLetter />
         </CardSnippet>
@@ -115,7 +115,7 @@ const Avatars = () => {
             jsx: source.AvatarsGroupedJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Wrap all your avatars with <code>AvatarGroup</code> component to have grouped avatars. Use <code>max</code>{' '}
             prop with <code>AvatarGroup</code> component to restrict maximum number of avatars shown.
           </Typography>

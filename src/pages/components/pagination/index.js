@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { styled } from '@mui/material/styles'
+import {styled} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 
@@ -20,7 +20,7 @@ import PaginationControlled from 'src/views/components/pagination/PaginationCont
 import * as source from 'src/views/components/pagination/PaginationSourceCode'
 
 // Styled component for Grid container
-const GridContainer = styled(Grid)(({ theme }) => ({
+const GridContainer = styled(Grid)(({theme}) => ({
   '& .demo-space-y > *': {
     marginBottom: theme.spacing(5.2),
     '&:last-of-type': {
@@ -40,7 +40,7 @@ const Pagination = () => {
             jsx: source.PaginationSimpleJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use the following props with <code>Pagination</code> component: <code>count</code> prop for number of page
             items and <code>color</code> prop for different colored pagination.
           </Typography>
@@ -55,8 +55,8 @@ const Pagination = () => {
             jsx: source.PaginationOutlinedJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
-            Use <code>variant='outlined'</code> prop for outlined pagination.
+          <Typography sx={{mb: 4}}>
+            Use <code>variant=&apos;outlined&apos;</code> prop for outlined pagination.
           </Typography>
           <PaginationOutlined />
         </CardSnippet>
@@ -69,7 +69,7 @@ const Pagination = () => {
             jsx: source.PaginationDisabledJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use <code>disabled</code> prop with <code>Pagination</code> component to disable the whole pagination.
           </Typography>
           <PaginationDisabled />
@@ -83,8 +83,8 @@ const Pagination = () => {
             jsx: source.PaginationRoundedJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
-            Use <code>shape='rounded'</code> prop for rounded pagination.
+          <Typography sx={{mb: 4}}>
+            Use <code>shape=&apos;rounded&apos;</code> prop for rounded pagination.
           </Typography>
           <PaginationRounded />
         </CardSnippet>
@@ -97,7 +97,7 @@ const Pagination = () => {
             jsx: source.PaginationSizesJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use <code>size={`{'small' | 'large'}`}</code> prop for different sizes of pagination.
           </Typography>
           <PaginationSizes />
@@ -111,7 +111,7 @@ const Pagination = () => {
             jsx: source.PaginationButtonsJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Use <code>showFirstButton</code> & <code>showLastButton</code> props to show first-page and last-page
             buttons and <code>hidePrevButton</code> & <code>hideNextButton</code> props to hide previous-page and
             next-page buttons.
@@ -127,7 +127,7 @@ const Pagination = () => {
             jsx: source.PaginationControlledJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             Manage <code>page</code> and <code>onChange</code> props with the help of a state.
           </Typography>
           <PaginationControlled />
@@ -141,7 +141,7 @@ const Pagination = () => {
             jsx: source.PaginationRangesJSXCode
           }}
         >
-          <Typography sx={{ mb: 4 }}>
+          <Typography sx={{mb: 4}}>
             You can specify how many digits to display either side of current page with the <code>siblingRange</code>{' '}
             prop, and adjacent to the start and end page number with the <code>boundaryRange</code> prop.
           </Typography>
