@@ -119,7 +119,7 @@ const Form = () => {
 
   const submitLogin = values => {
     const {username, password} = values
-    if (username && password) router.push('/dashboards/dashboard')
+    if (username && password) router.push('/dashboards')
   }
 
   const handleShowPassword = () => {
