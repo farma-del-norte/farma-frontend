@@ -47,6 +47,10 @@ const navigation = () => {
         {
           title: 'Usuarios',
           path: '/catalogs/usuarios'
+        },
+        {
+          title: 'Sucursales',
+          path: '/catalogs/sucursales'
         }
       ]
     }
