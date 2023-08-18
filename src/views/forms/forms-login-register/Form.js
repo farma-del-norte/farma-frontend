@@ -26,7 +26,7 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 //actions
-import {loginCall, setErrors} from 'src/store/session'
+// import {loginCall, setErrors} from 'src/store/session'
 
 // ** Hooks
 import {useSettings} from 'src/@core/hooks/useSettings'
@@ -98,7 +98,7 @@ const loginSchema = Yup.object().shape({
 
 const Form = () => {
   const router = useRouter()
-  const {isLoading} = useSelector(state => state.session)
+  // const {isLoading} = useSelector(state => state.session)
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -318,7 +318,7 @@ const Form = () => {
                     justifyContent: 'space-between'
                   }}
                 >
-                  {isLoading ? (
+                  {false ? (
                     <CircularProgress size={20} />
                   ) : (
                     <Button

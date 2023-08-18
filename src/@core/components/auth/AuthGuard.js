@@ -6,7 +6,6 @@ import {useRouter} from 'next/router'
 
 // ** Hooks Import
 import {useSelector} from 'react-redux'
-import {PROFILES, ROUTES_PERMISSION} from 'src/configs/profiles'
 
 /* const resolveProfile = (user, path) => {
   const userProfile = user?.profile ? PROFILES[user.profile] : PROFILES.default
@@ -18,8 +17,7 @@ import {PROFILES, ROUTES_PERMISSION} from 'src/configs/profiles'
 
 const AuthGuard = props => {
   const {children, fallback} = props
-  const {isLoading} = useSelector(state => state.session)
-  const {user} = useSelector(state => state.dashboard.general)
+  // const {user} = useSelector(state => state.dashboard.general)
   const router = useRouter()
 
   useEffect(
@@ -35,9 +33,9 @@ const AuthGuard = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.route]
   )
-  if (isLoading || user === null) {
-    return fallback
-  }
+  // if (isLoading || user === null) {
+  //   return fallback
+  // }
 
   return <>{children}</>
 }

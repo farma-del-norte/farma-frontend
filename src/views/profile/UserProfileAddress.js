@@ -1,7 +1,7 @@
 // ** React Imports
-import { Fragment, useState } from 'react'
+import {Fragment, useState} from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import TableRow from '@mui/material/TableRow'
-import { styled } from '@mui/material/styles'
+import {styled} from '@mui/material/styles'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import TextField from '@mui/material/TextField'
@@ -40,13 +40,13 @@ import Plus from 'mdi-material-ui/Plus'
 import Delete from 'mdi-material-ui/Delete'
 // ** Third Party Imports
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
-import { useForm } from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup/dist/yup'
+import {useForm} from 'react-hook-form'
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
 
-import { createAddress, updateAddress, deleteAddress, setModal } from 'src/store/address'
-import { closeSnackBar } from 'src/store/notifications'
+import {createAddress, updateAddress, deleteAddress, setModal} from 'src/store/address'
+import {closeSnackBar} from 'src/store/notifications'
 import DialogAddress from '../components/dialogs/DialogAddress'
 
 const defaultAddressValues = {
@@ -77,7 +77,7 @@ const addressSchema = yup.object().shape({
   refer: yup.string().required()
 })
 
-const UserProfileAddress = ({ addresses = [] }) => {
+const UserProfileAddress = ({addresses = []}) => {
   const dispatch = useDispatch()
   // ** States
   const [openAddressCard, setOpenAddressCard] = useState(false)
@@ -85,30 +85,27 @@ const UserProfileAddress = ({ addresses = [] }) => {
   const [editItem, setEditItem] = useState(null)
   const [deleteID, setDeleteID] = useState(null)
 
-  const { user } = useSelector(state => state.session)
-  const { open, message, severity } = useSelector(state => state.notifications)
-
-  const { showModal } = useSelector(state => state.address)
+  const {open, message, severity} = useSelector(state => state.notifications)
 
   // ** Hooks
   const {
     reset,
     control: addressControl,
     handleSubmit,
-    formState: { errors: addressErrors }
+    formState: {errors: addressErrors}
   } = useForm({
     defaultValues: defaultAddressValues,
     resolver: yupResolver(addressSchema)
   })
 
-  const onSubmit = data => {
-    if (editItem && Object.keys(editItem).length) {
-      dispatch(updateAddress({ body: data }))
-    } else {
-      dispatch(createAddress({ body: data, uuid: user.id }))
-    }
-    handleAddressClose(false)
-  }
+  // const onSubmit = data => {
+  //   if (editItem && Object.keys(editItem).length) {
+  //     dispatch(updateAddress({body: data}))
+  //   } else {
+  //     dispatch(createAddress({body: data, uuid: user.id}))
+  //   }
+  //   handleAddressClose(false)
+  // }
 
   // Handle Edit Card dialog and get card ID
   const handleEditAddressClickOpen = address => {
@@ -133,10 +130,10 @@ const UserProfileAddress = ({ addresses = [] }) => {
 
   return (
     <Fragment>
-      <Card sx={{ mb: 6 }}>
+      <Card sx={{mb: 6}}>
         <CardHeader
           title='Direcciones'
-          titleTypographyProps={{ variant: 'h6' }}
+          titleTypographyProps={{variant: 'h6'}}
           action={
             <Button
               variant='contained'
@@ -144,7 +141,7 @@ const UserProfileAddress = ({ addresses = [] }) => {
                 dispatch(setModal(true))
               }}
             >
-              <Plus sx={{ mr: 1, fontSize: '1.125rem' }} />
+              <Plus sx={{mr: 1, fontSize: '1.125rem'}} />
               Agregar
             </Button>
           }
@@ -152,10 +149,10 @@ const UserProfileAddress = ({ addresses = [] }) => {
       </Card>
       {addresses.length
         ? addresses.map(address => (
-            <Card key={address.id} sx={{ margin: '20px 0px' }}>
+            <Card key={address.id} sx={{margin: '20px 0px'}}>
               <CardHeader
                 title='Direcciones'
-                titleTypographyProps={{ variant: 'h6' }}
+                titleTypographyProps={{variant: 'h6'}}
                 action={
                   <div
                     style={{
@@ -168,7 +165,7 @@ const UserProfileAddress = ({ addresses = [] }) => {
                       Editar
                     </Button>
                     <Button onClick={() => handleDeleteModal(address)}>
-                      <Delete sx={{ mr: 1, fontSize: '1.125rem' }} />
+                      <Delete sx={{mr: 1, fontSize: '1.125rem'}} />
                     </Button>
                   </div>
                 }
@@ -177,7 +174,7 @@ const UserProfileAddress = ({ addresses = [] }) => {
                 <Grid container spacing={6}>
                   <Grid item xs={12} lg={6}>
                     <TableContainer>
-                      <Table size='small' sx={{ width: '95%' }}>
+                      <Table size='small' sx={{width: '95%'}}>
                         <TableBody
                           sx={{
                             '& .MuiTableCell-root': {
@@ -379,11 +376,11 @@ const UserProfileAddress = ({ addresses = [] }) => {
       <Dialog
         open={openDeleteCard}
         onClose={() => setOpenDeleteCard(false)}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 450, p: [2, 5] } }}
+        sx={{'& .MuiPaper-root': {width: '100%', maxWidth: 450, p: [2, 5]}}}
       >
         <DialogContent>Seguro de eliminar la direccion seleccionada?</DialogContent>
         <DialogActions>
-          <Button variant='contained' sx={{ mr: 1 }} onClick={sendDelete}>
+          <Button variant='contained' sx={{mr: 1}} onClick={sendDelete}>
             Eliminar
           </Button>
           <Button variant='outlined' color='secondary' onClick={() => setOpenDeleteCard(false)}>

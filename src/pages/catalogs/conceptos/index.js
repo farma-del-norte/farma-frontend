@@ -4,7 +4,6 @@ import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuItem} from '@mui/material'
 import CardTable from 'src/pages/components/cardTable'
 import ReusableDialog from 'src/pages/components/modal'
-import {getTitle} from 'src/utils/functions'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts'
 const columns = [

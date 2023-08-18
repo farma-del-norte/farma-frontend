@@ -1,27 +1,24 @@
 // ** Next Imports
 import Head from 'next/head'
-import { Router } from 'next/router'
+import {Router} from 'next/router'
 
 // ** Store Imports
-import { store } from 'src/store'
-import { Provider } from 'react-redux'
+import {store} from 'src/store'
+import {Provider} from 'react-redux'
 
 // ** Loader Import
 import NProgress from 'nprogress'
 
 // ** Emotion Imports
-import { CacheProvider } from '@emotion/react'
+import {CacheProvider} from '@emotion/react'
 
 // ** Config Imports
 import 'src/configs/i18n'
-import { defaultACLObj } from 'src/configs/acl'
+import {defaultACLObj} from 'src/configs/acl'
 import themeConfig from 'src/configs/themeConfig'
 
-// ** Fake-DB Import
-import 'src/@fake-db'
-
 // ** Third Party Import
-import { Toaster } from 'react-hot-toast'
+import {Toaster} from 'react-hot-toast'
 
 // ** Component Imports
 import UserLayout from 'src/layouts/UserLayout'
@@ -35,14 +32,14 @@ import WindowWrapper from 'src/@core/components/window-wrapper'
 import Spinner from 'src/@core/components/spinner'
 
 // ** Contexts
-import { AuthProvider } from 'src/context/AuthContext'
-import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
+import {AuthProvider} from 'src/context/AuthContext'
+import {SettingsConsumer, SettingsProvider} from 'src/@core/context/settingsContext'
 
 // ** Styled Components
 import ReactHotToast from 'src/@core/styles/libs/react-hot-toast'
 
 // ** Utils Imports
-import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
+import {createEmotionCache} from 'src/@core/utils/create-emotion-cache'
 
 // ** Prismjs Styles
 import 'prismjs'
@@ -71,7 +68,7 @@ if (themeConfig.routingLoader) {
   })
 }
 
-const Guard = ({ children, authGuard, guestGuard }) => {
+const Guard = ({children, authGuard, guestGuard}) => {
   if (guestGuard) {
     return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
   } else if (!guestGuard && !authGuard) {
@@ -83,7 +80,7 @@ const Guard = ({ children, authGuard, guestGuard }) => {
 
 // ** Configure JSS & ClassName
 const App = props => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+  const {Component, emotionCache = clientSideEmotionCache, pageProps} = props
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
@@ -106,9 +103,9 @@ const App = props => {
         </Head>
 
         <AuthProvider>
-          <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+          <SettingsProvider {...(setConfig ? {pageSettings: setConfig()} : {})}>
             <SettingsConsumer>
-              {({ settings }) => {
+              {({settings}) => {
                 return (
                   <ThemeComponent settings={settings}>
                     <WindowWrapper>
@@ -119,7 +116,7 @@ const App = props => {
                       </Guard>
                     </WindowWrapper>
                     <ReactHotToast>
-                      <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
+                      <Toaster position={settings.toastPosition} toastOptions={{className: 'react-hot-toast'}} />
                     </ReactHotToast>
                   </ThemeComponent>
                 )

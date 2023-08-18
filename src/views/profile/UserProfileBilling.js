@@ -1,6 +1,6 @@
 // ** React Imports
-import { Fragment, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {Fragment, useState} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -19,14 +19,14 @@ import Delete from 'mdi-material-ui/Delete'
 import CustomSnackbar from '../components/snackbar/CustomSnackbar'
 
 // ** Third Party Imports
-import { useForm, Controller } from 'react-hook-form'
+import {useForm, Controller} from 'react-hook-form'
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+import {yupResolver} from '@hookform/resolvers/yup'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import { createMethod, setModal, updateMethod, setModalDelete, deleteMethod } from 'src/store/paymentMethods'
-import { closeSnackBar } from 'src/store/notifications'
+import {createMethod, setModal, updateMethod, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
+import {closeSnackBar} from 'src/store/notifications'
 import DialogBilling from '../components/dialogs/DialogBilling'
 
 const CARD_LOGOS = {
@@ -88,21 +88,21 @@ const paymentSchemaEdit = yup.object().shape({
   nameOnCard: yup.string().required()
 })
 
-const UserProfileBilling = ({ methods = [] }) => {
+const UserProfileBilling = ({methods = []}) => {
   const dispatch = useDispatch()
   // ** States
 
   const [editItem, setEditItem] = useState(null)
   const [deleteID, setDeleteID] = useState(null)
 
-  const { user } = useSelector(state => state.dashboard.general)
-  const { isOpen, isOpenDelete } = useSelector(state => state.paymentMethods)
-  const { open, message, severity } = useSelector(state => state.notifications)
+  // const { user } = useSelector(state => state.dashboard.general)
+  // const { isOpen, isOpenDelete } = useSelector(state => state.paymentMethods)
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {
     reset,
     control: paymentControl,
     handleSubmit,
-    formState: { errors: paymentErrors }
+    formState: {errors: paymentErrors}
   } = useForm({
     defaultValues: editItem && Object.keys(editItem).length ? defautlPaymentEditValues : defaultPaymentValues,
     resolver: yupResolver(editItem && Object.keys(editItem).length ? paymentSchemaEdit : paymentSchema)
@@ -110,18 +110,18 @@ const UserProfileBilling = ({ methods = [] }) => {
 
   const isFormEditing = Boolean(editItem)
 
-  const onPaymentSubmit = values => {
-    const body = {
-      ...values,
-      expDate: `${values.month}/${values.year}`
-    }
-    if (editItem && Object.keys(editItem).length) {
-      dispatch(updateMethod({ body, uuid: user.id, idPaymentMethod: editItem?.id }))
-    } else {
-      dispatch(createMethod({ body, uuid: user.id }))
-    }
-    handleEditCardClose()
-  }
+  // const onPaymentSubmit = values => {
+  //   const body = {
+  //     ...values,
+  //     expDate: `${values.month}/${values.year}`
+  //   }
+  //   if (editItem && Object.keys(editItem).length) {
+  //     dispatch(updateMethod({body, uuid: user.id, idPaymentMethod: editItem?.id}))
+  //   } else {
+  //     dispatch(createMethod({body, uuid: user.id}))
+  //   }
+  //   handleEditCardClose()
+  // }
 
   // Handle Edit Card dialog and get card ID
   const handleEditCardClickOpen = item => {
@@ -164,13 +164,13 @@ const UserProfileBilling = ({ methods = [] }) => {
 
   return (
     <Fragment>
-      <Card sx={{ mb: 6 }}>
+      <Card sx={{mb: 6}}>
         <CardHeader
           title='Metodos de Pago'
-          titleTypographyProps={{ variant: 'h6' }}
+          titleTypographyProps={{variant: 'h6'}}
           action={
             <Button variant='contained' onClick={handleAddCardClickOpen}>
-              <Plus sx={{ mr: 1, fontSize: '1.125rem' }} />
+              <Plus sx={{mr: 1, fontSize: '1.125rem'}} />
               Agregar
             </Button>
           }
@@ -192,20 +192,20 @@ const UserProfileBilling = ({ methods = [] }) => {
             >
               <div>
                 <img height='25' alt={item.imgAlt} src={CARD_LOGOS[item.cardcardUse]} />
-                <Box sx={{ mt: 0.5, display: 'flex', alignItems: 'center' }}>
-                  <Typography sx={{ fontWeight: 500 }}>{item.alias}</Typography>
+                <Box sx={{mt: 0.5, display: 'flex', alignItems: 'center'}}>
+                  <Typography sx={{fontWeight: 500}}>{item.alias}</Typography>
                 </Box>
                 <Typography variant='body2'>{item.cardNumber}</Typography>
               </div>
 
-              <Box sx={{ mt: [3, 0], textAlign: ['start', 'end'] }}>
-                <Button variant='outlined' sx={{ mr: 3 }} onClick={() => handleEditCardClickOpen(item)}>
+              <Box sx={{mt: [3, 0], textAlign: ['start', 'end']}}>
+                <Button variant='outlined' sx={{mr: 3}} onClick={() => handleEditCardClickOpen(item)}>
                   Editar
                 </Button>
                 <Button onClick={() => handleModalDelete(item)}>
-                  <Delete sx={{ mr: 1, fontSize: '1.125rem' }} />
+                  <Delete sx={{mr: 1, fontSize: '1.125rem'}} />
                 </Button>
-                <Typography variant='body2' sx={{ mt: 5 }}>
+                <Typography variant='body2' sx={{mt: 5}}>
                   Expira el {item.expDate}
                 </Typography>
               </Box>
@@ -227,11 +227,11 @@ const UserProfileBilling = ({ methods = [] }) => {
       <Dialog
         open={isOpenDelete}
         onClose={handleCloseModal}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 450, p: [2, 5] } }}
+        sx={{'& .MuiPaper-root': {width: '100%', maxWidth: 450, p: [2, 5]}}}
       >
         <DialogContent>Seguro de eliminar el metodo seleccionado?</DialogContent>
         <DialogActions>
-          <Button variant='contained' sx={{ mr: 1 }} onClick={sendDelete}>
+          <Button variant='contained' sx={{mr: 1}} onClick={sendDelete}>
             Eliminar
           </Button>
           <Button variant='outlined' color='secondary' onClick={handleCloseModal}>

@@ -1,33 +1,26 @@
 // ** React Import
 import * as React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CustomSnackbar from 'src/views/components/snackbar/CustomSnackbar'
 import DialogDelete from 'src/views/components/dialogs/DialogDelete'
-import { DataGrid } from '@mui/x-data-grid'
-import { getLocaleText } from '../../../configs/defaultLocaleText'
+import {DataGrid} from '@mui/x-data-grid'
+import {getLocaleText} from '../../../configs/defaultLocaleText'
 
-import { Pencil, Delete } from 'mdi-material-ui'
+import {Pencil, Delete} from 'mdi-material-ui'
 
 import Modal from './Modal'
 
-import { usersList, setModal, setModalRow, setModalDelete } from 'src/store/users'
-import { closeSnackBar } from 'src/store/notifications'
-import { columns } from './configTable'
+import {closeSnackBar} from 'src/store/notifications'
+import {columns} from './configTable'
 
 const TableUsers = () => {
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = React.useState(10)
-
-  const { showModal, modalRow, showDelete, users, loading } = useSelector(state => state.users)
-  const { open, message, severity } = useSelector(state => state.notifications)
-
-  React.useEffect(() => {
-    dispatch(usersList())
-  }, [dispatch])
+  const {open, message, severity} = useSelector(state => state.notifications)
 
   const saveItemModal = row => {
     dispatch(setModalRow(row))
@@ -57,9 +50,9 @@ const TableUsers = () => {
       renderCell: params => {
         const row = params?.row
         return (
-          <Typography variant='body2' sx={{ color: '#6495ED', cursor: 'pointer' }}>
-            {row.profile.includes('Admin') ? <Pencil sx={{ margin: '5px' }} onClick={() => saveItemModal(row)} />: null}
-            <Delete sx={{ margin: '5px' }} onClick={() => setItemDeleteModal(row)} />
+          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
+            {row.profile.includes('Admin') ? <Pencil sx={{margin: '5px'}} onClick={() => saveItemModal(row)} /> : null}
+            <Delete sx={{margin: '5px'}} onClick={() => setItemDeleteModal(row)} />
           </Typography>
         )
       }

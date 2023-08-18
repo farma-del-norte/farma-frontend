@@ -10,8 +10,7 @@ import {getDimensions, editDimension, createDimension, deleteDimension} from 'sr
 
 import ReusableDialog from 'src/pages/components/modal'
 import CardTable from 'src/pages/components/cardTable'
-import {getTitle} from 'src/utils/functions'
-import {useState} from 'react'
+import {dimensions_locale} from 'src/utils/localization'
 import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/views/components/snackbar/CustomSnackbar'
@@ -95,9 +94,9 @@ function Dimensions() {
     handleCloseModal()
   }
 
-  const editTitle = getTitle('edit') // Returns 'Editar dimension seleccionada'
-  const addTitle = getTitle('add') // Returns 'Agregar dimension'
-  const deleteTitle = getTitle('delete') // Returns 'Eliminar dimension'
+  const editTitle = dimensions_locale.edit // Returns 'Editar dimension seleccionada'
+  const addTitle = dimensions_locale.add // Returns 'Agregar dimension'
+  const deleteTitle = dimensions_locale.delete // Returns 'Eliminar dimension'
 
   const actionableColumns = [
     ...columns,

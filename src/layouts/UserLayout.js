@@ -17,28 +17,14 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
-import { useSettings } from 'src/@core/hooks/useSettings'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { loadSession } from 'src/store/dashboard/generalSlice'
-import { getCart } from 'src/store/cart'
+import {useSettings} from 'src/@core/hooks/useSettings'
+import {useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 
-const UserLayout = ({ children }) => {
+const UserLayout = ({children}) => {
   // ** Hooks
   const dispatch = useDispatch()
-  const { settings, saveSettings } = useSettings()
-
-  const { user } = useSelector(state => state.dashboard.general)
-
-  useEffect(() => {
-    dispatch(loadSession())
-  }, [])
-
-  useEffect(() => {
-    if (user) {
-      dispatch(getCart(user.id))
-    }
-  }, [user])
+  const {settings, saveSettings} = useSettings()
 
   /**
    *  The below variable will hide the current layout menu at given screen size.

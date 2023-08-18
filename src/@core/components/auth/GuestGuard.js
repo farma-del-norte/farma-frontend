@@ -1,17 +1,14 @@
 // ** React Imports
-import { useEffect } from 'react'
+import {useEffect} from 'react'
 
 // ** Next Imports
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 // ** Hooks Import
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux'
 
 const GuestGuard = props => {
-  const { children, fallback } = props
-
-  const { isLoading } = useSelector(state => state.session)
-  const { user } = useSelector(state => state.dashboard.general)
+  const {children, fallback} = props
 
   const router = useRouter()
   useEffect(() => {
@@ -23,9 +20,9 @@ const GuestGuard = props => {
     // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.route])
-  if (isLoading) {
-    return fallback
-  }
+  // if (isLoading) {
+  //   return fallback
+  // }
 
   return <>{children}</>
 }

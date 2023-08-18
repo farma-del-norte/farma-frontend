@@ -1,6 +1,6 @@
 // ** React Imports
 import * as React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 // ** MUI Imports
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -16,18 +16,16 @@ import IconButton from '@mui/material/IconButton'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 
-import { CloseCircle } from 'mdi-material-ui'
-
-import { updateUser } from 'src/store/users'
+import {CloseCircle} from 'mdi-material-ui'
 
 // ** Third Party Imports
-import { useForm, Controller } from 'react-hook-form'
+import {useForm, Controller} from 'react-hook-form'
 
 const PROFILES = [
-  { label: 'Administrador General', value: 'Administrador General' },
-  { label: 'Administrador de Productos', value: 'Administrador de Productos' },
-  { label: 'Socio', value: 'Socio' },
-  { label: 'Consumidor', value: 'Consumidor' }
+  {label: 'Administrador General', value: 'Administrador General'},
+  {label: 'Administrador de Productos', value: 'Administrador de Productos'},
+  {label: 'Socio', value: 'Socio'},
+  {label: 'Consumidor', value: 'Consumidor'}
 ]
 
 const AvailableOptions = () => {
@@ -38,7 +36,7 @@ const AvailableOptions = () => {
   ))
 }
 
-const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} }) => {
+const Modal = ({label = '', open = false, handleModal = () => {}, item = {}}) => {
   //console.log({item})
   const dispatch = useDispatch()
   // ** Hooks
@@ -46,7 +44,7 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
     control,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: {errors}
   } = useForm({
     defaultValues: {
       firstName: '',
@@ -57,14 +55,14 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
     }
   })
 
-  const onSubmit = values => {
-    const id = item?.id
-    const form = {
-      ...values,
-      id
-    }
-    dispatch(updateUser(form))
-  }
+  // const onSubmit = values => {
+  //   const id = item?.id
+  //   const form = {
+  //     ...values,
+  //     id
+  //   }
+  //   dispatch(updateUser(form))
+  // }
 
   React.useEffect(() => {
     if (item && Object.keys(item).length) {
@@ -76,7 +74,7 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
         recommenderId: item?.recommenderId
       })
     }
-  }, [item]);
+  }, [item])
 
   return (
     <React.Fragment>
@@ -86,7 +84,7 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
           <IconButton
             aria-label='close'
             onClick={handleModal}
-            sx={{ top: 8, right: 10, position: 'absolute', color: 'grey.500' }}
+            sx={{top: 8, right: 10, position: 'absolute', color: 'grey.500'}}
           >
             <CloseCircle icon='mdi:close' />
           </IconButton>
@@ -94,13 +92,13 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container>
-              <Grid item xs={12} sx={{ margin: '7px auto' }}>
+              <Grid item xs={12} sx={{margin: '7px auto'}}>
                 <FormControl fullWidth>
                   <Controller
                     name='firstName'
                     control={control}
-                    rules={{ required: true, maxLength: 60 }}
-                    render={({ field: { value, onChange } }) => {
+                    rules={{required: true, maxLength: 60}}
+                    render={({field: {value, onChange}}) => {
                       return (
                         <TextField
                           value={value}
@@ -114,19 +112,19 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
                     }}
                   />
                   {errors.firstName?.type === 'required' && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-first-name'>
+                    <FormHelperText sx={{color: 'error.main'}} id='validation-basic-first-name'>
                       El campo es requerido
                     </FormHelperText>
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ margin: '7px auto' }}>
+              <Grid item xs={12} sx={{margin: '7px auto'}}>
                 <FormControl fullWidth>
                   <Controller
                     name='lastName'
                     control={control}
-                    rules={{ required: true, maxLength: 20 }}
-                    render={({ field: { value, onChange } }) => (
+                    rules={{required: true, maxLength: 20}}
+                    render={({field: {value, onChange}}) => (
                       <TextField
                         value={value}
                         label='Apellido'
@@ -138,19 +136,19 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
                     )}
                   />
                   {errors.lastName?.type === 'required' && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-first-name'>
+                    <FormHelperText sx={{color: 'error.main'}} id='validation-basic-first-name'>
                       El campo es requerido
                     </FormHelperText>
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ margin: '7px auto' }}>
+              <Grid item xs={12} sx={{margin: '7px auto'}}>
                 <FormControl fullWidth>
                   <Controller
                     name='phone'
                     control={control}
-                    rules={{ required: true, maxLength: 10 }}
-                    render={({ field: { value, onChange } }) => (
+                    rules={{required: true, maxLength: 10}}
+                    render={({field: {value, onChange}}) => (
                       <TextField
                         type='tel'
                         value={value}
@@ -163,18 +161,18 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
                     )}
                   />
                   {errors.phone?.type === 'required' && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-phone'>
+                    <FormHelperText sx={{color: 'error.main'}} id='validation-basic-phone'>
                       El campo es requerido
                     </FormHelperText>
                   )}
                   {errors.phone?.type === 'maxLength' && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-first-name'>
+                    <FormHelperText sx={{color: 'error.main'}} id='validation-basic-first-name'>
                       El telefono debe tener 10 caracteres
                     </FormHelperText>
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ margin: '7px auto' }}>
+              <Grid item xs={12} sx={{margin: '7px auto'}}>
                 <FormControl fullWidth>
                   <InputLabel
                     id='validation-basic-select'
@@ -187,8 +185,8 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
                     disabled
                     name='profile'
                     control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
+                    rules={{required: true}}
+                    render={({field: {value, onChange}}) => (
                       <Select
                         value={value}
                         label='Perfil'
@@ -196,25 +194,25 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
                         error={Boolean(errors.profile)}
                         labelId='validation-basic-profile'
                         aria-describedby='validation-basic-profile'
-                        disabled={() => (item && item.profile !== 'Consumidor') ? true:false}
+                        disabled={() => (item && item.profile !== 'Consumidor' ? true : false)}
                       >
                         {item && Object.keys(item).length ? AvailableOptions() : null}
                       </Select>
                     )}
                   />
                   {errors.select && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-select'>
+                    <FormHelperText sx={{color: 'error.main'}} id='validation-basic-select'>
                       El campo es requerido
                     </FormHelperText>
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ margin: '7px auto' }}>
+              <Grid item xs={12} sx={{margin: '7px auto'}}>
                 <FormControl fullWidth>
                   <Controller
                     name='recommenderId'
                     control={control}
-                    render={({ field: { value, onChange } }) => (
+                    render={({field: {value, onChange}}) => (
                       <TextField
                         value={value}
                         label='Codigo de Recomendado'
@@ -229,7 +227,7 @@ const Modal = ({ label = '', open = false, handleModal = () => { }, item = {} })
               </Grid>
             </Grid>
             <DialogActions className='dialog-actions-dense'>
-              <Grid item xs={12} sx={{ margin: '7px auto' }}>
+              <Grid item xs={12} sx={{margin: '7px auto'}}>
                 <Button size='large' type='submit' variant='contained'>
                   Editar
                 </Button>

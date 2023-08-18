@@ -1,6 +1,6 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {useState, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 
 // ** Next Import
 import Link from 'next/link'
@@ -11,18 +11,12 @@ import Grid from '@mui/material/Grid'
 // ** Demo Components Imports
 import UserProfileRight from 'src/views/profile/UserProfileRight'
 import UserProfileLeft from 'src/views/profile/UserProfileLeft'
-import { loadInfo } from 'src/store/paymentMethods'
-import address from 'src/store/address'
 
 const Profile = () => {
   const dispatch = useDispatch()
-  const { user } = useSelector(state => state.dashboard.general)
-  const { paymentMethods } = useSelector(state => state.paymentMethods)
-  const { address } = useSelector(state => state.address)
-
-  useEffect(() => {
-    if (user.id) dispatch(loadInfo(user.id))
-  }, [])
+  // const { user } = useSelector(state => state.dashboard.general)
+  const {paymentMethods} = useSelector(state => state.paymentMethods)
+  const {address} = useSelector(state => state.address)
 
   return user.id ? (
     <Grid container spacing={6}>

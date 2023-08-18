@@ -12,10 +12,10 @@ const columnColors = {
   series2: '#d2b0ff'
 }
 
-const NumberUsersGraph = ({ title = '', user = {} }) => {
-  const { network } = user
+const NumberUsersGraph = ({title = '', user = {}}) => {
+  const {network} = user
 
-  const sumValid = (key) => {
+  const sumValid = key => {
     let totalValid = 0
     let totalInvalid = 0
     for (const prop in network) {
@@ -24,7 +24,7 @@ const NumberUsersGraph = ({ title = '', user = {} }) => {
         totalInvalid += network[key]?.invalid ?? 0
       }
     }
-    return {totalValid, totalInvalid }
+    return {totalValid, totalInvalid}
   }
 
   const options = {
@@ -153,13 +153,13 @@ const NumberUsersGraph = ({ title = '', user = {} }) => {
     <Card>
       <CardHeader
         title={title}
-        titleTypographyProps={{ variant: 'h6' }}
-        subheaderTypographyProps={{ variant: 'caption' }}
+        titleTypographyProps={{variant: 'h6'}}
+        subheaderTypographyProps={{variant: 'caption'}}
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],
-          '& .MuiCardHeader-action': { mb: 0 },
-          '& .MuiCardHeader-content': { mb: [2, 0] }
+          '& .MuiCardHeader-action': {mb: 0},
+          '& .MuiCardHeader-content': {mb: [2, 0]}
         }}
       />
       <CardContent>

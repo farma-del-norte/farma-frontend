@@ -6,7 +6,6 @@ import CardTable from 'src/pages/components/cardTable'
 import ReusableDialog from 'src/pages/components/modal'
 /* config table */
 
-import {getTitle} from 'src/utils/functions'
 import {Pencil, Delete} from 'mdi-material-ui'
 
 const columns = [

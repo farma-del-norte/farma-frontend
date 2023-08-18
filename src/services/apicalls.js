@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from './axiosInstance'
 import * as endpoints from './endpoints'
 
 export const api_get = (url, headers = {}) => {
@@ -27,10 +27,10 @@ export const api_post = (url, body, headers = {}) => {
   })
 }
 
-export const api_put = (url, body, headers = {}) => {
+export const api_patch = (url, body, headers = {}) => {
   return new Promise((res, rej) => {
     axiosInstance
-      .put(url, body, headers)
+      .patch(url, body, headers)
       .then(({data}) => {
         res(data)
       })

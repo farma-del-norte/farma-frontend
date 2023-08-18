@@ -13,7 +13,7 @@ export const getDimensions = createAsyncThunk('/dimensions/getDimensions', async
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: 'errMessage', severity: 'error'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -36,8 +36,8 @@ export const editDimension = createAsyncThunk('/dimensions/editDimension', async
     thunkApi.dispatch(openSnackBar({open: true, message: 'Dimension actualizada con exito', severity: 'success'}))
     return payload
   } catch (error) {
-    const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: 'errMessage', severity: 'error'}))
+    const errMessage = error.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })

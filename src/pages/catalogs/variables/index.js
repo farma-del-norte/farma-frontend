@@ -5,10 +5,10 @@ import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLa
 import CardTable from 'src/pages/components/cardTable'
 import ReusableDialog from 'src/pages/components/modal'
 
-import {getTitle} from 'src/utils/functions'
 import {Pencil, Delete} from 'mdi-material-ui'
 
 import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables'
+import {variables_locale} from 'src/utils/localization'
 
 const columns = [
   {
@@ -158,9 +158,9 @@ function Variables() {
 
   const onSubmit = params => {}
 
-  const editTitle = getTitle('edit') // Returns 'Editar dimension seleccionada'
-  const addTitle = getTitle('add') // Returns 'Agregar dimension'
-  const deleteTitle = getTitle('delete') // Returns 'Eliminar dimension'
+  const editTitle = variables_locale.edit // Returns 'Editar dimension seleccionada'
+  const addTitle = variables_locale.add // Returns 'Agregar dimension'
+  const deleteTitle = variables_locale.delete // Returns 'Eliminar dimension'
 
   return (
     <React.Fragment>

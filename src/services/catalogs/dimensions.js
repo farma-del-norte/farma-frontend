@@ -1,4 +1,5 @@
-import {DIMENSIONS_HOST, api_delete, api_get, api_patch, api_post} from '../api'
+import {api_post, api_get, api_patch} from '../apicalls'
+import {DIMENSIONS_HOST} from '../endpoints'
 
 export const getDimensionsService = async () => {
   const url = `${DIMENSIONS_HOST}/dimensions`
@@ -25,8 +26,8 @@ export const editDimensionService = async body => {
   try {
     const result = await api_patch(url, body)
     return result
-  } catch {
-    return error
+  } catch (error) {
+    throw error
   }
 }
 

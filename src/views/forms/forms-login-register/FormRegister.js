@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { useRouter } from 'next/router'
-import { useSelector, useDispatch } from 'react-redux'
+import {useRouter} from 'next/router'
+import {useSelector, useDispatch} from 'react-redux'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -20,16 +20,16 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import CustomSnackbar from 'src/views/components/snackbar/CustomSnackbar'
 import Alert from '@mui/material/Alert'
-import { CircularProgress } from '@mui/material'
+import {CircularProgress} from '@mui/material'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 //actions
-import { createUser, setErrors } from 'src/store/users'
-import { closeSnackBar } from 'src/store/notifications'
-import { PROFILES_USER } from 'src/configs/profiles'
+import {createUser, setErrors} from 'src/store/users'
+import {closeSnackBar} from 'src/store/notifications'
+import {PROFILES_USER} from 'src/configs/profiles'
 
 const BASIC_ERRORS = {
   email: {
@@ -49,10 +49,10 @@ const BASIC_ERRORS = {
 
 const FormRegister = () => {
   const dispatch = useDispatch()
-  const { query } = useRouter()
+  const {query} = useRouter()
 
-  const { isLoadingRegister: isLoading, registerErrors: errors } = useSelector(state => state.users)
-  const { open, message, positioned, severity } = useSelector(state => state.notifications)
+  // const { isLoadingRegister: isLoading, registerErrors: errors } = useSelector(state => state.users)
+  const {open, message, positioned, severity} = useSelector(state => state.notifications)
 
   // ** States
   const [values, setValues] = React.useState({
@@ -68,11 +68,11 @@ const FormRegister = () => {
   }
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
+    setValues({...values, [prop]: event.target.value})
   }
 
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
+    setValues({...values, showPassword: !values.showPassword})
   }
 
   const handleMouseDownPassword = event => {
@@ -80,7 +80,7 @@ const FormRegister = () => {
   }
 
   const submitRegister = async () => {
-    const { email, password, recommenderId } = values
+    const {email, password, recommenderId} = values
     const errors = []
 
     if (!email) {
@@ -94,7 +94,7 @@ const FormRegister = () => {
       return
     }
 
-    const body = { email, password, recommenderId }
+    const body = {email, password, recommenderId}
 
     if (checkedProfile) {
       body.profile = PROFILES_USER.associatedUser
@@ -114,7 +114,7 @@ const FormRegister = () => {
   return (
     <>
       <Card>
-        <CardHeader title='Registrarse' titleTypographyProps={{ variant: 'h6' }} />
+        <CardHeader title='Registrarse' titleTypographyProps={{variant: 'h6'}} />
         <CardContent>
           <form onSubmit={e => e.preventDefault()}>
             <Grid container spacing={4}>
@@ -174,7 +174,7 @@ const FormRegister = () => {
                   />
                 </FormGroup>
                 {errors ? (
-                  <Alert variant='outlined' sx={{ mt: 3 }} severity='error'>
+                  <Alert variant='outlined' sx={{mt: 3}} severity='error'>
                     {errors[0]?.msg}
                   </Alert>
                 ) : null}
@@ -190,13 +190,9 @@ const FormRegister = () => {
                     justifyContent: 'space-between'
                   }}
                 >
-                  {isLoading ? (
-                    <CircularProgress size={20} />
-                  ) : (
-                    <Button type='submit' variant='contained' size='large' onClick={submitRegister}>
-                      Registrarse
-                    </Button>
-                  )}
+                  <Button type='submit' variant='contained' size='large' onClick={submitRegister}>
+                    Registrarse
+                  </Button>
                 </Box>
               </Grid>
             </Grid>
