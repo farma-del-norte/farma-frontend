@@ -9,7 +9,6 @@ import Link from 'next/link'
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import UserProfileRight from 'src/views/profile/UserProfileRight'
 import UserProfileLeft from 'src/views/profile/UserProfileLeft'
 
 const Profile = () => {
@@ -24,7 +23,7 @@ const Profile = () => {
         <UserProfileLeft data={user} />
       </Grid>
       <Grid item xs={12} md={7} lg={8}>
-        <UserProfileRight methods={paymentMethods} addresses={address} />
+        {/* <UserProfileRight methods={paymentMethods} addresses={address} /> */}
       </Grid>
     </Grid>
   ) : null
