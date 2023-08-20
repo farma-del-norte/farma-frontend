@@ -39,8 +39,6 @@ function Dimensions() {
   )
   const {open, message, severity} = useSelector(state => state.notifications)
 
-  const isEdit = Boolean(modalItem)
-
   const {control, handleSubmit, reset} = useForm({
     defaultValues: defaultValuesDimensions
   })
@@ -86,7 +84,7 @@ function Dimensions() {
   }
 
   const onSubmit = values => {
-    if (isEdit) {
+    if (Boolean(modalItem)) {
       dispatch(editDimension(values))
     } else {
       dispatch(createDimension(values))
@@ -132,7 +130,7 @@ function Dimensions() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={isEdit ? dimensions_locale.edit : dimensions_locale.add}
+        title={Boolean(modalItem) ? dimensions_locale.edit : dimensions_locale.add}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}

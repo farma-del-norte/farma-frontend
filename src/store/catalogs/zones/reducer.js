@@ -43,7 +43,7 @@ export const zonesSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(createZone.fulfilled, (state, {payload}) => {
-      state.claims = payload.content
+      state.zones = payload.content
       state.isLoading = false
     })
     builder.addCase(createZone.rejected, state => {
@@ -53,7 +53,7 @@ export const zonesSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(editZone.fulfilled, (state, {payload}) => {
-      state.claims = payload.content
+      state.zones = payload.content
       state.isLoading = false
     })
     builder.addCase(editZone.rejected, state => {

@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
@@ -6,6 +6,11 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones/reducer'
+import {closeSnackBar} from 'src/store/notifications'
+import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
+import {zones_locale} from 'src/utils/localization'
+import FallbackSpinner from 'src/@core/components/spinner'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 const columns = [
   {
@@ -13,33 +18,6 @@ const columns = [
     minWidth: 200,
     field: 'name',
     headerName: 'Zona'
-  }
-]
-
-const fakeRows = [
-  {
-    id: 1,
-    name: 'dato de prueba',
-    claim: 'dato de prueba',
-    active: 'Activado'
-  },
-  {
-    id: 2,
-    name: 'dato de prueba 2',
-    claim: 'dato de prueba 2',
-    active: 'Activado'
-  },
-  {
-    id: 3,
-    name: 'dato de prueba 3',
-    claim: 'dato de prueba 3',
-    active: 'Activado'
-  },
-  {
-    id: 4,
-    name: 'dato de prueba 3',
-    claim: 'dato de prueba 3',
-    active: 'Activado'
   }
 ]
 
@@ -53,10 +31,15 @@ const defaultValuesClaims = {
 function Zones() {
   const dispatch = useDispatch()
 
-  const {zones, isOpen, modalItem, isDeleteOpen} = useSelector(state => state.zones)
+  const {zones, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.zones)
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
+
+  useEffect(() => {
+    dispatch(getZones())
+  }, [dispatch])
 
   const handleAddItem = () => {
     reset({})
@@ -70,7 +53,14 @@ function Zones() {
     dispatch(setModalItem(row))
   }
 
-  const onSubmit = () => {}
+  const onSubmit = values => {
+    if (Boolean(modalItem)) {
+      dispatch(editZone(values))
+    } else {
+      dispatch(createZone(values))
+    }
+    handleCloseModal()
+  }
 
   const handleCloseModal = () => {
     const cleanModal = null
@@ -89,6 +79,11 @@ function Zones() {
     const cleanModal = null
     dispatch(toggleDeleteModal(false))
     dispatch(setDeleteItem(cleanModal))
+  }
+
+  const handleDeleteConfirm = () => {
+    dispatch(deleteZone(modalDeleteItem))
+    handleCloseDeleteModal()
   }
 
   const actionableColumns = [
@@ -112,14 +107,18 @@ function Zones() {
 
   return (
     <Fragment>
-      <CardTable showAddButton columns={actionableColumns} rows={fakeRows} label='Zonas' onAddItem={handleAddItem} />
+      {isLoading ? (
+        <FallbackSpinner />
+      ) : (
+        <CardTable showAddButton columns={actionableColumns} rows={zones} label='Zonas' onAddItem={handleAddItem} />
+      )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
+        title={Boolean(modalItem) ? zones_locale.edit : zones_locale.add}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+          {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -139,16 +138,17 @@ function Zones() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={'Eliminar Zona'}
+        title={zones_locale.delete}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
           <Typography variant='body2'>Seguro de eliminar la zona seleccionada?</Typography>
         </Box>
       </ReusableDialog>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

@@ -22,4 +22,10 @@ const claims_locale = {
   delete: 'Eliminar siniestro'
 }
 
-export {dimensions_locale, variables_locale, requirements_locale, claims_locale}
+const zones_locale = {
+  edit: 'Editar zona seleccionada',
+  add: 'Agregar zona',
+  delete: 'Eliminar zona'
+}
+
+export {dimensions_locale, variables_locale, requirements_locale, claims_locale, zones_locale}
