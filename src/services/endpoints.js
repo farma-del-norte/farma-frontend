@@ -3,3 +3,7 @@ export const DIMENSIONS_ENDPOINT = 'https://z6tnhkzus3.execute-api.us-east-1.ama
 export const REQUIREMENTS_ENDPOINT = 'https://hyafdleiv8.execute-api.us-east-1.amazonaws.com'
 export const CLAIMS_ENDPOINT = 'https://zvmsktgg4j.execute-api.us-east-1.amazonaws.com'
 export const ZONES_ENDPOINT = 'https://jwx69t04ea.execute-api.us-east-1.amazonaws.com'
+export const MATERIALS_ENDPOINT = 'https://xkyuuszhp2.execute-api.us-east-1.amazonaws.com'
+export const CONCEPTS_ENDPOINT = 'https://sf5gicb72b.execute-api.us-east-1.amazonaws.com'
+export const MAINTENANCE_ENDPOINT = 'https://2dxked0c17.execute-api.us-east-1.amazonaws.com'
+export const VARIABLES_ENDPOINT = 'https://55nwxdqg4k.execute-api.us-east-1.amazonaws.com'

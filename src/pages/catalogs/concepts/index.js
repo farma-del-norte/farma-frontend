@@ -5,7 +5,8 @@ import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuI
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts'
+import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts/reducer'
+import {useTranslation} from 'react-i18next'
 const columns = [
   {
     flex: 0.25,
@@ -51,6 +52,7 @@ const fakeRows = [
 ]
 
 function Concepts() {
+  const {t} = useTranslation()
   const dispatch = useDispatch()
   const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.concepts)
   const {control, handleSubmit, reset} = useForm({
@@ -116,7 +118,7 @@ function Concepts() {
         showAddButton
         columns={actionableColumns}
         rows={fakeRows}
-        label='Conceptos'
+        label={t('concepts_title')}
         onAddItem={handleAddItem}
       />
       <ReusableDialog

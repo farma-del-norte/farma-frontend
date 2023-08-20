@@ -6,6 +6,9 @@ import {
   getDimensionsService
 } from 'src/services/catalogs/dimensions'
 import {openSnackBar} from 'src/store/notifications'
+import i18n from 'src/configs/i18n'
+
+const localeNameSpace = {ns: 'catalogs'}
 
 export const getDimensions = createAsyncThunk('/dimensions/getDimensions', async thunkApi => {
   try {
@@ -21,7 +24,9 @@ export const getDimensions = createAsyncThunk('/dimensions/getDimensions', async
 export const createDimension = createAsyncThunk('/dimensions/createDimension', async (body, thunkApi) => {
   try {
     const payload = await createDimensionService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Dimension creada con exito', severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: i18n.t('dimensions_create_message', localeNameSpace), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error
@@ -33,7 +38,9 @@ export const createDimension = createAsyncThunk('/dimensions/createDimension', a
 export const editDimension = createAsyncThunk('/dimensions/editDimension', async (body, thunkApi) => {
   try {
     const payload = await editDimensionService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Dimension actualizada con exito', severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: i18n.t('dimensions_edit_message', localeNameSpace), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -45,7 +52,9 @@ export const editDimension = createAsyncThunk('/dimensions/editDimension', async
 export const deleteDimension = createAsyncThunk('/dimensions/getDimensions', async ({id}, thunkApi) => {
   try {
     const payload = await deleteDimensionService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Dimension eliminada con exito', severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: i18n.t('dimensions_delete_message', localeNameSpace), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error

@@ -10,7 +10,7 @@ import {getDimensions, editDimension, createDimension, deleteDimension} from 'sr
 
 import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
-import {dimensions_locale} from 'src/utils/localization'
+import {dimensions_locale} from 'src/utils/locales/catalogs/localization'
 import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'

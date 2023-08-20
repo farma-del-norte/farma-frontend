@@ -1,16 +1,16 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
 const initialState = {
-  isLoaded: 'idle',
-  data: [],
+  isLoading: false,
+  maintenance: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null
 }
 
-export const materialsSlice = createSlice({
-  name: 'materials',
+export const maintenanceSlice = createSlice({
+  name: 'maintenance',
   initialState,
   reducers: {
     /* edit modal */
@@ -30,6 +30,6 @@ export const materialsSlice = createSlice({
   extraReducers: builder => {}
 })
 
-export default materialsSlice.reducer
+export default maintenanceSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = materialsSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = maintenanceSlice.actions

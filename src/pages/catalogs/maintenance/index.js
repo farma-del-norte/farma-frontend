@@ -5,7 +5,7 @@ import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/maintenance'
+import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/maintenance/reducer'
 
 const columns = [
   {

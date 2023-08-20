@@ -8,7 +8,7 @@ import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 
 import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables'
-import {variables_locale} from 'src/utils/localization'
+import {variables_locale} from 'src/utils/locales/catalogs/localization'
 
 const columns = [
   {

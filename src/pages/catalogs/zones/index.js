@@ -8,7 +8,7 @@ import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones/reducer'
 import {closeSnackBar} from 'src/store/notifications'
 import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
-import {zones_locale} from 'src/utils/localization'
+import {zones_locale} from 'src/utils/locales/catalogs/localization'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 

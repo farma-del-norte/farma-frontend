@@ -9,7 +9,7 @@ import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/s
 import {createClaim, deleteClaim, editClaim, getClaims} from 'src/store/catalogs/claims/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import {claims_locale} from 'src/utils/localization'
+import {claims_locale} from 'src/utils/locales/catalogs/localization'
 import FallbackSpinner from 'src/@core/components/spinner'
 
 const columns = [

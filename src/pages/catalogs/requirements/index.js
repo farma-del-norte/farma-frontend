@@ -15,7 +15,7 @@ import {
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
-import {requirements_locale} from 'src/utils/localization'
+import {requirements_locale} from 'src/utils/locales/catalogs/localization'
 
 const columns = [
   {

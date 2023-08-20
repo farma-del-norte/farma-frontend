@@ -1,5 +1,6 @@
 // ** Icon imports
 import ViewDashboard from 'mdi-material-ui/ViewDashboard'
+import i18n from 'src/configs/i18n'
 /* TODO
 
   nav with menus and subMenus
@@ -7,49 +8,49 @@ import ViewDashboard from 'mdi-material-ui/ViewDashboard'
 const navigation = () => {
   const navItems = [
     {
-      title: 'Catalogos',
+      title: i18n.t('catalogs_title'),
       icon: ViewDashboard,
       permission: 'catalogos',
       visible: true,
       children: [
         {
-          title: 'Dimensiones',
+          title: i18n.t('dimensions_title'),
           path: '/catalogs/dimensions'
         },
         {
-          title: 'Variables',
+          title: i18n.t('variables_title'),
           path: '/catalogs/variables'
         },
         {
-          title: 'Conceptos',
+          title: i18n.t('concepts_title'),
           path: '/catalogs/concepts'
         },
         {
-          title: 'Mantenimientos',
+          title: i18n.t('maintenance_title'),
           path: '/catalogs/maintenance'
         },
         {
-          title: 'Materiales',
+          title: i18n.t('materials_title'),
           path: '/catalogs/materials'
         },
         {
-          title: 'Requerimientos',
+          title: i18n.t('requirements_title'),
           path: '/catalogs/requirements'
         },
         {
-          title: 'Siniestros',
+          title: i18n.t('claims_title'),
           path: '/catalogs/claims'
         },
         {
-          title: 'Zonas',
+          title: i18n.t('zones_title'),
           path: '/catalogs/zones'
         },
         {
-          title: 'Usuarios',
+          title: i18n.t('users_title'),
           path: '/catalogs/users'
         },
         {
-          title: 'Sucursales',
+          title: i18n.t('branches_title'),
           path: '/catalogs/branches'
         }
       ]
