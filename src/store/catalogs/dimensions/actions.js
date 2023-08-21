@@ -49,7 +49,7 @@ export const editDimension = createAsyncThunk('/dimensions/editDimension', async
   }
 })
 
-export const deleteDimension = createAsyncThunk('/dimensions/getDimensions', async ({id}, thunkApi) => {
+export const deleteDimension = createAsyncThunk('/dimensions/deleteDimensions', async ({id}, thunkApi) => {
   try {
     const payload = await deleteDimensionService(id)
     thunkApi.dispatch(

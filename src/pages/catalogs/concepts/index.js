@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuItem} from '@mui/material'
@@ -6,61 +6,72 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts/reducer'
-import {useTranslation} from 'react-i18next'
+import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
+import {createConcept, deleteConcept, editConcept, getConcepts} from 'src/store/catalogs/concepts/actions'
+import FallbackSpinner from 'src/@core/components/spinner'
+import {getVariables} from 'src/store/catalogs/variables/actions'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {closeSnackBar} from 'src/store/notifications'
 const columns = [
   {
-    flex: 0.25,
-    minWidth: 200,
-    field: 'concept',
-    headerName: 'Concepto'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.CONCEPTS_FIELD_NAME,
+    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_NAME
   },
   {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'type',
-    headerName: 'Tipo'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.CONCEPTS_FIELD_TYPE,
+    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_TYPE
   },
   {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'definition',
-    headerName: 'Definición'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.CONCEPTS_FIELD_DEFINITION,
+    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_DEFINITION
   },
   {
-    flex: 0.15,
-    minWidth: 130,
-    field: 'observations',
-    headerName: 'Observaciones'
+    flex: COMMON.COLUMN_FLEX_SMALL,
+    minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
+    field: CATALOGS.CONCEPTS_FIELD_OBSERVATIONS,
+    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_OBSERVATIONS
   },
   {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'variableName',
-    headerName: 'Variable'
-  }
-]
-
-const fakeRows = [
-  {
-    id: 2,
-    concept: 'dato de prueba',
-    variableName: 'dato de prueba',
-    type: 'Concepto',
-    definition: 'dato de prueba',
-    observations: 'dato de prueba'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.CONCEPTS_FIELD_VARIABLE_NAME,
+    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME
   }
 ]
 
 function Concepts() {
-  const {t} = useTranslation()
   const dispatch = useDispatch()
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.concepts)
+  const {concepts, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.concepts)
+  const {variables} = useSelector(state => state.variables)
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
-  const handleAddItem = () => {
-    reset({})
-    dispatch(toggleModal(true))
+
+  useEffect(() => {
+    dispatch(getConcepts())
+    if (variables.length > 0) {
+      dispatch(getVariables)
+    }
+  }, [dispatch])
+
+  const handleCloseModal = () => {
+    reset()
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
+  }
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
 
   const handleOpenModal = params => {
@@ -70,91 +81,110 @@ function Concepts() {
     dispatch(setModalItem(row))
   }
 
+  const handleAddItem = () => {
+    reset({})
+    dispatch(toggleModal(true))
+  }
+
   const handleDeleteModal = params => {
     const {row, open} = params
     dispatch(toggleDeleteModal(open))
     dispatch(setDeleteItem(row))
   }
 
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
+  const handleDeleteConfirm = () => {
+    dispatch(deleteConcept(modalDeleteItem))
+    handleCloseDeleteModal()
   }
 
-  const onSubmit = () => {}
+  const onSubmit = values => {
+    if (Boolean(modalItem)) {
+      dispatch(editConcept(values))
+    } else {
+      dispatch(createConcept(values))
+    }
+    handleCloseModal()
+  }
 
   const actionableColumns = [
     ...columns,
     {
-      flex: 0.125,
-      minWidth: 100,
-      field: 'actions',
-      headerName: 'Acciones',
+      flex: COMMON.COLUMN_ACTION_FLEX,
+      minWidth: COMMON.COLUMN_ACTION_MIN_WIDTH,
+      field: COMMON.ACTIONS_FIELD,
+      headerName: COMMON_LOCALE.ACTIONS,
       renderCell: params => {
         const row = params?.row
         return (
-          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal({row, open: true})} />
-            <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal({row, open: true})} />
+          <Typography
+            variant={COMMON.ACTIONS_TEXT_VARIANT}
+            sx={{color: COMMON.ACTIONS_TEXT_COLOR, cursor: COMMON.ACTIONS_TEXT_CURSOR}}
+          >
+            <Pencil sx={{margin: COMMON.ACTION_ICON_MARGIN}} onClick={() => handleOpenModal({row, open: true})} />
+            <Delete sx={{margin: COMMON.ACTION_ICON_MARGIN}} onClick={() => handleDeleteModal({row, open: true})} />
           </Typography>
         )
       }
     }
   ]
 
-  const handleCloseModal = () => {
-    reset()
-    const cleanModal = null
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
-  }
-
-  const isEdit = Boolean(modalItem)
-
   return (
     <Fragment>
-      <CardTable
-        showAddButton
-        columns={actionableColumns}
-        rows={fakeRows}
-        label={t('concepts_title')}
-        onAddItem={handleAddItem}
-      />
+      {isLoading ? (
+        <FallbackSpinner />
+      ) : (
+        <CardTable
+          showAddButton
+          columns={actionableColumns}
+          rows={concepts}
+          label={CATALOGS_LOCALE.CONCEPTS_FIELD_NAME}
+          onAddItem={handleAddItem}
+        />
+      )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={isEdit ? 'Editar' : 'Agregar'}
+        title={Boolean(modalItem) ? CATALOGS_LOCALE.CONCEPTS_EDIT_MODAL : CATALOGS_LOCALE.CONCEPTS_ADD_MODAL}
         actions={[
-          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+          {
+            label: COMMON_LOCALE.BACK_BUTTON,
+            onClick: handleCloseModal,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.BACK_BUTTON_VARIANT
+          },
+          {
+            label: COMMON_LOCALE.SAVE_BUTTON,
+            onClick: handleSubmit(onSubmit),
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.SAVE_BUTTON_VARIANT
+          }
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
                 <Controller
-                  name='concept'
+                  name={CATALOGS.CONCEPTS_FIELD_NAME}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Concepto' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.CONCEPTS_FIELD_NAME} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
-                <InputLabel id='demo-simple-select-label'>Variable</InputLabel>
+                <InputLabel id='demo-simple-select-label'>{CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME}</InputLabel>
                 <Controller
-                  name='variable'
+                  name={CATALOGS.CONCEPTS_FIELD_VARIABLE_ID}
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label='Variable' /*  */
+                      label={CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME} /*  */
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Prueba</MenuItem>
@@ -165,18 +195,18 @@ function Concepts() {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
                 <InputLabel id='demo-simple-select-label'>Tipo</InputLabel>
                 <Controller
-                  name='type'
+                  name={CATALOGS.CONCEPTS_FIELD_TYPE}
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label='Tipo'
+                      label={CATALOGS_LOCALE.CONCEPTS_FIELD_TYPE}
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Concepto</MenuItem>
@@ -186,24 +216,24 @@ function Concepts() {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
                 <Controller
-                  name='definition'
+                  name={CATALOGS.CONCEPTS_FIELD_DEFINITION}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Definicion' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.CONCEPTS_FIELD_DEFINITION} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
                 <Controller
-                  name='observations'
+                  name={CATALOGS.CONCEPTS_FIELD_OBSERVATIONS}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Observaciones' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.CONCEPTS_FIELD_OBSERVATIONS} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -214,16 +244,29 @@ function Concepts() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={'Eliminar Concepto'}
+        title={CATALOGS_LOCALE.CONCEPTS_DELETE_MODAL}
         actions={[
-          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+          {
+            label: COMMON_LOCALE.BACK_BUTTON,
+            onClick: handleCloseDeleteModal,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.BACK_BUTTON_VARIANT
+          },
+          {
+            label: COMMON_LOCALE.DELETE_BUTTON,
+            onClick: handleDeleteConfirm,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.DELETE_BUTTON_VARIANT
+          }
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar el concepto seleccionado?</Typography>
+          <Typography variant={COMMON.MODAL_DELETE_TEXT_VARIANT}>
+            {CATALOGS_LOCALE.CONCEPTS_CONFIRM_DELETE_MODAL}
+          </Typography>
         </Box>
       </ReusableDialog>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

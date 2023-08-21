@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
@@ -6,6 +6,10 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/materials/reducer'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {closeSnackBar} from 'src/store/notifications'
+import FallbackSpinner from 'src/@core/components/spinner'
+import {createMaterial, editMaterial, getMaterials} from 'src/store/catalogs/materials/actions'
 
 const columns = [
   {
@@ -105,14 +109,27 @@ const defaultValuesMaterials = {
 function Materials() {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.materials)
+  const {materials, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.materials)
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
-  const handleAddItem = () => {
-    reset({})
-    dispatch(toggleModal(true))
+  useEffect(() => {
+    dispatch(getMaterials())
+  }, [dispatch])
+
+  const handleCloseModal = () => {
+    reset()
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
+  }
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
 
   const handleOpenModal = params => {
@@ -122,26 +139,30 @@ function Materials() {
     dispatch(setModalItem(row))
   }
 
-  const onSubmit = () => {}
-
-  const handleCloseModal = () => {
-    const cleanModal = null
-    reset()
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
+  const handleAddItem = () => {
+    reset({})
+    dispatch(toggleModal(true))
+    dispatch(setModalItem(null))
   }
 
   const handleDeleteModal = params => {
     const {row, open} = params
-    reset(row)
     dispatch(toggleDeleteModal(open))
     dispatch(setDeleteItem(row))
   }
 
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
+  const handleDeleteConfirm = () => {
+    dispatch(deleteRequirement(modalDeleteItem))
+    handleCloseDeleteModal()
+  }
+
+  const onSubmit = values => {
+    if (Boolean(modalItem)) {
+      dispatch(editMaterial(values))
+    } else {
+      dispatch(createMaterial(values))
+    }
+    handleCloseModal()
   }
 
   const actionableColumns = [
@@ -165,20 +186,24 @@ function Materials() {
 
   return (
     <Fragment>
-      <CardTable
-        showAddButton
-        columns={actionableColumns}
-        rows={fakeRows}
-        label='Materiales'
-        onAddItem={handleAddItem}
-      />
+      {isLoading ? (
+        <FallbackSpinner />
+      ) : (
+        <CardTable
+          showAddButton
+          columns={actionableColumns}
+          rows={materials}
+          label='Materiales'
+          onAddItem={handleAddItem}
+        />
+      )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
         title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+          {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -267,13 +292,14 @@ function Materials() {
         title={'Eliminar Material'}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
           <Typography variant='body2'>Seguro de eliminar el material seleccionado?</Typography>
         </Box>
       </ReusableDialog>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

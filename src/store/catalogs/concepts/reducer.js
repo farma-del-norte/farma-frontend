@@ -33,7 +33,7 @@ export const conceptsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getConcepts.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+      state.concepts = payload.content
       state.isLoading = false
     })
     builder.addCase(getConcepts.rejected, state => {
@@ -43,7 +43,7 @@ export const conceptsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(createConcept.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+      state.concepts = payload.content
       state.isLoading = false
     })
     builder.addCase(createConcept.rejected, state => {
@@ -53,7 +53,7 @@ export const conceptsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(editConcept.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+      state.concepts = payload.content
       state.isLoading = false
     })
     builder.addCase(editConcept.rejected, state => {

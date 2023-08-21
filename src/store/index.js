@@ -3,7 +3,7 @@ import {configureStore} from '@reduxjs/toolkit'
 
 //farma reducers
 import dimensions from 'src/store/catalogs/dimensions/reducer'
-import variables from 'src/store/catalogs/variables'
+import variables from 'src/store/catalogs/variables/reducer'
 import concepts from 'src/store/catalogs/concepts/reducer'
 import maintenance from 'src/store/catalogs/maintenance/reducer'
 import materials from 'src/store/catalogs/materials/reducer'

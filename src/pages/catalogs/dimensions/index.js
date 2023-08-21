@@ -3,34 +3,15 @@ import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import {Pencil, Delete} from 'mdi-material-ui'
-
 import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/dimensions/reducer'
-
 import {getDimensions, editDimension, createDimension, deleteDimension} from 'src/store/catalogs/dimensions/actions'
-
 import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
-import {dimensions_locale} from 'src/utils/locales/catalogs/localization'
 import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-
-const columns = [
-  {
-    flex: 0.25,
-    minWidth: 200,
-    field: 'name',
-    headerName: 'Nombre'
-  }
-]
-
-const defaultValuesDimensions = {
-  id: '',
-  name: '',
-  dimension: '',
-  active: ''
-}
+import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
 
 function Dimensions() {
   const dispatch = useDispatch()
@@ -92,19 +73,38 @@ function Dimensions() {
     handleCloseModal()
   }
 
+  const columns = [
+    {
+      flex: COMMON.COLUMN_FLEX,
+      minWidth: COMMON.COLUMN_MIN_WIDTH,
+      field: CATALOGS.DIMENSIONS_FIELD_NAME,
+      headerName: CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME
+    }
+  ]
+
+  const defaultValuesDimensions = {
+    id: '',
+    name: '',
+    dimension: '',
+    active: ''
+  }
+
   const actionableColumns = [
     ...columns,
     {
-      flex: 0.125,
-      minWidth: 100,
-      field: 'actions',
-      headerName: 'Acciones',
+      flex: COMMON.COLUMN_ACTION_FLEX,
+      minWidth: COMMON.COLUMN_ACTION_MIN_WIDTH,
+      field: COMMON.ACTIONS_FIELD,
+      headerName: COMMON_LOCALE.ACTIONS,
       renderCell: params => {
         const row = params?.row
         return (
-          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal({row, open: true})} />
-            <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal({row, open: true})} />
+          <Typography
+            variant={COMMON.ACTIONS_TEXT_VARIANT}
+            sx={{color: COMMON.ACTIONS_TEXT_COLOR, cursor: COMMON.ACTIONS_TEXT_CURSOR}}
+          >
+            <Pencil sx={{margin: COMMON.ACTION_ICON_MARGIN}} onClick={() => handleOpenModal({row, open: true})} />
+            <Delete sx={{margin: COMMON.ACTION_ICON_MARGIN}} onClick={() => handleDeleteModal({row, open: true})} />
           </Typography>
         )
       }
@@ -120,31 +120,31 @@ function Dimensions() {
           showAddButton
           columns={actionableColumns}
           rows={dimensions}
-          label='Dimension'
+          label={CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME}
           onAddItem={handleAddItem}
-          pageSize={5}
-          rowsPerPageOptions={[7, 10, 25, 50]}
+          pageSize={CATALOGS.TABLE_PAGE_SIZE}
+          rowsPerPageOptions={CATALOGS.TABLE_PAGE_ROWS_OPTIONS}
         />
       )}
 
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? dimensions_locale.edit : dimensions_locale.add}
+        title={Boolean(modalItem) ? CATALOGS_LOCALE.DIMENSIONS_EDIT_MESSAGE : CATALOGS_LOCALE.DIMENSIONS_ADD_MODAL}
         actions={[
-          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
+          {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: COMMON_LOCALE.SAVE_BUTTON, onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
+            <Grid item xs={CATALOGS.DIMENSIONS_FIELD_FLEX_SIZE} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
                 <Controller
-                  name='name'
+                  name={CATALOGS.DIMENSIONS_FIELD_NAME}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Nombre' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -155,14 +155,26 @@ function Dimensions() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseModal}
-        title={dimensions_locale.delete}
+        title={CATALOGS_LOCALE.DIMENSIONS_DELETE_MODAL}
         actions={[
-          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
+          {
+            label: COMMON_LOCALE.BACK_BUTTON,
+            onClick: handleCloseDeleteModal,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.BACK_BUTTON_VARIANT
+          },
+          {
+            label: COMMON_LOCALE.DELETE_BUTTON,
+            onClick: handleDeleteConfirm,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.DELETE_BUTTON_VARIANT
+          }
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar la dimension seleccionada?</Typography>
+          <Typography variant={COMMON.MODAL_DELETE_TEXT_VARIANT}>
+            {CATALOGS_LOCALE.DIMENSIONS_CONFIRM_DELETE_MODAL}
+          </Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />

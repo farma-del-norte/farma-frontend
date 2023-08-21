@@ -1,11 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
-import * as MaterialsAPI from 'src/services/catalogs/materials'
+import * as VariablesAPI from 'src/services/catalogs/variables'
 import {openSnackBar} from 'src/store/notifications'
 import {CATALOGS_LOCALE} from 'src/utils/constants'
 
-export const getMaterials = createAsyncThunk('/materials/getMaterials', async thunkApi => {
+export const getVariables = createAsyncThunk('/variables/getVariables', async thunkApi => {
   try {
-    const payload = await MaterialsAPI.getMaterialsService()
+    const payload = await VariablesAPI.getVariablesService()
     return payload
   } catch (error) {
     const errMessage = error
@@ -14,11 +14,11 @@ export const getMaterials = createAsyncThunk('/materials/getMaterials', async th
   }
 })
 
-export const createMaterial = createAsyncThunk('/materials/createMaterial', async (body, thunkApi) => {
+export const createVariable = createAsyncThunk('/variables/createVariable', async (body, thunkApi) => {
   try {
-    const payload = await MaterialsAPI.createMaterialService(body)
+    const payload = await VariablesAPI.createVariableService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_CREATE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: CATALOGS_LOCALE.VARIABLES_CREATE_MESSAGE, severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -28,10 +28,10 @@ export const createMaterial = createAsyncThunk('/materials/createMaterial', asyn
   }
 })
 
-export const editMaterial = createAsyncThunk('/materials/editMaterial', async (body, thunkApi) => {
+export const editVariable = createAsyncThunk('/variables/editVariable', async (body, thunkApi) => {
   try {
-    const payload = await MaterialsAPI.editMaterialService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_EDIT_MESSAGE, severity: 'success'}))
+    const payload = await VariablesAPI.editVariableService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.VARIABLES_EDIT_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -40,11 +40,11 @@ export const editMaterial = createAsyncThunk('/materials/editMaterial', async (b
   }
 })
 
-export const deleteMaterial = createAsyncThunk('/materials/deleteMaterials', async ({id}, thunkApi) => {
+export const deleteVariable = createAsyncThunk('/variables/deleteVariables', async ({id}, thunkApi) => {
   try {
-    const payload = await MaterialsAPI.deleteMaterialService(id)
+    const payload = await VariablesAPI.deleteVariableService(id)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_DELETE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: CATALOGS_LOCALE.VARIABLES_DELETE_MESSAGE, severity: 'success'})
     )
     return payload
   } catch (error) {

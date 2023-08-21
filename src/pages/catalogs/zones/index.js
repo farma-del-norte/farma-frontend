@@ -8,9 +8,9 @@ import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones/reducer'
 import {closeSnackBar} from 'src/store/notifications'
 import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
-import {zones_locale} from 'src/utils/locales/catalogs/localization'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {CATALOGS_LOCALE} from 'src/utils/constants'
 
 const columns = [
   {
@@ -115,7 +115,7 @@ function Zones() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? zones_locale.edit : zones_locale.add}
+        title={Boolean(modalItem) ? CATALOGS_LOCALE.ZONES_EDIT_MODAL : CATALOGS_LOCALE.ZONES_ADD_MODAL}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -138,14 +138,14 @@ function Zones() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={zones_locale.delete}
+        title={CATALOGS_LOCALE.ZONES_DELETE_MODAL}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar la zona seleccionada?</Typography>
+          <Typography variant='body2'>{CATALOGS_LOCALE.ZONES_CONFIRM_DELETE_MODAL}</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
