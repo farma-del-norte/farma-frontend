@@ -56,10 +56,10 @@ function Concepts() {
 
   useEffect(() => {
     dispatch(getConcepts())
-    if (variables.length > 0) {
-      dispatch(getVariables)
+    if (variables.length == 0) {
+      dispatch(getVariables())
     }
-  }, [dispatch])
+  }, [dispatch, variables])
 
   const handleCloseModal = () => {
     reset()
@@ -187,9 +187,11 @@ function Concepts() {
                       label={CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME} /*  */
                       onChange={onChange}
                     >
-                      <MenuItem value={10}>Prueba</MenuItem>
-                      <MenuItem value={20}>Prueba</MenuItem>
-                      <MenuItem value={30}>Prueba</MenuItem>
+                      {variables.map(variable => (
+                        <MenuItem key={variable.id} value={variable.id}>
+                          {variable.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   )}
                 />
