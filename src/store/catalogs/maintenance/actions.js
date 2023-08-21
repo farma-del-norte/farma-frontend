@@ -6,7 +6,7 @@ import {
   getMaintenanceService
 } from 'src/services/catalogs/maintenance'
 import {openSnackBar} from 'src/store/notifications'
-import {maintenance_locale} from 'src/utils/locales/catalogs/localization'
+import {CATALOGS_LOCALE} from 'src/utils/constants'
 
 export const getMaintenances = createAsyncThunk('/maintenance/getMaintenance', async thunkApi => {
   try {
@@ -22,7 +22,9 @@ export const getMaintenances = createAsyncThunk('/maintenance/getMaintenance', a
 export const createMaintenance = createAsyncThunk('/maintenance/createMaintenance', async (body, thunkApi) => {
   try {
     const payload = await createMaintenanceService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: maintenance_locale.create_success, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: CATALOGS_LOCALE.MAINTENANCE_CREATE_MESSAGE, severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error
@@ -34,7 +36,9 @@ export const createMaintenance = createAsyncThunk('/maintenance/createMaintenanc
 export const editMaintenance = createAsyncThunk('/maintenance/editMaintenance', async (body, thunkApi) => {
   try {
     const payload = await editMaintenanceService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: maintenance_locale.edit_success, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: CATALOGS_LOCALE.MAINTENANCE_EDIT_MESSAGE, severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -43,10 +47,12 @@ export const editMaintenance = createAsyncThunk('/maintenance/editMaintenance', 
   }
 })
 
-export const deleteMaintenance = createAsyncThunk('/maintenance/getMaintenances', async ({id}, thunkApi) => {
+export const deleteMaintenance = createAsyncThunk('/maintenance/deleteMaintenances', async ({id}, thunkApi) => {
   try {
     const payload = await deleteMaintenanceService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: maintenance_locale.delete_success, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: CATALOGS_LOCALE.MAINTENANCE_DELETE_MESSAGE, severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message

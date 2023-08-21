@@ -9,8 +9,8 @@ import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/s
 import {createClaim, deleteClaim, editClaim, getClaims} from 'src/store/catalogs/claims/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import {claims_locale} from 'src/utils/locales/catalogs/localization'
 import FallbackSpinner from 'src/@core/components/spinner'
+import {CATALOGS} from 'src/utils/constants'
 
 const columns = [
   {
@@ -120,7 +120,7 @@ function Claims() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? claims_locale.edit : claims_locale.add}
+        title={Boolean(modalItem) ? 'editar' : 'agregar'}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -145,7 +145,7 @@ function Claims() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={claims_locale.delete}
+        title={'borrar'}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}

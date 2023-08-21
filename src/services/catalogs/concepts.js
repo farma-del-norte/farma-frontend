@@ -2,7 +2,7 @@ import {api_post, api_get, api_patch, api_delete} from '../apicalls'
 import {CONCEPTS_ENDPOINT} from '../endpoints'
 
 export const getConceptsService = async () => {
-  const url = `${CONCEPTS_ENDPOINT}/concepts/list`
+  const url = `${CONCEPTS_ENDPOINT}/concepts`
   try {
     const result = await api_get(url)
     return result

@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
@@ -6,6 +6,14 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/maintenance/reducer'
+import {
+  createMaintenance,
+  deleteMaintenance,
+  editMaintenance,
+  getMaintenances
+} from 'src/store/catalogs/maintenance/actions'
+import FallbackSpinner from 'src/@core/components/spinner'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 const columns = [
   {
@@ -22,31 +30,7 @@ const columns = [
   }
 ]
 
-const fakeRows = [
-  {
-    id: 1,
-    name: 'dato de prueba',
-    category: 'categoria 1'
-  },
-  {
-    id: 2,
-    name: 'dato de prueba',
-    category: 'categoria 1'
-  },
-  {
-    id: 3,
-    name: 'dato de prueba',
-    category: 'categoria 1'
-  },
-  {
-    id: 4,
-    name: 'dato de prueba',
-    category: 'categoria 1'
-  }
-]
-
 const defaultValuesMaintenances = {
-  id: '',
   name: '',
   category: ''
 }
@@ -54,14 +38,29 @@ const defaultValuesMaintenances = {
 function Maintenances() {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.maintenance)
+  const {maintenance, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
+    state => state.maintenance
+  )
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
-  const handleAddItem = () => {
-    reset({})
-    dispatch(toggleModal(true))
+  useEffect(() => {
+    dispatch(getMaintenances())
+  }, [dispatch])
+
+  const handleCloseModal = () => {
+    reset()
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
+  }
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
 
   const handleOpenModal = params => {
@@ -71,13 +70,10 @@ function Maintenances() {
     dispatch(setModalItem(row))
   }
 
-  const onSubmit = () => {}
-
-  const handleCloseModal = () => {
-    const cleanModal = null
-    reset()
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
+  const handleAddItem = () => {
+    reset({})
+    dispatch(toggleModal(true))
+    dispatch(setModalItem(null))
   }
 
   const handleDeleteModal = params => {
@@ -86,10 +82,18 @@ function Maintenances() {
     dispatch(setDeleteItem(row))
   }
 
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
+  const handleDeleteConfirm = () => {
+    dispatch(deleteMaintenance(modalDeleteItem))
+    handleCloseDeleteModal()
+  }
+
+  const onSubmit = values => {
+    if (Boolean(modalItem)) {
+      dispatch(editMaintenance(values))
+    } else {
+      dispatch(createMaintenance(values))
+    }
+    handleCloseModal()
   }
 
   const actionableColumns = [
@@ -113,20 +117,24 @@ function Maintenances() {
 
   return (
     <Fragment>
-      <CardTable
-        showAddButton
-        columns={actionableColumns}
-        rows={fakeRows}
-        label='Mantenimientos'
-        onAddItem={handleAddItem}
-      />
+      {isLoading ? (
+        <FallbackSpinner />
+      ) : (
+        <CardTable
+          showAddButton
+          columns={actionableColumns}
+          rows={maintenance}
+          label='Mantenimientos'
+          onAddItem={handleAddItem}
+        />
+      )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
         title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+          {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -162,13 +170,14 @@ function Maintenances() {
         title={'Eliminar Mantenimiento'}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
           <Typography variant='body2'>Seguro de eliminar el mantenimiento seleccionado?</Typography>
         </Box>
       </ReusableDialog>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

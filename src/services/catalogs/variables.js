@@ -2,7 +2,7 @@ import {api_post, api_get, api_patch, api_delete} from '../apicalls'
 import {VARIABLES_ENDPOINT} from '../endpoints'
 
 export const getVariablesService = async () => {
-  const url = `${VARIABLES_ENDPOINT}/variables/list`
+  const url = `${VARIABLES_ENDPOINT}/variables`
   try {
     const result = await api_get(url)
     return result

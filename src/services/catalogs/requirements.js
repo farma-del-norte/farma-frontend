@@ -5,6 +5,7 @@ export const getRequirementsService = async () => {
   const url = `${REQUIREMENTS_ENDPOINT}/requirements`
   try {
     const result = await api_get(url)
+    console.log(result)
     return result
   } catch (error) {
     throw error

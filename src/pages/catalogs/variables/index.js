@@ -1,112 +1,89 @@
-import * as React from 'react'
+import {Fragment, useEffect} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLabel} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
-
 import {Pencil, Delete} from 'mdi-material-ui'
-
-import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables'
-import {variables_locale} from 'src/utils/locales/catalogs/localization'
+import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables/reducer'
+import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
+import {createVariable, deleteVariable, editVariable, getVariables} from 'src/store/catalogs/variables/actions'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {closeSnackBar} from 'src/store/notifications'
+import FallbackSpinner from 'src/@core/components/spinner'
 
 const columns = [
   {
-    flex: 0.25,
-    minWidth: 200,
-    field: 'name',
-    headerName: 'Variable'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.VARIABLES_FIELD_NAME,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_NAME
   },
   {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'obligation',
-    headerName: 'Obligación'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.VARIABLES_FIELD_OBLIGATION,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_OBLIGATION
   },
   {
-    flex: 0.15,
-    minWidth: 130,
-    field: 'specifications',
-    headerName: 'Especificaciones'
+    flex: COMMON.COLUMN_FLEX_SMALL,
+    minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
+    field: CATALOGS.VARIABLES_FIELD_SPECIFICATIONS,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_SPECIFICATIONS
   },
   {
-    flex: 0.15,
-    minWidth: 230,
-    field: 'guidelines',
-    headerName: 'Lineamientos'
+    flex: COMMON.COLUMN_FLEX_SMALL,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.VARIABLES_FIELD_GUIDELINES,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_GUIDELINES
   },
   {
-    flex: 0.15,
-    minWidth: 130,
-    field: 'maintenance',
-    headerName: 'Mantenimiento'
+    flex: COMMON.COLUMN_FLEX_SMALL,
+    minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
+    field: CATALOGS.VARIABLES_FIELD_MAINTENANCE,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_MAINTENANCE
   },
   {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'dimension',
-    headerName: 'Nombre de Dimension'
+    flex: COMMON.COLUMN_FLEX,
+    minWidth: COMMON.COLUMN_MIN_WIDTH,
+    field: CATALOGS.VARIABLES_FIELD_DIMENSIONS_NAME,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_DIMENSIONS_NAME
   }
 ]
 
-const fakeRows = [
-  {
-    id: 1,
-    name: 'dato de prueba',
-    dimension: 'dato de prueba',
-    obligation: 'dato de prueba',
-    specifications: 'dato de prueba',
-    guidelines: 'lineamientos de prueba',
-    maintenance: 'dato de prueba',
-    active: 'Activado'
-  }
-]
-
-/* TODO 
-create new object when is Editing form
-*/
-
-const defaultEditingValues = {
-  name: 'dato de prueba',
-  dimension: 'dato de prueba',
-  obligation: 'dato de prueba',
-  specifications: 'dato de prueba',
-  guidelines: 'lineamientos de prueba',
-  maintenance: 'dato de prueba',
-  guidelines: 'dato de prueba'
-}
 const defaultValuesVariables = {
   id: 1,
   name: '',
-  dimension: '',
+  dimensionID: 10,
   obligation: '',
   specifications: '',
   guidelines: '',
-  maintenance: '',
-  active: 'Activado'
+  maintenance: ''
 }
 
 function Variables() {
   const dispatch = useDispatch()
-
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.variables)
-
+  const {variables, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.variables)
+  const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: defaultValuesVariables
   })
 
-  const resetAllFormFields = () => {
-    reset(defaultEditingValues)
+  useEffect(() => {
+    dispatch(getVariables())
+  }, [dispatch])
+
+  const handleCloseModal = () => {
+    reset()
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
   }
 
-  React.useEffect(() => {
-    if (isEdit) resetAllFormFields()
-  }, [])
-
-  const isEdit = Boolean(modalItem)
-  const handleAddItem = () => {
-    reset({})
-    dispatch(toggleModal(true))
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
   }
 
   const handleOpenModal = params => {
@@ -116,17 +93,29 @@ function Variables() {
     dispatch(setModalItem(row))
   }
 
-  const handleCloseModal = () => {
-    reset(defaultValuesVariables)
-    const cleanModal = null
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
+  const handleAddItem = () => {
+    reset({})
+    dispatch(toggleModal(true))
   }
 
   const handleDeleteModal = params => {
     const {row, open} = params
     dispatch(toggleDeleteModal(open))
     dispatch(setDeleteItem(row))
+  }
+
+  const handleDeleteConfirm = () => {
+    dispatch(deleteVariable(modalDeleteItem))
+    handleCloseDeleteModal()
+  }
+
+  const onSubmit = values => {
+    if (Boolean(modalItem)) {
+      dispatch(editVariable(values))
+    } else {
+      dispatch(createVariable(values))
+    }
+    handleCloseModal()
   }
 
   const actionableColumns = [
@@ -148,36 +137,36 @@ function Variables() {
     }
   ]
 
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
-  }
-
-  const handleConfirm = params => {}
-
-  const onSubmit = params => {}
-
-  const editTitle = variables_locale.edit // Returns 'Editar dimension seleccionada'
-  const addTitle = variables_locale.add // Returns 'Agregar dimension'
-  const deleteTitle = variables_locale.delete // Returns 'Eliminar dimension'
-
   return (
-    <React.Fragment>
-      <CardTable
-        showAddButton
-        columns={actionableColumns}
-        rows={fakeRows}
-        label='Variables'
-        onAddItem={handleAddItem}
-      />
+    <Fragment>
+      {isLoading ? (
+        <FallbackSpinner />
+      ) : (
+        <CardTable
+          showAddButton
+          columns={actionableColumns}
+          rows={variables}
+          label='Variables'
+          onAddItem={handleAddItem}
+        />
+      )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={isEdit ? editTitle : addTitle}
+        title={Boolean(modalItem) ? CATALOGS_LOCALE.VARIABLES_EDIT_MODAL : CATALOGS_LOCALE.VARIABLES_ADD_MODAL}
         actions={[
-          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseModal, color: 'primary', variant: 'contained'}
+          {
+            label: COMMON_LOCALE.BACK_BUTTON,
+            onClick: handleCloseModal,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.BACK_BUTTON_VARIANT
+          },
+          {
+            label: COMMON_LOCALE.SAVE_BUTTON,
+            onClick: handleSubmit(onSubmit),
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.SAVE_BUTTON_VARIANT
+          }
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -185,10 +174,10 @@ function Variables() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='name'
+                  name={CATALOGS.VARIABLES_FIELD_NAME}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Nombre' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_NAME} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -197,14 +186,14 @@ function Variables() {
               <FormControl fullWidth>
                 <InputLabel id='demo-simple-select-label'>Dimension</InputLabel>
                 <Controller
-                  name='dimensionName'
+                  name={CATALOGS.VARIABLES_FIELD_DIMENSION_ID}
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label='Dimension' /* id dimension list of options */
+                      label={CATALOGS_LOCALE.VARIABLES_FIELD_DIMENSIONS_NAME}
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Prueba</MenuItem>
@@ -217,16 +206,16 @@ function Variables() {
             </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
-                <InputLabel id='demo-simple-select-label'>Obligacion</InputLabel>
+                <InputLabel id='demo-simple-select-label'>{CATALOGS_LOCALE.VARIABLES_FIELD_OBLIGATION}</InputLabel>
                 <Controller
-                  name='obligacion'
+                  name={CATALOGS.VARIABLES_FIELD_OBLIGATION}
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label='Obligation' /*  */
+                      label={CATALOGS_LOCALE.VARIABLES_FIELD_OBLIGATION}
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Obligatorio</MenuItem>
@@ -240,10 +229,14 @@ function Variables() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='specification'
+                  name={CATALOGS.VARIABLES_FIELD_SPECIFICATIONS}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Especificacion' value={value} onChange={onChange} />
+                    <TextField
+                      label={CATALOGS_LOCALE.VARIABLES_FIELD_SPECIFICATIONS}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -251,10 +244,10 @@ function Variables() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='guidelines'
+                  name={CATALOGS.VARIABLES_FIELD_GUIDELINES}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Lineamientos' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_GUIDELINES} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -262,10 +255,10 @@ function Variables() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='maintenance'
+                  name={CATALOGS.VARIABLES_FIELD_MAINTENANCE}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Mantenimiento' value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_MAINTENANCE} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -276,17 +269,28 @@ function Variables() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseModal}
-        title='Eliminar Variable'
+        title={CATALOGS_LOCALE.VARIABLES_DELETE_MODAL}
         actions={[
-          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'contained'}
+          {
+            label: COMMON_LOCALE.BACK_BUTTON,
+            onClick: handleCloseDeleteModal,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.BACK_BUTTON_VARIANT
+          },
+          {
+            label: COMMON_LOCALE.DELETE_BUTTON,
+            onClick: handleDeleteConfirm,
+            color: COMMON.BUTTON_PRIMARY_COLOR,
+            variant: COMMON.DELETE_BUTTON_VARIANT
+          }
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar la variable seleccionada?</Typography>
+          <Typography variant='body2'>{CATALOGS_LOCALE.VARIABLES_CONFIRM_DELETE_MODAL}</Typography>
         </Box>
       </ReusableDialog>
-    </React.Fragment>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
+    </Fragment>
   )
 }
 

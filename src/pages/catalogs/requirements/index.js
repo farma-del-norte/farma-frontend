@@ -15,7 +15,7 @@ import {
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
-import {requirements_locale} from 'src/utils/locales/catalogs/localization'
+import {CATALOGS_LOCALE} from 'src/utils/constants'
 
 const columns = [
   {
@@ -27,7 +27,7 @@ const columns = [
 ]
 
 const defaultValuesRequirements = {
-  requirements: ''
+  name: ''
 }
 
 function Requirements() {
@@ -125,7 +125,7 @@ function Requirements() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? requirements_locale.edit : requirements_locale.add}
+        title={Boolean(modalItem) ? CATALOGS_LOCALE.REQUIREMENTS_EDIT_MODAL : CATALOGS_LOCALE.REQUIREMENTS_ADD_MODAL}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -150,14 +150,14 @@ function Requirements() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={requirements_locale.delete}
+        title={CATALOGS_LOCALE.REQUIREMENTS_DELETE_MODAL}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar el requerimiento seleccionado?</Typography>
+          <Typography variant='body2'>{CATALOGS_LOCALE.REQUIREMENTS_CONFIRM_DELETE_MODAL}</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />

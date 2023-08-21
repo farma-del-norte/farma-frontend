@@ -1,4 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {createMaintenance, editMaintenance, getMaintenances} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -27,7 +28,38 @@ export const maintenanceSlice = createSlice({
       state.modalDeleteItem = payload
     }
   },
-  extraReducers: builder => {}
+  extraReducers: builder => {
+    builder.addCase(getMaintenances.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(getMaintenances.fulfilled, (state, {payload}) => {
+      state.maintenance = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(getMaintenances.rejected, state => {
+      state.isLoading = false
+    })
+    builder.addCase(createMaintenance.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(createMaintenance.fulfilled, (state, {payload}) => {
+      state.maintenance = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(createMaintenance.rejected, state => {
+      state.isLoading = false
+    })
+    builder.addCase(editMaintenance.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(editMaintenance.fulfilled, (state, {payload}) => {
+      state.maintenance = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(editMaintenance.rejected, state => {
+      state.isLoading = false
+    })
+  }
 })
 
 export default maintenanceSlice.reducer

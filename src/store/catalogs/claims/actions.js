@@ -37,7 +37,7 @@ export const editClaim = createAsyncThunk('/claims/editClaim', async (body, thun
   }
 })
 
-export const deleteClaim = createAsyncThunk('/claims/getClaims', async ({id}, thunkApi) => {
+export const deleteClaim = createAsyncThunk('/claims/deleteClaims', async ({id}, thunkApi) => {
   try {
     const payload = await deleteClaimService(id)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro eliminado con exito', severity: 'success'}))

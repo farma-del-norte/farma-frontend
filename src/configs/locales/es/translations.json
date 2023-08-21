@@ -9,5 +9,10 @@
     "maintenance_title": "Mantenimientos",
     "materials_title": "Materiales",
     "users_title": "Usuarios",
-    "branches_title": "Sucursales"
+    "branches_title": "Sucursales",
+    "save_button": "Guardar",
+    "back_button": "Regresar",
+    "delete_button": "Eliminar",
+    "actions": "Acciones",
+    "actions_field": "actions"
 }
