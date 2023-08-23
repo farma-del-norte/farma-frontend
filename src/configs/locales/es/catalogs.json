@@ -80,5 +80,15 @@
     "materials_create_message": "Material creado con éxito",
     "materials_edit_message": "Material actualizado con éxito",
     "materials_delete_message": "Material eliminado con éxito",
-    "materials_delete_confirm_message": "¿Seguro de eliminar el material seleccionado?"
+    "materials_delete_confirm_message": "¿Seguro de eliminar el material seleccionado?",
+
+    "suppliers_title": "Proveedores",
+    "suppliers_edit_modal": "Editar proveedor seleccionado",
+    "suppliers_add_modal": "Agregar proveedor",
+    "suppliers_delete_modal": "Eliminar proveedor",
+    "suppliers_create_message": "Proveedor creado con éxito",
+    "suppliers_edit_message": "Proveedor actualizado con éxito",
+    "suppliers_delete_message": "Proveedor eliminado con éxito",
+    "suppliers_column_name": "Proveedor",
+    "suppliers_delete_confirm_message": "¿Seguro de eliminar al proveedor seleccionado?"
 }

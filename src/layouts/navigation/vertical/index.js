@@ -52,6 +52,10 @@ const navigation = () => {
         {
           title: i18n.t('branches_title'),
           path: '/catalogs/branches'
+        },
+        {
+          title: i18n.t('suppliers_title'),
+          path: '/catalogs/suppliers'
         }
       ]
     }

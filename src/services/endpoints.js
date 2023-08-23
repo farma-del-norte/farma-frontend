@@ -1,6 +1,7 @@
 export const BRANCHES_ENDPOINT = 'https://7hurs3hbne.execute-api.us-east-1.amazonaws.com'
 export const DIMENSIONS_ENDPOINT = 'https://z6tnhkzus3.execute-api.us-east-1.amazonaws.com'
 export const REQUIREMENTS_ENDPOINT = 'https://hyafdleiv8.execute-api.us-east-1.amazonaws.com'
+export const SUPPLIERS_ENDPOINT = 'https://nmgeic15z7.execute-api.us-east-1.amazonaws.com'
 export const CLAIMS_ENDPOINT = 'https://zvmsktgg4j.execute-api.us-east-1.amazonaws.com'
 export const ZONES_ENDPOINT = 'https://jwx69t04ea.execute-api.us-east-1.amazonaws.com'
 export const MATERIALS_ENDPOINT = 'https://xkyuuszhp2.execute-api.us-east-1.amazonaws.com'
