@@ -20,6 +20,17 @@ export const CATALOGS_LOCALE = {
   DIMENSIONS_CREATE_MESSAGE: t('dimensions_create_message', {ns: 'catalogs'}),
   DIMENSIONS_DELETE_MESSAGE: t('dimensions_delete_message', {ns: 'catalogs'}),
 
+  // MARK: - SUPPLIERS
+  SUPPLIERS_TITLE: t('suppliers_title', {ns: 'catalogs'}),
+  SUPPLIERS_FIELD_NAME: t('suppliers_column_name', {ns: 'catalogs'}),
+  SUPPLIERS_EDIT_MODAL: t('suppliers_edit_modal', {ns: 'catalogs'}),
+  SUPPLIERS_ADD_MODAL: t('suppliers_add_modal', {ns: 'catalogs'}),
+  SUPPLIERS_DELETE_MODAL: t('suppliers_delete_modal', {ns: 'catalogs'}),
+  SUPPLIERS_CONFIRM_DELETE_MODAL: t('suppliers_delete_confirm_message', {ns: 'catalogs'}),
+  SUPPLIERS_EDIT_MESSAGE: t('suppliers_edit_message', {ns: 'catalogs'}),
+  SUPPLIERS_CREATE_MESSAGE: t('suppliers_create_message', {ns: 'catalogs'}),
+  SUPPLIERS_DELETE_MESSAGE: t('suppliers_delete_message', {ns: 'catalogs'}),
+
   // MARK: - CONCEPTS
   CONCEPTS_TITLE: t('concepts_title', {ns: 'catalogs'}),
   CONCEPTS_FIELD_NAME: t('concepts_field_name', {ns: 'catalogs'}),

@@ -10,6 +10,7 @@ import materials from 'src/store/catalogs/materials/reducer'
 import requirements from 'src/store/catalogs/requirements/reducer'
 import claims from 'src/store/catalogs/claims/reducer'
 import zones from 'src/store/catalogs/zones/reducer'
+import suppliers from 'src/store/catalogs/suppliers/reducer'
 import branches from './catalogs/branches'
 import notifications from './notifications'
 
@@ -24,7 +25,8 @@ export const store = configureStore({
     requirements,
     claims,
     zones,
-    branches
+    branches,
+    suppliers
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
