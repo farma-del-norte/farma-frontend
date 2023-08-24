@@ -13,6 +13,7 @@ import zones from 'src/store/catalogs/zones/reducer'
 import suppliers from 'src/store/catalogs/suppliers/reducer'
 import branches from './catalogs/branches'
 import notifications from './notifications'
+import users from 'src/store/catalogs/users/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -26,7 +27,8 @@ export const store = configureStore({
     claims,
     zones,
     branches,
-    suppliers
+    suppliers,
+    users
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -8,3 +8,4 @@ export const MATERIALS_ENDPOINT = 'https://xkyuuszhp2.execute-api.us-east-1.amaz
 export const CONCEPTS_ENDPOINT = 'https://sf5gicb72b.execute-api.us-east-1.amazonaws.com'
 export const MAINTENANCE_ENDPOINT = 'https://2dxked0c17.execute-api.us-east-1.amazonaws.com'
 export const VARIABLES_ENDPOINT = 'https://55nwxdqg4k.execute-api.us-east-1.amazonaws.com'
+export const USERS_ENDPOINT = 'https://54parye8u3.execute-api.us-east-1.amazonaws.com'
