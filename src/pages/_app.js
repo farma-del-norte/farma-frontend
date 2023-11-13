@@ -22,7 +22,6 @@ import {Toaster} from 'react-hot-toast'
 
 // ** Component Imports
 import UserLayout from 'src/layouts/UserLayout'
-import AclGuard from 'src/@core/components/auth/AclGuard'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
 import AuthGuard from 'src/@core/components/auth/AuthGuard'
 import GuestGuard from 'src/@core/components/auth/GuestGuard'
@@ -87,7 +86,6 @@ const App = props => {
   const setConfig = Component.setConfig ?? undefined
   const authGuard = Component.authGuard ?? true
   const guestGuard = Component.guestGuard ?? false
-  const aclAbilities = Component.acl ?? defaultACLObj
 
   return (
     <Provider store={store}>

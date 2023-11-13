@@ -9,7 +9,7 @@ import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/s
 import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
 import {createConceptCat, deleteConceptCat, editConceptCat, getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {getVariablesCat} from 'src/store/catalogs/variables-cat/actions'
+import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 const columns = [

@@ -3,16 +3,16 @@ import {configureStore} from '@reduxjs/toolkit'
 
 //farma reducers
 import branches from './catalogs/branches'
-import conceptsCat from 'src/store/catalogs/concept/reducer'
+import conceptsCat from 'src/store/catalogs/concepts/reducer'
 import damagesCat from 'src/store/catalogs/damages/reducer'
 import dimensionsCat from 'src/store/catalogs/dimensions/reducer'
-import materialsCat from 'src/store/catalogs/materials-cat/reducer'
+import materialsCat from 'src/store/catalogs/materials/reducer'
 import notifications from './notifications'
 import requirementsCat from 'src/store/catalogs/requirements/reducer'
-import serviceCat from 'src/store/catalogs/service/reducer'
+import serviceCat from 'src/store/catalogs/services/reducer'
 import suppliers from 'src/store/catalogs/suppliers/reducer'
 import users from 'src/store/catalogs/users/reducer'
-import variablesCat from 'src/store/catalogs/variables-cat/reducer'
+import variablesCat from 'src/store/catalogs/variables/reducer'
 import zones from 'src/store/catalogs/zones/reducer'
 
 export const store = configureStore({

@@ -12,6 +12,10 @@ const withTM = require('next-transpile-modules')([
 ])
 
 module.exports = withTM({
+  // pageDataCollectionTimeout: 90000,
+  // onDemandEntries: {
+  //   pagesBufferLength: 0,
+  // },
   trailingSlash: true,
   reactStrictMode: false,
   experimental: {

@@ -4,7 +4,7 @@ import {
   deleteServiceCatService,
   editServiceCatService,
   getServiceCatService
-} from 'src/services/catalogs/service'
+} from 'src/services/catalogs/services'
 import {openSnackBar} from 'src/store/notifications'
 import {CATALOGS_LOCALE} from 'src/utils/constants'
 
