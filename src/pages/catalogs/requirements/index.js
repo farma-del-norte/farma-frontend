@@ -6,12 +6,7 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/requirements/reducer'
-import {
-  createRequirement,
-  deleteRequirement,
-  editRequirement,
-  getRequirements
-} from 'src/store/catalogs/requirements/actions'
+import {createRequirementCat, deleteRequirementCat, editRequirementCat, getRequirementsCat} from 'src/store/catalogs/requirements/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
@@ -26,14 +21,14 @@ const columns = [
   }
 ]
 
-const defaultValuesRequirements = {
+const defaultValuesRequirementCats = {
   name: ''
 }
 
-function Requirements() {
+function RequirementsCat() {
   const dispatch = useDispatch()
-  const {isOpen, modalItem, isDeleteOpen, isLoading, requirements, modalDeleteItem} = useSelector(
-    state => state.requirements
+  const {isOpen, modalItem, isDeleteOpen, isLoading, requirementsCat, modalDeleteItem} = useSelector(
+    state => state.requirementsCat
   )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
@@ -41,7 +36,7 @@ function Requirements() {
   })
 
   useEffect(() => {
-    dispatch(getRequirements())
+    dispatch(getRequirementsCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -77,15 +72,15 @@ function Requirements() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteRequirement(modalDeleteItem))
+    dispatch(deleteRequirementCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editRequirement(values))
+      dispatch(editRequirementCat(values))
     } else {
-      dispatch(createRequirement(values))
+      dispatch(createRequirementCat(values))
     }
     handleCloseModal()
   }
@@ -117,7 +112,7 @@ function Requirements() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={requirements}
+          rows={requirementsCat}
           label='Requerimientos'
           onAddItem={handleAddItem}
         />
@@ -165,4 +160,4 @@ function Requirements() {
   )
 }
 
-export default Requirements
+export default RequirementsCat

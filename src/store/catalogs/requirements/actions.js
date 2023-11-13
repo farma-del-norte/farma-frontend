@@ -1,11 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
-import * as RequirementsAPI from 'src/services/catalogs/requirements'
+import * as RequirementCatsAPI from 'src/services/catalogs/requirements'
 import {openSnackBar} from 'src/store/notifications'
 import {CATALOGS_LOCALE} from 'src/utils/constants'
 
-export const getRequirements = createAsyncThunk('/requirements/getRequirements', async thunkApi => {
+export const getRequirementsCat = createAsyncThunk('/requirements-cat/getRequirementsCat', async thunkApi => {
   try {
-    const payload = await RequirementsAPI.getRequirementsService()
+    const payload = await RequirementCatsAPI.getRequirementCatsService()
     console.log(payload)
     return payload
   } catch (error) {
@@ -15,12 +15,10 @@ export const getRequirements = createAsyncThunk('/requirements/getRequirements',
   }
 })
 
-export const createRequirement = createAsyncThunk('/requirements/createRequirement', async (body, thunkApi) => {
+export const createRequirementCat = createAsyncThunk('/requirements-cat/createRequirementCat', async (body, thunkApi) => {
   try {
-    const payload = await RequirementsAPI.createRequirementService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.REQUIREMENTS_CREATE_MESSAGE, severity: 'success'})
-    )
+    const payload = await RequirementCatsAPI.createRequirementCatService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.REQUIREMENTS_CREATE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -29,12 +27,10 @@ export const createRequirement = createAsyncThunk('/requirements/createRequireme
   }
 })
 
-export const editRequirement = createAsyncThunk('/requirements/editRequirement', async (body, thunkApi) => {
+export const editRequirementCat = createAsyncThunk('/requirements-cat/editRequirementCat', async (body, thunkApi) => {
   try {
-    const payload = await RequirementsAPI.editRequirementService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.REQUIREMENTS_EDIT_MESSAGE, severity: 'success'})
-    )
+    const payload = await RequirementCatsAPI.editRequirementCatService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.REQUIREMENTS_EDIT_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -43,12 +39,10 @@ export const editRequirement = createAsyncThunk('/requirements/editRequirement',
   }
 })
 
-export const deleteRequirement = createAsyncThunk('/requirements/deleteRequirements', async ({id}, thunkApi) => {
+export const deleteRequirementCat = createAsyncThunk('/requirements-cat/deleteRequirementCats', async ({id}, thunkApi) => {
   try {
-    const payload = await RequirementsAPI.deleteRequirementService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.REQUIREMENTS_DELETE_MESSAGE, severity: 'success'})
-    )
+    const payload = await RequirementCatsAPI.deleteRequirementCatService(id)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.REQUIREMENTS_DELETE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message

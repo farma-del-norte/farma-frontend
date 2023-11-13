@@ -7,9 +7,9 @@ import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts/reducer'
 import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
-import {createConcept, deleteConcept, editConcept, getConcepts} from 'src/store/catalogs/concepts/actions'
+import {createConceptCat, deleteConceptCat, editConceptCat, getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {getVariables} from 'src/store/catalogs/variables/actions'
+import {getVariablesCat} from 'src/store/catalogs/variables-cat/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 const columns = [
@@ -45,19 +45,19 @@ const columns = [
   }
 ]
 
-function Concepts() {
+function ConceptCats() {
   const dispatch = useDispatch()
-  const {concepts, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.concepts)
-  const {variables} = useSelector(state => state.variables)
+  const {conceptsCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.conceptsCat)
+  const {variables} = useSelector(state => state.variablesCat)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
   useEffect(() => {
-    dispatch(getConcepts())
+    dispatch(getConceptsCat())
     if (variables.length == 0) {
-      dispatch(getVariables())
+      dispatch(getVariablesCat())
     }
   }, [dispatch, variables])
 
@@ -93,15 +93,15 @@ function Concepts() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteConcept(modalDeleteItem))
+    dispatch(deleteConceptCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editConcept(values))
+      dispatch(editConceptCat(values))
     } else {
-      dispatch(createConcept(values))
+      dispatch(createConceptCat(values))
     }
     handleCloseModal()
   }
@@ -136,7 +136,7 @@ function Concepts() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={concepts}
+          rows={conceptsCat}
           label={CATALOGS_LOCALE.CONCEPTS_FIELD_NAME}
           onAddItem={handleAddItem}
         />
@@ -273,4 +273,4 @@ function Concepts() {
   )
 }
 
-export default Concepts
+export default ConceptCats

@@ -1,16 +1,16 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
 import {
-  createMaintenanceService,
-  deleteMaintenanceService,
-  editMaintenanceService,
-  getMaintenanceService
-} from 'src/services/catalogs/maintenance'
+  createServiceCatService,
+  deleteServiceCatService,
+  editServiceCatService,
+  getServiceCatService
+} from 'src/services/catalogs/service'
 import {openSnackBar} from 'src/store/notifications'
 import {CATALOGS_LOCALE} from 'src/utils/constants'
 
-export const getMaintenances = createAsyncThunk('/maintenance/getMaintenance', async thunkApi => {
+export const getServicesCat = createAsyncThunk('/services-cat/getServicesCat', async thunkApi => {
   try {
-    const payload = await getMaintenanceService()
+    const payload = await getServiceCatService()
     return payload
   } catch (error) {
     const errMessage = error
@@ -19,11 +19,11 @@ export const getMaintenances = createAsyncThunk('/maintenance/getMaintenance', a
   }
 })
 
-export const createMaintenance = createAsyncThunk('/maintenance/createMaintenance', async (body, thunkApi) => {
+export const createServiceCat = createAsyncThunk('/services-cat/createServiceCat', async (body, thunkApi) => {
   try {
-    const payload = await createMaintenanceService(body)
+    const payload = await createServiceCatService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MAINTENANCE_CREATE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: CATALOGS_LOCALE.SERVICE_CREATE_MESSAGE, severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -33,11 +33,11 @@ export const createMaintenance = createAsyncThunk('/maintenance/createMaintenanc
   }
 })
 
-export const editMaintenance = createAsyncThunk('/maintenance/editMaintenance', async (body, thunkApi) => {
+export const editServiceCat = createAsyncThunk('/services-cat/editServiceCat', async (body, thunkApi) => {
   try {
-    const payload = await editMaintenanceService(body)
+    const payload = await editServiceCatService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MAINTENANCE_EDIT_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: CATALOGS_LOCALE.SERVICE_EDIT_MESSAGE, severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -47,11 +47,11 @@ export const editMaintenance = createAsyncThunk('/maintenance/editMaintenance', 
   }
 })
 
-export const deleteMaintenance = createAsyncThunk('/maintenance/deleteMaintenances', async ({id}, thunkApi) => {
+export const deleteServiceCat = createAsyncThunk('/services-cat/deleteServiceCat', async ({id}, thunkApi) => {
   try {
-    const payload = await deleteMaintenanceService(id)
+    const payload = await deleteServiceCatService(id)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MAINTENANCE_DELETE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: CATALOGS_LOCALE.SERVICE_DELETE_MESSAGE, severity: 'success'})
     )
     return payload
   } catch (error) {

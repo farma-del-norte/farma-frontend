@@ -3,9 +3,9 @@ import * as MaterialsAPI from 'src/services/catalogs/materials'
 import {openSnackBar} from 'src/store/notifications'
 import {CATALOGS_LOCALE} from 'src/utils/constants'
 
-export const getMaterials = createAsyncThunk('/materials/getMaterials', async thunkApi => {
+export const getMaterialsCat = createAsyncThunk('/materials-cat/getMaterialsCat', async thunkApi => {
   try {
-    const payload = await MaterialsAPI.getMaterialsService()
+    const payload = await MaterialsAPI.getMaterialsCatService()
     return payload
   } catch (error) {
     const errMessage = error
@@ -14,9 +14,9 @@ export const getMaterials = createAsyncThunk('/materials/getMaterials', async th
   }
 })
 
-export const createMaterial = createAsyncThunk('/materials/createMaterial', async (body, thunkApi) => {
+export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterialCat', async (body, thunkApi) => {
   try {
-    const payload = await MaterialsAPI.createMaterialService(body)
+    const payload = await MaterialsAPI.createMaterialCatService(body)
     thunkApi.dispatch(
       openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_CREATE_MESSAGE, severity: 'success'})
     )
@@ -28,9 +28,9 @@ export const createMaterial = createAsyncThunk('/materials/createMaterial', asyn
   }
 })
 
-export const editMaterial = createAsyncThunk('/materials/editMaterial', async (body, thunkApi) => {
+export const editMaterialCat = createAsyncThunk('/materials-cat/editMaterialCat', async (body, thunkApi) => {
   try {
-    const payload = await MaterialsAPI.editMaterialService(body)
+    const payload = await MaterialsAPI.editMaterialCatService(body)
     thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_EDIT_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
@@ -40,9 +40,9 @@ export const editMaterial = createAsyncThunk('/materials/editMaterial', async (b
   }
 })
 
-export const deleteMaterial = createAsyncThunk('/materials/deleteMaterials', async ({id}, thunkApi) => {
+export const deleteMaterialCat = createAsyncThunk('/materials-cat/deleteMaterialCat', async ({id}, thunkApi) => {
   try {
-    const payload = await MaterialsAPI.deleteMaterialService(id)
+    const payload = await MaterialsAPI.deleteMaterialCatService(id)
     thunkApi.dispatch(
       openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_DELETE_MESSAGE, severity: 'success'})
     )

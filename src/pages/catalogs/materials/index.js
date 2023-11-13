@@ -9,7 +9,7 @@ import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/s
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {createMaterial, editMaterial, getMaterials} from 'src/store/catalogs/materials/actions'
+import {createMaterialCat, editMaterialCat, getMaterialsCat} from 'src/store/catalogs/materials/actions'
 
 const columns = [
   {
@@ -106,17 +106,17 @@ const defaultValuesMaterials = {
   active: ''
 }
 
-function Materials() {
+function MaterialsCat() {
   const dispatch = useDispatch()
 
-  const {materials, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.materials)
+  const {materials, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.materialsCat)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
   useEffect(() => {
-    dispatch(getMaterials())
+    dispatch(getMaterialsCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -152,15 +152,15 @@ function Materials() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteRequirement(modalDeleteItem))
+    dispatch(deleteRequirementCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editMaterial(values))
+      dispatch(editMaterialCat(values))
     } else {
-      dispatch(createMaterial(values))
+      dispatch(createMaterialCat(values))
     }
     handleCloseModal()
   }
@@ -304,4 +304,4 @@ function Materials() {
   )
 }
 
-export default Materials
+export default MaterialsCat

@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {MAINTENANCE_ENDPOINT} from '../endpoints'
+import {SERVICES_CAT_ENDPOINT} from '../endpoints'
 
-export const getMaintenanceService = async () => {
-  const url = `${MAINTENANCE_ENDPOINT}/maintenances`
+export const getServiceCatService = async () => {
+  const url = `${SERVICES_CAT_ENDPOINT}/services-cat`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getMaintenanceService = async () => {
   }
 }
 
-export const createMaintenanceService = async body => {
-  const url = `${MAINTENANCE_ENDPOINT}/maintenances`
+export const createServiceCatService = async body => {
+  const url = `${SERVICES_CAT_ENDPOINT}/services-cat`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createMaintenanceService = async body => {
   }
 }
 
-export const editMaintenanceService = async body => {
-  const url = `${MAINTENANCE_ENDPOINT}/maintenances/${body.id}`
+export const editServiceCatService = async body => {
+  const url = `${SERVICES_CAT_ENDPOINT}/services-cat/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,8 +31,8 @@ export const editMaintenanceService = async body => {
   }
 }
 
-export const deleteMaintenanceService = async id => {
-  const url = `${MAINTENANCE_ENDPOINT}/maintenances/${id}`
+export const deleteServiceCatService = async id => {
+  const url = `${SERVICES_CAT_ENDPOINT}/services-cat/${id}`
   try {
     const result = await api_delete(url)
     return result

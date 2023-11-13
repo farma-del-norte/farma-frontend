@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createRequirement, editRequirement, getRequirements} from './actions'
+import {createRequirementCat, editRequirementCat, getRequirementsCat} from './actions'
 
 const initialState = {
   isLoading: false,
-  requirements: [],
+  requirementsCat: [],
   isOpen: false,
   isDeleteOpen: false,
   modalItem: null,
   modalDeleteItem: null
 }
 
-export const requirementsSlice = createSlice({
-  name: 'requirements',
+export const requirementCatsSlice = createSlice({
+  name: 'requirementsCat',
   initialState,
   reducers: {
     /* edit modal */
@@ -29,39 +29,39 @@ export const requirementsSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(getRequirements.pending, state => {
+    builder.addCase(getRequirementsCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(getRequirements.fulfilled, (state, {payload}) => {
-      state.requirements = payload.content
+    builder.addCase(getRequirementsCat.fulfilled, (state, {payload}) => {
+      state.requirementsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(getRequirements.rejected, state => {
+    builder.addCase(getRequirementsCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(createRequirement.pending, state => {
+    builder.addCase(createRequirementCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(createRequirement.fulfilled, (state, {payload}) => {
-      state.requirements = payload.content
+    builder.addCase(createRequirementCat.fulfilled, (state, {payload}) => {
+      state.requirementsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(createRequirement.rejected, state => {
+    builder.addCase(createRequirementCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(editRequirement.pending, state => {
+    builder.addCase(editRequirementCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(editRequirement.fulfilled, (state, {payload}) => {
-      state.requirements = payload.content
+    builder.addCase(editRequirementCat.fulfilled, (state, {payload}) => {
+      state.requirementsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(editRequirement.rejected, state => {
+    builder.addCase(editRequirementCat.rejected, state => {
       state.isLoading = false
     })
   }
 })
 
-export default requirementsSlice.reducer
+export default requirementCatsSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = requirementsSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = requirementCatsSlice.actions

@@ -1,17 +1,17 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import {createVariable, editVariable, getVariables} from './actions'
+import {createVariableCat, editVariableCat, getVariablesCat} from './actions'
 
 const initialState = {
   isLoading: false,
-  variables: [],
+  variablesCat: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null
 }
 
-export const variablesSlice = createSlice({
-  name: 'variables',
+export const variablesCatSlice = createSlice({
+  name: 'variablesCat',
   initialState,
   reducers: {
     /* edit modal */
@@ -29,39 +29,39 @@ export const variablesSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(getVariables.pending, state => {
+    builder.addCase(getVariablesCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(getVariables.fulfilled, (state, {payload}) => {
-      state.variables = payload.content
+    builder.addCase(getVariablesCat.fulfilled, (state, {payload}) => {
+      state.variablesCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(getVariables.rejected, state => {
+    builder.addCase(getVariablesCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(createVariable.pending, state => {
+    builder.addCase(createVariableCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(createVariable.fulfilled, (state, {payload}) => {
-      state.variables = payload.content
+    builder.addCase(createVariableCat.fulfilled, (state, {payload}) => {
+      state.variablesCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(createVariable.rejected, state => {
+    builder.addCase(createVariableCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(editVariable.pending, state => {
+    builder.addCase(editVariableCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(editVariable.fulfilled, (state, {payload}) => {
-      state.variables = payload.content
+    builder.addCase(editVariableCat.fulfilled, (state, {payload}) => {
+      state.variablesCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(editVariable.rejected, state => {
+    builder.addCase(editVariableCat.rejected, state => {
       state.isLoading = false
     })
   }
 })
 
-export default variablesSlice.reducer
+export default variablesCatSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = variablesSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = variablesCatSlice.actions

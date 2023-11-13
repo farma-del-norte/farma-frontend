@@ -1,18 +1,16 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
 import {
-  createDimensionService,
-  deleteDimensionService,
-  editDimensionService,
-  getDimensionsService
+  createDimensionCatService,
+  deleteDimensionCatService,
+  editDimensionCatService,
+  getDimensionsCatService
 } from 'src/services/catalogs/dimensions'
 import {openSnackBar} from 'src/store/notifications'
-import i18n from 'src/configs/i18n'
+import {CATALOGS_LOCALE} from 'src/utils/constants'
 
-const localeNameSpace = {ns: 'catalogs'}
-
-export const getDimensions = createAsyncThunk('/dimensions/getDimensions', async thunkApi => {
+export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsCat', async thunkApi => {
   try {
-    const payload = await getDimensionsService()
+    const payload = await getDimensionsCatService()
     return payload
   } catch (error) {
     const errMessage = error
@@ -21,12 +19,10 @@ export const getDimensions = createAsyncThunk('/dimensions/getDimensions', async
   }
 })
 
-export const createDimension = createAsyncThunk('/dimensions/createDimension', async (body, thunkApi) => {
+export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimensionCat', async (body, thunkApi) => {
   try {
-    const payload = await createDimensionService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: i18n.t('dimensions_create_message', localeNameSpace), severity: 'success'})
-    )
+    const payload = await createDimensionCatService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_CREATE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -35,12 +31,10 @@ export const createDimension = createAsyncThunk('/dimensions/createDimension', a
   }
 })
 
-export const editDimension = createAsyncThunk('/dimensions/editDimension', async (body, thunkApi) => {
+export const editDimensionCat = createAsyncThunk('/dimensions-cat/editDimensionCat', async (body, thunkApi) => {
   try {
-    const payload = await editDimensionService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: i18n.t('dimensions_edit_message', localeNameSpace), severity: 'success'})
-    )
+    const payload = await editDimensionCatService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_EDIT_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -49,16 +43,14 @@ export const editDimension = createAsyncThunk('/dimensions/editDimension', async
   }
 })
 
-export const deleteDimension = createAsyncThunk('/dimensions/deleteDimensions', async ({id}, thunkApi) => {
+export const deleteDimensionCat = createAsyncThunk('/dimensions-cat/deleteDimensionCat', async ({id}, thunkApi) => {
   try {
-    const payload = await deleteDimensionService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: i18n.t('dimensions_delete_message', localeNameSpace), severity: 'success'})
-    )
+    const payload = await deleteDimensionCatService(id)
+    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_DELETE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: 'errMessage', severity: 'error'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })

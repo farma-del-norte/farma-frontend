@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {MATERIALS_ENDPOINT} from '../endpoints'
+import {MATERIALS_CAT_ENDPOINT} from '../endpoints'
 
-export const getMaterialsService = async () => {
-  const url = `${MATERIALS_ENDPOINT}/materials`
+export const getMaterialsCatService = async () => {
+  const url = `${MATERIALS_CAT_ENDPOINT}/materials-cat`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getMaterialsService = async () => {
   }
 }
 
-export const createMaterialService = async body => {
-  const url = `${MATERIALS_ENDPOINT}/materials`
+export const createMaterialCatService = async body => {
+  const url = `${MATERIALS_CAT_ENDPOINT}/materials-cat`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createMaterialService = async body => {
   }
 }
 
-export const editMaterialService = async body => {
-  const url = `${MATERIALS_ENDPOINT}/materials/${body.id}`
+export const editMaterialCatService = async body => {
+  const url = `${MATERIALS_CAT_ENDPOINT}/materials-cat/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,8 +31,8 @@ export const editMaterialService = async body => {
   }
 }
 
-export const deleteMaterialService = async id => {
-  const url = `${MATERIALS_ENDPOINT}/materials/${id}`
+export const deleteMaterialCatService = async id => {
+  const url = `${MATERIALS_CAT_ENDPOINT}/materials-cat/${id}`
   try {
     const result = await api_delete(url)
     return result

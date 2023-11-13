@@ -5,12 +5,11 @@ import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/claims/reducer'
-import {createClaim, deleteClaim, editClaim, getClaims} from 'src/store/catalogs/claims/actions'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/damages/reducer'
+import {createDamageCat, deleteDamageCat, editDamageCat, getDamagesCat} from 'src/store/catalogs/damages/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {CATALOGS} from 'src/utils/constants'
 
 const columns = [
   {
@@ -21,22 +20,22 @@ const columns = [
   }
 ]
 
-const defaultValuesClaims = {
+const defaultValuesDamages = {
   id: '',
   name: ''
 }
 
-function Claims() {
+function DamagesCat() {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen, claims, isLoading, modalDeleteItem} = useSelector(state => state.claims)
+  const {isOpen, modalItem, isDeleteOpen, damagesCat, isLoading, modalDeleteItem} = useSelector(state => state.damagesCat)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
   useEffect(() => {
-    dispatch(getClaims())
+    dispatch(getDamagesCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -72,15 +71,15 @@ function Claims() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteClaim(modalDeleteItem))
+    dispatch(deleteDamageCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editClaim(values))
+      dispatch(editDamageCat(values))
     } else {
-      dispatch(createClaim(values))
+      dispatch(createDamageCat(values))
     }
     handleCloseModal()
   }
@@ -112,7 +111,7 @@ function Claims() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={claims}
+          rows={damagesCat}
           label='Siniestros'
           onAddItem={handleAddItem}
         />
@@ -160,4 +159,4 @@ function Claims() {
   )
 }
 
-export default Claims
+export default DamagesCat

@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {REQUIREMENTS_ENDPOINT} from '../endpoints'
+import {REQUIREMENTS_CAT_ENDPOINT} from '../endpoints'
 
-export const getRequirementsService = async () => {
-  const url = `${REQUIREMENTS_ENDPOINT}/requirements`
+export const getRequirementCatsService = async () => {
+  const url = `${REQUIREMENTS_CAT_ENDPOINT}/requirements-cat`
   try {
     const result = await api_get(url)
     console.log(result)
@@ -12,8 +12,8 @@ export const getRequirementsService = async () => {
   }
 }
 
-export const createRequirementService = async body => {
-  const url = `${REQUIREMENTS_ENDPOINT}/requirements`
+export const createRequirementCatService = async body => {
+  const url = `${REQUIREMENTS_CAT_ENDPOINT}/requirements-cat`
   try {
     const result = await api_post(url, body)
     return result
@@ -22,8 +22,8 @@ export const createRequirementService = async body => {
   }
 }
 
-export const editRequirementService = async body => {
-  const url = `${REQUIREMENTS_ENDPOINT}/requirements/${body.id}`
+export const editRequirementCatService = async body => {
+  const url = `${REQUIREMENTS_CAT_ENDPOINT}/requirements-cat/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -32,8 +32,8 @@ export const editRequirementService = async body => {
   }
 }
 
-export const deleteRequirementService = async id => {
-  const url = `${REQUIREMENTS_ENDPOINT}/requirements/${id}`
+export const deleteRequirementCatService = async id => {
+  const url = `${REQUIREMENTS_CAT_ENDPOINT}/requirements-cat/${id}`
   try {
     const result = await api_delete(url)
     return result

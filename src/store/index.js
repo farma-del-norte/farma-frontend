@@ -2,33 +2,33 @@
 import {configureStore} from '@reduxjs/toolkit'
 
 //farma reducers
-import dimensions from 'src/store/catalogs/dimensions/reducer'
-import variables from 'src/store/catalogs/variables/reducer'
-import concepts from 'src/store/catalogs/concepts/reducer'
-import maintenance from 'src/store/catalogs/maintenance/reducer'
-import materials from 'src/store/catalogs/materials/reducer'
-import requirements from 'src/store/catalogs/requirements/reducer'
-import claims from 'src/store/catalogs/claims/reducer'
-import zones from 'src/store/catalogs/zones/reducer'
-import suppliers from 'src/store/catalogs/suppliers/reducer'
 import branches from './catalogs/branches'
+import conceptsCat from 'src/store/catalogs/concept/reducer'
+import damagesCat from 'src/store/catalogs/damages/reducer'
+import dimensionsCat from 'src/store/catalogs/dimensions/reducer'
+import materialsCat from 'src/store/catalogs/materials-cat/reducer'
 import notifications from './notifications'
+import requirementsCat from 'src/store/catalogs/requirements/reducer'
+import serviceCat from 'src/store/catalogs/service/reducer'
+import suppliers from 'src/store/catalogs/suppliers/reducer'
 import users from 'src/store/catalogs/users/reducer'
+import variablesCat from 'src/store/catalogs/variables-cat/reducer'
+import zones from 'src/store/catalogs/zones/reducer'
 
 export const store = configureStore({
   reducer: {
-    notifications,
-    dimensions,
-    variables,
-    concepts,
-    maintenance,
-    materials,
-    requirements,
-    claims,
-    zones,
     branches,
+    conceptsCat,
+    damagesCat,
+    dimensionsCat,
+    materialsCat,
+    notifications,
+    requirementsCat,
+    serviceCat,
     suppliers,
-    users
+    users,
+    variablesCat,
+    zones,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

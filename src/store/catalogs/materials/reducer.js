@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createMaterial, editMaterial, getMaterials} from './actions'
+import {createMaterialCat, editMaterialCat, getMaterialsCat} from './actions'
 
 const initialState = {
   isLoading: false,
-  materials: [],
+  materialsCat: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null
 }
 
-export const materialsSlice = createSlice({
-  name: 'materials',
+export const materialsCatSlice = createSlice({
+  name: 'materialsCat',
   initialState,
   reducers: {
     /* edit modal */
@@ -29,39 +29,39 @@ export const materialsSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(getMaterials.pending, state => {
+    builder.addCase(getMaterialsCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(getMaterials.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+    builder.addCase(getMaterialsCat.fulfilled, (state, {payload}) => {
+      state.materialsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(getMaterials.rejected, state => {
+    builder.addCase(getMaterialsCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(createMaterial.pending, state => {
+    builder.addCase(createMaterialCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(createMaterial.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+    builder.addCase(createMaterialCat.fulfilled, (state, {payload}) => {
+      state.materialsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(createMaterial.rejected, state => {
+    builder.addCase(createMaterialCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(editMaterial.pending, state => {
+    builder.addCase(editMaterialCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(editMaterial.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+    builder.addCase(editMaterialCat.fulfilled, (state, {payload}) => {
+      state.materialsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(editMaterial.rejected, state => {
+    builder.addCase(editMaterialCat.rejected, state => {
       state.isLoading = false
     })
   }
 })
 
-export default materialsSlice.reducer
+export default materialsCatSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = materialsSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = materialsCatSlice.actions

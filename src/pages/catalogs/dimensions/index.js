@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/dimensions/reducer'
-import {getDimensions, editDimension, createDimension, deleteDimension} from 'src/store/catalogs/dimensions/actions'
+import {getDimensionsCat, editDimensionCat, createDimensionCat, deleteDimensionCat} from 'src/store/catalogs/dimensions/actions'
 import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
 import {Fragment} from 'react'
@@ -13,10 +13,10 @@ import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
 
-function Dimensions() {
+function DimensionsCat() {
   const dispatch = useDispatch()
-  const {isOpen, modalItem, isDeleteOpen, isLoading, dimensions, modalDeleteItem} = useSelector(
-    state => state.dimensions
+  const {isOpen, modalItem, isDeleteOpen, isLoading, dimensionsCat, modalDeleteItem} = useSelector(
+    state => state.dimensionsCat
   )
   const {open, message, severity} = useSelector(state => state.notifications)
 
@@ -25,7 +25,7 @@ function Dimensions() {
   })
 
   useEffect(() => {
-    dispatch(getDimensions())
+    dispatch(getDimensionsCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -60,15 +60,15 @@ function Dimensions() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteDimension(modalDeleteItem))
+    dispatch(deleteDimensionCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editDimension(values))
+      dispatch(editDimensionCat(values))
     } else {
-      dispatch(createDimension(values))
+      dispatch(createDimensionCat(values))
     }
     handleCloseModal()
   }
@@ -119,7 +119,7 @@ function Dimensions() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={dimensions}
+          rows={dimensionsCat}
           label={CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME}
           onAddItem={handleAddItem}
           pageSize={CATALOGS.TABLE_PAGE_SIZE}
@@ -182,4 +182,4 @@ function Dimensions() {
   )
 }
 
-export default Dimensions
+export default DimensionsCat

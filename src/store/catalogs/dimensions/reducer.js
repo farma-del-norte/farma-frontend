@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createDimension, editDimension, getDimensions} from './actions'
+import {createDimensionCat, editDimensionCat, getDimensionsCat} from './actions'
 
 const initialState = {
   isLoading: false,
-  dimensions: [],
-  editDimension: {},
+  dimensionsCat: [],
+  editDimensionCat: {},
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
@@ -14,7 +14,7 @@ const initialState = {
 
 // MARK: - Reducer
 export const dimensionsSlice = createSlice({
-  name: 'dimensions',
+  name: 'dimensionsCat',
   initialState,
   reducers: {
     toggleModal: (state, {payload}) => {
@@ -31,34 +31,34 @@ export const dimensionsSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(getDimensions.pending, state => {
+    builder.addCase(getDimensionsCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(getDimensions.fulfilled, (state, {payload}) => {
-      state.dimensions = payload.content
+    builder.addCase(getDimensionsCat.fulfilled, (state, {payload}) => {
+      state.dimensionsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(getDimensions.rejected, state => {
+    builder.addCase(getDimensionsCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(createDimension.pending, state => {
+    builder.addCase(createDimensionCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(createDimension.fulfilled, (state, {payload}) => {
-      state.dimensions = payload.content
+    builder.addCase(createDimensionCat.fulfilled, (state, {payload}) => {
+      state.dimensionsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(createDimension.rejected, state => {
+    builder.addCase(createDimensionCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(editDimension.pending, state => {
+    builder.addCase(editDimensionCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(editDimension.fulfilled, (state, {payload}) => {
-      state.dimensions = payload.content
+    builder.addCase(editDimensionCat.fulfilled, (state, {payload}) => {
+      state.dimensionsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(editDimension.rejected, state => {
+    builder.addCase(editDimensionCat.rejected, state => {
       state.isLoading = false
     })
   }

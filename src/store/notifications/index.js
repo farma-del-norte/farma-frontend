@@ -12,17 +12,12 @@ export const snackbarsSlice = createSlice({
   initialState,
   reducers: {
     openSnackBar(state, action) {
-      const {
-        payload: { message, open, severity }
-      } = action
-
+      const {payload: { message, open, severity }} = action
       state.message = message
       state.open = open
       state.severity = severity
     },
-    closeSnackBar(state, action) {
-      state.open = false
-    }
+    closeSnackBar(state, action) {state.open = false}
   },
   extraReducers: builder => {}
 })

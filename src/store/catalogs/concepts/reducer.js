@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createConcept, editConcept, getConcepts} from './actions'
+import {createConceptCat, editConceptCat, getConceptsCat} from './actions'
 
 const initialState = {
   isLoading: false,
-  concepts: [],
+  conceptsCat: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null
 }
 
-export const conceptsSlice = createSlice({
-  name: 'concepts',
+export const conceptsCatSlice = createSlice({
+  name: 'conceptsCat',
   initialState,
   reducers: {
     /* edit modal */
@@ -29,39 +29,39 @@ export const conceptsSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(getConcepts.pending, state => {
+    builder.addCase(getConceptsCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(getConcepts.fulfilled, (state, {payload}) => {
-      state.concepts = payload.content
+    builder.addCase(getConceptsCat.fulfilled, (state, {payload}) => {
+      state.conceptsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(getConcepts.rejected, state => {
+    builder.addCase(getConceptsCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(createConcept.pending, state => {
+    builder.addCase(createConceptCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(createConcept.fulfilled, (state, {payload}) => {
-      state.concepts = payload.content
+    builder.addCase(createConceptCat.fulfilled, (state, {payload}) => {
+      state.conceptsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(createConcept.rejected, state => {
+    builder.addCase(createConceptCat.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(editConcept.pending, state => {
+    builder.addCase(editConceptCat.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(editConcept.fulfilled, (state, {payload}) => {
-      state.concepts = payload.content
+    builder.addCase(editConceptCat.fulfilled, (state, {payload}) => {
+      state.conceptsCat = payload.content
       state.isLoading = false
     })
-    builder.addCase(editConcept.rejected, state => {
+    builder.addCase(editConceptCat.rejected, state => {
       state.isLoading = false
     })
   }
 })
 
-export default conceptsSlice.reducer
+export default conceptsCatSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = conceptsSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = conceptsCatSlice.actions

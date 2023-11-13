@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {DIMENSIONS_ENDPOINT} from '../endpoints'
+import {DIMENSIONS_CAT_ENDPOINT} from '../endpoints'
 
-export const getDimensionsService = async () => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions`
+export const getDimensionsCatService = async () => {
+  const url = `${DIMENSIONS_CAT_ENDPOINT}/dimensions-cat`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getDimensionsService = async () => {
   }
 }
 
-export const createDimensionService = async body => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions`
+export const createDimensionCatService = async body => {
+  const url = `${DIMENSIONS_CAT_ENDPOINT}/dimensions-cat`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createDimensionService = async body => {
   }
 }
 
-export const editDimensionService = async body => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions/${body.id}`
+export const editDimensionCatService = async body => {
+  const url = `${DIMENSIONS_CAT_ENDPOINT}/dimensions/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,8 +31,8 @@ export const editDimensionService = async body => {
   }
 }
 
-export const deleteDimensionService = async id => {
-  const url = `${DIMENSIONS_ENDPOINT}/dimensions/${id}`
+export const deleteDimensionCatService = async id => {
+  const url = `${DIMENSIONS_CAT_ENDPOINT}/dimensions/${id}`
   try {
     const result = await api_delete(url)
     return result

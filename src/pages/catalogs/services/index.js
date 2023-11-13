@@ -5,13 +5,8 @@ import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/maintenance/reducer'
-import {
-  createMaintenance,
-  deleteMaintenance,
-  editMaintenance,
-  getMaintenances
-} from 'src/store/catalogs/maintenance/actions'
+import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/service/reducer'
+import {createServiceCat, deleteServiceCat, editServiceCat, getServicesCat} from 'src/store/catalogs/service/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
@@ -20,7 +15,7 @@ const columns = [
     flex: 0.25,
     minWidth: 200,
     field: 'name',
-    headerName: 'Mantenimiento'
+    headerName: 'Servicio'
   },
   {
     flex: 0.15,
@@ -30,16 +25,16 @@ const columns = [
   }
 ]
 
-const defaultValuesMaintenances = {
+const defaultValuesServices = {
   name: '',
   category: ''
 }
 
-function Maintenances() {
+function ServicesCat() {
   const dispatch = useDispatch()
 
-  const {maintenance, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
-    state => state.maintenance
+  const {service, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
+    state => state.serviceCat
   )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
@@ -47,7 +42,7 @@ function Maintenances() {
   })
 
   useEffect(() => {
-    dispatch(getMaintenances())
+    dispatch(getServicesCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -83,15 +78,15 @@ function Maintenances() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteMaintenance(modalDeleteItem))
+    dispatch(deleteServiceCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editMaintenance(values))
+      dispatch(editServiceCat(values))
     } else {
-      dispatch(createMaintenance(values))
+      dispatch(createServiceCat(values))
     }
     handleCloseModal()
   }
@@ -123,8 +118,8 @@ function Maintenances() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={maintenance}
-          label='Mantenimientos'
+          rows={service}
+          label='Servicios'
           onAddItem={handleAddItem}
         />
       )}
@@ -145,7 +140,7 @@ function Maintenances() {
                   name='name'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Mantenimiento' value={value} onChange={onChange} />
+                    <TextField label='Servicio' value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -167,14 +162,14 @@ function Maintenances() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={'Eliminar Mantenimiento'}
+        title={'Eliminar Servicio'}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar el mantenimiento seleccionado?</Typography>
+          <Typography variant='body2'>Seguro de eliminar el servicio seleccionado?</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
@@ -182,4 +177,4 @@ function Maintenances() {
   )
 }
 
-export default Maintenances
+export default ServicesCat

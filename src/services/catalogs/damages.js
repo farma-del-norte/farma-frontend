@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {CLAIMS_ENDPOINT} from '../endpoints'
+import {DAMAGES_CAT_ENDPOINT} from '../endpoints'
 
-export const getClaimsService = async () => {
-  const url = `${CLAIMS_ENDPOINT}/claims`
+export const getDamagesCatService = async () => {
+  const url = `${DAMAGES_CAT_ENDPOINT}/damages-cat`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getClaimsService = async () => {
   }
 }
 
-export const createClaimService = async body => {
-  const url = `${CLAIMS_ENDPOINT}/claims`
+export const createDamageCatService = async body => {
+  const url = `${DAMAGES_CAT_ENDPOINT}/damages-cat`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createClaimService = async body => {
   }
 }
 
-export const editClaimService = async body => {
-  const url = `${CLAIMS_ENDPOINT}/claims/${body.id}`
+export const editDamageCatService = async body => {
+  const url = `${DAMAGES_CAT_ENDPOINT}/damages-cat/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,8 +31,8 @@ export const editClaimService = async body => {
   }
 }
 
-export const deleteClaimService = async id => {
-  const url = `${CLAIMS_ENDPOINT}/claims/${id}`
+export const deleteDamageCatService = async id => {
+  const url = `${DAMAGES_CAT_ENDPOINT}/damages-cat/${id}`
   try {
     const result = await api_delete(url)
     return result

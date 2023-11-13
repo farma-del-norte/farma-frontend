@@ -1,8 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import {VARIABLES_ENDPOINT} from '../endpoints'
+import {VARIABLES_CAT_ENDPOINT} from '../endpoints'
 
-export const getVariablesService = async () => {
-  const url = `${VARIABLES_ENDPOINT}/variables`
+export const getVariablesCatService = async () => {
+  const url = `${VARIABLES_CAT_ENDPOINT}/variables-cat`
   try {
     const result = await api_get(url)
     return result
@@ -11,8 +11,8 @@ export const getVariablesService = async () => {
   }
 }
 
-export const createVariableService = async body => {
-  const url = `${VARIABLES_ENDPOINT}/variables`
+export const createVariableCatService = async body => {
+  const url = `${VARIABLES_CAT_ENDPOINT}/variables-cat`
   try {
     const result = await api_post(url, body)
     return result
@@ -21,8 +21,8 @@ export const createVariableService = async body => {
   }
 }
 
-export const editVariableService = async body => {
-  const url = `${VARIABLES_ENDPOINT}/variables/${body.id}`
+export const editVariableCatService = async body => {
+  const url = `${VARIABLES_CAT_ENDPOINT}/variables-cat/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -31,8 +31,8 @@ export const editVariableService = async body => {
   }
 }
 
-export const deleteVariableService = async id => {
-  const url = `${VARIABLES_ENDPOINT}/variables/${id}`
+export const deleteVariableCatService = async id => {
+  const url = `${VARIABLES_CAT_ENDPOINT}/variables-cat/${id}`
   try {
     const result = await api_delete(url)
     return result

@@ -21,10 +21,10 @@ const columns = [
   }
 ]
 
-const defaultValuesClaims = {
+const defaultValuesDamages = {
   id: '',
   name: '',
-  claim: '',
+  damage: '',
   active: ''
 }
 

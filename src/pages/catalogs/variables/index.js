@@ -7,7 +7,7 @@ import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables/reducer'
 import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
-import {createVariable, deleteVariable, editVariable, getVariables} from 'src/store/catalogs/variables/actions'
+import {createVariableCat, deleteVariableCat, editVariableCat, getVariablesCat} from 'src/store/catalogs/variables/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
@@ -40,8 +40,8 @@ const columns = [
   {
     flex: COMMON.COLUMN_FLEX_SMALL,
     minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
-    field: CATALOGS.VARIABLES_FIELD_MAINTENANCE,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_MAINTENANCE
+    field: CATALOGS.VARIABLES_FIELD_SERVICE,
+    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_SERVICE
   },
   {
     flex: COMMON.COLUMN_FLEX,
@@ -51,26 +51,26 @@ const columns = [
   }
 ]
 
-const defaultValuesVariables = {
+const defaultValuesVariablesCat = {
   id: 1,
   name: '',
   dimensionID: 10,
   obligation: '',
   specifications: '',
   guidelines: '',
-  maintenance: ''
+  service: ''
 }
 
-function Variables() {
+function VariablesCat() {
   const dispatch = useDispatch()
-  const {variables, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.variables)
+  const {variablesCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.variablesCat)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
-    defaultValues: defaultValuesVariables
+    defaultValues: defaultValuesVariablesCat
   })
 
   useEffect(() => {
-    dispatch(getVariables())
+    dispatch(getVariablesCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -105,15 +105,15 @@ function Variables() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteVariable(modalDeleteItem))
+    dispatch(deleteVariableCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editVariable(values))
+      dispatch(editVariableCat(values))
     } else {
-      dispatch(createVariable(values))
+      dispatch(createVariableCat(values))
     }
     handleCloseModal()
   }
@@ -145,7 +145,7 @@ function Variables() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={variables}
+          rows={variablesCat}
           label='Variables'
           onAddItem={handleAddItem}
         />
@@ -255,10 +255,10 @@ function Variables() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name={CATALOGS.VARIABLES_FIELD_MAINTENANCE}
+                  name={CATALOGS.VARIABLES_FIELD_SERVICE}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_MAINTENANCE} value={value} onChange={onChange} />
+                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_SERVICE} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -294,4 +294,4 @@ function Variables() {
   )
 }
 
-export default Variables
+export default VariablesCat
