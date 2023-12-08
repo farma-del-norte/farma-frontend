@@ -47,8 +47,10 @@ const columns = [
 
 function ConceptCats() {
   const dispatch = useDispatch()
-  const {conceptsCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.conceptsCat)
-  const {variables} = useSelector(state => state.variablesCat)
+  const {conceptsCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
+    state => state.conceptsCat
+  )
+  const {variablesCat} = useSelector(state => state.variablesCat)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
@@ -56,10 +58,10 @@ function ConceptCats() {
 
   useEffect(() => {
     dispatch(getConceptsCat())
-    if (variables.length == 0) {
+    if (variablesCat.length == 0) {
       dispatch(getVariablesCat())
     }
-  }, [dispatch, variables])
+  }, [dispatch, variablesCat])
 
   const handleCloseModal = () => {
     reset()
@@ -187,7 +189,7 @@ function ConceptCats() {
                       label={CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME} /*  */
                       onChange={onChange}
                     >
-                      {variables.map(variable => (
+                      {variablesCat.map(variable => (
                         <MenuItem key={variable.id} value={variable.id}>
                           {variable.name}
                         </MenuItem>
