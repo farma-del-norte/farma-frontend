@@ -33,7 +33,7 @@ const defaultValuesServices = {
 function ServicesCat() {
   const dispatch = useDispatch()
 
-  const {service, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
+  const {serviceCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
     state => state.serviceCat
   )
   const {open, message, severity} = useSelector(state => state.notifications)
@@ -118,7 +118,7 @@ function ServicesCat() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={service}
+          rows={serviceCat}
           label='Servicios'
           onAddItem={handleAddItem}
         />

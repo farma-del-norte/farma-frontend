@@ -109,14 +109,18 @@ const defaultValuesMaterials = {
 function MaterialsCat() {
   const dispatch = useDispatch()
 
-  const {materials, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.materialsCat)
+  const {materialsCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
+    state => state.materialsCat
+  )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
   useEffect(() => {
-    dispatch(getMaterialsCat())
+    dispatch(getMaterialsCat()).then(result => {
+      console.log(result)
+    })
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -192,7 +196,7 @@ function MaterialsCat() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={materials}
+          rows={materialsCat}
           label='Materiales'
           onAddItem={handleAddItem}
         />
