@@ -5,10 +5,16 @@ export const COMMON_LOCALE = {
   BACK_BUTTON: i18n.t('back_button'),
   SAVE_BUTTON: i18n.t('save_button'),
   DELETE_BUTTON: i18n.t('delete_button'),
+  UPDATE_BUTTON: i18n.t('update_button'),
   ACTIONS: i18n.t('actions')
 }
 
 export const CATALOGS_LOCALE = {
+  // MARK: - BRANCHES
+  BRANCHES_CREATE_MESSAGE: t('branches_create_message', {ns: 'catalogs'}),
+  BRANCHES_EDIT_MESSAGE: t('branches_edit_message', {ns: 'catalogs'}),
+  BRANCHES_DELETE_MESSAGE: t('branches_delete_message', {ns: 'catalogs'}),
+
   // MARK: - DIMENSIONS
   DIMENSIONS_TITLE: t('dimensions_cat_title', {ns: 'catalogs'}),
   DIMENSIONS_FIELD_NAME: t('dimensions_cat_column_name', {ns: 'catalogs'}),

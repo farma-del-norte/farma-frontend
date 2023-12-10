@@ -91,5 +91,9 @@
     "suppliers_edit_message": "Proveedor actualizado con éxito",
     "suppliers_delete_message": "Proveedor eliminado con éxito",
     "suppliers_column_name": "Proveedor",
-    "suppliers_delete_confirm_message": "¿Seguro de eliminar al proveedor seleccionado?"
+    "suppliers_delete_confirm_message": "¿Seguro de eliminar al proveedor seleccionado?",
+
+    "branches_create_message": "Sucursal creada con éxito",
+    "branches_edit_message": "Sucursal actualizada con éxito",
+    "branches_delete_message": "Sucursal eliminada con éxito"
 }

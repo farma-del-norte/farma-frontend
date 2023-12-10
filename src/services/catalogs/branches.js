@@ -1,30 +1,32 @@
+import {api_delete, api_get, api_patch, api_post} from '../apicalls'
 import axiosInstance from '../axiosInstance'
 import {BRANCHES_ENDPOINT} from '../endpoints'
 
 export const getBranchesData = async () => {
+  const url = `${BRANCHES_ENDPOINT}/branches`
   try {
-    const response = await axiosInstance.get(`${BRANCHES_ENDPOINT}/branches`)
-    return response.data.content
+    const result = await api_get(url)
+    return result
   } catch (error) {
-    console.error('Error fetching data:', error)
     throw error
   }
 }
 
-export const postBranchesData = async values => {
+export const postBranchesData = async body => {
+  const url = `${BRANCHES_ENDPOINT}/branches`
   try {
-    const response = await axiosInstance.post(`${BRANCHES_ENDPOINT}/branches`, values)
-    return response.data.content
+    const result = api_post(url, body)
+    return result
   } catch (error) {
-    console.error('Error sending data:', error)
     throw error
   }
 }
 
-export const patchBranchData = async (id, values) => {
+export const patchBranchData = async body => {
+  const url = `${BRANCHES_ENDPOINT}/branches/${body.id}`
   try {
-    const response = await axiosInstance.patch(`${BRANCHES_ENDPOINT}/branches/${id}`, values)
-    return response.data.content
+    const result = api_patch(url, body)
+    return result
   } catch (error) {
     console.error('Error updating data:', error)
     throw error
@@ -32,11 +34,11 @@ export const patchBranchData = async (id, values) => {
 }
 
 export const deleteBranchData = async id => {
+  const url = `${BRANCHES_ENDPOINT}/branches/${id}`
   try {
-    const response = await axiosInstance.delete(`${BRANCHES_ENDPOINT}/branches/${id}`)
-    return response.data.content
+    const result = await api_delete(url)
+    return result
   } catch (error) {
-    console.error('Error deleting data:', error)
     throw error
   }
 }
