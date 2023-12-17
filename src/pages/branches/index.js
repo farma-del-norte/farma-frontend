@@ -2,15 +2,24 @@ import {Fragment, useEffect, useReducer} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
+import {styled} from '@mui/material/styles'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
-import {toggleModal, setModalItem, toggleDeleteModal} from 'src/store/catalogs/branches/reducer'
+import {
+  toggleModal,
+  setModalItem,
+  toggleDeleteModal,
+  setActiveBranch,
+  setIsDetailsOpen
+} from 'src/store/catalogs/branches/reducer'
 import {createBranch, deleteBranch, editBranch, getBranches} from 'src/store/catalogs/branches/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import {COMMON_LOCALE} from 'src/utils/constants'
 import FallbackSpinner from 'src/@core/components/spinner'
+import branchDetails from 'src/utils/dummy_data/branchDetails.json'
+import {DetailTypography} from 'src/components/styledComponents/typography'
 
 const columns = [
   {
@@ -65,7 +74,9 @@ const defaultValuesBranches = {
 }
 
 function Branches() {
-  const {isOpen, modalItem, isDeleteOpen, isLoading, branches} = useSelector(state => state.branches)
+  const {isOpen, modalItem, isDeleteOpen, isLoading, branches, isDetailsOpen, activeBranch} = useSelector(
+    state => state.branches
+  )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
@@ -130,6 +141,21 @@ function Branches() {
     dispatch(setModalItem(null))
   }
 
+  const handleOpenBranchDetailsModal = branch => {
+    dispatch(
+      setActiveBranch({
+        name: branch.name,
+        details: branchDetails
+      })
+    )
+    dispatch(setIsDetailsOpen(true))
+  }
+
+  const handleCloseBranchDetailsModel = () => {
+    dispatch(setActiveBranch(null))
+    dispatch(setIsDetailsOpen(false))
+  }
+
   const actionableColumns = [
     ...columns,
     {
@@ -141,7 +167,7 @@ function Branches() {
         const row = params?.row
         return (
           <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <TextBoxSearch sx={{margin: '2px'}} />
+            <TextBoxSearch sx={{margin: '2px'}} onClick={() => handleOpenBranchDetailsModal(row)} />
             <Pencil sx={{margin: '2px'}} onClick={() => handleOpenModal({row, open: true})} />
             <Delete sx={{margin: '2px'}} onClick={() => handleDeleteModal({row, open: true})} />
           </Typography>
@@ -161,10 +187,90 @@ function Branches() {
         label='Sucursales'
         onAddItem={handleAddItem}
       />
+      {activeBranch != null ? (
+        <ReusableDialog
+          open={isDetailsOpen}
+          onClose={handleCloseBranchDetailsModel}
+          title={`Detalles de sucursal: ${activeBranch?.name}`}
+          actions={[
+            {
+              label: COMMON_LOCALE.BACK_BUTTON,
+              onClick: handleCloseBranchDetailsModel,
+              color: 'primary',
+              variant: 'outlined'
+            }
+          ]}
+        >
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <Typography variant='caption'>Imagen Farmacia:</Typography>
+              <DetailTypography variant='body2'>WIP</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>
+                mts<sup>2</sup>:
+              </Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.mts2}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Anuncio Cruz:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.crossAds}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant='caption'>Planos Farmacia:</Typography>
+              <DetailTypography variant='body2'>WIP</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Anuncio Letras:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.letterAds}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Anuncio Refleja:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.reflectiveAds}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Latitud:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.latitude}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Longitud:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.longitude}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Anuncio Lona:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.tarpAds}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Impermeabilizante:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.waterproofing ? 'Si' : 'No'}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Baños:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.bathrooms}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Aire de lavado:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.airWash}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Minisplits:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.minisplit}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Cortinas:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.curtains}</DetailTypography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant='caption'>Paneles solares:</Typography>
+              <DetailTypography variant='body2'>{activeBranch.details.solarPanels}</DetailTypography>
+            </Grid>
+          </Grid>
+        </ReusableDialog>
+      ) : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
+        title={Boolean(modalItem) ? 'Editar Sucursal' : 'Agregar Sucursal'}
         actions={[
           {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           Boolean(modalItem)

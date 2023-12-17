@@ -1,0 +1,16 @@
+{
+    "latitude": "101.12232",
+    "longitude": "-43.33234",
+    "mts2": 102.32,
+    "reflectiveCrossAds": 3,
+    "crossAds": 1,
+    "letterAds": 0, 
+    "reflectiveAds": 2,
+    "tarpAds": 1,
+    "waterproofing": true,
+    "bathrooms": 1,
+    "airWash": 0,
+    "minisplit": 2,
+    "curtains": 1,
+    "solarPanels": 0
+}
