@@ -6,7 +6,7 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, toggleDeleteModal} from 'src/store/catalogs/branches'
-import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../../services/catalogs/branches'
+import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../services/catalogs/branches'
 
 const columns = [
   {
