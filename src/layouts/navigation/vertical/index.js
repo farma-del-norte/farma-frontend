@@ -1,61 +1,117 @@
-// ** Icon imports
-import ViewDashboard from 'mdi-material-ui/ViewDashboard'
 import i18n from 'src/configs/i18n'
+// ** Icon imports
+import {
+  Business,
+  AccountCircle,
+  Dashboard,
+  ListAlt,
+  Build,
+  Storage,
+  FormatListBulleted,
+  Nature,
+  ShoppingCart,
+  Settings,
+  Label,
+  AspectRatio,
+  Warning
+} from '@mui/icons-material'
 /* TODO
   nav with menus and subMenus
 */
 const navigation = () => {
   const navItems = [
     {
-      title: i18n.t('catalogs_title'),
-      icon: ViewDashboard,
-      permission: 'catalogos',
+      title: i18n.t('users_title'),
+      path: '/users',
+      icon: AccountCircle,
+      visible: true
+    },
+    {
+      title: i18n.t('zones_title'),
+      path: '/zones',
+      icon: Dashboard,
+      visible: true
+    },
+    {
+      title: i18n.t('branches_title'),
+      path: '/branches',
+      icon: Business,
+      visible: true
+    },
+    {
+      title: i18n.t('budgets_title'),
+      path: '/budgets',
+      icon: ListAlt,
+      visible: true
+    },
+    {
+      title: i18n.t('maintenances_title'),
+      path: '/maintenances',
+      icon: Storage,
       visible: true,
       children: [
         {
-          title: i18n.t('branches_title'),
-          path: '/catalogs/branches'
+          title: i18n.t('correctives_title'),
+          path: '/maintenances/correctives',
+          icon: FormatListBulleted,
+          visible: true
         },
         {
-          title: i18n.t('concepts_cat_title'),
-          path: '/catalogs/concepts'
+          title: i18n.t('preventives_title'),
+          path: '/maintenances/preventives',
+          icon: FormatListBulleted,
+          visible: true
         },
         {
           title: i18n.t('damages_cat_title'),
-          path: '/catalogs/damages'
+          path: '/maintenances/damages',
+          icon: Warning,
+          visible: true
+        }
+      ]
+    },
+    {
+      title: i18n.t('resources_title'),
+      icon: Storage,
+      permission: 'recursos',
+      visible: true,
+      children: [
+        {
+          title: i18n.t('concepts_cat_title'),
+          path: '/resources/concepts',
+          icon: Label
         },
         {
           title: i18n.t('dimensions_cat_title'),
-          path: '/catalogs/dimensions'
+          path: '/resources/dimensions',
+          icon: AspectRatio
         },
+
         {
           title: i18n.t('materials_cat_title'),
-          path: '/catalogs/materials'
+          path: '/resources/materials',
+          icon: ShoppingCart
         },
         {
           title: i18n.t('requirements_cat_title'),
-          path: '/catalogs/requirements'
+          path: '/resources/requirements',
+          icon: Nature
         },
         {
           title: i18n.t('services_cat_title'),
-          path: '/catalogs/services'
+          path: '/resources/services',
+          icon: Build
         },
         {
           title: i18n.t('suppliers_title'),
-          path: '/catalogs/suppliers'
-        },
-        {
-          title: i18n.t('users_title'),
-          path: '/catalogs/users'
+          path: '/resources/suppliers',
+          icon: Business
         },
         {
           title: i18n.t('variables_cat_title'),
-          path: '/catalogs/variables'
-        },
-        {
-          title: i18n.t('zones_title'),
-          path: '/catalogs/zones'
-        },
+          path: '/resources/variables',
+          icon: Settings
+        }
       ]
     }
   ]
