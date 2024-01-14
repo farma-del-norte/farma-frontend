@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
 import * as MaterialsAPI from 'src/services/catalogs/materials'
 import {openSnackBar} from 'src/store/notifications'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getMaterialsCat = createAsyncThunk('/materials-cat/getMaterialsCat', async thunkApi => {
   try {

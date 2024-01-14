@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
 import {createZoneService, deleteZoneService, editZoneService, getZonesService} from 'src/services/catalogs/zones'
 import {openSnackBar} from 'src/store/notifications'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getZones = createAsyncThunk('/zones/getZones', async thunkApi => {
   try {

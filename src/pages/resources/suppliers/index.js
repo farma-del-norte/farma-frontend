@@ -7,10 +7,10 @@ import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/suppliers/reducer'
 import {getSuppliers, createSupplier, editSupplier, deleteSupplier} from 'src/store/catalogs/suppliers/actions'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 const columns = [
   {

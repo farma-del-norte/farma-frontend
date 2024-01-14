@@ -11,7 +11,9 @@ import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
+import {CATALOGS, COMMON} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import COMMON_LOCALE from 'src/utils/locales/common'
 
 function DimensionsCat() {
   const dispatch = useDispatch()

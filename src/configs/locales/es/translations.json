@@ -20,5 +20,7 @@
     "back_button": "Regresar",
     "delete_button": "Eliminar",
     "actions": "Acciones",
-    "actions_field": "actions"
+    "actions_field": "actions",
+    "yes": "Si",
+    "no": "No"
 }

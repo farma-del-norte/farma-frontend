@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as Branches from 'src/services/catalogs/branches'
 import {openSnackBar} from 'src/store/notifications'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getBranches = createAsyncThunk('/branches/getBranches', async thunkApi => {
   try {

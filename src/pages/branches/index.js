@@ -16,10 +16,11 @@ import {
 import {createBranch, deleteBranch, editBranch, getBranches} from 'src/store/catalogs/branches/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import {COMMON_LOCALE} from 'src/utils/constants'
+import COMMON_LOCALE from 'src/utils/locales/common'
 import FallbackSpinner from 'src/@core/components/spinner'
 import branchDetails from 'src/utils/dummy_data/branchDetails.json'
 import {DetailTypography} from 'src/components/styledComponents/typography'
+import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
 
 const columns = [
   {
@@ -74,9 +75,7 @@ const defaultValuesBranches = {
 }
 
 function Branches() {
-  const {isOpen, modalItem, isDeleteOpen, isLoading, branches, isDetailsOpen, activeBranch} = useSelector(
-    state => state.branches
-  )
+  const {isOpen, modalItem, isDeleteOpen, isLoading, branches, activeBranch} = useSelector(state => state.branches)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
@@ -151,11 +150,6 @@ function Branches() {
     dispatch(setIsDetailsOpen(true))
   }
 
-  const handleCloseBranchDetailsModel = () => {
-    dispatch(setActiveBranch(null))
-    dispatch(setIsDetailsOpen(false))
-  }
-
   const actionableColumns = [
     ...columns,
     {
@@ -187,86 +181,7 @@ function Branches() {
         label='Sucursales'
         onAddItem={handleAddItem}
       />
-      {activeBranch != null ? (
-        <ReusableDialog
-          open={isDetailsOpen}
-          onClose={handleCloseBranchDetailsModel}
-          title={`Detalles de sucursal: ${activeBranch?.name}`}
-          actions={[
-            {
-              label: COMMON_LOCALE.BACK_BUTTON,
-              onClick: handleCloseBranchDetailsModel,
-              color: 'primary',
-              variant: 'outlined'
-            }
-          ]}
-        >
-          <Grid container>
-            <Grid item xs={12} md={6}>
-              <Typography variant='caption'>Imagen Farmacia:</Typography>
-              <DetailTypography variant='body2'>WIP</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>
-                mts<sup>2</sup>:
-              </Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.mts2}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Anuncio Cruz:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.crossAds}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant='caption'>Planos Farmacia:</Typography>
-              <DetailTypography variant='body2'>WIP</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Anuncio Letras:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.letterAds}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Anuncio Refleja:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.reflectiveAds}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Latitud:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.latitude}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Longitud:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.longitude}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Anuncio Lona:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.tarpAds}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Impermeabilizante:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.waterproofing ? 'Si' : 'No'}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Baños:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.bathrooms}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Aire de lavado:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.airWash}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Minisplits:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.minisplit}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Cortinas:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.curtains}</DetailTypography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Typography variant='caption'>Paneles solares:</Typography>
-              <DetailTypography variant='body2'>{activeBranch.details.solarPanels}</DetailTypography>
-            </Grid>
-          </Grid>
-        </ReusableDialog>
-      ) : null}
+      {activeBranch != null ? <BranchDetailsModel activeBranch={activeBranch} /> : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}

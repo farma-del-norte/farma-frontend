@@ -6,11 +6,16 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/requirements/reducer'
-import {createRequirementCat, deleteRequirementCat, editRequirementCat, getRequirementsCat} from 'src/store/catalogs/requirements/actions'
+import {
+  createRequirementCat,
+  deleteRequirementCat,
+  editRequirementCat,
+  getRequirementsCat
+} from 'src/store/catalogs/requirements/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 const columns = [
   {
