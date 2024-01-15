@@ -1,31 +1,37 @@
-import {Box, Grid, Typography} from '@mui/material'
-import {DetailTypography} from '../styledComponents/typography'
-import Image from 'next/image'
+import {Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from '@mui/material'
+import {useEffect} from 'react'
+import FallbackSpinner from 'src/@core/components/spinner'
 
-const ImageFieldForm = ({labelText, imageURLs = []}) => (
-  <Grid item xs={12} md={6} sx={{paddingRight: 5}}>
-    <Typography variant='caption'>{labelText}</Typography>
-    <Grid container spacing={2} sx={{border: '0.5px solid ButtonShadow', marginTop: 1, borderRadius: 1}}>
-      <Grid item>
-        <Image
-          src={'https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15.jpg'}
-          unoptimized
-          alt={labelText}
-          height={100}
-          width={100}
-        />
-      </Grid>
-      <Grid item>
-        <Image
-          src={'https://wonderfulengineering.com/wp-content/uploads/2014/10/image-wallpaper-15.jpg'}
-          unoptimized
-          alt={labelText}
-          height={100}
-          width={100}
-        />
+const ImageFieldForm = ({labelText, sourceData = null}) => {
+  useEffect(() => {
+    console.log(sourceData)
+  }, [sourceData])
+  return sourceData != null ? (
+    <Grid item xs={12} md={6} sx={{paddingRight: 5}}>
+      <Typography variant='caption'>{labelText}</Typography>
+      <Grid container flexDirection={'row'} sx={{marginTop: 1, borderRadius: 1, paddingY: 2}}>
+        {sourceData.map((source, index) => {
+          const isPDF = source.url.includes('.pdf')
+          return (
+            <Card key={index} sx={{margin: 2}}>
+              <CardActionArea>
+                <CardMedia
+                  component='img'
+                  height='100'
+                  image={isPDF ? '/images/icons/project-icons/pdf.png' : source.url}
+                  alt={labelText}
+                  sx={{objectFit: isPDF ? 'contain' : 'cover'}}
+                />
+                <CardContent>
+                  <Typography variant='body2'>{source.fileName}</Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          )
+        })}
       </Grid>
     </Grid>
-  </Grid>
-)
+  ) : null
+}
 
 export default ImageFieldForm

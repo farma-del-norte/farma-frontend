@@ -1,4 +1,30 @@
 {
+    "pharmacyImages": [
+        {
+            "fileName": "fachada enfrente",
+            "url": "https://www.yo-local.com/sites/default/files/imagen_negocio/similares1_6.jpg"
+        },
+        {
+            "fileName": "segundo piso",
+            "url": "https://www.elsoldepuebla.com.mx/policiaca/94x0xq-mamitas.jpg/ALTERNATES/LANDSCAPE_1140/MAMITAS.jpg"
+        }
+        
+    ],
+    "pharmacyPlans": [
+        {
+            "fileName": "fachada enfrente",
+            "url": "https://www.yo-local.com/sites/default/files/imagen_negocio/similares1_6.jpg"
+        },
+        {
+            "fileName": "planos banhos",
+            "url": "https://www.yo-local.com/sites/default/files/imagen_negocio/similares1_6.pdf"
+        },
+        {
+            "fileName": "segundo piso",
+            "url": "https://www.yo-local.com/sites/default/files/imagen_negocio/Negocio_168.PNG"
+        }
+        
+    ],
     "latitude": "101.12232",
     "longitude": "-43.33234",
     "mts2": 102.32,

@@ -1,10 +1,10 @@
-import {Grid, Typography} from '@mui/material'
+import {Grid} from '@mui/material'
+import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from 'react-redux'
 import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
 import ImageFieldForm from 'src/components/form/ImageFieldForm'
 import ReusableDialog from 'src/components/modal'
-import {DetailTypography} from 'src/components/styledComponents/typography'
 import {setActiveBranch, setIsDetailsOpen} from 'src/store/catalogs/branches/reducer'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 import COMMON_LOCALE from 'src/utils/locales/common'
@@ -18,6 +18,9 @@ const BranchDetailsModel = () => {
     dispatch(setActiveBranch(null))
     dispatch(setIsDetailsOpen(false))
   }
+  useEffect(() => {
+    console.log(activeBranch)
+  }, [activeBranch])
 
   return (
     <ReusableDialog
@@ -32,13 +35,18 @@ const BranchDetailsModel = () => {
           variant: 'outlined'
         }
       ]}
-      isMaxWidthEnabled={true}
     >
       <Grid container>
-        <ImageFieldForm labelText={CATALOGS_LOCALE.BRANCHES_IMAGE_PHARMACY} imageURLs={[]} />
+        <ImageFieldForm
+          labelText={CATALOGS_LOCALE.BRANCHES_IMAGE_PHARMACY}
+          sourceData={activeBranch.details.pharmacyImages}
+        />
+        <ImageFieldForm
+          labelText={CATALOGS_LOCALE.BRANCHES_PHARMACY_PLANS}
+          sourceData={activeBranch.details.pharmacyPlans}
+        />
         <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_SQUARE_METERS} value={activeBranch.details.mts2} />
         <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CROSS_AD} value={activeBranch.details.crossAds} />
-        <ImageFieldForm labelText={CATALOGS_LOCALE.BRANCHES_PHARMACY_PLANS} imageURLs={[]} />
         <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LETTER_AD} value={activeBranch.details.letterAds} />
         <DetailTextFieldForm
           labelText={CATALOGS_LOCALE.BRANCHES_REFLECTIVE_AD}

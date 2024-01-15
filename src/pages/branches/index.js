@@ -86,6 +86,7 @@ function Branches() {
     if (branches.length == 0 && !isLoading) {
       dispatch(getBranches())
     }
+    console.log(branchDetails)
   }, [dispatch, branches.length, isLoading])
 
   const onSubmit = async values => {
