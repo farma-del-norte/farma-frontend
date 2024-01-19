@@ -6,11 +6,18 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/variables/reducer'
-import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
-import {createVariableCat, deleteVariableCat, editVariableCat, getVariablesCat} from 'src/store/catalogs/variables/actions'
+import {CATALOGS, COMMON} from 'src/utils/constants'
+import {
+  createVariableCat,
+  deleteVariableCat,
+  editVariableCat,
+  getVariablesCat
+} from 'src/store/catalogs/variables/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import COMMON_LOCALE from 'src/utils/locales/common'
 
 const columns = [
   {
@@ -63,7 +70,9 @@ const defaultValuesVariablesCat = {
 
 function VariablesCat() {
   const dispatch = useDispatch()
-  const {variablesCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.variablesCat)
+  const {variablesCat, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(
+    state => state.variablesCat
+  )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: defaultValuesVariablesCat

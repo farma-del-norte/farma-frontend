@@ -6,12 +6,14 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setDeleteItem, setModalItem, toggleDeleteModal, toggleModal} from 'src/store/catalogs/concepts/reducer'
-import {CATALOGS, CATALOGS_LOCALE, COMMON, COMMON_LOCALE} from 'src/utils/constants'
+import {CATALOGS, COMMON} from 'src/utils/constants'
 import {createConceptCat, deleteConceptCat, editConceptCat, getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import COMMON_LOCALE from 'src/utils/locales/common'
 const columns = [
   {
     flex: COMMON.COLUMN_FLEX,

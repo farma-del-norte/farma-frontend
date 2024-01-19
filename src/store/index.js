@@ -2,7 +2,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 
 //farma reducers
-import branches from './catalogs/branches'
+import branches from './catalogs/branches/reducer'
 import conceptsCat from 'src/store/catalogs/concepts/reducer'
 import damagesCat from 'src/store/catalogs/damages/reducer'
 import dimensionsCat from 'src/store/catalogs/dimensions/reducer'
@@ -28,7 +28,7 @@ export const store = configureStore({
     suppliers,
     users,
     variablesCat,
-    zones,
+    zones
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

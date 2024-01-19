@@ -10,7 +10,7 @@ import {closeSnackBar} from 'src/store/notifications'
 import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 const columns = [
   {

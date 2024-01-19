@@ -2,11 +2,25 @@ import {Fragment, useEffect, useReducer} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
+import {styled} from '@mui/material/styles'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
-import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, toggleDeleteModal} from 'src/store/catalogs/branches'
-import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../services/catalogs/branches'
+import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
+import {
+  toggleModal,
+  setModalItem,
+  toggleDeleteModal,
+  setActiveBranch,
+  setIsDetailsOpen
+} from 'src/store/catalogs/branches/reducer'
+import {createBranch, deleteBranch, editBranch, getBranches} from 'src/store/catalogs/branches/actions'
+import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {closeSnackBar} from 'src/store/notifications'
+import COMMON_LOCALE from 'src/utils/locales/common'
+import FallbackSpinner from 'src/@core/components/spinner'
+import branchDetails from 'src/utils/dummy_data/branchDetails.json'
+import {DetailTypography} from 'src/components/styledComponents/typography'
+import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
 
 const columns = [
   {
@@ -48,24 +62,6 @@ const columns = [
   {
     flex: 0.15,
     minWidth: 130,
-    field: 'front',
-    headerName: 'Enfrente'
-  },
-  {
-    flex: 0.15,
-    minWidth: 130,
-    field: 'long',
-    headerName: 'Largo'
-  },
-  {
-    flex: 0.15,
-    minWidth: 130,
-    field: 'high',
-    headerName: 'Alto'
-  },
-  {
-    flex: 0.15,
-    minWidth: 130,
     field: 'zoneName',
     headerName: 'Zona'
   }
@@ -78,51 +74,20 @@ const defaultValuesBranches = {
   active: ''
 }
 
-const initialState = {
-  data: [],
-  reload: true
-}
-
-const actionTypes = {
-  SET_DATA: 'SET_DATA',
-  START_RELOAD: 'START_RELOAD',
-  STOP_RELOAD: 'STOP_RELOAD'
-}
-
-function branchesReducer(state, action) {
-  switch (action.type) {
-    case actionTypes.SET_DATA:
-      return {...state, data: action.payload}
-    case actionTypes.START_RELOAD:
-      return {...state, reload: true}
-    case actionTypes.STOP_RELOAD:
-      return {...state, reload: false}
-    default:
-      return state
-  }
-}
-
 function Branches() {
+  const {isOpen, modalItem, isDeleteOpen, isLoading, branches, activeBranch} = useSelector(state => state.branches)
+  const {open, message, severity} = useSelector(state => state.notifications)
+  const {control, handleSubmit, reset} = useForm({
+    defaultValues: {}
+  })
   const dispatch = useDispatch()
-  const [state, localDispatch] = useReducer(branchesReducer, initialState)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getBranchesData()
-        const dataWithIds = result.map((item, index) => ({id: index, ...item}))
-        localDispatch({type: actionTypes.SET_DATA, payload: dataWithIds})
-        localDispatch({type: actionTypes.STOP_RELOAD})
-      } catch (error) {
-        console.error('Error fetching data:', error)
-        localDispatch({type: actionTypes.STOP_RELOAD})
-      }
+    if (branches.length == 0 && !isLoading) {
+      dispatch(getBranches())
     }
-
-    if (state.reload) {
-      fetchData()
-    }
-  }, [state.reload])
+    console.log(branchDetails)
+  }, [dispatch, branches.length, isLoading])
 
   const onSubmit = async values => {
     if (modalItem) {
@@ -133,39 +98,19 @@ function Branches() {
   }
 
   const handleAddBranch = async values => {
-    try {
-      await postBranchesData(values)
-      handleCloseModal()
-    } catch (error) {
-      console.error('Error adding branch:', error)
-    }
-    localDispatch({type: actionTypes.START_RELOAD})
+    dispatch(createBranch(values))
+    handleCloseModal()
   }
 
   const handleUpdateBranch = async values => {
-    try {
-      await patchBranchData(modalItem.id, values)
-      handleCloseModal()
-    } catch (error) {
-      console.error('Error updating branch:', error)
-    }
-    localDispatch({type: actionTypes.START_RELOAD})
+    dispatch(editBranch(values))
+    handleCloseModal()
   }
 
   const handleConfirmDelete = async () => {
-    try {
-      await deleteBranchData(modalItem.id)
-      handleCloseDeleteModal()
-    } catch (error) {
-      console.error('Error deleting branch:', error)
-    }
-    localDispatch({type: actionTypes.START_RELOAD})
+    dispatch(deleteBranch(modalItem))
+    handleCloseDeleteModal()
   }
-
-  const {isOpen, modalItem, isDeleteOpen} = useSelector(state => state.branches)
-  const {control, handleSubmit, reset} = useForm({
-    defaultValues: {}
-  })
 
   const handleAddItem = () => {
     reset({})
@@ -196,6 +141,16 @@ function Branches() {
     dispatch(setModalItem(null))
   }
 
+  const handleOpenBranchDetailsModal = branch => {
+    dispatch(
+      setActiveBranch({
+        name: branch.name,
+        details: branchDetails
+      })
+    )
+    dispatch(setIsDetailsOpen(true))
+  }
+
   const actionableColumns = [
     ...columns,
     {
@@ -207,32 +162,46 @@ function Branches() {
         const row = params?.row
         return (
           <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal({row, open: true})} />
-            <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal({row, open: true})} />
+            <TextBoxSearch sx={{margin: '2px'}} onClick={() => handleOpenBranchDetailsModal(row)} />
+            <Pencil sx={{margin: '2px'}} onClick={() => handleOpenModal({row, open: true})} />
+            <Delete sx={{margin: '2px'}} onClick={() => handleDeleteModal({row, open: true})} />
           </Typography>
         )
       }
     }
   ]
 
-  return (
+  return isLoading ? (
+    <FallbackSpinner />
+  ) : (
     <Fragment>
       <CardTable
         showAddButton
         columns={actionableColumns}
-        rows={state.data}
+        rows={branches}
         label='Sucursales'
         onAddItem={handleAddItem}
       />
+      {activeBranch != null ? <BranchDetailsModel activeBranch={activeBranch} /> : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? 'Editar' : 'Agregar'}
+        title={Boolean(modalItem) ? 'Editar Sucursal' : 'Agregar Sucursal'}
         actions={[
-          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           Boolean(modalItem)
-            ? {label: 'Actualizar', onClick: handleSubmit(handleUpdateBranch), color: 'primary', variant: 'contained'}
-            : {label: 'Agregar', onClick: handleSubmit(handleAddBranch), color: 'primary', variant: 'contained'}
+            ? {
+                label: COMMON_LOCALE.UPDATE_BUTTON,
+                onClick: handleSubmit(handleUpdateBranch),
+                color: 'primary',
+                variant: 'contained'
+              }
+            : {
+                label: COMMON_LOCALE.SAVE_BUTTON,
+                onClick: handleSubmit(handleAddBranch),
+                color: 'primary',
+                variant: 'contained'
+              }
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -347,14 +316,20 @@ function Branches() {
         onClose={handleCloseDeleteModal}
         title={'Eliminar Sucursal'}
         actions={[
-          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Guardar', onClick: handleConfirmDelete, color: 'primary', variant: 'contained'}
+          {
+            label: COMMON_LOCALE.BACK_BUTTON,
+            onClick: handleCloseDeleteModal,
+            color: 'primary',
+            variant: 'outlined'
+          },
+          {label: COMMON_LOCALE.DELETE_BUTTON, onClick: handleConfirmDelete, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
           <Typography variant='body2'>Seguro de eliminar el sucursal seleccionado?</Typography>
         </Box>
       </ReusableDialog>
+      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

@@ -10,7 +10,7 @@ import CardTable from 'src/components/cardTable'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 const columns = [
   {
@@ -26,7 +26,7 @@ const columns = [
     headerName: 'Apellido'
   },
   {
-    flex: 0.40,
+    flex: 0.4,
     minWidth: 130,
     field: 'email',
     headerName: 'Correo'
@@ -54,7 +54,7 @@ const columns = [
     minWidth: 130,
     field: 'branchName',
     headerName: 'Sucursales'
-  },
+  }
 ]
 
 const defaultValuesUsers = {
@@ -67,20 +67,18 @@ const defaultValuesUsers = {
 const usersReducer = (state, action) => {
   switch (action.type) {
     case 'SET_USERS':
-      return action.payload;
+      return action.payload
     case 'DELETE_USER':
-      return state.filter(user => user.id !== action.payload.id);
+      return state.filter(user => user.id !== action.payload.id)
     default:
-      throw new Error('Unhandled action type');
+      throw new Error('Unhandled action type')
   }
-};
+}
 
 function Users() {
   const dispatch = useDispatch()
-  const [localUsers, dispatchLocal] = useReducer(usersReducer, []);
-  const {isOpen, modalItem, isDeleteOpen, isLoading, users, modalDeleteItem} = useSelector(
-    state => state.users
-  )
+  const [localUsers, dispatchLocal] = useReducer(usersReducer, [])
+  const {isOpen, modalItem, isDeleteOpen, isLoading, users, modalDeleteItem} = useSelector(state => state.users)
   const {open, message, severity} = useSelector(state => state.notifications)
 
   const isEdit = Boolean(modalItem)
@@ -94,8 +92,8 @@ function Users() {
   }, [dispatch])
 
   useEffect(() => {
-    dispatchLocal({ type: 'SET_USERS', payload: users });
-}, [users]);
+    dispatchLocal({type: 'SET_USERS', payload: users})
+  }, [users])
 
   const handleCloseModal = () => {
     reset()
@@ -130,14 +128,14 @@ function Users() {
 
   const handleDeleteConfirm = () => {
     dispatch(deleteUser(modalDeleteItem))
-    .then(() => {
-      dispatchLocal({ type: 'DELETE_USER', payload: modalDeleteItem });
-    })
-    .catch(error => {
-      console.log(error)
-    });
-    handleCloseDeleteModal();
-};
+      .then(() => {
+        dispatchLocal({type: 'DELETE_USER', payload: modalDeleteItem})
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    handleCloseDeleteModal()
+  }
 
   const onSubmit = values => {
     if (isEdit) {
@@ -172,7 +170,7 @@ function Users() {
       {isLoading ? (
         <FallbackSpinner />
       ) : (
-      <CardTable
+        <CardTable
           showAddButton
           columns={actionableColumns}
           rows={localUsers}
@@ -180,7 +178,7 @@ function Users() {
           onAddItem={handleAddItem}
           pageSize={5}
           rowsPerPageOptions={[7, 10, 25, 50]}
-      />
+        />
       )}
 
       <ReusableDialog
@@ -210,7 +208,9 @@ function Users() {
                 <Controller
                   name='lastname'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Apellido' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Apellido' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -219,7 +219,9 @@ function Users() {
                 <Controller
                   name='email'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Correo' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Correo' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -228,7 +230,9 @@ function Users() {
                 <Controller
                   name='phone'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Teléfono' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Teléfono' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -237,7 +241,9 @@ function Users() {
                 <Controller
                   name='position'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Posición' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Posición' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -246,7 +252,9 @@ function Users() {
                 <Controller
                   name='zoneID'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Zona ID' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Zona ID' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -264,7 +272,9 @@ function Users() {
                 <Controller
                   name='branchID'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Sucursal ID' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Sucursal ID' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -273,7 +283,9 @@ function Users() {
                 <Controller
                   name='branchName'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Sucursal' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Sucursal' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>

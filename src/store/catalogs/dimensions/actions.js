@@ -6,7 +6,7 @@ import {
   getDimensionsCatService
 } from 'src/services/catalogs/dimensions'
 import {openSnackBar} from 'src/store/notifications'
-import {CATALOGS_LOCALE} from 'src/utils/constants'
+import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsCat', async thunkApi => {
   try {
@@ -22,7 +22,9 @@ export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsC
 export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimensionCat', async (body, thunkApi) => {
   try {
     const payload = await createDimensionCatService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_CREATE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_CREATE_MESSAGE, severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error
@@ -46,7 +48,9 @@ export const editDimensionCat = createAsyncThunk('/dimensions-cat/editDimensionC
 export const deleteDimensionCat = createAsyncThunk('/dimensions-cat/deleteDimensionCat', async ({id}, thunkApi) => {
   try {
     const payload = await deleteDimensionCatService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_DELETE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_DELETE_MESSAGE, severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error

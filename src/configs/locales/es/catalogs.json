@@ -91,5 +91,25 @@
     "suppliers_edit_message": "Proveedor actualizado con éxito",
     "suppliers_delete_message": "Proveedor eliminado con éxito",
     "suppliers_column_name": "Proveedor",
-    "suppliers_delete_confirm_message": "¿Seguro de eliminar al proveedor seleccionado?"
+    "suppliers_delete_confirm_message": "¿Seguro de eliminar al proveedor seleccionado?",
+
+    "branches_create_message": "Sucursal creada con éxito",
+    "branches_edit_message": "Sucursal actualizada con éxito",
+    "branches_delete_message": "Sucursal eliminada con éxito",
+    "branches_image_pharmacy": "Imagen Farmacia:",
+    "branches_square_meters": "mts²:",
+    "branches_cross_ad": "Anuncios de Cruz:",
+    "branches_pharmacy_plans": "Planos Farmacia:",
+    "branches_letter_ad": "Anuncios de Letras:",
+    "branches_reflective_ad": "Anuncios Reflejantes:",
+    "branches_latitude": "Latitud:",
+    "branches_longitude": "Longitud:",
+    "branches_tarp_ad": "Anuncios de Lona:",
+    "branches_waterproofing": "Impermeabilizante:",
+    "branches_bathrooms": "Baños:",
+    "branches_air_wash": "Aires de lavado:",
+    "branches_minisplits": "Minisplits:",
+    "branches_curtains": "Cortinas:",
+    "branches_solar_panels": "Paneles solares:",
+    "branches_branch_details_title": "Detalles de sucursal:"
 }
