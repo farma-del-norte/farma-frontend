@@ -1,4 +1,14 @@
 {
+    "branches_title": "Sucursales",
+    "branches_column_name": "Sucursal",
+    "branches_edit_modal": "Editar Sucursal seleccionada",
+    "branches_add_modal": "Agregar Sucursal",
+    "branches_delete_modal": "Eliminar Sucursal",
+    "branches_delete_confirm_message": "¿Seguro de eliminar la Sucursal seleccionada?",
+    "branches_edit_message": "Sucursal actualizado con éxito",
+    "branches_create_message": "Sucursal creada con éxito",
+    "branches_delete_message": "Sucursal eliminada con éxito",
+    
     "dimensions_cat_title": "Catálogo de Dimensiones",
     "dimensions_cat_edit_modal": "Editar Catálogo de dimensión seleccionado",
     "dimensions_cat_add_modal": "Agregar Catálogo de dimensión",

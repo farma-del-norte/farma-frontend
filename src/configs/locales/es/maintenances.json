@@ -1,0 +1,11 @@
+{
+    "maintenances_title": "Mantenimientos de Sucursales",
+    "maintenances_column_name": "Mantenimiento",
+    "maintenances_edit_modal": "Editar mantenimiento de Sucursal seleccionado",
+    "maintenances_add_modal": "Agregar mantenimiento de Sucursal",
+    "maintenances_delete_modal": "Eliminar mantenimiento de Sucursal",
+    "maintenances_delete_confirm_message": "¿Seguro de eliminar el mantenimiento de la Sucursal seleccionada?",
+    "maintenances_edit_message": "Sucursal de Mantenimiento actualizado con éxito",
+    "maintenances_cat_create_message": "Sucursal de Mantenimiento creado con éxito",
+    "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito"
+}

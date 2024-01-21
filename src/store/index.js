@@ -3,6 +3,7 @@ import {configureStore} from '@reduxjs/toolkit'
 
 //farma reducers
 import branches from './catalogs/branches/reducer'
+import branches from './catalogs/branches/reducer'
 import conceptsCat from 'src/store/catalogs/concepts/reducer'
 import damagesCat from 'src/store/catalogs/damages/reducer'
 import dimensionsCat from 'src/store/catalogs/dimensions/reducer'
@@ -14,6 +15,7 @@ import suppliers from 'src/store/catalogs/suppliers/reducer'
 import users from 'src/store/catalogs/users/reducer'
 import variablesCat from 'src/store/catalogs/variables/reducer'
 import zones from 'src/store/catalogs/zones/reducer'
+import maintenances from 'src/store/maintenances/maintenances/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -28,7 +30,8 @@ export const store = configureStore({
     suppliers,
     users,
     variablesCat,
-    zones
+    zones,
+    maintenances
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
