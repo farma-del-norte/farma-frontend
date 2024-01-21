@@ -1,5 +1,4 @@
 import {Grid} from '@mui/material'
-import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from 'react-redux'
 import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
@@ -18,9 +17,6 @@ const BranchDetailsModel = () => {
     dispatch(setActiveBranch(null))
     dispatch(setIsDetailsOpen(false))
   }
-  useEffect(() => {
-    console.log(activeBranch)
-  }, [activeBranch])
 
   return (
     <ReusableDialog
