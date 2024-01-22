@@ -1,29 +1,39 @@
-import {useForm, Controller} from 'react-hook-form'
+import {Controller} from 'react-hook-form'
 import {Typography, Grid, FormControl, TextField, Box, Checkbox, FormControlLabel} from '@mui/material'
 import ReusableDialog from 'src/components/modal'
 import ImageUploader from 'src/components/image-uploader/ImageUploader'
 import i18n from 'src/configs/i18n'
+import {useDispatch, useSelector} from 'react-redux'
+import {setIsDetailsFormModalOpen} from 'src/store/catalogs/branches/reducer'
 
-const DetailsModal = ({
-  isOpen,
-  handleCloseModal,
-  modalItem,
-  onSubmit,
-  control,
-  handleSubmit,
-  handleAddBranch,
-  handleUpdateBranch,
-  handleFarmacyImageUpdate,
-  handleBlueprintImageUpdate
-}) => {
+const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdate, handleBlueprintImageUpdate}) => {
+  const dispatch = useDispatch()
+  const {isDetailsFormOpen, branchDetails, activeBranch} = useSelector(state => state.branches)
+
+  const handleAddBranch = values => {
+    console.log(values)
+  }
+
+  const handleUpdateBranch = values => {
+    console.log(values)
+  }
+
+  const handleCloseModal = () => {
+    dispatch(setIsDetailsFormModalOpen(false))
+  }
+
   return (
     <ReusableDialog
-      open={isOpen}
+      open={isDetailsFormOpen}
       onClose={handleCloseModal}
-      title={Boolean(modalItem) ? i18n.t('edit') : i18n.t('add')}
+      title={
+        Boolean(branchDetails)
+          ? `${i18n.t('branches:edit_details')} ${activeBranch?.name}`
+          : `${i18n.t('branches:add_details')} ${activeBranch?.name}`
+      }
       actions={[
         {label: i18n.t('Regresar'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-        Boolean(modalItem)
+        Boolean(branchDetails)
           ? {
               label: i18n.t('save_button'),
               onClick: handleSubmit(handleUpdateBranch),
@@ -33,7 +43,7 @@ const DetailsModal = ({
           : {label: i18n.t('add'), onClick: handleSubmit(handleAddBranch), color: 'primary', variant: 'contained'}
       ]}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit()}>
         <Grid container spacing={5}>
           <Grid item xs={6}>
             <Grid item xs={12}>
@@ -49,7 +59,7 @@ const DetailsModal = ({
               <Typography sx={{paddingBottom: '6px'}} variant='body1'>
                 {i18n.t('branches:farmacy_image')}
               </Typography>
-              <ImageUploader base64Images={[]} handleImages={handleFarmacyImageUpdate} />
+              <ImageUploader base64Images={[]} handleImages={handlePharmacyImageUpdate} />
             </Grid>
             <Grid item xs={12} sx={{marginTop: '10px'}}>
               {/* <FormControl fullWidth>
@@ -255,4 +265,4 @@ const DetailsModal = ({
   )
 }
 
-export default DetailsModal
+export default BranchDetailsFormModal

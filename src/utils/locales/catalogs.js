@@ -23,6 +23,8 @@ const CATALOGS_LOCALE = {
   BRANCHES_CURTAINS: t('branches_curtains', {ns: 'catalogs'}),
   BRANCHES_SOLAR_PANELS: t('branches_solar_panels', {ns: 'catalogs'}),
   BRANCHES_BRANCH_DETAILS_TITLE: t('branches_branch_details_title', {ns: 'catalogs'}),
+  BRANCHES_BRANCH_ADD_DETAILS: t('brances_create_branch_details', {ns: 'catalogs'}),
+  BRANCHES_BRANCH_EDIT_DETAILS: t(),
 
   // MARK: - DIMENSIONS
   DIMENSIONS_TITLE: t('dimensions_cat_title', {ns: 'catalogs'}),

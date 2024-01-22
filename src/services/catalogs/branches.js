@@ -42,3 +42,33 @@ export const deleteBranchData = async id => {
     throw error
   }
 }
+
+export const getBranchDetailsData = async branchDetailId => {
+  const url = `${BRANCHES_ENDPOINT}/branches/branchDetails/${branchDetailId}`
+  try {
+    const result = await api_get(url)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
+export const addBranchDetailsData = async (branchId, body) => {
+  const url = `${BRANCHES_ENDPOINT}/branches/branchDetails/${branchId}`
+  try {
+    const result = await api_post(url, body)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
+export const updateBranchDetailsData = async (branchDetailsId, body) => {
+  const url = `${BRANCHES_ENDPOINT}/branches/branchDetails/${branchDetailsId}`
+  try {
+    const result = await api_patch(url, body)
+    return result
+  } catch (error) {
+    throw error
+  }
+}

@@ -11,17 +11,23 @@ import {
   setModalItem,
   toggleDeleteModal,
   setActiveBranch,
-  setIsDetailsOpen
+  setIsDetailsModalOpen
 } from 'src/store/catalogs/branches/reducer'
-import {createBranch, deleteBranch, editBranch, getBranches} from 'src/store/catalogs/branches/actions'
+import {
+  createBranch,
+  deleteBranch,
+  editBranch,
+  getBranchDetails,
+  getBranches
+} from 'src/store/catalogs/branches/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import COMMON_LOCALE from 'src/utils/locales/common'
 import FallbackSpinner from 'src/@core/components/spinner'
-import branchDetails from 'src/utils/dummy_data/branchDetails.json'
 import {DetailTypography} from 'src/components/styledComponents/typography'
 import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
-import DetailsModal from './detailsmodal'
+import BranchDetailsFormModal from 'src/views/details-modals/BranchDetailsFormModal'
+// import DetailsModal from './detailsmodal'
 
 const columns = [
   {
@@ -76,22 +82,21 @@ const defaultValuesBranches = {
 }
 
 function Branches() {
-  const {isOpen, modalItem, isDeleteOpen, isLoading, branches, activeBranch} = useSelector(state => state.branches)
+  const {isOpen, isFormDetailsOpen, isDetailsModalOpen, modalItem, isDeleteOpen, isLoading, branches, activeBranch} =
+    useSelector(state => state.branches)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
   const dispatch = useDispatch()
-  const [state, localDispatch] = useReducer(branchesReducer, initialState)
-  const [farmacyImages, setFarmacyImages] = useState([])
+  const [pharmacyImages, setPharmacyImages] = useState([])
   const [bluePrintImages, setBlueprintImages] = useState([])
 
   useEffect(() => {
-    if (branches.length == 0 && !isLoading) {
+    if ((branches == undefined || branches.length) == 0 && !isLoading) {
       dispatch(getBranches())
     }
-    console.log(branchDetails)
-  }, [dispatch, branches.length, isLoading])
+  }, [dispatch, branches, isLoading])
 
   const onSubmit = async values => {
     if (modalItem) {
@@ -146,22 +151,20 @@ function Branches() {
   }
 
   const handleOpenBranchDetailsModal = branch => {
-    dispatch(
-      setActiveBranch({
-        name: branch.name,
-        details: branchDetails
-      })
-    )
-    dispatch(setIsDetailsOpen(true))
+    dispatch(setIsDetailsModalOpen(true))
+    dispatch(setActiveBranch(branch))
+    dispatch(getBranchDetails(branch.detailsID))
   }
 
-  const handleFarmacyImageUpdate = images => {
-    setFarmacyImages(images)
+  const handlePharmacyImageUpdate = images => {
+    setPharmacyImages(images)
   }
 
   const handleBlueprintImageUpdate = images => {
     setBlueprintImages(images)
   }
+
+  const handleCloseFormModal = () => {}
 
   const actionableColumns = [
     ...columns,
@@ -194,7 +197,7 @@ function Branches() {
         label='Sucursales'
         onAddItem={handleAddItem}
       />
-      {activeBranch != null ? <BranchDetailsModel activeBranch={activeBranch} /> : null}
+      {isDetailsModalOpen ? <BranchDetailsModel activeBranch={activeBranch} /> : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
@@ -323,16 +326,11 @@ function Branches() {
           </Grid>
         </form>
       </ReusableDialog>
-      <DetailsModal
-        isOpen={isOpen}
+      <BranchDetailsFormModal
+        isOpen={isDetailsModalOpen}
         control={control}
-        handleCloseModal={handleCloseModal}
         handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        modalItem={modalItem}
-        handleAddBranch={handleAddBranch}
-        handleUpdateBranch={handleUpdateBranch}
-        handleFarmacyImageUpdate={handleFarmacyImageUpdate}
+        handlePharmacyImageUpdate={handlePharmacyImageUpdate}
         handleBlueprintImageUpdate={handleBlueprintImageUpdate}
       />
       <ReusableDialog

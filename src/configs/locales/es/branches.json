@@ -13,5 +13,7 @@
   "canvas_advertisement":"Anuncio Lona",
   "waterproofing":"impermeabilizante",
   "minisplit":"Minisplit",
-  "curtains":"Cortinas"
+  "curtains":"Cortinas",
+  "edit_details": "Editar Detalles Sucursal:",
+  "add_details": "Agregar Detalles Sucursal:"
 }

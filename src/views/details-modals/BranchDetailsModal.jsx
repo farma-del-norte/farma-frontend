@@ -1,29 +1,45 @@
-import {Grid} from '@mui/material'
+import {Button, Grid, Typography} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from 'react-redux'
 import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
 import ImageFieldForm from 'src/components/form/ImageFieldForm'
 import ReusableDialog from 'src/components/modal'
-import {setActiveBranch, setIsDetailsOpen} from 'src/store/catalogs/branches/reducer'
+import {
+  setActiveBranch,
+  setBranchDetails,
+  setIsDetailsFormModalOpen,
+  setIsDetailsModalOpen
+} from 'src/store/catalogs/branches/reducer'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 import COMMON_LOCALE from 'src/utils/locales/common'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 const BranchDetailsModel = () => {
-  const {t} = useTranslation()
-  const {isDetailsOpen, activeBranch} = useSelector(state => state.branches)
+  const {isDetailsModalOpen, activeBranch, branchDetails, isModalLoading} = useSelector(state => state.branches)
   const dispatch = useDispatch()
 
   const handleCloseBranchDetailsModel = () => {
     dispatch(setActiveBranch(null))
-    dispatch(setIsDetailsOpen(false))
+    dispatch(setBranchDetails(null))
+    dispatch(setIsDetailsModalOpen(false))
+  }
+
+  const handleFormModal = () => {
+    dispatch(setIsDetailsFormModalOpen(true))
   }
 
   return (
     <ReusableDialog
-      open={isDetailsOpen}
+      open={isDetailsModalOpen}
       onClose={handleCloseBranchDetailsModel}
       title={`${CATALOGS_LOCALE.BRANCHES_BRANCH_DETAILS_TITLE} ${activeBranch?.name}`}
       actions={[
+        {
+          label: branchDetails == null ? 'Agregar Detalles De Sucursal' : 'Editar Detalles De Sucursal',
+          onClick: handleFormModal,
+          color: 'success',
+          variant: 'contained'
+        },
         {
           label: COMMON_LOCALE.BACK_BUTTON,
           onClick: handleCloseBranchDetailsModel,
@@ -32,38 +48,55 @@ const BranchDetailsModel = () => {
         }
       ]}
     >
-      <Grid container>
-        <ImageFieldForm
-          labelText={CATALOGS_LOCALE.BRANCHES_IMAGE_PHARMACY}
-          sourceData={activeBranch.details.pharmacyImages}
-        />
-        <ImageFieldForm
-          labelText={CATALOGS_LOCALE.BRANCHES_PHARMACY_PLANS}
-          sourceData={activeBranch.details.pharmacyPlans}
-        />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_SQUARE_METERS} value={activeBranch.details.mts2} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CROSS_AD} value={activeBranch.details.crossAds} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LETTER_AD} value={activeBranch.details.letterAds} />
-        <DetailTextFieldForm
-          labelText={CATALOGS_LOCALE.BRANCHES_REFLECTIVE_AD}
-          value={activeBranch.details.reflectiveAds}
-        />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LATITUDE} value={activeBranch.details.latitude} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LONGITUDE} value={activeBranch.details.longitude} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_TARP_AD} value={activeBranch.details.tarpAds} />
-        <DetailTextFieldForm
-          labelText={CATALOGS_LOCALE.BRANCHES_WATERPROOFING}
-          value={activeBranch.details.waterproofing ? COMMON_LOCALE.YES : COMMON_LOCALE.NO}
-        />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_BATHROOMS} value={activeBranch.details.bathrooms} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_AIR_WASH} value={activeBranch.details.airWash} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_MINISPLITS} value={activeBranch.details.minisplit} />
-        <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CURTAINS} value={activeBranch.details.curtains} />
-        <DetailTextFieldForm
-          labelText={CATALOGS_LOCALE.BRANCHES_SOLAR_PANELS}
-          value={activeBranch.details.solarPanels}
-        />
-      </Grid>
+      {isModalLoading ? (
+        <ClipLoader />
+      ) : branchDetails != null ? (
+        <Grid container>
+          <ImageFieldForm
+            labelText={CATALOGS_LOCALE.BRANCHES_IMAGE_PHARMACY}
+            sourceData={
+              branchDetails?.pharmacyImages ?? [
+                {
+                  fileName: 'Prueba',
+                  url: 'https://i.ytimg.com/vi/Df5hidqLsE0/maxresdefault.jpg'
+                }
+              ]
+            }
+          />
+          <ImageFieldForm
+            labelText={CATALOGS_LOCALE.BRANCHES_PHARMACY_PLANS}
+            sourceData={
+              branchDetails?.pharmacyPlans ?? [
+                {
+                  fileName: 'Prueba',
+                  url: 'https://i.ytimg.com/vi/Df5hidqLsE0/maxresdefault.jpg'
+                }
+              ]
+            }
+          />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_SQUARE_METERS} value={branchDetails.mts2} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CROSS_AD} value={branchDetails.crossAds} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LETTER_AD} value={branchDetails.letterAds} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_REFLECTIVE_AD} value={branchDetails.reflectiveAds} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LATITUDE} value={branchDetails.latitude} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LONGITUDE} value={branchDetails.longitude} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_TARP_AD} value={branchDetails.tarpAds} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_BATHROOMS} value={branchDetails.bathrooms} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_AIR_WASH} value={branchDetails.airWash} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_MINISPLITS} value={branchDetails.minisplit} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CURTAINS} value={branchDetails.curtains} />
+          <DetailTextFieldForm
+            labelText={CATALOGS_LOCALE.BRANCHES_WATERPROOFING}
+            value={branchDetails.waterproofing ? COMMON_LOCALE.YES : COMMON_LOCALE.NO}
+          />
+          <DetailTextFieldForm
+            labelText={CATALOGS_LOCALE.BRANCHES_SOLAR_PANELS}
+            value={branchDetails.solarPanels ? COMMON_LOCALE.YES : COMMON_LOCALE.NO}
+          />
+        </Grid>
+      ) : (
+        <Typography variant='overline'>{'No se han dado de alta los detalles de esta sucursal.'}</Typography>
+      )}
     </ReusableDialog>
   )
 }

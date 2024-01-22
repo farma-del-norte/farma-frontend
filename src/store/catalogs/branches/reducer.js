@@ -1,15 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {deleteBranch, editBranch, getBranches} from './actions'
+import {addBranchDetails, deleteBranch, editBranch, getBranchDetails, getBranches, updateBranchDetails} from './actions'
 
 const initialState = {
   isLoading: false,
+  isModalLoading: false,
   branches: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null,
-  isDetailsOpen: false,
-  activeBranch: null
+  isDetailsModalOpen: false,
+  activeBranch: null,
+  isDetailsFormOpen: false,
+  branchDetails: {}
 }
 
 export const branchesSlice = createSlice({
@@ -35,8 +38,14 @@ export const branchesSlice = createSlice({
     setActiveBranch: (state, {payload}) => {
       state.activeBranch = payload
     },
-    setIsDetailsOpen: (state, {payload}) => {
-      state.isDetailsOpen = payload
+    setIsDetailsModalOpen: (state, {payload}) => {
+      state.isDetailsModalOpen = payload
+    },
+    setBranchDetails: (state, {payload}) => {
+      state.branchDetails = payload
+    },
+    setIsDetailsFormModalOpen: (state, {payload}) => {
+      state.isDetailsFormOpen = payload
     }
   },
   extraReducers: builder => {
@@ -70,6 +79,36 @@ export const branchesSlice = createSlice({
     builder.addCase(deleteBranch.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(getBranchDetails.pending, state => {
+      state.isModalLoading = true
+    })
+    builder.addCase(getBranchDetails.fulfilled, (state, {payload}) => {
+      state.isModalLoading = false
+      state.branchDetails = payload.content[0]
+    })
+    builder.addCase(getBranchDetails.rejected, state => {
+      state.isModalLoading = false
+    })
+    builder.addCase(addBranchDetails.pending, state => {
+      state.isModalLoading = true
+    })
+    builder.addCase(addBranchDetails.fulfilled, (state, {payload}) => {
+      state.isModalLoading = false
+      state.branchDetails = payload.content
+    })
+    builder.addCase(addBranchDetails.rejected, state => {
+      state.isModalLoading = false
+    })
+    builder.addCase(updateBranchDetails.pending, state => {
+      state.isModalLoading = true
+    })
+    builder.addCase(updateBranchDetails.fulfilled, (state, {payload}) => {
+      state.isModalLoading = false
+      state.branchDetails = payload.content
+    })
+    builder.addCase(updateBranchDetails.rejected, state => {
+      state.isModalLoading = false
+    })
   }
 })
 
@@ -82,5 +121,7 @@ export const {
   setDeleteItem,
   setBranchesData,
   setActiveBranch,
-  setIsDetailsOpen
+  setIsDetailsModalOpen,
+  setBranchDetails,
+  setIsDetailsFormModalOpen
 } = branchesSlice.actions

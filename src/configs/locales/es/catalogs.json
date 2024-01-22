@@ -5,9 +5,6 @@
     "branches_add_modal": "Agregar Sucursal",
     "branches_delete_modal": "Eliminar Sucursal",
     "branches_delete_confirm_message": "¿Seguro de eliminar la Sucursal seleccionada?",
-    "branches_edit_message": "Sucursal actualizado con éxito",
-    "branches_create_message": "Sucursal creada con éxito",
-    "branches_delete_message": "Sucursal eliminada con éxito",
     
     "dimensions_cat_title": "Catálogo de Dimensiones",
     "dimensions_cat_edit_modal": "Editar Catálogo de dimensión seleccionado",
@@ -121,5 +118,7 @@
     "branches_minisplits": "Minisplits:",
     "branches_curtains": "Cortinas:",
     "branches_solar_panels": "Paneles solares:",
-    "branches_branch_details_title": "Detalles de sucursal:"
+    "branches_branch_details_title": "Detalles de sucursal:",
+    "brances_create_branch_details": "Detalles de la sucursal agregados",
+    "branches_edit_branch_details": "Detalles de la sucursal modificados"
 }

@@ -46,3 +46,43 @@ const rejectError = (error, thunkApi) => {
   thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
   return thunkApi.rejectWithValue('error')
 }
+
+// MARK: - Branch Details Form Actions
+export const getBranchDetails = createAsyncThunk('/branches/getBranchDetails', async (branchDetailsId, thunkApi) => {
+  try {
+    const payload = Branches.getBranchDetailsData(branchDetailsId)
+    return payload
+  } catch (error) {
+    thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const addBranchDetails = createAsyncThunk('/branches/addBranchDetails', async ({branchId, body}, thunkApi) => {
+  try {
+    const payload = Branches.addBranchDetailsData(branchId, body)
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_BRANCH_ADD_DETAILS, severity: 'success'})
+    )
+    return payload
+  } catch (error) {
+    thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const updateBranchDetails = createAsyncThunk(
+  '/branches/updateBranchDetails',
+  async ({branchDetailsId, body}, thunkApi) => {
+    try {
+      const payload = Branches.updateBranchDetailsData(branchDetailsId, body)
+      thunkApi.dispatch(
+        openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_BRANCH_EDIT_DETAILS, severity: 'success'})
+      )
+      return payload
+    } catch (error) {
+      thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+      return thunkApi.rejectWithValue('error')
+    }
+  }
+)
