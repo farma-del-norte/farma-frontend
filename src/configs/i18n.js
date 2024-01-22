@@ -20,10 +20,11 @@ i18n
       es: {
         translations: require('./locales/es/translations.json'),
         catalogs: require('./locales/es/catalogs.json'),
-        maintenances: require('./locales/es/maintenances.json')
+        maintenances: require('./locales/es/maintenances.json'),
+        branches: require('./locales/es/branches.json')
       }
     },
-    ns: ['translations', 'catalogs', 'maintenances'],
+    ns: ['translations', 'catalogs', 'maintenances', 'branches'],
     defaultNS: 'translations'
   })
 

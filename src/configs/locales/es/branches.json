@@ -1,0 +1,17 @@
+{
+  "farmacy_image": "Imagen Farmacia",
+  "blueprints": "Planos",
+  "latitude":"Latitud",
+  "longitude":"Longitud",
+  "bathrooms":"Baños",
+  "washing_air":"Aire de lavado",
+  "solar_panels":"Paneles Solares",
+  "square_meter":"Metros cuadrados",
+  "cross_advertisement":"Anuncio Cruz",
+  "letters_advertisement":"Anuncio Letras",
+  "reflex_advertisement":"Anuncio Refleja",
+  "canvas_advertisement":"Anuncio Lona",
+  "waterproofing":"impermeabilizante",
+  "minisplit":"Minisplit",
+  "curtains":"Cortinas"
+}

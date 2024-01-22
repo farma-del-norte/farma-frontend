@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useReducer} from 'react'
+import {Fragment, useEffect, useReducer, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
@@ -21,6 +21,7 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import branchDetails from 'src/utils/dummy_data/branchDetails.json'
 import {DetailTypography} from 'src/components/styledComponents/typography'
 import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
+import DetailsModal from './detailsmodal'
 
 const columns = [
   {
@@ -81,6 +82,9 @@ function Branches() {
     defaultValues: {}
   })
   const dispatch = useDispatch()
+  const [state, localDispatch] = useReducer(branchesReducer, initialState)
+  const [farmacyImages, setFarmacyImages] = useState([])
+  const [bluePrintImages, setBlueprintImages] = useState([])
 
   useEffect(() => {
     if (branches.length == 0 && !isLoading) {
@@ -149,6 +153,14 @@ function Branches() {
       })
     )
     dispatch(setIsDetailsOpen(true))
+  }
+
+  const handleFarmacyImageUpdate = images => {
+    setFarmacyImages(images)
+  }
+
+  const handleBlueprintImageUpdate = images => {
+    setBlueprintImages(images)
   }
 
   const actionableColumns = [
@@ -311,6 +323,18 @@ function Branches() {
           </Grid>
         </form>
       </ReusableDialog>
+      <DetailsModal
+        isOpen={isOpen}
+        control={control}
+        handleCloseModal={handleCloseModal}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        modalItem={modalItem}
+        handleAddBranch={handleAddBranch}
+        handleUpdateBranch={handleUpdateBranch}
+        handleFarmacyImageUpdate={handleFarmacyImageUpdate}
+        handleBlueprintImageUpdate={handleBlueprintImageUpdate}
+      />
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
