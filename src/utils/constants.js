@@ -8,6 +8,18 @@ export const COMMON_LOCALE = {
   ACTIONS: i18n.t('actions')
 }
 
+export const LOGIN_LOCALE = {
+  LOG_IN: i18n.t('Log_in'),
+  EMAIL: i18n.t('Email'),
+  PASSWORD: i18n.t('Password'),
+  FORGOT_PASSWORD: i18n.t('I_forgot_my_password'),
+  SIGN_IN: i18n.t('Sign_in'),
+  INVALID_EMAIL: i18n.t('invalid_email'),
+  EMAIL_REQUIRED: i18n.t('email_required'),
+  PASSWORD_MIN: i18n.t('password_min'),
+  PASSWORD_REQUIRED: i18n.t('password_required')
+}
+
 export const MAINTENANCES_LOCALE = {
   // MARK: - MAINTENANCES
   MAINTENANCES_TITLE: t('maintenances_title', {ns: 'maintenances'}),
