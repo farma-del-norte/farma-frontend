@@ -1,10 +1,20 @@
-import {api_post, api_get, api_patch, api_delete} from '../apicalls';
-import {USERS_ENDPOINT} from '../endpoints';
+import {api_post, api_get, api_patch, api_delete} from '../apicalls'
+import {USERS_ENDPOINT} from '../endpoints'
 
 export const getUsersService = async () => {
   const url = `${USERS_ENDPOINT}/users`
   try {
     const result = await api_get(url)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
+export const usersLogin = async body => {
+  const url = `${USERS_ENDPOINT}/users/login`
+  try {
+    const result = await api_post(url, body)
     return result
   } catch (error) {
     throw error

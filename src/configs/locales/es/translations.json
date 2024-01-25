@@ -23,6 +23,15 @@
     "delete_button": "Eliminar",
     "actions": "Acciones",
     "actions_field": "actions",
+    "Log_in": "Iniciar Sesión",
+    "Email":"Correo electrónico",
+    "Password":"Contraseña",
+    "I_forgot_my_password":"Olvidé mi contraseña",
+    "Sign_in":"Ingresar",
+    "invalid_email":"Correo electrónico no válido",
+    "email_required":"Correo electrónico es requerido",
+    "password_min":"La contraseña debe tener al menos 8 caracteres",
+    "password_required":"Contraseña es requerida",
     "yes": "Si",
     "no": "No"
 }
