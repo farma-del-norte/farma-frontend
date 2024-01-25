@@ -288,10 +288,10 @@ function Branches() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='front'
+                  name='latitude'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Enfrente' value={value} onChange={onChange} />
+                    <TextField label='Latitud' value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -299,18 +299,11 @@ function Branches() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='long'
+                  name='longitude'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Largo' value={value} onChange={onChange} />}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='high'
-                  control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Alto' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Longitud' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
