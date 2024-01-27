@@ -11,7 +11,8 @@ import {
   setModalItem,
   toggleDeleteModal,
   setActiveBranch,
-  setIsDetailsModalOpen
+  setIsDetailsModalOpen,
+  setBranchDetails
 } from 'src/store/catalogs/branches/reducer'
 import {
   createBranch,
@@ -82,8 +83,9 @@ const defaultValuesBranches = {
 }
 
 function Branches() {
-  const {isOpen, isFormDetailsOpen, isDetailsModalOpen, modalItem, isDeleteOpen, isLoading, branches, activeBranch} =
-    useSelector(state => state.branches)
+  const {isOpen, isDetailsModalOpen, modalItem, isDeleteOpen, isLoading, branches} = useSelector(
+    state => state.branches
+  )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
@@ -93,6 +95,7 @@ function Branches() {
   const [bluePrintImages, setBlueprintImages] = useState([])
 
   useEffect(() => {
+    dispatch(setBranchDetails(null))
     if ((branches == undefined || branches.length) == 0 && !isLoading) {
       dispatch(getBranches())
     }
@@ -197,7 +200,7 @@ function Branches() {
         label='Sucursales'
         onAddItem={handleAddItem}
       />
-      {isDetailsModalOpen ? <BranchDetailsModel activeBranch={activeBranch} /> : null}
+      {isDetailsModalOpen ? <BranchDetailsModel reset={reset} /> : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}

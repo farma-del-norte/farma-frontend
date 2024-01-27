@@ -14,7 +14,7 @@ import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 import COMMON_LOCALE from 'src/utils/locales/common'
 import ClipLoader from 'react-spinners/ClipLoader'
 
-const BranchDetailsModel = () => {
+const BranchDetailsModel = ({reset = () => {}}) => {
   const {isDetailsModalOpen, activeBranch, branchDetails, isModalLoading} = useSelector(state => state.branches)
   const dispatch = useDispatch()
 
@@ -25,6 +25,7 @@ const BranchDetailsModel = () => {
   }
 
   const handleFormModal = () => {
+    reset(branchDetails != null ? branchDetails : {})
     dispatch(setIsDetailsFormModalOpen(true))
   }
 
@@ -74,17 +75,20 @@ const BranchDetailsModel = () => {
               ]
             }
           />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_SQUARE_METERS} value={branchDetails.mts2} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CROSS_AD} value={branchDetails.crossAds} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LETTER_AD} value={branchDetails.letterAds} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_REFLECTIVE_AD} value={branchDetails.reflectiveAds} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LATITUDE} value={branchDetails.latitude} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LONGITUDE} value={branchDetails.longitude} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_TARP_AD} value={branchDetails.tarpAds} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_BATHROOMS} value={branchDetails.bathrooms} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_AIR_WASH} value={branchDetails.airWash} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_MINISPLITS} value={branchDetails.minisplit} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CURTAINS} value={branchDetails.curtains} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_SQUARE_METERS} value={branchDetails?.mts2} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CROSS_AD} value={branchDetails?.crossAds} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LETTER_AD} value={branchDetails?.letterAds} />
+          <DetailTextFieldForm
+            labelText={CATALOGS_LOCALE.BRANCHES_REFLECTIVE_AD}
+            value={branchDetails?.reflectiveAds}
+          />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LATITUDE} value={branchDetails?.latitude} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LONGITUDE} value={branchDetails?.longitude} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_TARP_AD} value={branchDetails?.tarpAds} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_BATHROOMS} value={branchDetails?.bathrooms} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_AIR_WASH} value={branchDetails?.airWash} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_MINISPLITS} value={branchDetails?.minisplit} />
+          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CURTAINS} value={branchDetails?.curtains} />
           <DetailTextFieldForm
             labelText={CATALOGS_LOCALE.BRANCHES_WATERPROOFING}
             value={branchDetails.waterproofing ? COMMON_LOCALE.YES : COMMON_LOCALE.NO}
