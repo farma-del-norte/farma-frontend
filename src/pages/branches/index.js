@@ -11,7 +11,8 @@ import {
   setModalItem,
   toggleDeleteModal,
   setActiveBranch,
-  setIsDetailsModalOpen
+  setIsDetailsModalOpen,
+  setBranchDetails
 } from 'src/store/catalogs/branches/reducer'
 import {
   createBranch,
@@ -82,8 +83,9 @@ const defaultValuesBranches = {
 }
 
 function Branches() {
-  const {isOpen, isFormDetailsOpen, isDetailsModalOpen, modalItem, isDeleteOpen, isLoading, branches, activeBranch} =
-    useSelector(state => state.branches)
+  const {isOpen, isDetailsModalOpen, modalItem, isDeleteOpen, isLoading, branches} = useSelector(
+    state => state.branches
+  )
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
@@ -93,6 +95,7 @@ function Branches() {
   const [bluePrintImages, setBlueprintImages] = useState([])
 
   useEffect(() => {
+    dispatch(setBranchDetails(null))
     if ((branches == undefined || branches.length) == 0 && !isLoading) {
       dispatch(getBranches())
     }
@@ -197,7 +200,7 @@ function Branches() {
         label='Sucursales'
         onAddItem={handleAddItem}
       />
-      {isDetailsModalOpen ? <BranchDetailsModel activeBranch={activeBranch} /> : null}
+      {isDetailsModalOpen ? <BranchDetailsModel reset={reset} /> : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
@@ -288,10 +291,10 @@ function Branches() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='front'
+                  name='latitude'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Enfrente' value={value} onChange={onChange} />
+                    <TextField label='Latitud' value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -299,18 +302,11 @@ function Branches() {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='long'
+                  name='longitude'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Largo' value={value} onChange={onChange} />}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='high'
-                  control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Alto' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Longitud' value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>

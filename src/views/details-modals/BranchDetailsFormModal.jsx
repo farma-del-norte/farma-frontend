@@ -5,17 +5,18 @@ import ImageUploader from 'src/components/image-uploader/ImageUploader'
 import i18n from 'src/configs/i18n'
 import {useDispatch, useSelector} from 'react-redux'
 import {setIsDetailsFormModalOpen} from 'src/store/catalogs/branches/reducer'
+import {addBranchDetails, updateBranchDetails} from 'src/store/catalogs/branches/actions'
 
 const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdate, handleBlueprintImageUpdate}) => {
   const dispatch = useDispatch()
   const {isDetailsFormOpen, branchDetails, activeBranch} = useSelector(state => state.branches)
 
   const handleAddBranch = values => {
-    console.log(values)
+    dispatch(addBranchDetails({branchId: activeBranch.id, body: values}))
   }
 
   const handleUpdateBranch = values => {
-    console.log(values)
+    dispatch(updateBranchDetails(branchDetails.id, values))
   }
 
   const handleCloseModal = () => {
@@ -116,7 +117,7 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='washing-air'
+                    name='airWash'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <TextField label={i18n.t('branches:washing_air')} value={value} onChange={onChange} />
@@ -129,7 +130,7 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={6} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='solar-panels'
+                    name='solarPanels'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <FormControlLabel
@@ -179,7 +180,7 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='meters'
+                    name='mts2'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <TextField label={i18n.t('branches:square_meter')} value={value} onChange={onChange} />
@@ -190,7 +191,7 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='cross-advertisement'
+                    name='crossAds'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <TextField label={i18n.t('branches:cross_advertisement')} value={value} onChange={onChange} />
@@ -203,7 +204,7 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='letters-advertisement'
+                    name='lettersAds'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <TextField label={i18n.t('branches:letters_advertisement')} value={value} onChange={onChange} />
@@ -214,7 +215,7 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='reflex-advertisement'
+                    name='reflectiveAds'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <TextField label={i18n.t('branches:reflex_advertisement')} value={value} onChange={onChange} />
@@ -227,7 +228,22 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
-                    name='canvas-advertisement'
+                    name='reflectiveCrossAds'
+                    control={control}
+                    render={({field: {value, onChange}}) => (
+                      <TextField
+                        label={i18n.t('branches:cross_reflective_advertisement')}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='tarpAds'
                     control={control}
                     render={({field: {value, onChange}}) => (
                       <TextField label={i18n.t('branches:canvas_advertisement')} value={value} onChange={onChange} />
@@ -235,6 +251,8 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
                   />
                 </FormControl>
               </Grid>
+            </Grid>
+            <Grid container spacing={5}>
               <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
                 <FormControl fullWidth>
                   <Controller
@@ -246,17 +264,17 @@ const BranchDetailsFormModal = ({control, handleSubmit, handlePharmacyImageUpdat
                   />
                 </FormControl>
               </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{marginTop: '10px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='minisplit'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label={i18n.t('branches:minisplit')} value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
+              <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='minisplit'
+                    control={control}
+                    render={({field: {value, onChange}}) => (
+                      <TextField label={i18n.t('branches:minisplit')} value={value} onChange={onChange} />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
