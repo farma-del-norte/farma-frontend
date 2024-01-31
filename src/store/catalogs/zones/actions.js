@@ -20,7 +20,7 @@ export const createZone = createAsyncThunk('/zones/createZone', async (body, thu
     thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.ZONES_CREATE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = error.response.data.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
