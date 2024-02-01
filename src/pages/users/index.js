@@ -13,6 +13,7 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import USERS_LOCALE from 'src/utils/locales/users'
 import { PasswordField } from 'src/utils/inputs'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -99,25 +100,25 @@ function Users() {
   const isEdit = Boolean(modalItem)
 
   const userInfoSchema = yup.object().shape({
-    firstname: yup.string().max(50, 'El nombre no puede tener más de 50 caracteres').required('El nombre es obligatorio'),
-    lastname: yup.string().max(50, 'El apellido no puede tener más de 50 caracteres').required('El apellido es obligatorio'),
-    email: yup.string().email('Ingresa un correo electrónico válido').required('El correo electrónico es obligatorio'),
-    phone: yup.string().matches(/^[0-9]+$/, 'Ingresa un número de teléfono válido').required('El número de teléfono es obligatorio'),
-    password: yup.string().min(6, 'La contraseña debe tener al menos 6 caracteres').max(100, 'La contraseña debe tener como mucho 100 caracteres').required('La contraseña es obligatoria'),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir').required('Debes confirmar la contraseña'),
-    position: yup.string().required('Debes seleccionar una opción'),
-    zoneID: yup.string().required('Debes seleccionar una opción'),
-    branchID: yup.string().required('Debes seleccionar una opción')
+    firstname: yup.string().max(50, USERS_LOCALE.FIRSTNAME_MAX_LENGTH).required(USERS_LOCALE.FIRSTNAME_REQUIRED),
+    lastname: yup.string().max(50, USERS_LOCALE.LASTNAME_MAX_LENGTH).required(USERS_LOCALE.LASTNAME_REQUIRED),
+    email: yup.string().email(USERS_LOCALE.EMAIL_NOT_CORRECT).required(USERS_LOCALE.EMAIL_REQUIRED),
+    phone: yup.string().matches(/^[0-9]+$/, USERS_LOCALE.PHONE_NOT_CORRECT).required(USERS_LOCALE.PHONE_REQUIRED),
+    password: yup.string().min(6, USERS_LOCALE.PASSWORD_MIN_LENGTH).max(100, USERS_LOCALE.PASSWORD_MAX_LENGTH).required(USERS_LOCALE.PASSWORD_REQUIRED),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], USERS_LOCALE.CONFIRM_PASSWORD_NOT_CORRECT).required(USERS_LOCALE.CONFIRM_PASSWORD_REQUIRED),
+    position: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    zoneID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    branchID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED)
   })
 
   const userInfoEditSchema = yup.object().shape({
-    firstname: yup.string().max(50, 'El nombre no puede tener más de 50 caracteres').required('El nombre es obligatorio'),
-    lastname: yup.string().max(50, 'El apellido no puede tener más de 50 caracteres').required('El apellido es obligatorio'),
-    email: yup.string().email('Ingresa un correo electrónico válido').required('El correo electrónico es obligatorio'),
-    phone: yup.string().matches(/^[0-9]+$/, 'Ingresa un número de teléfono válido').required('El número de teléfono es obligatorio'),
-    position: yup.string().required('Debes seleccionar una opción'),
-    zoneID: yup.string().required('Debes seleccionar una opción'),
-    branchID: yup.string().required('Debes seleccionar una opción')
+    firstname: yup.string().max(50, USERS_LOCALE.FIRSTNAME_MAX_LENGTH).required(USERS_LOCALE.FIRSTNAME_REQUIRED),
+    lastname: yup.string().max(50, USERS_LOCALE.LASTNAME_MAX_LENGTH).required(USERS_LOCALE.LASTNAME_REQUIRED),
+    email: yup.string().email(USERS_LOCALE.EMAIL_NOT_CORRECT).required(USERS_LOCALE.EMAIL_REQUIRED),
+    phone: yup.string().matches(/^[0-9]+$/, USERS_LOCALE.PHONE_NOT_CORRECT).required(USERS_LOCALE.PHONE_REQUIRED),
+    position: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    zoneID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    branchID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED)
   })
 
   const {control, handleSubmit, reset, formState: {errors: userErrors}} = useForm({

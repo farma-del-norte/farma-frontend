@@ -1,0 +1,16 @@
+{
+    "firstName_required": "El nombre es obligatorio",
+    "firstName_max_length": "El nombre no puede tener más de 50 caracteres",
+    "lastName_required": "El apellido es obligatorio",
+    "lastName_max_length": "El apellido no puede tener más de 50 caracteres",
+    "email_valid": "Ingresa un correo electrónico válido",
+    "email_required": "El correo electrónico es obligatorio",
+    "phone_valid": "Ingresa un número de teléfono válido",
+    "phone_required": "El número de teléfono es obligatorio",
+    "password_max_length": "La contraseña debe tener al menos 6 caracteres",
+    "password_min_length": "La contraseña debe tener como mucho 100 caracteres",
+    "password_required": "La contraseña es obligatoria",
+    "confirm_password_valid": "Las contraseñas deben coincidir",
+    "confirm_password_required": "Debes confirmar la contraseña",
+    "select_required": "Debes seleccionar una opción"
+}
