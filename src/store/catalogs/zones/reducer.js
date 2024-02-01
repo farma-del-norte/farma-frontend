@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createZone, editZone, getZones} from './actions'
+import {createZone, editZone, getZones, deleteZone} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -57,6 +57,16 @@ export const zonesSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(editZone.rejected, state => {
+      state.isLoading = false
+    })
+    builder.addCase(deleteZone.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteZone.fulfilled, (state, {payload}) => {
+      state.zones = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteZone.rejected, state => {
       state.isLoading = false
     })
   }
