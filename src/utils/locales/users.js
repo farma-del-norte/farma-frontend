@@ -1,6 +1,10 @@
 import {t} from 'i18next'
 
 const USERS_LOCALE = {
+    //USERS SNACKBAR
+    USER_CREATED: t('success_user_created', {ns: 'users'}),
+    USER_EDITED: t('success_user_edited', {ns: 'users'}),
+    USER_DELETED: t('success_user_deleted', {ns: 'users'}),
 
     // USERS YUP
     FIRSTNAME_REQUIRED: t('firstName_required', {ns: 'users'}),
