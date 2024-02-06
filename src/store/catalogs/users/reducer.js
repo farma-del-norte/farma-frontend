@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createUser, editUser, getUsers} from './actions'
+import {createUser, editUser, getUsers, deleteUser} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -59,6 +59,16 @@ export const usersSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(editUser.rejected, state => {
+      state.isLoading = false
+    })
+    builder.addCase(deleteUser.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteUser.fulfilled, (state, {payload}) => {
+      state.users = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteUser.rejected, state => {
       state.isLoading = false
     })
   }

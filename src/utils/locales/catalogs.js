@@ -3,6 +3,13 @@ import i18n from 'src/configs/i18n'
 
 const CATALOGS_LOCALE = {
   // MARK: - BRANCHES
+  USERS_TITLE: t('users_title', {ns: 'catalogs'}),
+  USERS_EDIT_MODAL: t('users_edit_modal', {ns: 'catalogs'}),
+  USERS_ADD_MODAL: t('users_add_modal', {ns: 'catalogs'}),
+  USERS_DELETE_MODAL: t('users_delete_modal', {ns: 'catalogs'}),
+  USERS_CONFIRM_DELETE_MODAL: t('users_delete_confirm_message', {ns: 'catalogs'}),
+
+  // MARK: - BRANCHES
   BRANCHES_CREATE_MESSAGE: t('branches_create_message', {ns: 'catalogs'}),
   BRANCHES_EDIT_MESSAGE: t('branches_edit_message', {ns: 'catalogs'}),
   BRANCHES_DELETE_MESSAGE: t('branches_delete_message', {ns: 'catalogs'}),
