@@ -4,7 +4,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
-import { styled, useTheme } from '@mui/material/styles'
+import {styled, useTheme} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
 // ** Icons
@@ -16,7 +16,7 @@ import RecordCircleOutline from 'mdi-material-ui/RecordCircleOutline'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Styled Components
-const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
+const MenuHeaderWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -25,7 +25,7 @@ const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
   minHeight: theme.mixins.toolbar.minHeight
 }))
 
-const HeaderTitle = styled(Typography)(({ theme }) => ({
+const HeaderTitle = styled(Typography)(({theme}) => ({
   fontWeight: 600,
   lineHeight: 'normal',
   textTransform: 'uppercase',
@@ -56,8 +56,8 @@ const VerticalNavHeader = props => {
 
   // ** Hooks & Vars
   const theme = useTheme()
-  const { navCollapsed } = settings
-  const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
+  const {navCollapsed} = settings
+  const menuCollapsedStyles = navCollapsed && !navHover ? {opacity: 0} : {opacity: 1}
 
   const menuHeaderPaddingLeft = () => {
     if (navCollapsed && !navHover) {
@@ -96,13 +96,13 @@ const VerticalNavHeader = props => {
     )
 
   return (
-    <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
+    <MenuHeaderWrapper className='nav-header' sx={{pl: menuHeaderPaddingLeft()}}>
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (
-        <Link href='/' passHref>
+        <Link href='/' passHref style={{textDecoration: 'none'}}>
           <StyledLink>
-            <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 3 }) }}>
+            <HeaderTitle variant='h6' sx={{...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : {ml: 3})}}>
               {themeConfig.templateName}
             </HeaderTitle>
           </StyledLink>
@@ -114,7 +114,7 @@ const VerticalNavHeader = props => {
           disableRipple
           disableFocusRipple
           onClick={toggleNavVisibility}
-          sx={{ p: 0, backgroundColor: 'transparent !important' }}
+          sx={{p: 0, backgroundColor: 'transparent !important'}}
         >
           <Close fontSize='small' />
         </IconButton>
@@ -122,8 +122,8 @@ const VerticalNavHeader = props => {
         <IconButton
           disableRipple
           disableFocusRipple
-          onClick={() => saveSettings({ ...settings, navCollapsed: !navCollapsed })}
-          sx={{ p: 0, color: 'text.primary', backgroundColor: 'transparent !important' }}
+          onClick={() => saveSettings({...settings, navCollapsed: !navCollapsed})}
+          sx={{p: 0, color: 'text.primary', backgroundColor: 'transparent !important'}}
         >
           {navCollapsed ? MenuUnlockedIcon() : MenuLockedIcon()}
         </IconButton>
