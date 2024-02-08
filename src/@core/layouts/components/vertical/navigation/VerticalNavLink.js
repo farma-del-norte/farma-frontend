@@ -1,6 +1,6 @@
 // ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 // ** MUI Imports
 import Chip from '@mui/material/Chip'
@@ -8,7 +8,7 @@ import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import { styled, useTheme } from '@mui/material/styles'
+import {styled, useTheme} from '@mui/material/styles'
 import ListItemButton from '@mui/material/ListItemButton'
 
 // ** Configs Import
@@ -20,10 +20,10 @@ import Translations from 'src/layouts/components/Translations'
 import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
 
 // ** Utils
-import { handleURLQueries } from 'src/@core/layouts/utils'
+import {handleURLQueries} from 'src/@core/layouts/utils'
 
 // ** Styled Components
-const MenuNavLink = styled(ListItemButton)(({ theme }) => ({
+const MenuNavLink = styled(ListItemButton)(({theme}) => ({
   width: '100%',
   borderTopRightRadius: 100,
   borderBottomRightRadius: 100,
@@ -46,7 +46,7 @@ const MenuItemTextMetaWrapper = styled(Box)({
   alignItems: 'center',
   justifyContent: 'space-between',
   transition: 'opacity .25s ease-in-out',
-  ...(themeConfig.menuTextTruncate && { overflow: 'hidden' })
+  ...(themeConfig.menuTextTruncate && {overflow: 'hidden'})
 })
 
 const VerticalNavLink = ({
@@ -65,7 +65,7 @@ const VerticalNavLink = ({
   const router = useRouter()
 
   // ** Vars
-  const { skin, navCollapsed } = settings
+  const {skin, navCollapsed} = settings
   const IconTag = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
 
   const conditionalBgColor = () => {
@@ -96,17 +96,12 @@ const VerticalNavLink = ({
 
   return (
     // <CanViewNavLink navLink={item}>
-    <ListItem
-      disablePadding
-      className='nav-link'
-      disabled={item.disabled || false}
-      sx={{ mt: 1.5, px: '0 !important' }}
-    >
-      <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
+    <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{mt: 1.5, px: '0 !important'}}>
+      <Link passHref href={item.path === undefined ? '/' : `${item.path}`} style={{textDecoration: 'none'}}>
         <MenuNavLink
           component={'a'}
           className={isNavLinkActive() ? 'active' : ''}
-          {...(item.openInNewTab ? { target: '_blank' } : null)}
+          {...(item.openInNewTab ? {target: '_blank'} : null)}
           onClick={e => {
             if (item.path === undefined) {
               e.preventDefault()
@@ -119,7 +114,7 @@ const VerticalNavLink = ({
           sx={{
             py: 2.25,
             ...conditionalBgColor(),
-            ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' }),
+            ...(item.disabled ? {pointerEvents: 'none'} : {cursor: 'pointer'}),
             pl: navCollapsed && !navHover ? (collapsedNavWidth - navigationBorderWidth - 24) / 8 : 5.5,
             pr: navCollapsed && !navHover ? ((collapsedNavWidth - navigationBorderWidth - 24) / 2 - 5) / 4 : 3.5
           }}
@@ -129,8 +124,8 @@ const VerticalNavLink = ({
               sx={{
                 color: 'text.primary',
                 transition: 'margin .25s ease-in-out',
-                ...(navCollapsed && !navHover ? { mr: 0 } : { mr: 2.5 }),
-                ...(parent ? { ml: 1.25, mr: 3.75 } : {}) // This line should be after (navCollapsed && !navHover) condition for proper styling
+                ...(navCollapsed && !navHover ? {mr: 0} : {mr: 2.5}),
+                ...(parent ? {ml: 1.25, mr: 3.75} : {}) // This line should be after (navCollapsed && !navHover) condition for proper styling
               }}
             >
               <UserIcon
@@ -139,8 +134,8 @@ const VerticalNavLink = ({
                 iconProps={{
                   sx: {
                     fontSize: '0.875rem',
-                    ...(!parent ? { fontSize: '1.5rem' } : {}),
-                    ...(parent && item.icon ? { fontSize: '0.875rem' } : {})
+                    ...(!parent ? {fontSize: '1.5rem'} : {}),
+                    ...(parent && item.icon ? {fontSize: '0.875rem'} : {})
                   }
                 }}
               />
@@ -149,8 +144,8 @@ const VerticalNavLink = ({
 
           <MenuItemTextMetaWrapper
             sx={{
-              ...(isSubToSub ? { ml: 9 } : {}),
-              ...(navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 })
+              ...(isSubToSub ? {ml: 9} : {}),
+              ...(navCollapsed && !navHover ? {opacity: 0} : {opacity: 1})
             }}
           >
             <Typography
@@ -168,7 +163,7 @@ const VerticalNavLink = ({
                   ml: 1.25,
                   height: 20,
                   fontWeight: 500,
-                  '& .MuiChip-label': { px: 1.5, textTransform: 'capitalize' }
+                  '& .MuiChip-label': {px: 1.5, textTransform: 'capitalize'}
                 }}
               />
             ) : null}
