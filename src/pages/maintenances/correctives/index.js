@@ -239,7 +239,7 @@ const Maintenances = () => {
         <ReusableDialog
           open={isOpen}
           onClose={handleCloseModal}
-          title={Boolean(modalItem) ? 'editar' : 'Reportar Mantenimiento'}
+          title={Boolean(modalItem) ? 'Editar' : 'Reportar Mantenimiento'}
           actions={[
             {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
             {label: 'Reportar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -375,22 +375,6 @@ const Maintenances = () => {
                           }}
                         />}
                     />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-                  <FormControl fullWidth>
-                    <Controller
-                      name='evidencia'
-                      control={control}
-                      render={({field: {value, onChange}}) => 
-                      <>
-                        <MultimediaUploader 
-                          field={"Evidencia digital"}
-                          base64Images={[]} 
-                          handleImages={handleImagesUpdate} 
-                        />
-                      </>
-                    }/>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
