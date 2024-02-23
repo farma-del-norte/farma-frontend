@@ -239,7 +239,7 @@ const Maintenances = () => {
         <ReusableDialog
           open={isOpen}
           onClose={handleCloseModal}
-          title={Boolean(modalItem) ? 'Editar' : 'Reportar Mantenimiento'}
+          title={Boolean(modalItem) ? MAINTENANCES_LOCALE.MAINTENANCES_EDIT : 'Reportar Mantenimiento'}
           actions={[
             {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
             {label: 'Reportar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}

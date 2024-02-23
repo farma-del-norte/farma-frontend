@@ -1,6 +1,7 @@
 {
     "maintenances_title": "Mantenimientos de Sucursales",
     "maintenances_column_name": "Mantenimiento",
+    "maintenances_edit": "Editar",
     "maintenances_edit_modal": "Editar mantenimiento de Sucursal seleccionado",
     "maintenances_add_modal": "Agregar mantenimiento de Sucursal",
     "maintenances_delete_modal": "Eliminar mantenimiento de Sucursal",
