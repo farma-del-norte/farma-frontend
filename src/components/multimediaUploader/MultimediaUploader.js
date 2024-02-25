@@ -41,7 +41,7 @@ const MultimediaUploader = ({
             if (typeof (image) != 'string') {
               const fileReader = new FileReader();
               fileReader.onload = (_) => {
-                resolve(fileReader.result);
+                resolve({file: fileReader.result, name: image.name});
               };
               fileReader.onerror = (error) => reject(error);
               fileReader.readAsDataURL(image.hasOwnProperty("file") ? image.file : image);
@@ -50,9 +50,10 @@ const MultimediaUploader = ({
             }
           })
       )
-    ).then((base64Images) => {
+    ).then((file) => {
       // Send base64Images to server
-      handleImages(base64Images)
+      if(file)
+        handleImages(file)
     });
   }
 
@@ -61,14 +62,14 @@ const MultimediaUploader = ({
     const newImages = [...images];
     for (const file of e.dataTransfer.files) {
       if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
-        newImages.push(file);
+        newImages.push({file: file, name: file.name});
       }
       else if (file.type === 'video/mp4' || file.type === 'video/x-m4v' || file.type === 'video/*'){
         const file = e.dataTransfer.files[0];
         const url = URL.createObjectURL(file);
-        newImages.push({file: file, url: url});
+        newImages.push({file: file, url: url, name: file.name});
       }else if(file.type === "application/pdf"){
-        newImages.push(file);
+        newImages.push({file: file, name: file.name});
       }
     }
     setImages(newImages);
@@ -84,14 +85,14 @@ const MultimediaUploader = ({
     const newImages = [...images];
     for (const file of e.target.files) {
       if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
-        newImages.push(file);
+        newImages.push({file: file, name: file.name});
       }
       else if (file.type === 'video/mp4' || file.type === 'video/x-m4v' || file.type === 'video/*'){
         const file = e.target.files[0];
         const url = URL.createObjectURL(file);
-        newImages.push({file: file, url: url});
+        newImages.push({file: file, url: url, name: file.name});
       }else if(file.type === "application/pdf"){
-        newImages.push(file);
+        newImages.push({file: file, name: file.name});
       }
     }
     setImages(newImages);
@@ -167,8 +168,8 @@ const MultimediaUploader = ({
           flexWrap: 'wrap',
         }}
       >
-        {images.map((file, index) => (
-          file?.type?.includes('image') ?
+        {images.map((media, index) => (
+          media?.file?.type?.includes('image') ?
           <div key={index} style={{
             position: 'relative',
             width: '150px',
@@ -178,8 +179,8 @@ const MultimediaUploader = ({
           }}>
             
               <img
-                src={typeof (file) === 'string' ? file : URL.createObjectURL(file)}
-                alt={file.name}
+                src={typeof (media.file) === 'string' ? media.file : URL.createObjectURL(media.file)}
+                alt={media.name}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
@@ -199,7 +200,7 @@ const MultimediaUploader = ({
             </div>
           </div>
               :
-              file?.file?.type.includes('video') ?
+              media?.file?.type.includes('video') ?
               <div key={index} style={{
                 position: 'relative',
                 width: '268px',
@@ -212,7 +213,7 @@ const MultimediaUploader = ({
                   width="100%"
                   height="100%"
                   controls
-                  src={file.url} 
+                  src={media.url} 
                 />
                 <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
                   <button style={{
@@ -238,7 +239,7 @@ const MultimediaUploader = ({
                 overflow: 'hidden',
                 margin: '10px 5px'
               }}>
-                <embed src={typeof (file) === 'string' ? file : URL.createObjectURL(file)} width="270" height="150"/>
+                <embed src={typeof (media.file) === 'string' ? media.file : URL.createObjectURL(media.file)} width="270" height="150"/>
                 <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
                 <button style={{
                   backgroundColor: '#000',

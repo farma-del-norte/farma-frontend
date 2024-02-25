@@ -15,6 +15,8 @@ import users from 'src/store/catalogs/users/reducer'
 import variablesCat from 'src/store/catalogs/variables/reducer'
 import zones from 'src/store/catalogs/zones/reducer'
 import maintenances from 'src/store/maintenances/maintenances/reducer'
+import services from 'src/store/maintenances/services/reducer'
+import media from 'src/store/media/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -30,7 +32,9 @@ export const store = configureStore({
     users,
     variablesCat,
     zones,
-    maintenances
+    maintenances,
+    services,
+    media
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

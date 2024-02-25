@@ -7,5 +7,15 @@
     "maintenances_delete_confirm_message": "¿Seguro de eliminar el mantenimiento de la Sucursal seleccionada?",
     "maintenances_edit_message": "Sucursal de Mantenimiento actualizado con éxito",
     "maintenances_cat_create_message": "Sucursal de Mantenimiento creado con éxito",
-    "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito"
+    "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito",
+
+    "services_title": "Servicios",
+    "services_column_name": "Servicio",
+    "services_edit_modal": "Editar servicio seleccionado",
+    "services_add_modal": "Agregar Servicio",
+    "services_delete_modal": "Eliminar Servicio",
+    "services_delete_confirm_message": "¿Seguro de eliminar el servicio seleccionado?",
+    "services_edit_message": "Servicio actualizado con éxito",
+    "services_create_message": "Servicio creado con éxito",
+    "services_delete_message": "Servicio eliminado con éxito"
 }
