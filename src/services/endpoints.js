@@ -1,5 +1,6 @@
 export const BRANCHES_ENDPOINT = 'https://7hurs3hbne.execute-api.us-east-1.amazonaws.com'
 export const CONCEPTS_CAT_ENDPOINT = 'https://hdo0n96uo3.execute-api.us-east-1.amazonaws.com'
+export const DAMAGES_ENDPOINT = 'https://r7waxzyqa0.execute-api.us-east-1.amazonaws.com'
 export const DAMAGES_CAT_ENDPOINT = 'https://yyk4wdty3f.execute-api.us-east-1.amazonaws.com'
 export const DIMENSIONS_CAT_ENDPOINT = 'https://8xt77z0uyb.execute-api.us-east-1.amazonaws.com'
 export const MAINTENANCES_ENDPOINT = 'https://eccsqxc8xe.execute-api.us-east-1.amazonaws.com'
