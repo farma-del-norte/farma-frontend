@@ -226,7 +226,14 @@ function Damages() {
                   name='date'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField type='date' label='Fecha' placeholder='hola' value={value} onChange={onChange} />
+                    <TextField
+                      type='date'
+                      label='Fecha'
+                      placeholder='hola'
+                      InputLabelProps={{shrink: true}}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
