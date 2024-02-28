@@ -170,10 +170,11 @@ function Damages() {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <Select value={value} onChange={onChange} label='Siniestro'>
-                      {/* Agrega opciones para el Select */}
-                      <MenuItem value={1}>Opción 1</MenuItem>
-                      <MenuItem value={2}>Opción 2</MenuItem>
-                      {/* ... más opciones ... */}
+                      {damagesCat.map(damage => (
+                        <MenuItem key={damage.id} value={damage.id}>
+                          {damage.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   )}
                 />
@@ -188,10 +189,11 @@ function Damages() {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <Select value={value} onChange={onChange} label='Mantenimiento'>
-                      {/* Agrega opciones para el Select */}
-                      <MenuItem value={1}>Opción 1</MenuItem>
-                      <MenuItem value={2}>Opción 2</MenuItem>
-                      {/* ... más opciones ... */}
+                      {maintenances.map(maintenance => (
+                        <MenuItem key={maintenance.id} value={maintenance.id}>
+                          {maintenance.description}
+                        </MenuItem>
+                      ))}
                     </Select>
                   )}
                 />
