@@ -16,7 +16,7 @@ export const createZoneService = async body => {
   try {
     const result = await api_post(url, body)
     return result
-  } catch {
+  } catch (error) {
     throw error
   }
 }

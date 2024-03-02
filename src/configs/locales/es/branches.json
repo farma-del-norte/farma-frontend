@@ -16,5 +16,24 @@
   "minisplit":"Minisplit",
   "curtains":"Cortinas",
   "edit_details": "Editar Detalles Sucursal:",
-  "add_details": "Agregar Detalles Sucursal:"
+  "add_details": "Agregar Detalles Sucursal:",
+  "add_details_optional": "Agregar Detalles a la Sucursal (Opcional)",
+  "add_branch": "Agregar Sucursal",
+  "edit_branch": "Editar Sucursal",
+  
+  "branch_name_required": "El nombre es obligatorio",
+  "branch_name_max_length": "El nombre no puede tener más de 60 caracteres",
+  "branch_street_required": "La calle es obligatoria",
+  "branch_street_max_length": "La calle no puede tener más de 100 caracteres",
+  "branch_colony_required": "La colonia es obligatoria",
+  "branch_colony_max_length": "La colonia no puede tener más de 100 caracteres",
+  "branch_zipcode_required": "El codigo postal es obligatorio",
+  "branch_zipode_positive_number_required": "El codigo postal debe ser un numero y positivo",
+  "branch_zipcode_min_length": "El codigo postal debe ser minimo de 4 caracteres",
+  "branch_zipcode_max_length": "El codigo postal no puede tener más de 5 caracteres",
+  "branch_city_max_length": "La ciudad no puede tener más de 60 caracteres",
+  "branch_city_required": "La ciudad es obligatoria",
+  "branch_state_max_length": "El estado no puede tener más de 60 caracteres",
+  "branch_state_required": "El estado es obligatorio",
+  "branch_select_required": "Debes seleccionar una opción"
 }

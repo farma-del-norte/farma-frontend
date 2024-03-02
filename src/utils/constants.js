@@ -24,6 +24,7 @@ export const MAINTENANCES_LOCALE = {
   // MARK: - MAINTENANCES
   MAINTENANCES_TITLE: t('maintenances_title', {ns: 'maintenances'}),
   MAINTENANCES_FIELD_NAME: t('maintenances_column_name', {ns: 'maintenances'}),
+  MAINTENANCES_EDIT: t('maintenances_edit', {ns: 'maintenances'}),
   MAINTENANCES_EDIT_MODAL: t('maintenances_edit_modal', {ns: 'maintenances'}),
   MAINTENANCES_ADD_MODAL: t('maintenances_add_modal', {ns: 'maintenances'}),
   MAINTENANCES_DELETE_MODAL: t('maintenances_delete_modal', {ns: 'maintenances'}),
