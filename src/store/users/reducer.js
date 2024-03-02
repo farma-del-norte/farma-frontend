@@ -9,7 +9,9 @@ const initialState = {
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null,
-  error: null
+  error: null,
+  showVerificationModal: false,
+  showInputPasswords: false
 }
 
 // MARK: - Reducer
@@ -28,6 +30,12 @@ export const usersSlice = createSlice({
     },
     setDeleteItem: (state, {payload}) => {
       state.modalDeleteItem = payload
+    },
+    setVerificationModal: (state, {payload}) => {
+      state.showVerificationModal = payload
+    },
+    setInputPasswords: (state, {payload}) => {
+      state.showInputPasswords = payload
     }
   },
   extraReducers: builder => {
@@ -76,4 +84,4 @@ export const usersSlice = createSlice({
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = usersSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords} = usersSlice.actions
