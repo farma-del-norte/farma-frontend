@@ -12,37 +12,38 @@ import {getMaintenances} from 'src/store/maintenances/maintenances/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
+import {DAMAGES_LOCALE} from 'src/utils/constants'
 
 const columns = [
   {
     flex: 0.25,
     minWidth: 200,
     field: 'damageCategory',
-    headerName: 'Siniestro'
+    headerName: DAMAGES_LOCALE.DAMAGES_COLUMN_DAMAGE_CAT
   },
   {
     flex: 0.25,
     minWidth: 200,
     field: 'MaintenancesDescription',
-    headerName: 'Mantenimiento'
+    headerName: DAMAGES_LOCALE.DAMAGES_COLUMN_MAINTENANCE
   },
   {
     flex: 0.25,
     minWidth: 200,
     field: 'description',
-    headerName: 'Descripción'
+    headerName: DAMAGES_LOCALE.DAMAGES_COLUMN_DESCRIPTION
   },
   {
     flex: 0.25,
     minWidth: 200,
     field: 'notes',
-    headerName: 'Notas'
+    headerName: DAMAGES_LOCALE.DAMAGES_COLUMN_NOTES
   },
   {
     flex: 0.25,
     minWidth: 200,
     field: 'date',
-    headerName: 'Fecha'
+    headerName: DAMAGES_LOCALE.DAMAGES_COLUMN_DATE
   }
 ]
 
@@ -57,7 +58,6 @@ const defaultValuesDamages = {
 
 function Damages() {
   const dispatch = useDispatch()
-
   const {isOpen, modalItem, isDeleteOpen, damages, isLoading, modalDeleteItem} = useSelector(state => state.damages)
   const {maintenances} = useSelector(state => state.maintenances)
   const {damagesCat} = useSelector(state => state.damagesCat)
@@ -125,7 +125,7 @@ function Damages() {
       flex: 0.125,
       minWidth: 100,
       field: 'actions',
-      headerName: 'Acciones',
+      headerName: DAMAGES_LOCALE.DAMAGES_COLUMN_ACTIONS,
       renderCell: params => {
         const row = params?.row
         return (
@@ -147,7 +147,7 @@ function Damages() {
           showAddButton
           columns={actionableColumns}
           rows={damages}
-          label='Siniestros'
+          label={DAMAGES_LOCALE.DAMAGES_TITLE}
           onAddItem={handleAddItem}
         />
       )}
@@ -164,12 +164,12 @@ function Damages() {
           <Grid container spacing={5}>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
-                <InputLabel>Siniestro</InputLabel>
+                <InputLabel>{DAMAGES_LOCALE.DAMAGES_COLUMN_DAMAGE_CAT}</InputLabel>
                 <Controller
                   name='damageCatID'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <Select value={value} onChange={onChange} label='Siniestro'>
+                    <Select value={value} onChange={onChange} label={DAMAGES_LOCALE.DAMAGES_COLUMN_DAMAGE_CAT}>
                       {damagesCat.map(damage => (
                         <MenuItem key={damage.id} value={damage.id}>
                           {damage.name}
@@ -183,12 +183,12 @@ function Damages() {
 
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
-                <InputLabel>Mantenimiento</InputLabel>
+                <InputLabel>{DAMAGES_LOCALE.DAMAGES_COLUMN_MAINTENANCE}</InputLabel>
                 <Controller
                   name='maintenanceID'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <Select value={value} onChange={onChange} label='Mantenimiento'>
+                    <Select value={value} onChange={onChange} label={DAMAGES_LOCALE.DAMAGES_COLUMN_MAINTENANCE}>
                       {maintenances.map(maintenance => (
                         <MenuItem key={maintenance.id} value={maintenance.id}>
                           {maintenance.description}
@@ -206,7 +206,7 @@ function Damages() {
                   name='description'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Descripcion' value={value} onChange={onChange} />
+                    <TextField label={DAMAGES_LOCALE.DAMAGES_COLUMN_DESCRIPTION} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -217,7 +217,9 @@ function Damages() {
                 <Controller
                   name='notes'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Notas' value={value} onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label={DAMAGES_LOCALE.DAMAGES_COLUMN_NOTES} value={value} onChange={onChange} />
+                  )}
                 />
               </FormControl>
             </Grid>
@@ -230,8 +232,7 @@ function Damages() {
                   render={({field: {value, onChange}}) => (
                     <TextField
                       type='date'
-                      label='Fecha'
-                      placeholder='hola'
+                      label={DAMAGES_LOCALE.DAMAGES_COLUMN_DATE}
                       InputLabelProps={{shrink: true}}
                       value={value}
                       onChange={onChange}
@@ -253,7 +254,7 @@ function Damages() {
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar el siniestro seleccionado?</Typography>
+          <Typography variant='body2'>{DAMAGES_LOCALE.DAMAGES_CONFIRM_DELETE_MODAL}</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />

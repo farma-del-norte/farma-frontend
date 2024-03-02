@@ -33,6 +33,24 @@ export const MAINTENANCES_LOCALE = {
   MAINTENANCES_DELETE_MESSAGE: t('maintenances_cat_delete_message', {ns: 'maintenances'})
 }
 
+export const DAMAGES_LOCALE = {
+  // MARK: - DAMAGES
+  DAMAGES_TITLE: t('damages.title', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DAMAGE_CAT: t('damages.column_damageCat', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_MAINTENANCE: t('damages.column_maintenance', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DESCRIPTION: t('damages.column_description', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_NOTES: t('damages.column_notes', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DATE: t('damages.column_date', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_ACTIONS: t('damages.column_actions', {ns: 'maintenances'}),
+  DAMAGES_EDIT_MODAL: t('damages.edit_modal', {ns: 'maintenances'}),
+  DAMAGES_ADD_MODAL: t('damages.add_modal', {ns: 'maintenances'}),
+  DAMAGES_DELETE_MODAL: t('damages.delete_modal', {ns: 'maintenances'}),
+  DAMAGES_CONFIRM_DELETE_MODAL: t('damages.delete_confirm_message', {ns: 'maintenances'}),
+  DAMAGES_EDIT_MESSAGE: t('damages.edit_message', {ns: 'maintenances'}),
+  DAMAGES_CREATE_MESSAGE: t('damages.cat_create_message', {ns: 'maintenances'}),
+  DAMAGES_DELETE_MESSAGE: t('damages.cat_delete_message', {ns: 'maintenances'})
+}
+
 export const CATALOGS_LOCALE = {
   // MARK: - BRANCHES
   BRANCHES_TITLE: t('branches_title', {ns: 'catalogs'}),
