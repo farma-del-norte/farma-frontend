@@ -6,7 +6,8 @@ import {
   getUsersService,
   usersLogin,
   getVerificationCodeService,
-  validateVerificationCodeService
+  validateVerificationCodeService,
+  updatePasswordService
 } from 'src/services/catalogs/users'
 import {openSnackBar} from 'src/store/notifications'
 import Router from 'next/router'
@@ -87,6 +88,18 @@ export const getVerificationCode = createAsyncThunk('/users/passwordRecoveryCode
 export const validateVerificationCode = createAsyncThunk('/users/passwordRecoveryCode', async (body, thunkApi) => {
   try {
     const payload = await validateVerificationCodeService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
+    return payload
+  } catch (error) {
+    const errMessage = error.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const updatePassword = createAsyncThunk('/users/password', async (body, thunkApi) => {
+  try {
+    const payload = await updatePasswordService(body)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
     return payload
   } catch (error) {

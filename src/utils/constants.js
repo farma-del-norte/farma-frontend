@@ -38,6 +38,8 @@ export const LOGIN_LOCALE = {
   ENTER_NEW_PASSWORD: i18n.t('Enter_new_password'),
   ENTER_NEW_PASSWORD_AGAIN: i18n.t('Enter_new_password_again'),
   ERROR_CODE: i18n.t('Error_code'),
+  UPDATED_PASSWORD: i18n.t('Updated_password'),
+  NOT_UPDATED_PASSWORD: i18n.t('Not_updated_password'),
   PASSWORD_MIN: i18n.t('password_min'),
   PASSWORD_REQUIRED: i18n.t('password_required'),
   PASSWORDS_NOT_MATCH: i18n.t('Passwords_not_match'),

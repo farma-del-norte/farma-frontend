@@ -36,6 +36,8 @@
     "Password":"Contraseña",
     "Password_eng": "password",
     "Update_password": "Actualizar Contraseña",
+    "Updated_password": "Contraseña Actualizada",
+    "Not_updated_password": "La contraseña no pudo ser actualizada",
     "I_forgot_my_password":"Olvidé mi contraseña",
     "Do_you_forget_password": "Olvidaste tu contraseña?. 🔒",
     "Reset_password": "Ingresa tu email y te enviaremos instrucciones para resetear tu contraseña",
