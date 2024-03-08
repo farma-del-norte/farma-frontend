@@ -12,7 +12,7 @@ import {getMaintenances} from 'src/store/maintenances/maintenances/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {DAMAGES_LOCALE} from 'src/utils/constants'
+import {DAMAGES_LOCALE, COMMON_LOCALE} from 'src/utils/constants'
 
 const columns = [
   {
@@ -48,12 +48,12 @@ const columns = [
 ]
 
 const defaultValuesDamages = {
-  id: '',
-  damageCatID: '',
-  maintenanceID: '',
-  description: '',
-  notes: '',
-  date: ''
+  id: COMMON_LOCALE.EMPTY_STRING,
+  damageCatID: COMMON_LOCALE.EMPTY_STRING,
+  maintenanceID: COMMON_LOCALE.EMPTY_STRING,
+  description: COMMON_LOCALE.EMPTY_STRING,
+  notes: COMMON_LOCALE.EMPTY_STRING,
+  date: COMMON_LOCALE.EMPTY_STRING
 }
 
 function Damages() {

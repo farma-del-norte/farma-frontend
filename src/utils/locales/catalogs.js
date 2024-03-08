@@ -33,6 +33,14 @@ const CATALOGS_LOCALE = {
   BRANCHES_BRANCH_ADD_DETAILS: t('brances_create_branch_details', {ns: 'catalogs'}),
   BRANCHES_BRANCH_EDIT_DETAILS: t(),
 
+  BRANCH: t('branch', {ns: 'branches'}),
+  STREET: t('street', {ns: 'branches'}),
+  COLONY: t('colony', {ns: 'branches'}),
+  ZIPCODE: t('zipcode', {ns: 'branches'}),
+  CITY: t('city', {ns: 'branches'}),
+  STATE: t('state', {ns: 'branches'}),
+  ZONE: t('zone', {ns: 'branches'}),
+  BRANCHES: t('branches', {ns: 'branches'}),
   BRANCHES_NAME_REQUIRED: t('branch_name_required', {ns: 'branches'}),
   BRANCHES_NAME_MAX_LENGTH: t('branch_name_max_length', {ns: 'branches'}),
   BRANCHES_STREET_REQUIRED: t('branch_street_required', {ns: 'branches'}),
@@ -50,10 +58,10 @@ const CATALOGS_LOCALE = {
   BRANCHES_SELECT_REQUIRED: t('branch_select_required', {ns: 'branches'}),
 
   BRANCHES_ADD_MODAL: t('add_branch', {ns: 'branches'}),
+  BRANCHES_DELETE_MODAL: t('delete_branch', {ns: 'branches'}),
+  BRANCHES_DELETE_QUESTION: t('delete_branch_question', {ns: 'branches'}),
   BRANCHES_EDIT_MODAL: t('edit_branch', {ns: 'branches'}),
   BRANCHES_DETAILS_EXPANDABLE_TITLE: t('add_details_optional', {ns: 'branches'}),
-
-
 
   // MARK: - DIMENSIONS
   DIMENSIONS_TITLE: t('dimensions_cat_title', {ns: 'catalogs'}),
