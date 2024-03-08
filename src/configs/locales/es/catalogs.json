@@ -1,4 +1,11 @@
 {
+    "users_title": "Usuarios",
+    "users_column_name": "Usuario",
+    "users_edit_modal": "Editar usuario seleccionado",
+    "users_add_modal": "Agregar usuario",
+    "users_delete_modal": "Eliminar Usuario",
+    "users_delete_confirm_message": "¿Seguro de eliminar al Usuario seleccionado?",
+    
     "branches_title": "Sucursales",
     "branches_column_name": "Sucursal",
     "branches_edit_modal": "Editar Sucursal seleccionada",

@@ -5,25 +5,41 @@ export const COMMON_LOCALE = {
   BACK_BUTTON: i18n.t('back_button'),
   SAVE_BUTTON: i18n.t('save_button'),
   DELETE_BUTTON: i18n.t('delete_button'),
-  ACTIONS: i18n.t('actions')
+  ACTIONS: i18n.t('actions'),
+  EMPTY_STRING: i18n.t('empty_string')
 }
 
 export const LOGIN_LOCALE = {
-  LOG_IN: i18n.t('Log_in'),
-  EMAIL: i18n.t('Email'),
-  PASSWORD: i18n.t('Password'),
-  FORGOT_PASSWORD: i18n.t('I_forgot_my_password'),
-  SIGN_IN: i18n.t('Sign_in'),
+  LOG_IN: i18n.t('log_in'),
+  EMAIL: i18n.t('email'),
+  PASSWORD: i18n.t('password'),
+  PASSWORD_ENG: i18n.t('password_eng'),
+  FORGOT_PASSWORD: i18n.t('i_forgot_my_password'),
+  DO_YOU_FORGET_PASSWORD: i18n.t('do_you_forget_password'),
+  RESET_PASSWORD: i18n.t('reset_password'),
+  RESET_LINK: i18n.t('reset_link'),
+  REWRITED_PASSWORD: i18n.t('re_writed_password'),
+  BACK_LOGIN: i18n.t('back_login'),
+  SIGN_IN: i18n.t('sign_in'),
   INVALID_EMAIL: i18n.t('invalid_email'),
   EMAIL_REQUIRED: i18n.t('email_required'),
+  EMPTY_FIELDS: i18n.t('empty_fields'),
+  EMPTY_STRING: i18n.t('empty_string'),
+  ENTER_CODE: i18n.t('enter_code'),
+  ENTER_CODE_RECOVERY_PASSWORD: i18n.t('enter_code_recovery_password'),
+  ENTER_NEW_PASSWORD: i18n.t('enter_new_password'),
+  ENTER_NEW_PASSWORD_AGAIN: i18n.t('enter_new_password_again'),
   PASSWORD_MIN: i18n.t('password_min'),
-  PASSWORD_REQUIRED: i18n.t('password_required')
+  PASSWORD_REQUIRED: i18n.t('password_required'),
+  PASSWORDS_NOT_MATCH: i18n.t('passwords_not_match'),
+  UPDATE_PASSWORD: i18n.t('update_password')
 }
 
 export const MAINTENANCES_LOCALE = {
   // MARK: - MAINTENANCES
   MAINTENANCES_TITLE: t('maintenances_title', {ns: 'maintenances'}),
   MAINTENANCES_FIELD_NAME: t('maintenances_column_name', {ns: 'maintenances'}),
+  MAINTENANCES_EDIT: t('maintenances_edit', {ns: 'maintenances'}),
   MAINTENANCES_EDIT_MODAL: t('maintenances_edit_modal', {ns: 'maintenances'}),
   MAINTENANCES_ADD_MODAL: t('maintenances_add_modal', {ns: 'maintenances'}),
   MAINTENANCES_DELETE_MODAL: t('maintenances_delete_modal', {ns: 'maintenances'}),
@@ -31,6 +47,24 @@ export const MAINTENANCES_LOCALE = {
   MAINTENANCES_EDIT_MESSAGE: t('maintenances_edit_message', {ns: 'maintenances'}),
   MAINTENANCES_CREATE_MESSAGE: t('maintenances_cat_create_message', {ns: 'maintenances'}),
   MAINTENANCES_DELETE_MESSAGE: t('maintenances_cat_delete_message', {ns: 'maintenances'})
+}
+
+export const DAMAGES_LOCALE = {
+  // MARK: - DAMAGES
+  DAMAGES_TITLE: t('damages.title', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DAMAGE_CAT: t('damages.column_damageCat', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_MAINTENANCE: t('damages.column_maintenance', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DESCRIPTION: t('damages.column_description', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_NOTES: t('damages.column_notes', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DATE: t('damages.column_date', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_ACTIONS: t('damages.column_actions', {ns: 'maintenances'}),
+  DAMAGES_EDIT_MODAL: t('damages.edit_modal', {ns: 'maintenances'}),
+  DAMAGES_ADD_MODAL: t('damages.add_modal', {ns: 'maintenances'}),
+  DAMAGES_DELETE_MODAL: t('damages.delete_modal', {ns: 'maintenances'}),
+  DAMAGES_CONFIRM_DELETE_MODAL: t('damages.delete_confirm_message', {ns: 'maintenances'}),
+  DAMAGES_EDIT_MESSAGE: t('damages.edit_message', {ns: 'maintenances'}),
+  DAMAGES_CREATE_MESSAGE: t('damages.cat_create_message', {ns: 'maintenances'}),
+  DAMAGES_DELETE_MESSAGE: t('damages.cat_delete_message', {ns: 'maintenances'})
 }
 
 export const CATALOGS_LOCALE = {

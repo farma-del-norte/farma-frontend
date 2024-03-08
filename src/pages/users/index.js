@@ -1,16 +1,22 @@
-import {Fragment, useEffect, useReducer} from 'react'
+import {Fragment, useEffect, useReducer, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
-import {Pencil, Delete} from 'mdi-material-ui'
+import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuItem, Divider, FormHelperText} from '@mui/material'
+import {Pencil, Delete, EyeOffOutline, EyeOutline} from 'mdi-material-ui'
 import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/users/reducer'
 import {getUsers, editUser, createUser, deleteUser} from 'src/store/catalogs/users/actions'
+import {getBranches} from 'src/store/catalogs/branches/actions'
+import {getZones} from 'src/store/catalogs/zones/actions'
 import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import USERS_LOCALE from 'src/utils/locales/users'
+import { PasswordField } from 'src/utils/inputs'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const columns = [
   {
@@ -58,10 +64,13 @@ const columns = [
 ]
 
 const defaultValuesUsers = {
-  id: '',
-  name: '',
-  user: '',
-  active: ''
+  firstname: '',
+  lastname: '',
+  email: '',
+  phone: '',
+  position: '',
+  zoneID: '',
+  branchID: ''
 }
 
 const usersReducer = (state, action) => {
@@ -77,23 +86,51 @@ const usersReducer = (state, action) => {
 
 function Users() {
   const dispatch = useDispatch()
-  const [localUsers, dispatchLocal] = useReducer(usersReducer, [])
+  const positions = [
+    {id: 1, name: 'Gerente de zona'},
+    {id: 2, name: 'Gerente de Sucursal'},
+    {id: 3, name: 'Usuario sucursal'},
+    {id: 4, name: 'Administrador'}
+  ]
   const {isOpen, modalItem, isDeleteOpen, isLoading, users, modalDeleteItem} = useSelector(state => state.users)
+  const {branches} = useSelector(state => state.branches)
+  const {zones} = useSelector(state => state.zones)
   const {open, message, severity} = useSelector(state => state.notifications)
 
   const isEdit = Boolean(modalItem)
 
-  const {control, handleSubmit, reset} = useForm({
-    defaultValues: defaultValuesUsers
+  const userInfoSchema = yup.object().shape({
+    firstname: yup.string().max(50, USERS_LOCALE.FIRSTNAME_MAX_LENGTH).required(USERS_LOCALE.FIRSTNAME_REQUIRED),
+    lastname: yup.string().max(50, USERS_LOCALE.LASTNAME_MAX_LENGTH).required(USERS_LOCALE.LASTNAME_REQUIRED),
+    email: yup.string().email(USERS_LOCALE.EMAIL_NOT_CORRECT).required(USERS_LOCALE.EMAIL_REQUIRED),
+    phone: yup.string().matches(/^[0-9]+$/, USERS_LOCALE.PHONE_NOT_CORRECT).required(USERS_LOCALE.PHONE_REQUIRED),
+    password: yup.string().min(6, USERS_LOCALE.PASSWORD_MIN_LENGTH).max(100, USERS_LOCALE.PASSWORD_MAX_LENGTH).required(USERS_LOCALE.PASSWORD_REQUIRED),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], USERS_LOCALE.CONFIRM_PASSWORD_NOT_CORRECT).required(USERS_LOCALE.CONFIRM_PASSWORD_REQUIRED),
+    position: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    zoneID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    branchID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED)
+  })
+
+  const userInfoEditSchema = yup.object().shape({
+    firstname: yup.string().max(50, USERS_LOCALE.FIRSTNAME_MAX_LENGTH).required(USERS_LOCALE.FIRSTNAME_REQUIRED),
+    lastname: yup.string().max(50, USERS_LOCALE.LASTNAME_MAX_LENGTH).required(USERS_LOCALE.LASTNAME_REQUIRED),
+    email: yup.string().email(USERS_LOCALE.EMAIL_NOT_CORRECT).required(USERS_LOCALE.EMAIL_REQUIRED),
+    phone: yup.string().matches(/^[0-9]+$/, USERS_LOCALE.PHONE_NOT_CORRECT).required(USERS_LOCALE.PHONE_REQUIRED),
+    position: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    zoneID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
+    branchID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED)
+  })
+
+  const {control, handleSubmit, reset, formState: {errors: userErrors}} = useForm({
+    defaultValues: defaultValuesUsers,
+    resolver: yupResolver(isEdit ? userInfoEditSchema : userInfoSchema)
   })
 
   useEffect(() => {
     dispatch(getUsers())
+    dispatch(getBranches())
+    dispatch(getZones())
   }, [dispatch])
-
-  useEffect(() => {
-    dispatchLocal({type: 'SET_USERS', payload: users})
-  }, [users])
 
   const handleCloseModal = () => {
     reset()
@@ -127,17 +164,12 @@ function Users() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteUser(modalDeleteItem))
-      .then(() => {
-        dispatchLocal({type: 'DELETE_USER', payload: modalDeleteItem})
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    dispatch(deleteMaintenance(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
+    delete values.confirmPassword;
     if (isEdit) {
       dispatch(editUser(values))
     } else {
@@ -173,7 +205,7 @@ function Users() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={localUsers}
+          rows={users}
           label='Usuario'
           onAddItem={handleAddItem}
           pageSize={5}
@@ -193,14 +225,21 @@ function Users() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={!!userErrors.firstname} variant="outlined">
                 <Controller
                   name='firstname'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Nombre' value={value} onChange={onChange} />
+                    <TextField 
+                      label='Nombre' 
+                      value={value || ''} 
+                      onChange={onChange} 
+                      color={userErrors.firstname ? "error" : ""}
+                      focused={userErrors.firstname}  
+                    />
                   )}
                 />
+                {userErrors.firstname && <FormHelperText error>{userErrors.firstname.message}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
@@ -209,9 +248,16 @@ function Users() {
                   name='lastname'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Apellido' value={value} onChange={onChange} />
+                    <TextField 
+                      label='Apellido' 
+                      value={value || ''} 
+                      onChange={onChange} 
+                      color={userErrors.lastname ? "error" : ""}
+                      focused={userErrors.lastname}
+                    />
                   )}
                 />
+                {userErrors.lastname && <FormHelperText error>{userErrors.lastname.message}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
@@ -220,9 +266,16 @@ function Users() {
                   name='email'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Correo' value={value} onChange={onChange} />
+                    <TextField 
+                      label='Correo' 
+                      value={value || ''} 
+                      onChange={onChange} 
+                      color={userErrors.email ? "error" : ""}
+                      focused={userErrors.email}
+                    />
                   )}
                 />
+                {userErrors.email && <FormHelperText error>{userErrors.email.message}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
@@ -231,62 +284,127 @@ function Users() {
                   name='phone'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Teléfono' value={value} onChange={onChange} />
+                    <TextField 
+                      label='Teléfono' 
+                      value={value || ''} 
+                      onChange={onChange} 
+                      color={userErrors.phone ? "error" : ""}
+                      focused={userErrors.phone}
+                    />
                   )}
                 />
+                {userErrors.phone && <FormHelperText error>{userErrors.phone.message}</FormHelperText>}
               </FormControl>
             </Grid>
+            {!isEdit &&
+              <>
+                <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+                  <FormControl fullWidth>
+                    <Controller
+                      name='password'
+                      control={control}
+                      render={({field: {value, onChange}}) => (
+                        <PasswordField
+                          value={value || ''}
+                          onChange={onChange}
+                          color={userErrors.password ? "error" : ""}
+                          focused={userErrors.password}
+                        />
+                      )}
+                    />
+                    {userErrors.password && <FormHelperText error>{userErrors.password.message}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+                  <FormControl fullWidth>
+                    <Controller
+                      name='confirmPassword'
+                      control={control}
+                      render={({field: {value, onChange}}) => (
+                        <PasswordField
+                          label={"Confirmar Contraseña"}
+                          value={value || ''}
+                          onChange={onChange}
+                          color={userErrors.confirmPassword ? "error" : ""}
+                          focused={userErrors.confirmPassword}
+                        />
+                      )}
+                    />
+                    {userErrors.confirmPassword && <FormHelperText error>{userErrors.confirmPassword.message}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+              </>
+            }
+            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
+              <Divider />
+            </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={userErrors.position} focused={userErrors.position}>
                 <Controller
                   name='position'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Posición' value={value} onChange={onChange} />
-                  )}
+                    <>
+                      <InputLabel>Posición</InputLabel>
+                      <Select
+                        defaultValue=""
+                        value={value || ''}
+                        label="position"
+                        onChange={onChange}
+                      >
+                        {positions.map((pos, i) =>
+                          <MenuItem key={i} value={pos.id}>{pos.name}</MenuItem>
+                        )}
+                      </Select>
+                    </>)}
                 />
+                {userErrors.position && <FormHelperText error>{userErrors.position.message}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={userErrors.zoneID} focused={userErrors.zoneID}>
                 <Controller
                   name='zoneID'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Zona ID' value={value} onChange={onChange} />
-                  )}
+                    <>
+                      <InputLabel>Zona</InputLabel>
+                      <Select
+                        defaultValue=""
+                        value={value || ''}
+                        label="Zona"
+                        onChange={onChange}
+                      >
+                        {zones.map((zone, i) =>
+                          <MenuItem key={i} value={zone.id}>{zone.name}</MenuItem>
+                        )}
+                      </Select>
+                    </>)}
                 />
+                {userErrors.zoneID && <FormHelperText error>{userErrors.zoneID.message}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='zoneName'
-                  control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Zona' value={value} onChange={onChange} />}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={userErrors.branchID} focused={userErrors.branchID}>
                 <Controller
                   name='branchID'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Sucursal ID' value={value} onChange={onChange} />
-                  )}
+                    <>
+                      <InputLabel>Sucursal</InputLabel>
+                      <Select
+                        defaultValue=""
+                        value={value || ''}
+                        label="Sucursal"
+                        onChange={onChange}
+                      >
+                        {branches.map((branch, i) =>
+                          <MenuItem key={i} value={branch.id}>{branch.name}</MenuItem>
+                        )}
+                      </Select>
+                    </>)}
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='branchName'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Sucursal' value={value} onChange={onChange} />
-                  )}
-                />
+                {userErrors.branchID && <FormHelperText error>{userErrors.branchID.message}</FormHelperText>}
               </FormControl>
             </Grid>
           </Grid>

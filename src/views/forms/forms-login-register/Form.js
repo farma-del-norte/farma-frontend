@@ -31,7 +31,6 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import {useDispatch, useSelector} from 'react-redux'
 
 //actions
-// import {loginCall, setErrors} from 'src/store/session'
 
 // ** Hooks
 import {useSettings} from 'src/@core/hooks/useSettings'
@@ -157,7 +156,7 @@ const Form = () => {
             </Grid>
           </Grid>
           <Box mt={5} display='flex' alignItems='center'>
-            <Link passHref href='/pages/auth/forgot-password-v2'>
+            <Link passHref href='/forgot-password'>
               <Button variant='outlined' color='secondary' sx={{marginRight: 'auto'}} disabled={isLoading}>
                 {LOGIN_LOCALE.FORGOT_PASSWORD}
               </Button>
@@ -165,7 +164,7 @@ const Form = () => {
             {isLoading ? (
               <CircularProgress size={24} />
             ) : (
-              <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}}>
+              <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}} >
                 {LOGIN_LOCALE.SIGN_IN}
               </Button>
             )}

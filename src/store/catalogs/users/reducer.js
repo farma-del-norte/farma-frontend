@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createUser, editUser, getUsers} from './actions'
+import {createUser, editUser, getUsers, deleteUser} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -9,7 +9,9 @@ const initialState = {
   modalItem: null,
   isDeleteOpen: false,
   modalDeleteItem: null,
-  error: null
+  error: null,
+  showVerificationModal: false,
+  showInputPasswords: false
 }
 
 // MARK: - Reducer
@@ -28,6 +30,12 @@ export const usersSlice = createSlice({
     },
     setDeleteItem: (state, {payload}) => {
       state.modalDeleteItem = payload
+    },
+    setVerificationModal: (state, {payload}) => {
+      state.showVerificationModal = payload
+    },
+    setInputPasswords: (state, {payload}) => {
+      state.showInputPasswords = payload
     }
   },
   extraReducers: builder => {
@@ -61,9 +69,19 @@ export const usersSlice = createSlice({
     builder.addCase(editUser.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(deleteUser.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteUser.fulfilled, (state, {payload}) => {
+      state.users = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteUser.rejected, state => {
+      state.isLoading = false
+    })
   }
 })
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = usersSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords} = usersSlice.actions

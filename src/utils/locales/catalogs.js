@@ -3,6 +3,13 @@ import i18n from 'src/configs/i18n'
 
 const CATALOGS_LOCALE = {
   // MARK: - BRANCHES
+  USERS_TITLE: t('users_title', {ns: 'catalogs'}),
+  USERS_EDIT_MODAL: t('users_edit_modal', {ns: 'catalogs'}),
+  USERS_ADD_MODAL: t('users_add_modal', {ns: 'catalogs'}),
+  USERS_DELETE_MODAL: t('users_delete_modal', {ns: 'catalogs'}),
+  USERS_CONFIRM_DELETE_MODAL: t('users_delete_confirm_message', {ns: 'catalogs'}),
+
+  // MARK: - BRANCHES
   BRANCHES_CREATE_MESSAGE: t('branches_create_message', {ns: 'catalogs'}),
   BRANCHES_EDIT_MESSAGE: t('branches_edit_message', {ns: 'catalogs'}),
   BRANCHES_DELETE_MESSAGE: t('branches_delete_message', {ns: 'catalogs'}),
@@ -25,6 +32,36 @@ const CATALOGS_LOCALE = {
   BRANCHES_BRANCH_DETAILS_TITLE: t('branches_branch_details_title', {ns: 'catalogs'}),
   BRANCHES_BRANCH_ADD_DETAILS: t('brances_create_branch_details', {ns: 'catalogs'}),
   BRANCHES_BRANCH_EDIT_DETAILS: t(),
+
+  BRANCH: t('branch', {ns: 'branches'}),
+  STREET: t('street', {ns: 'branches'}),
+  COLONY: t('colony', {ns: 'branches'}),
+  ZIPCODE: t('zipcode', {ns: 'branches'}),
+  CITY: t('city', {ns: 'branches'}),
+  STATE: t('state', {ns: 'branches'}),
+  ZONE: t('zone', {ns: 'branches'}),
+  BRANCHES: t('branches', {ns: 'branches'}),
+  BRANCHES_NAME_REQUIRED: t('branch_name_required', {ns: 'branches'}),
+  BRANCHES_NAME_MAX_LENGTH: t('branch_name_max_length', {ns: 'branches'}),
+  BRANCHES_STREET_REQUIRED: t('branch_street_required', {ns: 'branches'}),
+  BRANCHES_STREET_MAX_LENGTH: t('branch_street_max_length', {ns: 'branches'}),
+  BRANCHES_NEIGHBOR_REQUIRED: t('branch_colony_required', {ns: 'branches'}),
+  BRANCHES_NEIGHBOR_MAX_LENGTH: t('branch_colony_max_length', {ns: 'branches'}),
+  BRANCHES_ZIPCODE_REQUIRED: t('branch_zipcode_required', {ns: 'branches'}),
+  BRANCHES_ZIPCODE_ISNUMERIC: t('branch_zipode_positive_number_required', {ns: 'branches'}),
+  BRANCHES_ZIPCODE_MIN_LENGTH: t('branch_zipcode_min_length', {ns: 'branches'}),
+  BRANCHES_ZIPCODE_MAX_LENGTH: t('branch_zipcode_max_length', {ns: 'branches'}),
+  BRANCHES_CITY_MAX_LENGTH: t('branch_city_max_length', {ns: 'branches'}),
+  BRANCHES_CITY_REQUIRED: t('branch_city_required', {ns: 'branches'}),
+  BRANCHES_FEDERAL_ENTITY_MAX_LENGTH: t('branch_state_max_length', {ns: 'branches'}),
+  BRANCHES_FEDERAL_ENTITY_REQUIRED: t('branch_state_required', {ns: 'branches'}),
+  BRANCHES_SELECT_REQUIRED: t('branch_select_required', {ns: 'branches'}),
+
+  BRANCHES_ADD_MODAL: t('add_branch', {ns: 'branches'}),
+  BRANCHES_DELETE_MODAL: t('delete_branch', {ns: 'branches'}),
+  BRANCHES_DELETE_QUESTION: t('delete_branch_question', {ns: 'branches'}),
+  BRANCHES_EDIT_MODAL: t('edit_branch', {ns: 'branches'}),
+  BRANCHES_DETAILS_EXPANDABLE_TITLE: t('add_details_optional', {ns: 'branches'}),
 
   // MARK: - DIMENSIONS
   DIMENSIONS_TITLE: t('dimensions_cat_title', {ns: 'catalogs'}),
