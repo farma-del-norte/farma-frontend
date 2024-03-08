@@ -4,7 +4,9 @@ import {
   deleteUserService,
   editUserService,
   getUsersService,
-  usersLogin
+  usersLogin,
+  getVerificationCodeService,
+  validateVerificationCodeService
 } from 'src/services/catalogs/users'
 import {openSnackBar} from 'src/store/notifications'
 import Router from 'next/router'
@@ -66,6 +68,30 @@ export const deleteUser = createAsyncThunk('/users/getUsers', async ({id}, thunk
   } catch (error) {
     const errMessage = error
     thunkApi.dispatch(openSnackBar({open: true, message: 'errMessage', severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const getVerificationCode = createAsyncThunk('/users/passwordRecoveryCode', async (body, thunkApi) => {
+  try {
+    const payload = await getVerificationCodeService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
+    return payload
+  } catch (error) {
+    const errMessage = error.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const validateVerificationCode = createAsyncThunk('/users/passwordRecoveryCode', async (body, thunkApi) => {
+  try {
+    const payload = await validateVerificationCodeService(body)
+    thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
+    return payload
+  } catch (error) {
+    const errMessage = error.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })

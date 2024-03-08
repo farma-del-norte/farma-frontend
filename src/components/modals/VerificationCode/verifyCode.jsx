@@ -1,36 +1,48 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { LOGIN_LOCALE } from 'src/utils/constants'
-import {connect, useSelector} from 'react-redux'
-import {useEffect, useState} from 'react'
-import {Modal} from '@mui/material'
-import {formStyle, inputStyle, buttonStyle, modalContentStyle} from './styles'
-import { showInputPasswords, setInputPasswords } from 'src/store/users/reducer'
+import { connect } from 'react-redux'
+import { Modal } from '@mui/material'
+import { formStyle, inputStyle, buttonStyle, modalContentStyle } from './styles'
+import { setInputPasswords } from 'src/store/users/reducer'
+import { validateVerificationCode } from 'src/store/users/actions'
 import { default as PasswordInputs } from './inputPasswords'
 import Button from '@mui/material/Button'
-
-const handleVerifyCode = () => {
-  console.log(Number(code.join('')))
-}
 
 const mapstatetoprops = (state) => ({
   showInputPasswords: state.users.showInputPasswords
 })
-
 
 class VerifyCodeModal extends Component {
   constructor(props) {
     super(props)
     this.nameInput = React.createRef()
     this.open = this.props.open
+    this.email = this.props.email
     this.handleClose = this.props.handleClose.bind(this)
     this.state = {
-      name: '',
-      code: new Array(5).fill(0)
+      name: LOGIN_LOCALE.EMPTY_STRING,
+      code: new Array(6).fill(0)
     }
   }
 
-  onShowInputPasswords = () => {
-    this.props.setInputPasswords(true);
+  onShowInputPasswords = async () => {
+    let body = {
+      email: this.email,
+      code: Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))
+    },
+    response = await this.props.validateVerificationCode(body),
+    payload = response.payload;
+
+    if(payload === LOGIN_LOCALE.ERROR_CODE) {
+      return
+    } else {
+      let hasFolio = payload.folio ? true : false,
+        message = payload.message;
+
+        if(hasFolio && message.includes(LOGIN_LOCALE.VALID_CODE)) {
+          this.props.setInputPasswords(true);
+        }
+    }
   }
 
   handleForm = () => {
@@ -39,9 +51,9 @@ class VerifyCodeModal extends Component {
       currentIndexInput = inputIndex
     this.state.code[inputIndex] = number
 
-    if (inputIndex >= 0 && inputIndex <= 3 && number !== '') {
+    if (inputIndex >= 0 && inputIndex <= 4 && number !== LOGIN_LOCALE.EMPTY_STRING) {
       currentIndexInput = inputIndex += 1
-    } else if ((inputIndex === 4 && number !== '') || (inputIndex === 0 && number === '')) {
+    } else if ((inputIndex === 5 && number !== LOGIN_LOCALE.EMPTY_STRING) || (inputIndex === 0 && number === LOGIN_LOCALE.EMPTY_STRING)) {
       currentIndexInput = inputIndex
     } else {
       currentIndexInput = inputIndex -= 1
@@ -99,7 +111,8 @@ class VerifyCodeModal extends Component {
 
 const mapdispatchtoprops = (dispatch) => {
   return {
-    setInputPasswords: (value) => dispatch(setInputPasswords(value))
+    setInputPasswords: (value) => dispatch(setInputPasswords(value)),
+    validateVerificationCode: (body) => dispatch(validateVerificationCode(body))
   }
 };
 
