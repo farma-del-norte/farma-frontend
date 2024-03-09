@@ -90,6 +90,11 @@ class VerifyCodeModal extends Component {
                     onChange={e => {
                       this.handleForm.call(this, e)
                     }}
+                    onKeyPress={(event) => {
+                      if (!/[0-9]/.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }}
                     data-index={idx}
                   />
                 )
