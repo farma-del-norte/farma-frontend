@@ -8,9 +8,18 @@ export const COMMON_LOCALE = {
   ACTIONS: i18n.t('actions')
 }
 
+export const NUMBERS = {
+  CONST_ZERO: i18n.t('Const_zero'),
+  CONST_ONE:  i18n.t('Const_one'),
+  CONST_FOUR: i18n.t('Const_four'),
+  CONST_FIVE: i18n.t('Const_five'),
+  CONST_SIX: i18n.t('Const_six')
+}
+
 export const LOGIN_LOCALE = {
   LOG_IN: i18n.t('Log_in'),
   EMAIL: i18n.t('Email'),
+  EMAIL_ENG: i18n.t('Email_eng'),
   PASSWORD: i18n.t('Password'),
   PASSWORD_ENG: i18n.t('Password_eng'),
   FORGOT_PASSWORD: i18n.t('I_forgot_my_password'),
@@ -28,10 +37,12 @@ export const LOGIN_LOCALE = {
   ENTER_CODE_RECOVERY_PASSWORD: i18n.t("Enter_code_recovery_password"),
   ENTER_NEW_PASSWORD: i18n.t('Enter_new_password'),
   ENTER_NEW_PASSWORD_AGAIN: i18n.t('Enter_new_password_again'),
+  ERROR_CODE: i18n.t('Error_code'),
   PASSWORD_MIN: i18n.t('password_min'),
   PASSWORD_REQUIRED: i18n.t('password_required'),
   PASSWORDS_NOT_MATCH: i18n.t('Passwords_not_match'),
-  UPDATE_PASSWORD: i18n.t('Update_password')
+  UPDATE_PASSWORD: i18n.t('Update_password'),
+  VALID_CODE: i18n.t('Valid_code'),
 }
 
 export const MAINTENANCES_LOCALE = {

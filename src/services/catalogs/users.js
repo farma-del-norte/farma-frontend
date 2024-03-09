@@ -52,3 +52,23 @@ export const deleteUserService = async id => {
     throw error
   }
 }
+
+export const getVerificationCodeService = async body => {
+  const url = `${USERS_ENDPOINT}/users/passwordRecoveryCode`
+  try {
+    const result = await api_post(url, body)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
+export const validateVerificationCodeService = async body => {
+  const url = `${USERS_ENDPOINT}/users/validatePasswordRecoveryCode`
+  try {
+    const result = await api_post(url, body)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
