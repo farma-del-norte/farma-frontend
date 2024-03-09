@@ -72,3 +72,13 @@ export const validateVerificationCodeService = async body => {
     throw error
   }
 }
+
+export const updatePasswordService = async body => {
+  const url = `${USERS_ENDPOINT}/users/password`
+  try {
+    const result = await api_patch(url, body)
+    return result
+  } catch (error) {
+    throw error
+  }
+}

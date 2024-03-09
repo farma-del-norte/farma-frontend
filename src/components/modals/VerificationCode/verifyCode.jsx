@@ -100,7 +100,7 @@ class VerifyCodeModal extends Component {
           }
           {
             this.props.showInputPasswords && (
-              <PasswordInputs/>
+              <PasswordInputs email={this.email} code={Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))}  />
             )
           }
         </div>
