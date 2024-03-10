@@ -52,5 +52,6 @@
     "password_min":"La contraseña debe tener al menos 8 caracteres",
     "password_required":"Contraseña es requerida",
     "yes": "Si",
-    "no": "No"
+    "no": "No",
+    "error": "Error"
 }

@@ -7,7 +7,9 @@ const COMMON_LOCALE = {
   UPDATE_BUTTON: i18n.t('update_button'),
   ACTIONS: i18n.t('actions'),
   YES: i18n.t('yes'),
-  NO: i18n.t('no')
+  NO: i18n.t('no'),
+  ERROR: i18n.t('error'),
+  EMPTY_STRING: i18n.t('empty_string')
 }
 
 export default COMMON_LOCALE

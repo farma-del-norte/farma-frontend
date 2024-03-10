@@ -8,5 +8,22 @@
     "maintenances_delete_confirm_message": "¿Seguro de eliminar el mantenimiento de la Sucursal seleccionada?",
     "maintenances_edit_message": "Sucursal de Mantenimiento actualizado con éxito",
     "maintenances_cat_create_message": "Sucursal de Mantenimiento creado con éxito",
-    "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito"
+    "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito",
+
+    "damages": {
+        "title": "Siniestros de Sucursales",
+        "column_damageCat": "Siniestro",
+        "column_maintenance": "Mantenimiento",
+        "column_description": "Descripción",
+        "column_notes": "Notas",
+        "column_date": "Fecha",
+        "column_actions": "Acciones",
+        "edit_modal": "Editar siniestro de Sucursal seleccionado",
+        "add_modal": "Agregar siniestro de Sucursal",
+        "delete_modal": "Eliminar siniestro de Sucursal",
+        "delete_confirm_message": "¿Seguro de eliminar el siniestro de la Sucursal seleccionada?",
+        "edit_message": "Sucursal de siniestro actualizado con éxito",
+        "cat_create_message": "Sucursal de siniestro creado con éxito",
+        "cat_delete_message": "Sucursal de siniestro eliminado con éxito"
+    }
 }

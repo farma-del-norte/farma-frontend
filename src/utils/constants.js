@@ -5,7 +5,8 @@ export const COMMON_LOCALE = {
   BACK_BUTTON: i18n.t('back_button'),
   SAVE_BUTTON: i18n.t('save_button'),
   DELETE_BUTTON: i18n.t('delete_button'),
-  ACTIONS: i18n.t('actions')
+  ACTIONS: i18n.t('actions'),
+  EMPTY_STRING: i18n.t('empty_string')
 }
 
 export const NUMBERS = {
@@ -59,6 +60,24 @@ export const MAINTENANCES_LOCALE = {
   MAINTENANCES_EDIT_MESSAGE: t('maintenances_edit_message', {ns: 'maintenances'}),
   MAINTENANCES_CREATE_MESSAGE: t('maintenances_cat_create_message', {ns: 'maintenances'}),
   MAINTENANCES_DELETE_MESSAGE: t('maintenances_cat_delete_message', {ns: 'maintenances'})
+}
+
+export const DAMAGES_LOCALE = {
+  // MARK: - DAMAGES
+  DAMAGES_TITLE: t('damages.title', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DAMAGE_CAT: t('damages.column_damageCat', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_MAINTENANCE: t('damages.column_maintenance', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DESCRIPTION: t('damages.column_description', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_NOTES: t('damages.column_notes', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_DATE: t('damages.column_date', {ns: 'maintenances'}),
+  DAMAGES_COLUMN_ACTIONS: t('damages.column_actions', {ns: 'maintenances'}),
+  DAMAGES_EDIT_MODAL: t('damages.edit_modal', {ns: 'maintenances'}),
+  DAMAGES_ADD_MODAL: t('damages.add_modal', {ns: 'maintenances'}),
+  DAMAGES_DELETE_MODAL: t('damages.delete_modal', {ns: 'maintenances'}),
+  DAMAGES_CONFIRM_DELETE_MODAL: t('damages.delete_confirm_message', {ns: 'maintenances'}),
+  DAMAGES_EDIT_MESSAGE: t('damages.edit_message', {ns: 'maintenances'}),
+  DAMAGES_CREATE_MESSAGE: t('damages.cat_create_message', {ns: 'maintenances'}),
+  DAMAGES_DELETE_MESSAGE: t('damages.cat_delete_message', {ns: 'maintenances'})
 }
 
 export const CATALOGS_LOCALE = {
