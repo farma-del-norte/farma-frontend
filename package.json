@@ -1,6 +1,6 @@
 {
-  "name": "materio-mui-react-nextjs-admin-template",
-  "version": "1.4.0",
+  "name": "farma-frontend",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,9 +11,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\""
   },
   "dependencies": {
-    "@auth0/auth0-react": "1.10.1",
-    "@aws-amplify/auth": "4.5.3",
-    "@aws-amplify/ui-react": "^6.1.5",
+    "@auth0/auth0-react": "2.2.4",
     "@babel/core": "7.18.2",
     "@babel/eslint-parser": "7.18.2",
     "@casl/ability": "5.4.3",
@@ -37,7 +35,6 @@
     "@popperjs/core": "2.11.2",
     "@reduxjs/toolkit": "1.8.1",
     "apexcharts-clevision": "3.28.5",
-    "aws-amplify": "^6.0.18",
     "axios": "1.6.0",
     "axios-mock-adapter": "1.20.0",
     "babel-eslint": "10.1.0",
