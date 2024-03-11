@@ -94,13 +94,13 @@ const columns = [
 ]
 
 const defaultValuesBranches = {
-  name: COMMON_LOCALE.EMPTY_STRING,
-  street: COMMON_LOCALE.EMPTY_STRING,
-  neighborhood: COMMON_LOCALE.EMPTY_STRING,
-  zipCode: COMMON_LOCALE.EMPTY_STRING,
-  city: COMMON_LOCALE.EMPTY_STRING,
-  federalEntity: COMMON_LOCALE.EMPTY_STRING,
-  zoneID: COMMON_LOCALE.EMPTY_STRING,
+  name: null,
+  street: null,
+  neighborhood: null,
+  zipCode: null,
+  city: null,
+  federalEntity: null,
+  zoneID: null,
   details: {}
 }
 
@@ -205,7 +205,7 @@ function Branches() {
   }
 
   const handleCloseModal = () => {
-    setExpanded(false)
+    // setExpanded(false)
     dispatch(toggleModal(false))
     dispatch(setModalItem(null))
   }
@@ -301,7 +301,7 @@ function Branches() {
                       label={CATALOGS_LOCALE.BRANCH}
                       value={value}
                       onChange={onChange}
-                      color={branchErrors.name ? COMMON_LOCALE.ERROR : COMMON_LOCALE.EMPTY_STRING}
+                      color={branchErrors.name ? COMMON_LOCALE.ERROR : null}
                       focused={branchErrors.name}
                     />
                   )}
@@ -309,7 +309,7 @@ function Branches() {
                 {branchErrors.name && <FormHelperText error>{branchErrors.name.message}</FormHelperText>}
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            {/* <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
                   name='street'
@@ -318,7 +318,7 @@ function Branches() {
                     <TextField
                       label={CATALOGS_LOCALE.STREET}
                       value={value}
-                      color={branchErrors.street ? COMMON_LOCALE.ERROR : COMMON_LOCALE.EMPTY_STRING}
+                      color={branchErrors.street ? COMMON_LOCALE.ERROR : null}
                       focused={branchErrors.street}
                       onChange={onChange}
                     />
@@ -336,7 +336,7 @@ function Branches() {
                     <TextField
                       label={CATALOGS_LOCALE.COLONY}
                       value={colonies.colony || COMMON_LOCALE.EMPTY_STRING}
-                      color={branchErrors.neighborhood ? COMMON_LOCALE.ERROR : COMMON_LOCALE.EMPTY_STRING}
+                      color={branchErrors.neighborhood ? COMMON_LOCALE.ERROR : null}
                       focused={branchErrors.neighborhood}
                       InputLabelProps={{
                         shrink: colonies.hasOwnProperty('colony')
@@ -360,7 +360,7 @@ function Branches() {
                     <TextField
                       label={CATALOGS_LOCALE.ZIPCODE}
                       value={value}
-                      color={branchErrors.zipCode ? COMMON_LOCALE.ERROR : COMMON_LOCALE.EMPTY_STRING}
+                      color={branchErrors.zipCode ? COMMON_LOCALE.ERROR : null}
                       focused={branchErrors.zipCode}
                       onChange={e => onZipCodeChange(e, onChange, setColonies)}
                     />
@@ -378,7 +378,7 @@ function Branches() {
                     <TextField
                       label={CATALOGS_LOCALE.CITY}
                       value={colonies.city || COMMON_LOCALE.EMPTY_STRING}
-                      color={branchErrors.city ? COMMON_LOCALE.ERROR : COMMON_LOCALE.EMPTY_STRING}
+                      color={branchErrors.city ? COMMON_LOCALE.ERROR : null}
                       focused={branchErrors.city}
                       InputLabelProps={{
                         shrink: colonies.hasOwnProperty('city')
@@ -400,7 +400,7 @@ function Branches() {
                     <TextField
                       label={CATALOGS_LOCALE.STATE}
                       value={colonies.federalEntity || COMMON_LOCALE.EMPTY_STRING}
-                      color={branchErrors.city ? COMMON_LOCALE.ERROR : COMMON_LOCALE.EMPTY_STRING}
+                      color={branchErrors.city ? COMMON_LOCALE.ERROR : null}
                       focused={branchErrors.federalEntity}
                       onChange={onChange}
                       InputLabelProps={{
@@ -440,7 +440,7 @@ function Branches() {
                 />
                 {branchErrors.zoneID && <FormHelperText error>{branchErrors.zoneID.message}</FormHelperText>}
               </FormControl>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
               <ExpandedContent label={CATALOGS_LOCALE.BRANCHES_DETAILS_EXPANDABLE_TITLE}>
                 <DetailsForm
