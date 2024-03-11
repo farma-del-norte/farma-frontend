@@ -1,4 +1,4 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
 import {
   createUserService,
   deleteUserService,
