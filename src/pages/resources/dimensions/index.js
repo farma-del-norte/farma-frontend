@@ -4,7 +4,12 @@ import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/dimensions/reducer'
-import {getDimensionsCat, editDimensionCat, createDimensionCat, deleteDimensionCat} from 'src/store/catalogs/dimensions/actions'
+import {
+  getDimensionsCat,
+  editDimensionCat,
+  createDimensionCat,
+  deleteDimensionCat
+} from 'src/store/catalogs/dimensions/actions'
 import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
 import {Fragment} from 'react'
@@ -121,7 +126,7 @@ function DimensionsCat() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={dimensionsCat}
+          rows={dimensionsCat ?? []}
           label={CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME}
           onAddItem={handleAddItem}
           pageSize={CATALOGS.TABLE_PAGE_SIZE}

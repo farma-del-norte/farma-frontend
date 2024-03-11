@@ -1,10 +1,5 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
-import {
-  createUserService,
-  deleteUserService,
-  editUserService,
-  getUsersService
-} from 'src/services/catalogs/users'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {createUserService, deleteUserService, editUserService, getUsersService} from 'src/services/catalogs/users'
 import {openSnackBar} from 'src/store/notifications'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {

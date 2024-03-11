@@ -1,5 +1,10 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
-import {createDamageCatService, deleteDamageCatService, editDamageCatService, getDamagesCatService} from 'src/services/catalogs/damages'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {
+  createDamageCatService,
+  deleteDamageCatService,
+  editDamageCatService,
+  getDamagesCatService
+} from 'src/services/catalogs/damages'
 import {openSnackBar} from 'src/store/notifications'
 
 export const getDamagesCat = createAsyncThunk('/damages-cat/getDamagesCat', async thunkApi => {

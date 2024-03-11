@@ -1,4 +1,4 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as MaterialsAPI from 'src/services/catalogs/materials'
 import {openSnackBar} from 'src/store/notifications'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
