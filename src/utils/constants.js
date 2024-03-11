@@ -9,30 +9,43 @@ export const COMMON_LOCALE = {
   EMPTY_STRING: i18n.t('empty_string')
 }
 
+export const NUMBERS = {
+  CONST_ZERO: i18n.t('Const_zero'),
+  CONST_ONE:  i18n.t('Const_one'),
+  CONST_FOUR: i18n.t('Const_four'),
+  CONST_FIVE: i18n.t('Const_five'),
+  CONST_SIX: i18n.t('Const_six')
+}
+
 export const LOGIN_LOCALE = {
-  LOG_IN: i18n.t('log_in'),
-  EMAIL: i18n.t('email'),
-  PASSWORD: i18n.t('password'),
-  PASSWORD_ENG: i18n.t('password_eng'),
-  FORGOT_PASSWORD: i18n.t('i_forgot_my_password'),
-  DO_YOU_FORGET_PASSWORD: i18n.t('do_you_forget_password'),
-  RESET_PASSWORD: i18n.t('reset_password'),
-  RESET_LINK: i18n.t('reset_link'),
-  REWRITED_PASSWORD: i18n.t('re_writed_password'),
-  BACK_LOGIN: i18n.t('back_login'),
-  SIGN_IN: i18n.t('sign_in'),
+  LOG_IN: i18n.t('Log_in'),
+  EMAIL: i18n.t('Email'),
+  EMAIL_ENG: i18n.t('Email_eng'),
+  PASSWORD: i18n.t('Password'),
+  PASSWORD_ENG: i18n.t('Password_eng'),
+  FORGOT_PASSWORD: i18n.t('I_forgot_my_password'),
+  DO_YOU_FORGET_PASSWORD: i18n.t('Do_you_forget_password'),
+  RESET_PASSWORD: i18n.t('Reset_password'),
+  RESET_LINK: i18n.t('Reset_link'),
+  REWRITED_PASSWORD: i18n.t('Re_writed_password'),
+  BACK_LOGIN: i18n.t('Back_login'),
+  SIGN_IN: i18n.t('Sign_in'),
   INVALID_EMAIL: i18n.t('invalid_email'),
   EMAIL_REQUIRED: i18n.t('email_required'),
-  EMPTY_FIELDS: i18n.t('empty_fields'),
-  EMPTY_STRING: i18n.t('empty_string'),
-  ENTER_CODE: i18n.t('enter_code'),
-  ENTER_CODE_RECOVERY_PASSWORD: i18n.t('enter_code_recovery_password'),
-  ENTER_NEW_PASSWORD: i18n.t('enter_new_password'),
-  ENTER_NEW_PASSWORD_AGAIN: i18n.t('enter_new_password_again'),
+  EMPTY_FIELDS: i18n.t('Empty_fields'),
+  EMPTY_STRING: i18n.t('Empty_string'),
+  ENTER_CODE: i18n.t('Enter_code'),
+  ENTER_CODE_RECOVERY_PASSWORD: i18n.t("Enter_code_recovery_password"),
+  ENTER_NEW_PASSWORD: i18n.t('Enter_new_password'),
+  ENTER_NEW_PASSWORD_AGAIN: i18n.t('Enter_new_password_again'),
+  ERROR_CODE: i18n.t('Error_code'),
+  UPDATED_PASSWORD: i18n.t('Updated_password'),
+  NOT_UPDATED_PASSWORD: i18n.t('Not_updated_password'),
   PASSWORD_MIN: i18n.t('password_min'),
   PASSWORD_REQUIRED: i18n.t('password_required'),
-  PASSWORDS_NOT_MATCH: i18n.t('passwords_not_match'),
-  UPDATE_PASSWORD: i18n.t('update_password')
+  PASSWORDS_NOT_MATCH: i18n.t('Passwords_not_match'),
+  UPDATE_PASSWORD: i18n.t('Update_password'),
+  VALID_CODE: i18n.t('Valid_code'),
 }
 
 export const MAINTENANCES_LOCALE = {
