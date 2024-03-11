@@ -59,7 +59,18 @@ export const MAINTENANCES_LOCALE = {
   MAINTENANCES_CONFIRM_DELETE_MODAL: t('maintenances_delete_confirm_message', {ns: 'maintenances'}),
   MAINTENANCES_EDIT_MESSAGE: t('maintenances_edit_message', {ns: 'maintenances'}),
   MAINTENANCES_CREATE_MESSAGE: t('maintenances_cat_create_message', {ns: 'maintenances'}),
-  MAINTENANCES_DELETE_MESSAGE: t('maintenances_cat_delete_message', {ns: 'maintenances'})
+  MAINTENANCES_DELETE_MESSAGE: t('maintenances_cat_delete_message', {ns: 'maintenances'}),
+
+  //MARK: - SERVICES
+  SERVICES_TITLE: t('services_title', {ns: 'maintenances'}),
+  SERVICES_FIELD_NAME: t('services_column_name', {ns: 'maintenances'}),
+  SERVICES_EDIT_MODAL: t('services_edit_modal', {ns: 'maintenances'}),
+  SERVICES_ADD_MODAL: t('services_add_modal', {ns: 'maintenances'}),
+  SERVICES_DELETE_MODAL: t('services_delete_modal', {ns: 'maintenances'}),
+  SERVICES_CONFIRM_DELETE_MODAL: t('services_delete_confirm_message', {ns: 'maintenances'}),
+  SERVICES_EDIT_MESSAGE: t('services_edit_message', {ns: 'maintenances'}),
+  SERVICES_CREATE_MESSAGE: t('services_create_message', {ns: 'maintenances'}),
+  SERVICES_DELETE_MESSAGE: t('services_delete_message', {ns: 'maintenances'})
 }
 
 export const DAMAGES_LOCALE = {

@@ -14,3 +14,4 @@ export const SUPPLIERS_ENDPOINT = 'https://5flr1lncda.execute-api.us-east-1.amaz
 export const USERS_ENDPOINT = 'https://hi6nojdb54.execute-api.us-east-1.amazonaws.com'
 export const VARIABLES_CAT_ENDPOINT = 'https://p9acen6b0d.execute-api.us-east-1.amazonaws.com'
 export const ZONES_ENDPOINT = 'https://92af3bd0o6.execute-api.us-east-1.amazonaws.com'
+export const S3_ENDPOINT = 'https://5ji26tctr2.execute-api.us-east-1.amazonaws.com'
