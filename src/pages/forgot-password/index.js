@@ -6,7 +6,6 @@ import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import BackToLogin from './backToLogin'
-import Image from './image'
 import InformationText from './informationText'
 import PasswordIlustration from './passwordIlustration'
 import EmailFormValidation from './emailFormValidation'
@@ -28,9 +27,6 @@ const ForgotPassword = () => {
         <RightWrapper sx={skin === 'bordered' && !hidden ? {borderLeft: `1px solid ${theme.palette.divider}`} : {}}>
           <Box sx={mainBoxStyling}>
             <BoxWrapper>
-              <Box sx={boxWrapperStyling}>
-                <Image />
-              </Box>
               <InformationText
                 forgetPassword={LOGIN_LOCALE.DO_YOU_FORGET_PASSWORD}
                 resetPassword={LOGIN_LOCALE.RESET_PASSWORD}
