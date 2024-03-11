@@ -53,6 +53,5 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-package-lock.json
 pnpm-lock.yaml
 .vscode/launch.json
