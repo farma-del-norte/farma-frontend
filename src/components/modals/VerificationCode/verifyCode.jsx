@@ -6,6 +6,7 @@ import {formStyle, inputStyle, buttonStyle, modalContentStyle} from './styles'
 import {setInputPasswords} from 'src/store/users/reducer'
 import {validateVerificationCode} from 'src/store/users/actions'
 import {default as PasswordInputs} from './inputPasswords'
+import FallbackSpinner from 'src/@core/components/spinner'
 import Button from '@mui/material/Button'
 
 const mapstatetoprops = state => ({
@@ -26,6 +27,9 @@ class VerifyCodeModal extends Component {
   }
 
   onShowInputPasswords = async () => {
+    this.setState({
+      showLoading : true
+    });
     let body = {
         email: this.email,
         code: Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))
@@ -34,14 +38,17 @@ class VerifyCodeModal extends Component {
       payload = response.payload
 
     if (payload === LOGIN_LOCALE.ERROR_CODE) {
+      this.setState({ showLoading: false })
       return
     } else {
       let hasFolio = payload.folio ? true : false,
         message = payload.message
 
       if (hasFolio && message.includes(LOGIN_LOCALE.VALID_CODE)) {
+        this.setState({showLoading: false})
         this.props.setInputPasswords(true)
       }
+      this.setState({ showLoading: false })
     }
   }
 
@@ -111,8 +118,8 @@ class VerifyCodeModal extends Component {
               </form>
             </div>
           )}
-          {this.props.showInputPasswords && (
-            <PasswordInputs email={this.email} code={Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))} />
+          { this.state.showLoading ? <FallbackSpinner /> : (
+            this.props.showInputPasswords && <PasswordInputs email={this.email} openModal={this.props.showInputPasswords} onClose={this.handleClose} code={Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))} />
           )}
         </div>
       </Modal>
