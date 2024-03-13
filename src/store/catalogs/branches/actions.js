@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import * as Branches from 'src/services/catalogs/branches'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getBranches = createAsyncThunk('/branches/getBranches', async thunkApi => {
   try {
@@ -15,7 +15,9 @@ export const getBranches = createAsyncThunk('/branches/getBranches', async thunk
 export const createBranch = createAsyncThunk('/branches/createBranch', async (body, thunkApi) => {
   try {
     const payload = await Branches.postBranchesData(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_CREATE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('branches_create_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     return rejectError(error, thunkApi)
@@ -25,7 +27,9 @@ export const createBranch = createAsyncThunk('/branches/createBranch', async (bo
 export const editBranch = createAsyncThunk('/branches/editBranch', async (body, thunkApi) => {
   try {
     const payload = await Branches.patchBranchData(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('branches_edit_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     return rejectError(error, thunkApi)
@@ -35,7 +39,9 @@ export const editBranch = createAsyncThunk('/branches/editBranch', async (body, 
 export const deleteBranch = createAsyncThunk('/branches/deleteBranch', async ({id}, thunkApi) => {
   try {
     const payload = await Branches.deleteBranchData(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_DELETE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('branches_delete_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     return rejectError(error, thunkApi)
@@ -63,7 +69,7 @@ export const addBranchDetails = createAsyncThunk('/branches/addBranchDetails', a
     const payload = await Branches.addBranchDetailsData(branchId, body)
 
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_BRANCH_ADD_DETAILS, severity: 'success'})
+      openSnackBar({open: true, message: t('brances_create_branch_details', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -78,7 +84,7 @@ export const updateBranchDetails = createAsyncThunk(
     try {
       const payload = await Branches.updateBranchDetailsData(branchDetailsId, body)
       thunkApi.dispatch(
-        openSnackBar({open: true, message: CATALOGS_LOCALE.BRANCHES_BRANCH_EDIT_DETAILS, severity: 'success'})
+        openSnackBar({open: true, message: t('brances_edit_branch_details', {ns: 'catalogs'}), severity: 'success'})
       )
       return payload
     } catch (error) {

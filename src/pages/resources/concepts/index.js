@@ -12,40 +12,38 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
-import COMMON_LOCALE from 'src/utils/locales/common'
-import i18n from 'src/configs/i18n'
 import {t} from 'i18next'
+
 const columns = [
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.CONCEPTS_FIELD_NAME,
-    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_NAME
+    headerName: t('concepts_cat_field_name', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.CONCEPTS_FIELD_TYPE,
-    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_TYPE
+    headerName: t('concepts_cat_field_type', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.CONCEPTS_FIELD_DEFINITION,
-    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_DEFINITION
+    headerName: t('concepts_cat_field_definition', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX_SMALL,
     minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
     field: CATALOGS.CONCEPTS_FIELD_OBSERVATIONS,
-    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_OBSERVATIONS
+    headerName: t('concepts_cat_field_observations', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.CONCEPTS_FIELD_VARIABLE_NAME,
-    headerName: CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME
+    headerName: t('concepts_cat_field_variable_name', {ns: 'catalogs'})
   }
 ]
 
@@ -118,7 +116,7 @@ function ConceptCats() {
       flex: COMMON.COLUMN_ACTION_FLEX,
       minWidth: COMMON.COLUMN_ACTION_MIN_WIDTH,
       field: COMMON.ACTIONS_FIELD,
-      headerName: COMMON_LOCALE.ACTIONS,
+      headerName: t('actions'),
       renderCell: params => {
         const row = params?.row
         return (
@@ -143,23 +141,27 @@ function ConceptCats() {
           showAddButton
           columns={actionableColumns}
           rows={conceptsCat}
-          label={CATALOGS_LOCALE.CONCEPTS_FIELD_NAME}
+          label={t('concepts_cat_field_name', {ns: 'catalogs'})}
           onAddItem={handleAddItem}
         />
       )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.CONCEPTS_EDIT_MODAL : CATALOGS_LOCALE.CONCEPTS_ADD_MODAL}
+        title={
+          Boolean(modalItem)
+            ? t('concepts_cat_edit_modal', {ns: 'catalogs'})
+            : t('concepts_cat_add_modal', {ns: 'catalogs'})
+        }
         actions={[
           {
-            label: i18n.t('back_button'),
+            label: t('back_button'),
             onClick: handleCloseModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
           },
           {
-            label: COMMON_LOCALE.SAVE_BUTTON,
+            label: t('save_button'),
             onClick: handleSubmit(onSubmit),
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.SAVE_BUTTON_VARIANT
@@ -174,14 +176,20 @@ function ConceptCats() {
                   name={CATALOGS.CONCEPTS_FIELD_NAME}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.CONCEPTS_FIELD_NAME} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('concepts_cat_field_name', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
-                <InputLabel id='demo-simple-select-label'>{CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME}</InputLabel>
+                <InputLabel id='demo-simple-select-label'>
+                  {t('concepts_cat_field_variable_name', {ns: 'catalogs'})}
+                </InputLabel>
                 <Controller
                   name={CATALOGS.CONCEPTS_FIELD_VARIABLE_ID}
                   control={control}
@@ -190,7 +198,7 @@ function ConceptCats() {
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label={CATALOGS_LOCALE.CONCEPTS_FIELD_VARIABLE_NAME} /*  */
+                      label={t('concepts_cat_field_variable_name', {ns: 'catalogs'})} /*  */
                       onChange={onChange}
                     >
                       {variablesCat.map(variable => (
@@ -214,7 +222,7 @@ function ConceptCats() {
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label={CATALOGS_LOCALE.CONCEPTS_FIELD_TYPE}
+                      label={t('concepts_cat_field_type', {ns: 'catalogs'})}
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Concepto</MenuItem>
@@ -230,7 +238,11 @@ function ConceptCats() {
                   name={CATALOGS.CONCEPTS_FIELD_DEFINITION}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.CONCEPTS_FIELD_DEFINITION} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('concepts_cat_field_definition', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -241,7 +253,11 @@ function ConceptCats() {
                   name={CATALOGS.CONCEPTS_FIELD_OBSERVATIONS}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.CONCEPTS_FIELD_OBSERVATIONS} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('concepts_cat_field_observations', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -252,16 +268,16 @@ function ConceptCats() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={CATALOGS_LOCALE.CONCEPTS_DELETE_MODAL}
+        title={t('concepts_cat_delete_modal', {ns: 'catalogs'})}
         actions={[
           {
-            label: i18n.t('back_button'),
+            label: t('back_button'),
             onClick: handleCloseDeleteModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
           },
           {
-            label: COMMON_LOCALE.DELETE_BUTTON,
+            label: t('delete_button'),
             onClick: handleDeleteConfirm,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.DELETE_BUTTON_VARIANT
@@ -270,7 +286,7 @@ function ConceptCats() {
       >
         <Box>
           <Typography variant={COMMON.MODAL_DELETE_TEXT_VARIANT}>
-            {CATALOGS_LOCALE.CONCEPTS_CONFIRM_DELETE_MODAL}
+            {t('concepts_cat_delete_confirm_message', {ns: 'catalogs'})}
           </Typography>
         </Box>
       </ReusableDialog>

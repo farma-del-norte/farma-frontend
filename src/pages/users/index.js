@@ -1,7 +1,18 @@
 import {Fragment, useEffect, useReducer, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuItem, Divider, FormHelperText} from '@mui/material'
+import {
+  Typography,
+  Grid,
+  FormControl,
+  TextField,
+  Box,
+  InputLabel,
+  Select,
+  MenuItem,
+  Divider,
+  FormHelperText
+} from '@mui/material'
 import {Pencil, Delete, EyeOffOutline, EyeOutline} from 'mdi-material-ui'
 import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/users/reducer'
 import {getUsers, editUser, createUser, deleteUser} from 'src/store/catalogs/users/actions'
@@ -12,11 +23,10 @@ import CardTable from 'src/components/cardTable'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
-import USERS_LOCALE from 'src/utils/locales/users'
-import { PasswordField } from 'src/utils/inputs'
+import {PasswordField} from 'src/utils/inputs'
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+import {yupResolver} from '@hookform/resolvers/yup'
+import {t} from 'i18next'
 
 const columns = [
   {
@@ -100,28 +110,64 @@ function Users() {
   const isEdit = Boolean(modalItem)
 
   const userInfoSchema = yup.object().shape({
-    firstname: yup.string().max(50, USERS_LOCALE.FIRSTNAME_MAX_LENGTH).required(USERS_LOCALE.FIRSTNAME_REQUIRED),
-    lastname: yup.string().max(50, USERS_LOCALE.LASTNAME_MAX_LENGTH).required(USERS_LOCALE.LASTNAME_REQUIRED),
-    email: yup.string().email(USERS_LOCALE.EMAIL_NOT_CORRECT).required(USERS_LOCALE.EMAIL_REQUIRED),
-    phone: yup.string().matches(/^[0-9]+$/, USERS_LOCALE.PHONE_NOT_CORRECT).required(USERS_LOCALE.PHONE_REQUIRED),
-    password: yup.string().min(6, USERS_LOCALE.PASSWORD_MIN_LENGTH).max(100, USERS_LOCALE.PASSWORD_MAX_LENGTH).required(USERS_LOCALE.PASSWORD_REQUIRED),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], USERS_LOCALE.CONFIRM_PASSWORD_NOT_CORRECT).required(USERS_LOCALE.CONFIRM_PASSWORD_REQUIRED),
-    position: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
-    zoneID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
-    branchID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED)
+    firstname: yup
+      .string()
+      .max(50, t('firstName_max_required', {ns: 'users'}))
+      .required(t('firstName_required', {ns: 'users'})),
+    lastname: yup
+      .string()
+      .max(50, t('lastName_max_length', {ns: 'users'}))
+      .required(t('lastName_required', {ns: 'users'})),
+    email: yup
+      .string()
+      .email(t('email_valid', {ns: 'users'}))
+      .required(t('email_required', {ns: 'users'})),
+    phone: yup
+      .string()
+      .matches(/^[0-9]+$/, t('phone_valid', {ns: 'users'}))
+      .required(t('phone_required', {ns: 'users'})),
+    password: yup
+      .string()
+      .min(6, t('password_min_length', {ns: 'users'}))
+      .max(100, t('password_max_length', {ns: 'users'}))
+      .required(t('password_required', {ns: 'users'})),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password'), null], t('confirm_password_valid', {ns: 'users'}))
+      .required(t('confirm_password_required', {ns: 'users'})),
+    position: yup.string().required(t('select_required', {ns: 'users'})),
+    zoneID: yup.string().required(t('select_required', {ns: 'users'})),
+    branchID: yup.string().required(t('select_required', {ns: 'users'}))
   })
 
   const userInfoEditSchema = yup.object().shape({
-    firstname: yup.string().max(50, USERS_LOCALE.FIRSTNAME_MAX_LENGTH).required(USERS_LOCALE.FIRSTNAME_REQUIRED),
-    lastname: yup.string().max(50, USERS_LOCALE.LASTNAME_MAX_LENGTH).required(USERS_LOCALE.LASTNAME_REQUIRED),
-    email: yup.string().email(USERS_LOCALE.EMAIL_NOT_CORRECT).required(USERS_LOCALE.EMAIL_REQUIRED),
-    phone: yup.string().matches(/^[0-9]+$/, USERS_LOCALE.PHONE_NOT_CORRECT).required(USERS_LOCALE.PHONE_REQUIRED),
-    position: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
-    zoneID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED),
-    branchID: yup.string().required(USERS_LOCALE.SELECT_REQUIRED)
+    firstname: yup
+      .string()
+      .max(50, t('firstName_max_required', {ns: 'users'}))
+      .required(t('firstName_required', {ns: 'users'})),
+    lastname: yup
+      .string()
+      .max(50, t('lastName_max_length', {ns: 'users'}))
+      .required(t('lastName_required', {ns: 'users'})),
+    email: yup
+      .string()
+      .email(t('email_valid', {ns: 'users'}))
+      .required(t('email_required', {ns: 'users'})),
+    phone: yup
+      .string()
+      .matches(/^[0-9]+$/, t('phone_valid', {ns: 'users'}))
+      .required(t('phone_required', {ns: 'users'})),
+    position: yup.string().required(t('select_required', {ns: 'users'})),
+    zoneID: yup.string().required(t('select_required', {ns: 'users'})),
+    branchID: yup.string().required(t('select_required', {ns: 'users'}))
   })
 
-  const {control, handleSubmit, reset, formState: {errors: userErrors}} = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: {errors: userErrors}
+  } = useForm({
     defaultValues: defaultValuesUsers,
     resolver: yupResolver(isEdit ? userInfoEditSchema : userInfoSchema)
   })
@@ -169,7 +215,7 @@ function Users() {
   }
 
   const onSubmit = values => {
-    delete values.confirmPassword;
+    delete values.confirmPassword
     if (isEdit) {
       dispatch(editUser(values))
     } else {
@@ -216,7 +262,7 @@ function Users() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.USERS_EDIT_MODAL : CATALOGS_LOCALE.USERS_ADD_MODAL}
+        title={Boolean(modalItem) ? t('users_edit_modal', {ns: 'catalogs'}) : t('users_add_modal', {ns: 'catalogs'})}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -225,17 +271,17 @@ function Users() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth error={!!userErrors.firstname} variant="outlined">
+              <FormControl fullWidth error={!!userErrors.firstname} variant='outlined'>
                 <Controller
                   name='firstname'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Nombre' 
-                      value={value || ''} 
-                      onChange={onChange} 
-                      color={userErrors.firstname ? "error" : ""}
-                      focused={userErrors.firstname}  
+                    <TextField
+                      label='Nombre'
+                      value={value || ''}
+                      onChange={onChange}
+                      color={userErrors.firstname ? 'error' : ''}
+                      focused={userErrors.firstname}
                     />
                   )}
                 />
@@ -248,11 +294,11 @@ function Users() {
                   name='lastname'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Apellido' 
-                      value={value || ''} 
-                      onChange={onChange} 
-                      color={userErrors.lastname ? "error" : ""}
+                    <TextField
+                      label='Apellido'
+                      value={value || ''}
+                      onChange={onChange}
+                      color={userErrors.lastname ? 'error' : ''}
                       focused={userErrors.lastname}
                     />
                   )}
@@ -266,11 +312,11 @@ function Users() {
                   name='email'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Correo' 
-                      value={value || ''} 
-                      onChange={onChange} 
-                      color={userErrors.email ? "error" : ""}
+                    <TextField
+                      label='Correo'
+                      value={value || ''}
+                      onChange={onChange}
+                      color={userErrors.email ? 'error' : ''}
                       focused={userErrors.email}
                     />
                   )}
@@ -284,11 +330,11 @@ function Users() {
                   name='phone'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Teléfono' 
-                      value={value || ''} 
-                      onChange={onChange} 
-                      color={userErrors.phone ? "error" : ""}
+                    <TextField
+                      label='Teléfono'
+                      value={value || ''}
+                      onChange={onChange}
+                      color={userErrors.phone ? 'error' : ''}
                       focused={userErrors.phone}
                     />
                   )}
@@ -296,7 +342,7 @@ function Users() {
                 {userErrors.phone && <FormHelperText error>{userErrors.phone.message}</FormHelperText>}
               </FormControl>
             </Grid>
-            {!isEdit &&
+            {!isEdit && (
               <>
                 <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
                   <FormControl fullWidth>
@@ -307,7 +353,7 @@ function Users() {
                         <PasswordField
                           value={value || ''}
                           onChange={onChange}
-                          color={userErrors.password ? "error" : ""}
+                          color={userErrors.password ? 'error' : ''}
                           focused={userErrors.password}
                         />
                       )}
@@ -322,19 +368,21 @@ function Users() {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <PasswordField
-                          label={"Confirmar Contraseña"}
+                          label={'Confirmar Contraseña'}
                           value={value || ''}
                           onChange={onChange}
-                          color={userErrors.confirmPassword ? "error" : ""}
+                          color={userErrors.confirmPassword ? 'error' : ''}
                           focused={userErrors.confirmPassword}
                         />
                       )}
                     />
-                    {userErrors.confirmPassword && <FormHelperText error>{userErrors.confirmPassword.message}</FormHelperText>}
+                    {userErrors.confirmPassword && (
+                      <FormHelperText error>{userErrors.confirmPassword.message}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </>
-            }
+            )}
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
               <Divider />
             </Grid>
@@ -346,17 +394,15 @@ function Users() {
                   render={({field: {value, onChange}}) => (
                     <>
                       <InputLabel>Posición</InputLabel>
-                      <Select
-                        defaultValue=""
-                        value={value || ''}
-                        label="position"
-                        onChange={onChange}
-                      >
-                        {positions.map((pos, i) =>
-                          <MenuItem key={i} value={pos.id}>{pos.name}</MenuItem>
-                        )}
+                      <Select defaultValue='' value={value || ''} label='position' onChange={onChange}>
+                        {positions.map((pos, i) => (
+                          <MenuItem key={i} value={pos.id}>
+                            {pos.name}
+                          </MenuItem>
+                        ))}
                       </Select>
-                    </>)}
+                    </>
+                  )}
                 />
                 {userErrors.position && <FormHelperText error>{userErrors.position.message}</FormHelperText>}
               </FormControl>
@@ -369,17 +415,15 @@ function Users() {
                   render={({field: {value, onChange}}) => (
                     <>
                       <InputLabel>Zona</InputLabel>
-                      <Select
-                        defaultValue=""
-                        value={value || ''}
-                        label="Zona"
-                        onChange={onChange}
-                      >
-                        {zones.map((zone, i) =>
-                          <MenuItem key={i} value={zone.id}>{zone.name}</MenuItem>
-                        )}
+                      <Select defaultValue='' value={value || ''} label='Zona' onChange={onChange}>
+                        {zones.map((zone, i) => (
+                          <MenuItem key={i} value={zone.id}>
+                            {zone.name}
+                          </MenuItem>
+                        ))}
                       </Select>
-                    </>)}
+                    </>
+                  )}
                 />
                 {userErrors.zoneID && <FormHelperText error>{userErrors.zoneID.message}</FormHelperText>}
               </FormControl>
@@ -392,17 +436,15 @@ function Users() {
                   render={({field: {value, onChange}}) => (
                     <>
                       <InputLabel>Sucursal</InputLabel>
-                      <Select
-                        defaultValue=""
-                        value={value || ''}
-                        label="Sucursal"
-                        onChange={onChange}
-                      >
-                        {branches.map((branch, i) =>
-                          <MenuItem key={i} value={branch.id}>{branch.name}</MenuItem>
-                        )}
+                      <Select defaultValue='' value={value || ''} label='Sucursal' onChange={onChange}>
+                        {branches.map((branch, i) => (
+                          <MenuItem key={i} value={branch.id}>
+                            {branch.name}
+                          </MenuItem>
+                        ))}
                       </Select>
-                    </>)}
+                    </>
+                  )}
                 />
                 {userErrors.branchID && <FormHelperText error>{userErrors.branchID.message}</FormHelperText>}
               </FormControl>
@@ -413,7 +455,7 @@ function Users() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseModal}
-        title={CATALOGS_LOCALE.USERS_DELETE_MODAL}
+        title={t('users_delete_modal', {ns: 'catalogs'})}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}

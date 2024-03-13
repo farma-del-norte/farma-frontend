@@ -1,5 +1,4 @@
 import {useDispatch} from 'react-redux'
-import {LOGIN_LOCALE} from 'src/utils/constants'
 import {useTheme} from '@mui/material/styles'
 import {useSettings} from 'src/@core/hooks/useSettings'
 import Box from '@mui/material/Box'
@@ -11,6 +10,7 @@ import InformationText from './informationText'
 import PasswordIlustration from './passwordIlustration'
 import EmailFormValidation from './emailFormValidation'
 import {RightWrapper, BoxWrapper, mainBoxStyling, boxWrapperStyling} from '../../utils/styles'
+import {t} from 'i18next'
 
 const ForgotPassword = () => {
   const theme = useTheme(),
@@ -31,12 +31,9 @@ const ForgotPassword = () => {
               <Box sx={boxWrapperStyling}>
                 <Image />
               </Box>
-              <InformationText
-                forgetPassword={LOGIN_LOCALE.DO_YOU_FORGET_PASSWORD}
-                resetPassword={LOGIN_LOCALE.RESET_PASSWORD}
-              />
+              <InformationText forgetPassword={t('Do_you_forget_password')} resetPassword={t('Reset_password')} />
               {<EmailFormValidation />}
-              <BackToLogin loginText={LOGIN_LOCALE.BACK_LOGIN} />
+              <BackToLogin loginText={t('Back_login')} />
             </BoxWrapper>
           </Box>
         </RightWrapper>

@@ -10,7 +10,6 @@ import {getSuppliers, createSupplier, editSupplier, deleteSupplier} from 'src/st
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 const columns = [
   {
@@ -150,7 +149,9 @@ function Suppliers() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.SUPPLIERS_EDIT_MODAL : CATALOGS_LOCALE.SUPPLIERS_ADD_MODAL}
+        title={
+          Boolean(modalItem) ? t('suppliers_edit_modal', {ns: 'catalogs'}) : t('suppliers_add_modal', {ns: 'catalogs'})
+        }
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -274,7 +275,7 @@ function Suppliers() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={CATALOGS_LOCALE.SUPPLIERS_DELETE_MODAL}
+        title={t('suppliers_delete_modal', {ns: 'catalogs'})}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}

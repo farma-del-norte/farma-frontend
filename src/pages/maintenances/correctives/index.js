@@ -28,7 +28,7 @@ import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
-import {MAINTENANCES, MAINTENANCES_LOCALE, COMMON} from 'src/utils/constants'
+import {MAINTENANCES, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
@@ -256,14 +256,14 @@ const Maintenances = () => {
           columns={actionableColumns}
           rows={maintenances}
           pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-          label={MAINTENANCES_LOCALE.MAINTENANCES_FIELD_NAME}
+          label={t('maintenances_column_name', {ns: 'maintenances'})}
           onAddItem={handleAddItem}
         />
       )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? MAINTENANCES_LOCALE.MAINTENANCES_EDIT : 'Reportar Mantenimiento'}
+        title={Boolean(modalItem) ? t('maintenances_edit', {ns: 'maintenances'}) : 'Reportar Mantenimiento'}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Reportar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
