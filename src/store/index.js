@@ -2,6 +2,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 
 //farma reducers
+import budgets from './budgets/reducer'
 import branches from './catalogs/branches/reducer'
 import conceptsCat from 'src/store/catalogs/concepts/reducer'
 import damagesCat from 'src/store/catalogs/damages/reducer'
@@ -18,6 +19,7 @@ import maintenances from 'src/store/maintenances/maintenances/reducer'
 
 export const store = configureStore({
   reducer: {
+    budgets,
     branches,
     conceptsCat,
     damagesCat,

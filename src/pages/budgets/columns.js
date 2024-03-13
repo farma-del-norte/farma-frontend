@@ -2,7 +2,7 @@ export const columns = [
   {
     flex: 0.25,
     minWidth: 200,
-    field: 'date',
+    field: 'assignmentDate',
     headerName: 'fecha'
   },
   {
@@ -14,13 +14,13 @@ export const columns = [
   {
     flex: 0.25,
     minWidth: 200,
-    field: 'assignedMount',
+    field: 'budget',
     headerName: 'Presupuesto Asignado'
   },
   {
     flex: 0.25,
     minWidth: 200,
-    field: 'currentMount',
+    field: 'currentAmount',
     headerName: 'Monto Actual'
   }
 ]
