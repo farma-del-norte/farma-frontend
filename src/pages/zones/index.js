@@ -10,7 +10,7 @@ import {closeSnackBar} from 'src/store/notifications'
 import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import {t} from 'i18next'
 
 const columns = [
   {
@@ -115,7 +115,7 @@ function Zones() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.ZONES_EDIT_MODAL : CATALOGS_LOCALE.ZONES_ADD_MODAL}
+        title={Boolean(modalItem) ? t('zones_edit_modal', {ns: 'catalogs'}) : t('zones_add_modal', {ns: 'catalogs'})}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -138,14 +138,14 @@ function Zones() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={CATALOGS_LOCALE.ZONES_DELETE_MODAL}
+        title={t('zones_delete_modal', {ns: 'catalogs'})}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>{CATALOGS_LOCALE.ZONES_CONFIRM_DELETE_MODAL}</Typography>
+          <Typography variant='body2'>{t('zones_delete_confirm_message', {ns: 'catalogs'})}</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />

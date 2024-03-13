@@ -16,45 +16,45 @@ import {
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
-import COMMON_LOCALE from 'src/utils/locales/common'
+import i18n from 'src/configs/i18n'
+import {t} from 'i18next'
 
 const columns = [
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.VARIABLES_FIELD_NAME,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_NAME
+    headerName: t('variables_cat_field_name', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.VARIABLES_FIELD_OBLIGATION,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_OBLIGATION
+    headerName: t('variables_cat_field_obligation', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX_SMALL,
     minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
     field: CATALOGS.VARIABLES_FIELD_SPECIFICATIONS,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_SPECIFICATIONS
+    headerName: t('variables_cat_field_specifications', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX_SMALL,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.VARIABLES_FIELD_GUIDELINES,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_GUIDELINES
+    headerName: t('variables_cat_field_guidelines', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX_SMALL,
     minWidth: COMMON.COLUMN_MIN_WIDTH_SMALL,
     field: CATALOGS.VARIABLES_FIELD_SERVICE,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_SERVICE
+    headerName: t('variables_cat_field_service', {ns: 'catalogs'})
   },
   {
     flex: COMMON.COLUMN_FLEX,
     minWidth: COMMON.COLUMN_MIN_WIDTH,
     field: CATALOGS.VARIABLES_FIELD_DIMENSIONS_NAME,
-    headerName: CATALOGS_LOCALE.VARIABLES_FIELD_DIMENSIONS_NAME
+    headerName: t('variables_cat_field_dimensions_name', {ns: 'catalogs'})
   }
 ]
 
@@ -162,16 +162,20 @@ function VariablesCat() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.VARIABLES_EDIT_MODAL : CATALOGS_LOCALE.VARIABLES_ADD_MODAL}
+        title={
+          Boolean(modalItem)
+            ? t('variables_cat_edit_modal', {ns: 'catalogs'})
+            : t('variables_cat_add_modal', {ns: 'catalogs'})
+        }
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: i18n.t('back_button'),
             onClick: handleCloseModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
           },
           {
-            label: COMMON_LOCALE.SAVE_BUTTON,
+            label: i18n.t('save_button'),
             onClick: handleSubmit(onSubmit),
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.SAVE_BUTTON_VARIANT
@@ -186,7 +190,11 @@ function VariablesCat() {
                   name={CATALOGS.VARIABLES_FIELD_NAME}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_NAME} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('variables_cat_field_name', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -202,7 +210,7 @@ function VariablesCat() {
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label={CATALOGS_LOCALE.VARIABLES_FIELD_DIMENSIONS_NAME}
+                      label={t('variables_cat_field_dimensions_name', {ns: 'catalogs'})}
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Prueba</MenuItem>
@@ -215,7 +223,9 @@ function VariablesCat() {
             </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
-                <InputLabel id='demo-simple-select-label'>{CATALOGS_LOCALE.VARIABLES_FIELD_OBLIGATION}</InputLabel>
+                <InputLabel id='demo-simple-select-label'>
+                  {t('variables_cat_field_obligation', {ns: 'catalogs'})}
+                </InputLabel>
                 <Controller
                   name={CATALOGS.VARIABLES_FIELD_OBLIGATION}
                   control={control}
@@ -224,7 +234,7 @@ function VariablesCat() {
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
                       value={value}
-                      label={CATALOGS_LOCALE.VARIABLES_FIELD_OBLIGATION}
+                      label={t('variables_cat_field_obligation', {ns: 'catalogs'})}
                       onChange={onChange}
                     >
                       <MenuItem value={10}>Obligatorio</MenuItem>
@@ -242,7 +252,7 @@ function VariablesCat() {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <TextField
-                      label={CATALOGS_LOCALE.VARIABLES_FIELD_SPECIFICATIONS}
+                      label={t('variables_cat_field_specifications', {ns: 'catalogs'})}
                       value={value}
                       onChange={onChange}
                     />
@@ -256,7 +266,11 @@ function VariablesCat() {
                   name={CATALOGS.VARIABLES_FIELD_GUIDELINES}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_GUIDELINES} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('variables_cat_field_guidelines', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -267,7 +281,11 @@ function VariablesCat() {
                   name={CATALOGS.VARIABLES_FIELD_SERVICE}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.VARIABLES_FIELD_SERVICE} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('variables_cat_field_service', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -278,16 +296,16 @@ function VariablesCat() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseModal}
-        title={CATALOGS_LOCALE.VARIABLES_DELETE_MODAL}
+        title={t('variables_cat_delete_modal', {ns: 'catalogs'})}
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: i18n.t('back_button'),
             onClick: handleCloseDeleteModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
           },
           {
-            label: COMMON_LOCALE.DELETE_BUTTON,
+            label: i18n.t('delete_button'),
             onClick: handleDeleteConfirm,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.DELETE_BUTTON_VARIANT
@@ -295,7 +313,7 @@ function VariablesCat() {
         ]}
       >
         <Box>
-          <Typography variant='body2'>{CATALOGS_LOCALE.VARIABLES_CONFIRM_DELETE_MODAL}</Typography>
+          <Typography variant='body2'>{t('variables_cat_delete_confirm_message', {ns: 'catalogs'})}</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />

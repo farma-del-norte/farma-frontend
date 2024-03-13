@@ -6,7 +6,6 @@ import {setInputPasswords} from 'src/store/users/reducer'
 import {validateVerificationCode} from 'src/store/users/actions'
 import {default as PasswordInputs} from './inputPasswords'
 import { t } from 'i18next'
-import FallbackSpinner from 'src/@core/components/spinner'
 import Button from '@mui/material/Button'
 
 const mapstatetoprops = state => ({
@@ -21,7 +20,7 @@ class VerifyCodeModal extends Component {
     this.email = this.props.email
     this.handleClose = this.props.handleClose.bind(this)
     this.state = {
-      name: t('Empty_string'),
+      name: t('empty_string'),
       code: new Array(6).fill(0)
     }
   }
@@ -32,20 +31,18 @@ class VerifyCodeModal extends Component {
     });
     let body = {
         email: this.email,
-        code: Number(this.state.code.join(t('Empty_string')))
+        code: Number(this.state.code.join(t('empty_string')))
       },
       response = await this.props.validateVerificationCode(body),
       payload = response.payload
 
     if (payload === t('Error_code')) {
-      this.setState({ showLoading: false })
       return
     } else {
       let hasFolio = payload.folio ? true : false,
         message = payload.message
 
       if (hasFolio && message.includes(t('Valid_code'))) {
-        this.setState({showLoading: false})
         this.props.setInputPasswords(true)
       }
       this.setState({ showLoading: false })
@@ -61,11 +58,11 @@ class VerifyCodeModal extends Component {
     updatedCode[inputIndex] = number
     this.setState({code: updatedCode})
 
-    if (inputIndex >= 0 && inputIndex <= 4 && number !== t('Empty_string')) {
+    if (inputIndex >= 0 && inputIndex <= 4 && number !== t('empty_string')) {
       currentIndexInput = inputIndex += 1
     } else if (
-      (inputIndex === 5 && number !== t('Empty_string')) ||
-      (inputIndex === 0 && number === t('Empty_string'))
+      (inputIndex === 5 && number !== t('empty_string')) ||
+      (inputIndex === 0 && number === t('empty_string'))
     ) {
       currentIndexInput = inputIndex
     } else {
@@ -86,7 +83,7 @@ class VerifyCodeModal extends Component {
           {!this.props.showInputPasswords && (
             <div className='inputs--container'>
               <h2 className='heading-secondary margin-bottom-m'>{t('Enter_code')}</h2>
-              <p className='margin-bottom-s'>{t("Enter_code_recovery_password")} </p>
+              <p className='margin-bottom-s'>{t('Enter_code_recovery_password')} </p>
               <form className='form--verifiy-code' style={formStyle}>
                 {this.state.code.map((item, idx) => {
                   return (
@@ -118,8 +115,8 @@ class VerifyCodeModal extends Component {
               </form>
             </div>
           )}
-          { this.state.showLoading ? <FallbackSpinner /> : (
-            this.props.showInputPasswords && <PasswordInputs email={this.email} openModal={this.props.showInputPasswords} onClose={this.handleClose} code={Number(this.state.code.join(t('Empty_string')))} />
+          {this.props.showInputPasswords && (
+            <PasswordInputs email={this.email} code={Number(this.state.code.join(t('empty_string')))} />
           )}
         </div>
       </Modal>

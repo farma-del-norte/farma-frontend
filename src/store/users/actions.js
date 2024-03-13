@@ -11,7 +11,6 @@ import {
 } from 'src/services/catalogs/users'
 import {openSnackBar} from 'src/store/notifications'
 import Router from 'next/router'
-import USERS_LOCALE from 'src/utils/locales/users'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   try {
@@ -40,7 +39,9 @@ export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkA
 export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
   try {
     const payload = await createUserService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: USERS_LOCALE.USER_CREATED, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('success_user_created', {ns: 'users'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error
@@ -52,7 +53,7 @@ export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
 export const editUser = createAsyncThunk('/users/editUser', async (body, thunkApi) => {
   try {
     const payload = await editUserService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: USERS_LOCALE.USER_EDITED, severity: 'success'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: t('success_user_edited', {ns: 'users'}), severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -64,7 +65,9 @@ export const editUser = createAsyncThunk('/users/editUser', async (body, thunkAp
 export const deleteUser = createAsyncThunk('/users/getUsers', async ({id}, thunkApi) => {
   try {
     const payload = await deleteUserService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: USERS_LOCALE.USER_DELETED, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('success_user_deleted', {ns: 'users'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error
