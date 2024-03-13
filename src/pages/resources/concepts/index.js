@@ -14,6 +14,8 @@ import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 import COMMON_LOCALE from 'src/utils/locales/common'
+import i18n from 'src/configs/i18n'
+import {t} from 'i18next'
 const columns = [
   {
     flex: COMMON.COLUMN_FLEX,
@@ -151,7 +153,7 @@ function ConceptCats() {
         title={Boolean(modalItem) ? CATALOGS_LOCALE.CONCEPTS_EDIT_MODAL : CATALOGS_LOCALE.CONCEPTS_ADD_MODAL}
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: i18n.t('back_button'),
             onClick: handleCloseModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
@@ -253,7 +255,7 @@ function ConceptCats() {
         title={CATALOGS_LOCALE.CONCEPTS_DELETE_MODAL}
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: i18n.t('back_button'),
             onClick: handleCloseDeleteModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
