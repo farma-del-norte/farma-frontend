@@ -77,7 +77,7 @@
     "concepts_cat_field_type": "Tipo",
     "concepts_cat_field_definition": "Definición",
     "concepts_cat_field_observations": "Observaciones",
-    "concepts_cat_field_variable_name": "VariableCat",
+    "concepts_cat_field_variable_name": "Variable",
 
     "services_cat_title": "Catálogo de Servicios",
     "services_cat_edit_modal": "Editar Catálogo de servicio seleccionado",

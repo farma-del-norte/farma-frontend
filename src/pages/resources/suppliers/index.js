@@ -10,6 +10,7 @@ import {getSuppliers, createSupplier, editSupplier, deleteSupplier} from 'src/st
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
+import {t} from 'i18next'
 
 const columns = [
   {
