@@ -54,3 +54,7 @@ export const MAINTENANCES = {
   MAINTENANCES_FIELD_FLEX_SIZE: 12,
   MAINTENANCES_FIELD_NAME: 'name'
 }
+
+export const LOGIN = {
+  PASSWORD_MIN_CHARS: 8
+}
