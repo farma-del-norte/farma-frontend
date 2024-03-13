@@ -1,18 +1,7 @@
 import {Fragment, useEffect, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {
-  Typography,
-  Grid,
-  FormControl,
-  TextField,
-  Box,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText
-} from '@mui/material'
-import {styled} from '@mui/material/styles'
+import {Typography, Grid, FormControl, TextField, Box, FormHelperText, InputLabel, Select, MenuItem} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
@@ -32,13 +21,13 @@ import {
   getBranches
 } from 'src/store/catalogs/branches/actions'
 import i18n from 'src/configs/i18n'
+import {t} from 'i18next'
 import {getZones} from 'src/store/catalogs/zones/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import COMMON_LOCALE from 'src/utils/locales/common'
 import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {DetailTypography} from 'src/components/styledComponents/typography'
 import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
 import BranchDetailsFormModal from 'src/views/details-modals/BranchDetailsFormModal'
 import * as yup from 'yup'
@@ -273,7 +262,7 @@ function Branches() {
         onClose={handleCloseModal}
         title={Boolean(modalItem) ? CATALOGS_LOCALE.BRANCHES_EDIT_MODAL : CATALOGS_LOCALE.BRANCHES_ADD_MODAL}
         actions={[
-          {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: i18n.t('back_button'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           Boolean(modalItem)
             ? {
                 label: COMMON_LOCALE.UPDATE_BUTTON,
@@ -309,7 +298,7 @@ function Branches() {
                 {branchErrors.name && <FormHelperText error>{branchErrors.name.message}</FormHelperText>}
               </FormControl>
             </Grid>
-            {/* <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
                   name='street'
@@ -440,7 +429,7 @@ function Branches() {
                 />
                 {branchErrors.zoneID && <FormHelperText error>{branchErrors.zoneID.message}</FormHelperText>}
               </FormControl>
-            </Grid> */}
+            </Grid>
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
               <ExpandedContent label={CATALOGS_LOCALE.BRANCHES_DETAILS_EXPANDABLE_TITLE}>
                 <DetailsForm
@@ -467,7 +456,7 @@ function Branches() {
         title={CATALOGS_LOCALE.BRANCHES_DELETE_MODAL}
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: i18n.t('back_button'),
             onClick: handleCloseDeleteModal,
             color: 'primary',
             variant: 'outlined'
