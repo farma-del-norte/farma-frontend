@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {LOGIN_LOCALE} from 'src/utils/constants'
 import {connect} from 'react-redux'
 import {Modal} from '@mui/material'
 import {formStyle, inputStyle, buttonStyle, modalContentStyle} from './styles'
@@ -7,6 +6,7 @@ import {setInputPasswords} from 'src/store/users/reducer'
 import {validateVerificationCode} from 'src/store/users/actions'
 import {default as PasswordInputs} from './inputPasswords'
 import Button from '@mui/material/Button'
+import {t} from 'i18next'
 
 const mapstatetoprops = state => ({
   showInputPasswords: state.users.showInputPasswords
@@ -20,7 +20,7 @@ class VerifyCodeModal extends Component {
     this.email = this.props.email
     this.handleClose = this.props.handleClose.bind(this)
     this.state = {
-      name: LOGIN_LOCALE.EMPTY_STRING,
+      name: t('empty_string'),
       code: new Array(6).fill(0)
     }
   }
@@ -28,18 +28,18 @@ class VerifyCodeModal extends Component {
   onShowInputPasswords = async () => {
     let body = {
         email: this.email,
-        code: Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))
+        code: Number(this.state.code.join(t('empty_string')))
       },
       response = await this.props.validateVerificationCode(body),
       payload = response.payload
 
-    if (payload === LOGIN_LOCALE.ERROR_CODE) {
+    if (payload === t('Error_code')) {
       return
     } else {
       let hasFolio = payload.folio ? true : false,
         message = payload.message
 
-      if (hasFolio && message.includes(LOGIN_LOCALE.VALID_CODE)) {
+      if (hasFolio && message.includes(t('Valid_code'))) {
         this.props.setInputPasswords(true)
       }
     }
@@ -54,11 +54,11 @@ class VerifyCodeModal extends Component {
     updatedCode[inputIndex] = number
     this.setState({code: updatedCode})
 
-    if (inputIndex >= 0 && inputIndex <= 4 && number !== LOGIN_LOCALE.EMPTY_STRING) {
+    if (inputIndex >= 0 && inputIndex <= 4 && number !== t('empty_string')) {
       currentIndexInput = inputIndex += 1
     } else if (
-      (inputIndex === 5 && number !== LOGIN_LOCALE.EMPTY_STRING) ||
-      (inputIndex === 0 && number === LOGIN_LOCALE.EMPTY_STRING)
+      (inputIndex === 5 && number !== t('empty_string')) ||
+      (inputIndex === 0 && number === t('empty_string'))
     ) {
       currentIndexInput = inputIndex
     } else {
@@ -78,8 +78,8 @@ class VerifyCodeModal extends Component {
         <div style={modalContentStyle}>
           {!this.props.showInputPasswords && (
             <div className='inputs--container'>
-              <h2 className='heading-secondary margin-bottom-m'>{LOGIN_LOCALE.ENTER_CODE}</h2>
-              <p className='margin-bottom-s'>{LOGIN_LOCALE.ENTER_CODE_RECOVERY_PASSWORD} </p>
+              <h2 className='heading-secondary margin-bottom-m'>{t('Enter_code')}</h2>
+              <p className='margin-bottom-s'>{t('Enter_code_recovery_password')} </p>
               <form className='form--verifiy-code' style={formStyle}>
                 {this.state.code.map((item, idx) => {
                   return (
@@ -112,7 +112,7 @@ class VerifyCodeModal extends Component {
             </div>
           )}
           {this.props.showInputPasswords && (
-            <PasswordInputs email={this.email} code={Number(this.state.code.join(LOGIN_LOCALE.EMPTY_STRING))} />
+            <PasswordInputs email={this.email} code={Number(this.state.code.join(t('empty_string')))} />
           )}
         </div>
       </Modal>

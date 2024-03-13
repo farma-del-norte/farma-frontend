@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import * as SuppliersAPI from 'src/services/catalogs/suppliers'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getSuppliers = createAsyncThunk('/suppliers/getSuppliers', async thunkApi => {
   try {
@@ -19,7 +19,7 @@ export const createSupplier = createAsyncThunk('/suppliers/createSupplier', asyn
   try {
     const payload = await SuppliersAPI.createSuppliersService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.SUPPLIERS_CREATE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('suppliers_create_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -32,7 +32,9 @@ export const createSupplier = createAsyncThunk('/suppliers/createSupplier', asyn
 export const editSupplier = createAsyncThunk('/suppliers/editSupplier', async (body, thunkApi) => {
   try {
     const payload = await SuppliersAPI.editSuppliersService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.SUPPLIERS_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('suppliers_edit_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -45,7 +47,7 @@ export const deleteSupplier = createAsyncThunk('/suppliers/deleteSupplier', asyn
   try {
     const payload = await SuppliersAPI.deleteSuppliersService(id)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.SUPPLIERS_DELETE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('suppliers_delete_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
