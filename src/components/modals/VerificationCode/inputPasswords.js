@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
-import {useRouter} from 'next/router'
-import {Stack} from '@mui/material'
-import {useDispatch} from 'react-redux'
-import {updatePassword} from 'src/store/users/actions'
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { Stack } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { updatePassword } from 'src/store/users/actions'
+import { setVerificationModal, setInputPasswords } from 'src/store/users/reducer'
+import { t } from 'i18next'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -10,7 +12,6 @@ import CardHeader from '@mui/material/CardHeader'
 import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import Alert from '@mui/material/Alert'
-import {t} from 'i18next'
 
 const PasswordInputs = ({email, code}) => {
   const dispatch = useDispatch(),
@@ -34,6 +35,8 @@ const PasswordInputs = ({email, code}) => {
         setError(t('Not_updated_password'))
       } else {
         setUpdated(t('Updated_password'))
+        dispatch(setVerificationModal(false));
+        dispatch(setInputPasswords(false))
         router.replace('/')
       }
     },

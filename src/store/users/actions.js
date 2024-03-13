@@ -78,12 +78,11 @@ export const deleteUser = createAsyncThunk('/users/getUsers', async ({id}, thunk
 
 export const getVerificationCode = createAsyncThunk('/users/passwordRecoveryCode', async (body, thunkApi) => {
   try {
-    const payload = await getVerificationCodeService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
+    let payload = await getVerificationCodeService(body)
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    await thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -91,11 +90,10 @@ export const getVerificationCode = createAsyncThunk('/users/passwordRecoveryCode
 export const validateVerificationCode = createAsyncThunk('/users/passwordRecoveryCode', async (body, thunkApi) => {
   try {
     const payload = await validateVerificationCodeService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    await thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -103,11 +101,11 @@ export const validateVerificationCode = createAsyncThunk('/users/passwordRecover
 export const updatePassword = createAsyncThunk('/users/password', async (body, thunkApi) => {
   try {
     const payload = await updatePasswordService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Codigo enviado con exito', severity: 'success'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: 'Contraseña cambiada con éxito', severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    await thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })

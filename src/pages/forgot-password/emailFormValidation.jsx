@@ -4,12 +4,12 @@ import {setVerificationModal, setInputPasswords} from 'src/store/users/reducer'
 import {useSelector, useDispatch} from 'react-redux'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useForm, Controller} from 'react-hook-form'
+import { t } from 'i18next'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import VerifyCodeModal from 'src/components/modals/VerificationCode/verifyCode'
-import {t} from 'i18next'
 var currentEmail
 
 const EmailFormValidation = props => {

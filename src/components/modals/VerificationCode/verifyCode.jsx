@@ -5,8 +5,8 @@ import {formStyle, inputStyle, buttonStyle, modalContentStyle} from './styles'
 import {setInputPasswords} from 'src/store/users/reducer'
 import {validateVerificationCode} from 'src/store/users/actions'
 import {default as PasswordInputs} from './inputPasswords'
+import { t } from 'i18next'
 import Button from '@mui/material/Button'
-import {t} from 'i18next'
 
 const mapstatetoprops = state => ({
   showInputPasswords: state.users.showInputPasswords
@@ -26,6 +26,9 @@ class VerifyCodeModal extends Component {
   }
 
   onShowInputPasswords = async () => {
+    this.setState({
+      showLoading : true
+    });
     let body = {
         email: this.email,
         code: Number(this.state.code.join(t('empty_string')))
@@ -42,6 +45,7 @@ class VerifyCodeModal extends Component {
       if (hasFolio && message.includes(t('Valid_code'))) {
         this.props.setInputPasswords(true)
       }
+      this.setState({ showLoading: false })
     }
   }
 
