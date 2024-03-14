@@ -10,7 +10,6 @@ import {
   updatePasswordService
 } from 'src/services/catalogs/users'
 import {openSnackBar} from 'src/store/notifications'
-import Router from 'next/router'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   try {
@@ -26,7 +25,6 @@ export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
 export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkApi) => {
   try {
     const payload = await usersLogin(body)
-    Router.push('/dashboards')
     return payload
   } catch (error) {
     console.log(error.response.data.message)

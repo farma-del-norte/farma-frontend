@@ -36,6 +36,9 @@ export const usersSlice = createSlice({
     },
     setInputPasswords: (state, {payload}) => {
       state.showInputPasswords = payload
+    },
+    setIsLoading: (state, {payload}) => {
+      state.isLoading = payload
     }
   },
   extraReducers: builder => {
@@ -84,4 +87,4 @@ export const usersSlice = createSlice({
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords} = usersSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords, setIsLoading} = usersSlice.actions
