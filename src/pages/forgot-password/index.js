@@ -1,45 +1,35 @@
-import { useDispatch } from 'react-redux'
-import { LOGIN_LOCALE } from 'src/utils/constants'
-import { useTheme } from '@mui/material/styles'
-import { useSettings } from 'src/@core/hooks/useSettings'
+import {useDispatch} from 'react-redux'
+import {useTheme} from '@mui/material/styles'
+import {useSettings} from 'src/@core/hooks/useSettings'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import BackToLogin from './backToLogin'
-import Image from './image'
-import InformationText from './InformationText'
+import InformationText from './informationText'
 import PasswordIlustration from './passwordIlustration'
 import EmailFormValidation from './emailFormValidation'
-import {
-  RightWrapper,
-  BoxWrapper,
-  mainBoxStyling,
-  boxWrapperStyling
-} from './styles'
+import {RightWrapper, BoxWrapper, mainBoxStyling, boxWrapperStyling} from '../../utils/styles'
+import {t} from 'i18next'
 
 const ForgotPassword = () => {
   const theme = useTheme(),
     dispatch = useDispatch(),
     hidden = useMediaQuery(theme.breakpoints.down('md')),
-    { settings } = useSettings(),
-    { skin } = settings,
-    imageSource = skin === 'bordered' ? 'auth-v2-forgot-password-illustration-bordered' : 'auth-v2-forgot-password-illustration';
+    {settings} = useSettings(),
+    {skin} = settings,
+    imageSource =
+      skin === 'bordered' ? 'auth-v2-forgot-password-illustration-bordered' : 'auth-v2-forgot-password-illustration'
 
   return (
     <>
       <Box className='content-right'>
-        {
-          !hidden ? <PasswordIlustration hidden={hidden} imageSource={imageSource}/> : null
-        }
-        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+        {!hidden ? <PasswordIlustration hidden={hidden} imageSource={imageSource} /> : null}
+        <RightWrapper sx={skin === 'bordered' && !hidden ? {borderLeft: `1px solid ${theme.palette.divider}`} : {}}>
           <Box sx={mainBoxStyling}>
             <BoxWrapper>
-              <Box sx={boxWrapperStyling}>
-              <Image/>
-              </Box>
-              <InformationText forgetPassword={LOGIN_LOCALE.DO_YOU_FORGET_PASSWORD} resetPassword={LOGIN_LOCALE.RESET_PASSWORD}/>
-              { <EmailFormValidation/> }
-              <BackToLogin loginText={LOGIN_LOCALE.BACK_LOGIN}/>
+              <InformationText forgetPassword={t('Do_you_forget_password')} resetPassword={t('Reset_password')} />
+              {<EmailFormValidation />}
+              <BackToLogin loginText={t('Back_login')} />
             </BoxWrapper>
           </Box>
         </RightWrapper>

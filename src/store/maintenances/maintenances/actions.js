@@ -1,7 +1,7 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import * as MaintenancesApi from 'src/services/maintenances/maintenances'
 import {openSnackBar} from 'src/store/notifications'
-import {MAINTENANCES_LOCALE} from 'src/utils/constants'
 
 export const getMaintenances = createAsyncThunk('/service/getMaintenances', async thunkApi => {
   try {
@@ -17,7 +17,13 @@ export const getMaintenances = createAsyncThunk('/service/getMaintenances', asyn
 export const createMaintenance = createAsyncThunk('/service/createMaintenance', async (body, thunkApi) => {
   try {
     const payload = await MaintenancesApi.createMaintenance(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.MAINTENANCES_CREATE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({
+        open: true,
+        message: t('maintenances_cat_create_message', {ns: 'maintenances'}),
+        severity: 'success'
+      })
+    )
     return payload
   } catch (error) {
     const errMessage = error
@@ -29,7 +35,9 @@ export const createMaintenance = createAsyncThunk('/service/createMaintenance', 
 export const editMaintenance = createAsyncThunk('/service/editMaintenance', async (body, thunkApi) => {
   try {
     const payload = await MaintenancesApi.editMaintenance(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.MAINTENANCES_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('maintenances_edit_message', {ns: 'maintenances'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -41,7 +49,13 @@ export const editMaintenance = createAsyncThunk('/service/editMaintenance', asyn
 export const deleteMaintenance = createAsyncThunk('/service/deleteMaintenance', async ({id}, thunkApi) => {
   try {
     const payload = await MaintenancesApi.deleteMaintenance(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.MAINTENANCES_DELETE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({
+        open: true,
+        message: t('maintenances_cat_delete_message', {ns: 'maintenances'}),
+        severity: 'success'
+      })
+    )
     return payload
   } catch (error) {
     const errMessage = error.message

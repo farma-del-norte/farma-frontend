@@ -111,6 +111,12 @@ const navigation = () => {
           title: i18n.t('variables_cat_title'),
           path: '/resources/variables',
           icon: Settings
+        },
+        {
+          title: i18n.t('damages_cat_title'),
+          path: '/resources/damages',
+          icon: Warning,
+          visible: true
         }
       ]
     }

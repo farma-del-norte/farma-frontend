@@ -1,15 +1,15 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {
-  createDamageCatService,
-  deleteDamageCatService,
-  editDamageCatService,
-  getDamagesCatService
-} from 'src/services/catalogs/damages'
+  createDamageService,
+  deleteDamageService,
+  editDamageService,
+  getDamagesService
+} from 'src/services/maintenances/damages'
 import {openSnackBar} from 'src/store/notifications'
 
-export const getDamagesCat = createAsyncThunk('/damages-cat/getDamagesCat', async thunkApi => {
+export const getDamages = createAsyncThunk('/damages/getDamages', async thunkApi => {
   try {
-    const payload = await getDamagesCatService()
+    const payload = await getDamagesService()
     return payload
   } catch (error) {
     const errMessage = error
@@ -18,9 +18,9 @@ export const getDamagesCat = createAsyncThunk('/damages-cat/getDamagesCat', asyn
   }
 })
 
-export const createDamageCat = createAsyncThunk('/damages-cat/createDamageCat', async (body, thunkApi) => {
+export const createDamage = createAsyncThunk('/damages/createDamage', async (body, thunkApi) => {
   try {
-    const payload = await createDamageCatService(body)
+    const payload = await createDamageService(body)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro creado con éxito', severity: 'success'}))
     return payload
   } catch (error) {
@@ -30,9 +30,9 @@ export const createDamageCat = createAsyncThunk('/damages-cat/createDamageCat', 
   }
 })
 
-export const editDamageCat = createAsyncThunk('/damages-cat/editDamageCat', async (body, thunkApi) => {
+export const editDamage = createAsyncThunk('/damages/editDamage', async (body, thunkApi) => {
   try {
-    const payload = await editDamageCatService(body)
+    const payload = await editDamageService(body)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro actualizado con éxito', severity: 'success'}))
     return payload
   } catch (error) {
@@ -42,9 +42,9 @@ export const editDamageCat = createAsyncThunk('/damages-cat/editDamageCat', asyn
   }
 })
 
-export const deleteDamageCat = createAsyncThunk('/damages-cat/deleteDamagesCat', async ({id}, thunkApi) => {
+export const deleteDamage = createAsyncThunk('/damages/deleteDamage', async ({id}, thunkApi) => {
   try {
-    const payload = await deleteDamageCatService(id)
+    const payload = await deleteDamageService(id)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro eliminado con éxito', severity: 'success'}))
     return payload
   } catch (error) {

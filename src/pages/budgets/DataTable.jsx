@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { MAINTENANCES, MAINTENANCES_LOCALE } from 'src/utils/constants'
+import { MAINTENANCES } from 'src/utils/constants'
 import { Typography } from '@mui/material'
 import { getBudgets } from 'src/store/budgets/actions'
 import { toggleModal, setRow, toggleDeleteModal } from 'src/store/budgets/reducer'

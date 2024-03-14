@@ -1,4 +1,5 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import {
   createDimensionCatService,
   deleteDimensionCatService,
@@ -6,7 +7,6 @@ import {
   getDimensionsCatService
 } from 'src/services/catalogs/dimensions'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsCat', async thunkApi => {
   try {
@@ -23,7 +23,7 @@ export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimens
   try {
     const payload = await createDimensionCatService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_CREATE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('dimensions_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -36,7 +36,9 @@ export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimens
 export const editDimensionCat = createAsyncThunk('/dimensions-cat/editDimensionCat', async (body, thunkApi) => {
   try {
     const payload = await editDimensionCatService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('dimensions_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -49,7 +51,7 @@ export const deleteDimensionCat = createAsyncThunk('/dimensions-cat/deleteDimens
   try {
     const payload = await deleteDimensionCatService(id)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.DIMENSIONS_DELETE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('dimensions_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {

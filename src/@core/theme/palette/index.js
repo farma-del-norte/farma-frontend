@@ -32,9 +32,9 @@ const DefaultPalette = (mode, skin, themeColor) => {
 
   return {
     customColors: {
-      dark: darkColor,
-      main: mainColor,
-      light: lightColor,
+      dark: `rgb(${darkColor})`,
+      main: `rgb(${mainColor})`,
+      light: `rgb(${lightColor})`,
       darkBg: '#28243D',
       lightBg: '#F4F5FA',
       primaryGradient: primaryGradient(),

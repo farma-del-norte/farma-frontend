@@ -1,8 +1,17 @@
 import {Fragment, useEffect, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {Typography, Grid, FormControl, TextField, Box, InputLabel, Select, MenuItem, FormHelperText} from '@mui/material'
-import {styled} from '@mui/material/styles'
+import {
+  Typography,
+  Grid,
+  FormControl,
+  TextField,
+  Box,
+  FormHelperText,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
@@ -21,21 +30,18 @@ import {
   getBranchDetails,
   getBranches
 } from 'src/store/catalogs/branches/actions'
-import i18n from 'src/configs/i18n'
-import { getZones } from 'src/store/catalogs/zones/actions'
+import {t} from 'i18next'
+import {getZones} from 'src/store/catalogs/zones/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
-import COMMON_LOCALE from 'src/utils/locales/common'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {DetailTypography} from 'src/components/styledComponents/typography'
 import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
 import BranchDetailsFormModal from 'src/views/details-modals/BranchDetailsFormModal'
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { onZipCodeChange } from 'src/utils/functions'
-import { ExpandedContent } from 'src/components/expandedContent/ExpandedContent'
-import { DetailsForm } from 'src/views/forms/branch-details/DetailsForm'
+import {yupResolver} from '@hookform/resolvers/yup'
+import {onZipCodeChange} from 'src/utils/functions'
+import {ExpandedContent} from 'src/components/expandedContent/ExpandedContent'
+import {DetailsForm} from 'src/views/forms/branch-details/DetailsForm'
 // import DetailsModal from './detailsmodal'
 
 const columns = [
@@ -43,54 +49,54 @@ const columns = [
     flex: 0.25,
     minWidth: 200,
     field: 'name',
-    headerName: 'Sucursal'
+    headerName: t('branch', {ns: 'branches'})
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'street',
-    headerName: 'Calle'
+    headerName: t('zipcode', {ns: 'branches'})
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'neighborhood',
-    headerName: 'Colonia'
+    headerName: t('colony', {ns: 'branches'})
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'zipCode',
-    headerName: 'Código Postal'
+    headerName: t('zipcode', {ns: 'branches'})
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'city',
-    headerName: 'Ciudad'
+    headerName: t('city', {ns: 'branches'})
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'federalEntity',
-    headerName: 'Estado'
+    headerName: t('state', {ns: 'branches'})
   },
   {
     flex: 0.15,
     minWidth: 130,
     field: 'zoneName',
-    headerName: 'Zona'
+    headerName: t('zone', {ns: 'branches'})
   }
 ]
 
 const defaultValuesBranches = {
-  name: '',
-  street: '',
-  neighborhood: '',
-  zipCode: '',
-  city: '',
-  federalEntity: '',
-  zoneID: '',
+  name: null,
+  street: null,
+  neighborhood: null,
+  zipCode: null,
+  city: null,
+  federalEntity: null,
+  zoneID: null,
   details: {}
 }
 
@@ -103,16 +109,43 @@ function Branches() {
   const [colonies, setColonies] = useState({})
 
   const branchesInfoSchema = yup.object().shape({
-    name: yup.string().max(60, CATALOGS_LOCALE.BRANCHES_NAME_MAX_LENGTH).required(CATALOGS_LOCALE.BRANCHES_NAME_REQUIRED),
-    street: yup.string().max(100, CATALOGS_LOCALE.BRANCHES_STREET_MAX_LENGTH).required(CATALOGS_LOCALE.BRANCHES_STREET_REQUIRED),
-    neighborhood: yup.string().max(100, CATALOGS_LOCALE.BRANCHES_NEIGHBOR_MAX_LENGTH).required(CATALOGS_LOCALE.BRANCHES_NEIGHBOR_REQUIRED),
-    zipCode: yup.number().integer().positive(CATALOGS_LOCALE.BRANCHES_ZIPCODE_ISNUMERIC).min(1000, CATALOGS_LOCALE.BRANCHES_ZIPCODE_MIN_LENGTH).max(99999, CATALOGS_LOCALE.BRANCHES_ZIPCODE_MAX_LENGTH).required(CATALOGS_LOCALE.BRANCHES_ZIPCODE_REQUIRED),
-    city: yup.string().max(60, CATALOGS_LOCALE.BRANCHES_CITY_MAX_LENGTH).required(CATALOGS_LOCALE.BRANCHES_CITY_REQUIRED),
-    federalEntity: yup.string().max(60, CATALOGS_LOCALE.BRANCHES_FEDERAL_ENTITY_MAX_LENGTH).required(CATALOGS_LOCALE.BRANCHES_FEDERAL_ENTITY_REQUIRED),
-    zoneID: yup.string().required(CATALOGS_LOCALE.BRANCHES_SELECT_REQUIRED),
+    name: yup
+      .string()
+      .max(60, t('branch_name_max_length', {ns: 'branches'}))
+      .required(t('branch_name_required', {ns: 'branches'})),
+    street: yup
+      .string()
+      .max(100, t('branch_street_max_length', {ns: 'branches'}))
+      .required(t('branch_street_required', {ns: 'branches'})),
+    neighborhood: yup
+      .string()
+      .max(100, t('branch_colony_required', {ns: 'branches'}))
+      .required(t('branch_colony_max_length', {ns: 'branches'})),
+    zipCode: yup
+      .number()
+      .integer()
+      .positive(t('branch_zipode_positive_number_required', {ns: 'branches'}))
+      .min(1000, t('branch_zipcode_min_length', {ns: 'branches'}))
+      .max(99999, t('branch_zipcode_max_length', {ns: 'branches'}))
+      .required(t('branch_zipcode_required', {ns: 'branches'})),
+    city: yup
+      .string()
+      .max(60, t('branch_city_max_length', {ns: 'branches'}))
+      .required(t('branch_city_required', {ns: 'branches'})),
+    federalEntity: yup
+      .string()
+      .max(60, t('branch_state_max_length', {ns: 'branches'}))
+      .required(t('branch_state_required', {ns: 'branches'})),
+    zoneID: yup.string().required(t('branch_select_required', {ns: 'branches'}))
   })
 
-  const {control, handleSubmit, reset, setValue, formState: {errors: branchErrors}} = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: {errors: branchErrors}
+  } = useForm({
     defaultValues: defaultValuesBranches,
     resolver: yupResolver(branchesInfoSchema)
   })
@@ -129,16 +162,16 @@ function Branches() {
   }, [dispatch, branches, isLoading])
 
   useEffect(() => {
-    if(colonies.hasOwnProperty("zipCode")) {
-      setValue("neighborhood", colonies.colony)
-      setValue("city", colonies.city)
-      setValue("federalEntity", colonies.federalEntity)
+    if (colonies.hasOwnProperty('zipCode')) {
+      setValue('neighborhood', colonies.colony)
+      setValue('city', colonies.city)
+      setValue('federalEntity', colonies.federalEntity)
     }
-  },[colonies, setValue])
+  }, [colonies, setValue])
 
   const onSubmit = values => {
     //Si es true elimina details del objeto
-    if(Object.values(values.details).every(value => value === undefined || value === "")){
+    if (Object.values(values.details).every(value => value === undefined || value === '')) {
       delete values.details
     }
     if (modalItem) {
@@ -162,14 +195,13 @@ function Branches() {
 
   const handleOpenModal = params => {
     const {row, open} = params
-    console.log(row)
     reset(row)
     dispatch(toggleModal(open))
     dispatch(setModalItem(row))
   }
 
   const handleCloseModal = () => {
-    setExpanded(false)
+    // setExpanded(false)
     dispatch(toggleModal(false))
     dispatch(setModalItem(null))
   }
@@ -206,7 +238,7 @@ function Branches() {
       flex: 0.125,
       minWidth: 100,
       field: 'actions',
-      headerName: 'Acciones',
+      headerName: t('actions'),
       renderCell: params => {
         const row = params?.row
         return (
@@ -228,25 +260,25 @@ function Branches() {
         showAddButton
         columns={actionableColumns}
         rows={branches}
-        label='Sucursales'
+        label={t('branches', {ns: 'branches'})}
         onAddItem={handleAddItem}
       />
       {isDetailsModalOpen ? <BranchDetailsModel reset={reset} /> : null}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.BRANCHES_EDIT_MODAL : CATALOGS_LOCALE.BRANCHES_ADD_MODAL}
+        title={Boolean(modalItem) ? t('edit_branch', {ns: 'branches'}) : t('add_branch', {ns: 'branches'})}
         actions={[
-          {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: t('back_button'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           Boolean(modalItem)
             ? {
-                label: COMMON_LOCALE.UPDATE_BUTTON,
+                label: t('update_button'),
                 onClick: handleSubmit(onSubmit),
                 color: 'primary',
                 variant: 'contained'
               }
             : {
-                label: COMMON_LOCALE.SAVE_BUTTON,
+                label: t('save_button'),
                 onClick: handleSubmit(onSubmit),
                 color: 'primary',
                 variant: 'contained'
@@ -261,12 +293,12 @@ function Branches() {
                   name='name'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Sucursal' 
-                      value={value} 
-                      onChange={onChange} 
-                      color={branchErrors.name ? "error" : ""}
-                      focused={branchErrors.name}  
+                    <TextField
+                      label={t('branch', {ns: 'branches'})}
+                      value={value}
+                      onChange={onChange}
+                      color={branchErrors.name ? t('error') : null}
+                      focused={branchErrors.name}
                     />
                   )}
                 />
@@ -278,7 +310,15 @@ function Branches() {
                 <Controller
                   name='street'
                   control={control}
-                  render={({field: {value, onChange}}) => <TextField label='Calle' value={value} color={branchErrors.street ? "error" : ""} focused={branchErrors.street}   onChange={onChange} />}
+                  render={({field: {value, onChange}}) => (
+                    <TextField
+                      label={t('street', {ns: 'branches'})}
+                      value={value}
+                      color={branchErrors.street ? t('error') : null}
+                      focused={branchErrors.street}
+                      onChange={onChange}
+                    />
+                  )}
                 />
                 {branchErrors.street && <FormHelperText error>{branchErrors.street.message}</FormHelperText>}
               </FormControl>
@@ -289,19 +329,22 @@ function Branches() {
                   name='neighborhood'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Colonia' 
-                      value={colonies.colony || ''} 
-                      color={branchErrors.neighborhood ? "error" : ""} 
-                      focused={branchErrors.neighborhood} 
+                    <TextField
+                      label={t('colony', {ns: 'branches'})}
+                      value={colonies.colony || ''}
+                      color={branchErrors.neighborhood ? t('error') : null}
+                      focused={branchErrors.neighborhood}
                       InputLabelProps={{
-                        shrink: colonies.hasOwnProperty("colony"),
-                      }} 
-                      onChange={onChange} 
-                      disabled/>
+                        shrink: colonies.hasOwnProperty('colony')
+                      }}
+                      onChange={onChange}
+                      disabled
+                    />
                   )}
                 />
-                {branchErrors.neighborhood && <FormHelperText error>{branchErrors.neighborhood.message}</FormHelperText>}
+                {branchErrors.neighborhood && (
+                  <FormHelperText error>{branchErrors.neighborhood.message}</FormHelperText>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -310,7 +353,13 @@ function Branches() {
                   name='zipCode'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Código Postal' value={value} color={branchErrors.zipCode ? "error" : ""} focused={branchErrors.zipCode} onChange={(e) => onZipCodeChange(e, onChange, setColonies)} />
+                    <TextField
+                      label={t('zipcode', {ns: 'branches'})}
+                      value={value}
+                      color={branchErrors.zipCode ? t('error') : null}
+                      focused={branchErrors.zipCode}
+                      onChange={e => onZipCodeChange(e, onChange, setColonies)}
+                    />
                   )}
                 />
                 {branchErrors.zipCode && <FormHelperText error>{branchErrors.zipCode.message}</FormHelperText>}
@@ -322,16 +371,17 @@ function Branches() {
                   name='city'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Ciudad' 
-                      value={colonies.city || ''} 
-                      color={branchErrors.city ? "error" : ""} 
-                      focused={branchErrors.city} 
+                    <TextField
+                      label={t('city', {ns: 'branches'})}
+                      value={colonies.city || ''}
+                      color={branchErrors.city ? t('error') : null}
+                      focused={branchErrors.city}
                       InputLabelProps={{
-                        shrink: colonies.hasOwnProperty("city"),
+                        shrink: colonies.hasOwnProperty('city')
                       }}
-                      onChange={onChange} 
-                      disabled/>
+                      onChange={onChange}
+                      disabled
+                    />
                   )}
                 />
                 {branchErrors.city && <FormHelperText error>{branchErrors.city.message}</FormHelperText>}
@@ -343,19 +393,22 @@ function Branches() {
                   name='federalEntity'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField 
-                      label='Estado' 
-                      value={colonies.federalEntity || ''} 
-                      color={branchErrors.city ? "error" : ""} 
-                      focused={branchErrors.federalEntity} 
-                      onChange={onChange} 
+                    <TextField
+                      label={t('state', {ns: 'branches'})}
+                      value={colonies.federalEntity || ''}
+                      color={branchErrors.city ? t('error') : null}
+                      focused={branchErrors.federalEntity}
+                      onChange={onChange}
                       InputLabelProps={{
-                        shrink: colonies.hasOwnProperty("federalEntity"),
+                        shrink: colonies.hasOwnProperty('federalEntity')
                       }}
-                      disabled/>
+                      disabled
+                    />
                   )}
                 />
-                {branchErrors.federalEntity && <FormHelperText error>{branchErrors.federalEntity.message}</FormHelperText>}
+                {branchErrors.federalEntity && (
+                  <FormHelperText error>{branchErrors.federalEntity.message}</FormHelperText>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
@@ -365,26 +418,27 @@ function Branches() {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <>
-                      <InputLabel>Zona</InputLabel>
+                      <InputLabel>{t('zone', {ns: 'branches'})}</InputLabel>
                       <Select
-                        defaultValue=""
+                        defaultValue={''}
                         value={value || ''}
-                        label="Zona"
+                        label={t('zone', {ns: 'branches'})}
                         onChange={onChange}
                       >
-                        {zones.map((zone, i) =>
-                          <MenuItem key={i} value={zone.id}>{zone.name}</MenuItem>
-                        )}
+                        {zones.map((zone, i) => (
+                          <MenuItem key={i} value={zone.id}>
+                            {zone.name}
+                          </MenuItem>
+                        ))}
                       </Select>
-                    </>)}
+                    </>
+                  )}
                 />
                 {branchErrors.zoneID && <FormHelperText error>{branchErrors.zoneID.message}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12} sx={{marginTop: '6px'}}>
-              <ExpandedContent
-                label={CATALOGS_LOCALE.BRANCHES_DETAILS_EXPANDABLE_TITLE}
-              >
+              <ExpandedContent label={t('add_details_optional', {ns: 'branches'})}>
                 <DetailsForm
                   control={control}
                   handleSubmit={handleSubmit}
@@ -406,19 +460,19 @@ function Branches() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={'Eliminar Sucursal'}
+        title={t('delete_branch', {ns: 'branches'})}
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: t('back_button'),
             onClick: handleCloseDeleteModal,
             color: 'primary',
             variant: 'outlined'
           },
-          {label: COMMON_LOCALE.DELETE_BUTTON, onClick: handleConfirmDelete, color: 'primary', variant: 'contained'}
+          {label: t('delete_button'), onClick: handleConfirmDelete, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>Seguro de eliminar el sucursal seleccionado?</Typography>
+          <Typography variant='body2'>{t('delete_branch_question', {ns: 'branches'})}</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />

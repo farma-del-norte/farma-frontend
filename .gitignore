@@ -53,8 +53,5 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-yarn.lock
-package-lock.json
-yarn.lock
 pnpm-lock.yaml
 .vscode/launch.json

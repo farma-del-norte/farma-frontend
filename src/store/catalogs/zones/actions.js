@@ -1,7 +1,7 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import {createZoneService, deleteZoneService, editZoneService, getZonesService} from 'src/services/catalogs/zones'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getZones = createAsyncThunk('/zones/getZones', async thunkApi => {
   try {
@@ -17,7 +17,9 @@ export const getZones = createAsyncThunk('/zones/getZones', async thunkApi => {
 export const createZone = createAsyncThunk('/zones/createZone', async (body, thunkApi) => {
   try {
     const payload = await createZoneService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.ZONES_CREATE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('zones_create_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.response.data.message
@@ -29,7 +31,9 @@ export const createZone = createAsyncThunk('/zones/createZone', async (body, thu
 export const editZone = createAsyncThunk('/zones/editZone', async (body, thunkApi) => {
   try {
     const payload = await editZoneService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.ZONES_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('zones_edit_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -41,7 +45,9 @@ export const editZone = createAsyncThunk('/zones/editZone', async (body, thunkAp
 export const deleteZone = createAsyncThunk('/zones/deleteZones', async ({id}, thunkApi) => {
   try {
     const payload = await deleteZoneService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.ZONES_DELETE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('zones_delete_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message

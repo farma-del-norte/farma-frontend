@@ -1,5 +1,4 @@
 import {Button, Grid, Typography} from '@mui/material'
-import {useTranslation} from 'react-i18next'
 import {useDispatch, useSelector} from 'react-redux'
 import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
 import ImageFieldForm from 'src/components/form/ImageFieldForm'
@@ -10,9 +9,10 @@ import {
   setIsDetailsFormModalOpen,
   setIsDetailsModalOpen
 } from 'src/store/catalogs/branches/reducer'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
-import COMMON_LOCALE from 'src/utils/locales/common'
+
 import ClipLoader from 'react-spinners/ClipLoader'
+import i18n from 'src/configs/i18n'
+import {t} from 'i18next'
 
 const BranchDetailsModel = ({reset = () => {}}) => {
   const {isDetailsModalOpen, activeBranch, branchDetails, isModalLoading} = useSelector(state => state.branches)
@@ -33,7 +33,7 @@ const BranchDetailsModel = ({reset = () => {}}) => {
     <ReusableDialog
       open={isDetailsModalOpen}
       onClose={handleCloseBranchDetailsModel}
-      title={`${CATALOGS_LOCALE.BRANCHES_BRANCH_DETAILS_TITLE} ${activeBranch?.name}`}
+      title={t('branches_branch_details_title', {ns: 'catalogs', branch: activeBranch?.name})}
       actions={[
         {
           label: branchDetails == null ? 'Agregar Detalles De Sucursal' : 'Editar Detalles De Sucursal',
@@ -42,7 +42,7 @@ const BranchDetailsModel = ({reset = () => {}}) => {
           variant: 'contained'
         },
         {
-          label: COMMON_LOCALE.BACK_BUTTON,
+          label: i18n.t('back_button'),
           onClick: handleCloseBranchDetailsModel,
           color: 'primary',
           variant: 'outlined'
@@ -54,7 +54,7 @@ const BranchDetailsModel = ({reset = () => {}}) => {
       ) : branchDetails != null ? (
         <Grid container>
           <ImageFieldForm
-            labelText={CATALOGS_LOCALE.BRANCHES_IMAGE_PHARMACY}
+            labelText={t('branches_image_pharmacy', {ns: 'catalogs'})}
             sourceData={
               branchDetails?.pharmacyImages ?? [
                 {
@@ -65,7 +65,7 @@ const BranchDetailsModel = ({reset = () => {}}) => {
             }
           />
           <ImageFieldForm
-            labelText={CATALOGS_LOCALE.BRANCHES_PHARMACY_PLANS}
+            labelText={t('branches_pharmacy_plans', {ns: 'catalogs'})}
             sourceData={
               branchDetails?.pharmacyPlans ?? [
                 {
@@ -75,31 +75,34 @@ const BranchDetailsModel = ({reset = () => {}}) => {
               ]
             }
           />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_SQUARE_METERS} value={branchDetails?.mts2} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CROSS_AD} value={branchDetails?.crossAds} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LETTER_AD} value={branchDetails?.letterAds} />
+          <DetailTextFieldForm labelText={t('branches_square_meters', {ns: 'catalogs'})} value={branchDetails?.mts2} />
+          <DetailTextFieldForm labelText={t('branches_cross_ad', {ns: 'catalogs'})} value={branchDetails?.crossAds} />
+          <DetailTextFieldForm labelText={t('branches_letter_ad', {ns: 'catalogs'})} value={branchDetails?.letterAds} />
           <DetailTextFieldForm
-            labelText={CATALOGS_LOCALE.BRANCHES_REFLECTIVE_AD}
+            labelText={t('branches_reflective_ad', {ns: 'catalogs'})}
             value={branchDetails?.reflectiveAds}
           />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LATITUDE} value={branchDetails?.latitude} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_LONGITUDE} value={branchDetails?.longitude} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_TARP_AD} value={branchDetails?.tarpAds} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_BATHROOMS} value={branchDetails?.bathrooms} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_AIR_WASH} value={branchDetails?.airWash} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_MINISPLITS} value={branchDetails?.minisplit} />
-          <DetailTextFieldForm labelText={CATALOGS_LOCALE.BRANCHES_CURTAINS} value={branchDetails?.curtains} />
+          <DetailTextFieldForm labelText={t('branches_latitude', {ns: 'catalogs'})} value={branchDetails?.latitude} />
+          <DetailTextFieldForm labelText={t('branches_longitude', {ns: 'catalogs'})} value={branchDetails?.longitude} />
+          <DetailTextFieldForm labelText={t('branches_tarp_ad', {ns: 'catalogs'})} value={branchDetails?.tarpAds} />
+          <DetailTextFieldForm labelText={t('branches_bathrooms', {ns: 'catalogs'})} value={branchDetails?.bathrooms} />
+          <DetailTextFieldForm labelText={t('branches_air_wash', {ns: 'catalogs'})} value={branchDetails?.airWash} />
           <DetailTextFieldForm
-            labelText={CATALOGS_LOCALE.BRANCHES_WATERPROOFING}
-            value={branchDetails.waterproofing ? COMMON_LOCALE.YES : COMMON_LOCALE.NO}
+            labelText={t('branches_minisplits', {ns: 'catalogs'})}
+            value={branchDetails?.minisplit}
+          />
+          <DetailTextFieldForm labelText={t('branches_curtains', {ns: 'catalogs'})} value={branchDetails?.curtains} />
+          <DetailTextFieldForm
+            labelText={t('branches_waterproofing', {ns: 'catalogs'})}
+            value={branchDetails.waterproofing ? t('yes') : t('no')}
           />
           <DetailTextFieldForm
-            labelText={CATALOGS_LOCALE.BRANCHES_SOLAR_PANELS}
-            value={branchDetails.solarPanels ? COMMON_LOCALE.YES : COMMON_LOCALE.NO}
+            labelText={t('branches_solar_panels', {ns: 'catalogs'})}
+            value={branchDetails.solarPanels ? t('yes') : t('no')}
           />
         </Grid>
       ) : (
-        <Typography variant='overline'>{'No se han dado de alta los detalles de esta sucursal.'}</Typography>
+        <Typography variant='overline'>{t('branches_no_details', {ns: 'catalogs'})}</Typography>
       )}
     </ReusableDialog>
   )

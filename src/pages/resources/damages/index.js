@@ -5,42 +5,37 @@ import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/requirements/reducer'
-import {
-  createRequirementCat,
-  deleteRequirementCat,
-  editRequirementCat,
-  getRequirementsCat
-} from 'src/store/catalogs/requirements/actions'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/damages/reducer'
+import {createDamageCat, deleteDamageCat, editDamageCat, getDamagesCat} from 'src/store/catalogs/damages/actions'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
-import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
+import FallbackSpinner from 'src/@core/components/spinner'
 
 const columns = [
   {
     flex: 0.25,
     minWidth: 200,
     field: 'name',
-    headerName: 'Requerimiento'
+    headerName: 'Siniestro'
   }
 ]
 
-const defaultValuesRequirementCats = {
+const defaultValuesDamages = {
+  id: '',
   name: ''
 }
 
-function RequirementsCat() {
+function DamagesCat() {
   const dispatch = useDispatch()
-  const {isOpen, modalItem, isDeleteOpen, isLoading, requirementsCat, modalDeleteItem} = useSelector(
-    state => state.requirementsCat
-  )
+
+  const {isOpen, modalItem, isDeleteOpen, damagesCat, isLoading, modalDeleteItem} = useSelector(state => state.damagesCat)
   const {open, message, severity} = useSelector(state => state.notifications)
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
 
   useEffect(() => {
-    dispatch(getRequirementsCat())
+    dispatch(getDamagesCat())
   }, [dispatch])
 
   const handleCloseModal = () => {
@@ -76,15 +71,15 @@ function RequirementsCat() {
   }
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteRequirementCat(modalDeleteItem))
+    dispatch(deleteDamageCat(modalDeleteItem))
     handleCloseDeleteModal()
   }
 
   const onSubmit = values => {
     if (Boolean(modalItem)) {
-      dispatch(editRequirementCat(values))
+      dispatch(editDamageCat(values))
     } else {
-      dispatch(createRequirementCat(values))
+      dispatch(createDamageCat(values))
     }
     handleCloseModal()
   }
@@ -116,25 +111,21 @@ function RequirementsCat() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={requirementsCat}
-          label='Requerimientos'
+          rows={damagesCat}
+          label='Siniestros'
           onAddItem={handleAddItem}
         />
       )}
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={
-          Boolean(modalItem)
-            ? t('requirements_cat_edit_modal', {ns: 'catalogs'})
-            : t('requirements_cat_add_modal', {ns: 'catalogs'})
-        }
+        title={Boolean(modalItem) ? 'editar' : 'agregar'}
         actions={[
-          {label: t('back_button'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: t('save_button'), onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
+          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <Grid container spacing={5}>
             <Grid item xs={12} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
@@ -142,7 +133,7 @@ function RequirementsCat() {
                   name='name'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Requerimiento' value={value} onChange={onChange} />
+                    <TextField label='Siniestro' value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -153,14 +144,14 @@ function RequirementsCat() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseDeleteModal}
-        title={t('requirements_cat_delete_modal', {ns: 'catalogs'})}
+        title={'borrar'}
         actions={[
           {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
         <Box>
-          <Typography variant='body2'>{t('requirements_cat_delete_confirm_message', {ns: 'catalogs'})}</Typography>
+          <Typography variant='body2'>Seguro de eliminar el siniestro seleccionado?</Typography>
         </Box>
       </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
@@ -168,4 +159,4 @@ function RequirementsCat() {
   )
 }
 
-export default RequirementsCat
+export default DamagesCat

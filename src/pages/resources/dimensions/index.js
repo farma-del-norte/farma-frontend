@@ -4,7 +4,12 @@ import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box} from '@mui/material'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {setModalItem, toggleModal, toggleDeleteModal, setDeleteItem} from 'src/store/catalogs/dimensions/reducer'
-import {getDimensionsCat, editDimensionCat, createDimensionCat, deleteDimensionCat} from 'src/store/catalogs/dimensions/actions'
+import {
+  getDimensionsCat,
+  editDimensionCat,
+  createDimensionCat,
+  deleteDimensionCat
+} from 'src/store/catalogs/dimensions/actions'
 import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
 import {Fragment} from 'react'
@@ -12,8 +17,7 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import {CATALOGS, COMMON} from 'src/utils/constants'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
-import COMMON_LOCALE from 'src/utils/locales/common'
+import {t} from 'i18next'
 
 function DimensionsCat() {
   const dispatch = useDispatch()
@@ -80,7 +84,7 @@ function DimensionsCat() {
       flex: COMMON.COLUMN_FLEX,
       minWidth: COMMON.COLUMN_MIN_WIDTH,
       field: CATALOGS.DIMENSIONS_FIELD_NAME,
-      headerName: CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME
+      headerName: t('dimensions_cat_column_name', {ns: 'catalogs'})
     }
   ]
 
@@ -97,7 +101,7 @@ function DimensionsCat() {
       flex: COMMON.COLUMN_ACTION_FLEX,
       minWidth: COMMON.COLUMN_ACTION_MIN_WIDTH,
       field: COMMON.ACTIONS_FIELD,
-      headerName: COMMON_LOCALE.ACTIONS,
+      headerName: t('actions'),
       renderCell: params => {
         const row = params?.row
         return (
@@ -121,8 +125,8 @@ function DimensionsCat() {
         <CardTable
           showAddButton
           columns={actionableColumns}
-          rows={dimensionsCat}
-          label={CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME}
+          rows={dimensionsCat ?? []}
+          label={t('dimensions_cat_column_name', {ns: 'catalogs'})}
           onAddItem={handleAddItem}
           pageSize={CATALOGS.TABLE_PAGE_SIZE}
           rowsPerPageOptions={CATALOGS.TABLE_PAGE_ROWS_OPTIONS}
@@ -132,10 +136,14 @@ function DimensionsCat() {
       <ReusableDialog
         open={isOpen}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? CATALOGS_LOCALE.DIMENSIONS_EDIT_MESSAGE : CATALOGS_LOCALE.DIMENSIONS_ADD_MODAL}
+        title={
+          Boolean(modalItem)
+            ? t('dimensions_cat_edit_modal', {ns: 'catalogs'})
+            : t('dimensions_cat_add_modal', {ns: 'catalogs'})
+        }
         actions={[
-          {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: COMMON_LOCALE.SAVE_BUTTON, onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
+          {label: t('back_button'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+          {label: t('save_button'), onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
         ]}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -146,7 +154,11 @@ function DimensionsCat() {
                   name={CATALOGS.DIMENSIONS_FIELD_NAME}
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label={CATALOGS_LOCALE.DIMENSIONS_FIELD_NAME} value={value} onChange={onChange} />
+                    <TextField
+                      label={t('dimensions_cat_column_name', {ns: 'catalogs'})}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 />
               </FormControl>
@@ -157,16 +169,16 @@ function DimensionsCat() {
       <ReusableDialog
         open={isDeleteOpen}
         onClose={handleCloseModal}
-        title={CATALOGS_LOCALE.DIMENSIONS_DELETE_MODAL}
+        title={t('dimensions_cat_delete_modal', {ns: 'catalogs'})}
         actions={[
           {
-            label: COMMON_LOCALE.BACK_BUTTON,
+            label: t('back_button'),
             onClick: handleCloseDeleteModal,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.BACK_BUTTON_VARIANT
           },
           {
-            label: COMMON_LOCALE.DELETE_BUTTON,
+            label: t('delete_button'),
             onClick: handleDeleteConfirm,
             color: COMMON.BUTTON_PRIMARY_COLOR,
             variant: COMMON.DELETE_BUTTON_VARIANT
@@ -175,7 +187,7 @@ function DimensionsCat() {
       >
         <Box>
           <Typography variant={COMMON.MODAL_DELETE_TEXT_VARIANT}>
-            {CATALOGS_LOCALE.DIMENSIONS_CONFIRM_DELETE_MODAL}
+            {t('dimensions_cat_delete_confirm_message', {ns: 'catalogs'})}
           </Typography>
         </Box>
       </ReusableDialog>

@@ -1,7 +1,7 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import * as VariablesCatAPI from 'src/services/catalogs/variables'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getVariablesCat = createAsyncThunk('/variables-cat/getVariablesCat', async thunkApi => {
   try {
@@ -18,7 +18,7 @@ export const createVariableCat = createAsyncThunk('/variables-cat/createVariable
   try {
     const payload = await VariablesCatAPI.createVariableCatService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.VARIABLES_CREATE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('variables_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
@@ -31,7 +31,9 @@ export const createVariableCat = createAsyncThunk('/variables-cat/createVariable
 export const editVariableCat = createAsyncThunk('/variables-cat/editVariableCat', async (body, thunkApi) => {
   try {
     const payload = await VariablesCatAPI.editVariableCatService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.VARIABLES_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('variables_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -44,7 +46,7 @@ export const deleteVariableCat = createAsyncThunk('/variables-cat/deleteVariable
   try {
     const payload = await VariablesCatAPI.deleteVariableCatService(id)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.VARIABLES_DELETE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('variables_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
