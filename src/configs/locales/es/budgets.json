@@ -1,0 +1,12 @@
+{
+    "budgets_title": "Presupuestos de Sucursales",
+    "budgets_column_name": "Presupuesto",
+    "budgets_edit": "Editar",
+    "budgets_edit_modal": "Editar presupuesto de Sucursal seleccionado",
+    "budgets_add_modal": "Agregar presupuesto de Sucursal",
+    "budgets_delete_modal": "Eliminar presupuesto de Sucursal",
+    "budgets_delete_confirm_message": "¿Seguro de eliminar el presupuesto de la Sucursal seleccionada?",
+    "budgets_edit_message": "Sucursal de presupuesto actualizado con éxito",
+    "budgets_cat_create_message": "Sucursal de Presupuesto creado con éxito",
+    "budgets_cat_delete_message": "Sucursal de Presupuesto eliminado con éxito"
+}
