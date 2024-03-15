@@ -3,6 +3,7 @@ import {createUser, editUser, getUsers, getUsersLogin} from './actions'
 
 const initialState = {
   isLoading: false,
+  user: [],
   users: [],
   editUser: {},
   isOpen: false,
@@ -67,6 +68,7 @@ export const usersSlice = createSlice({
     })
     builder.addCase(getUsersLogin.fulfilled, (state, {payload}) => {
       localStorage.setItem('im-user', JSON.stringify(payload.content.token))
+      state.user = payload.content.user
       state.isLoading = false
     })
     builder.addCase(getUsersLogin.rejected, state => {

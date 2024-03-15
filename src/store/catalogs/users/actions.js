@@ -13,6 +13,18 @@ export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   }
 })
 
+export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkApi) => {
+  try {
+    const payload = await usersLogin(body)
+    return payload
+  } catch (error) {
+    console.log(error.response.data.message)
+    const errMessage = error.response.data.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
 export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
   try {
     const payload = await createUserService(body)

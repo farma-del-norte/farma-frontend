@@ -14,6 +14,9 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import {styled} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FlagIcon from '@mui/icons-material/Flag';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 // ** Icons Imports
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
@@ -32,6 +35,8 @@ import {PROFILES_USER} from 'src/configs/profiles'
 
 const UserDropdown = props => {
   const dispatch = useDispatch()
+  const { user: {user} } = useSelector(state => state.users)
+
   // ** Props
   const {settings} = props
 
@@ -64,6 +69,13 @@ const UserDropdown = props => {
     handleDropdownClose()
   }
 
+  const getCorrectName = () => {
+    let name = user ? user.firstname : '',
+    lastName = user ? user.lastname : '';
+
+    return `${name.split(' ')[0]} ${lastName.split(' ')[0]}`;
+  }
+
   const handleConvertProfile = () => {
     router.push({pathname: '/register/address', query: {newAssociate: true}})
     handleDropdownClose()
@@ -81,7 +93,9 @@ const UserDropdown = props => {
           horizontal: 'right'
         }}
       >
-        <Avatar alt='joe doe' onClick={handleDropdownOpen} sx={{width: 40, height: 40}} src='/images/avatars/1.png' />
+        <Avatar alt='avatar' onClick={handleDropdownOpen} sx={{width: 40, height: 40}}>
+          <AccountCircleIcon/>
+        </Avatar>
       </Badge>
       <Menu
         anchorEl={anchorEl}
@@ -101,35 +115,27 @@ const UserDropdown = props => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{width: '2.5rem', height: '2.5rem'}} />
+              <Avatar alt='avatar-menu' sx={{width: '2.5rem', height: '2.5rem'}}>
+                <AccountCircleIcon/>
+              </Avatar>
             </Badge>
             <Box sx={{display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column'}}>
-              <Typography sx={{fontWeight: 600}}>Juan Lopez</Typography>
+              <Typography sx={{fontWeight: 600}}>{ getCorrectName() }</Typography>
               <Typography variant='body2' sx={{fontSize: '0.8rem', color: 'text.disabled'}}>
-                {/* {user?.profile?.toUpperCase()} */}
+                {'Gerente de Sucursal'}
               </Typography>
             </Box>
           </Box>
         </Box>
-        {/* {user?.id ? (
-          <MenuItem sx={{py: 2}} onClick={() => handleGoTo('/profile')}>
-            <Account sx={{mr: 2, fontSize: '1.375rem', color: 'text.secondary'}} />
-            Perfil
-          </MenuItem>
-        ) : null} */}
-
+        <Box sx={{display: 'flex', ml: 3, alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap:'10px'}}>
+          <FlagIcon />
+          <Typography sx={{fontWeight: 600}}>{ 'Tengo un problema' }</Typography>
+        </Box>
         <Divider />
-        {/* {user?.id ? (
-          <MenuItem sx={{py: 2}} onClick={handleLogout}>
-            <LogoutVariant sx={{mr: 2, fontSize: '1.375rem', color: 'text.secondary'}} />
-            Cerrar Sesión
-          </MenuItem>
-        ) : (
-          <MenuItem sx={{py: 2}} onClick={handleLogout}>
-            <LogoutVariant sx={{mr: 2, fontSize: '1.375rem', color: 'text.secondary'}} />
-            Iniciar Sesión
-          </MenuItem>
-        )} */}
+        <Box sx={{display: 'flex', ml: 3, alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap:'10px'}}>
+          <ExitToAppIcon />
+          <Typography sx={{fontWeight: 600}}>{ 'Cerrar Sesión' }</Typography>
+        </Box>
       </Menu>
     </Fragment>
   )
