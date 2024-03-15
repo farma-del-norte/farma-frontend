@@ -69,7 +69,7 @@ export const deleteUser = createAsyncThunk('/users/getUsers', async ({id}, thunk
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: 'errMessage', severity: 'error'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })
