@@ -192,7 +192,8 @@ const Services = () => {
     const onSubmit = values => {
       const serviceId = uuidv4()
       const mediaObject = {
-        bucketName: "service",
+        id: serviceId,
+        bucketName: "services",
         partKey: serviceId,
         evidence: values.evidence
       }
