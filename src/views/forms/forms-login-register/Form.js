@@ -1,25 +1,23 @@
 import React, {useEffect, useState} from 'react' // ** Next Imports
 import Link from 'next/link'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
 import {useForm, Controller} from 'react-hook-form'
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import FormControl from '@mui/material/FormControl'
 import InputAdornment from '@mui/material/InputAdornment'
-import FormHelperText from '@mui/material/FormHelperText'
-import {CircularProgress} from '@mui/material'
+import FallbackSpinner from 'src/@core/components/spinner'
 import Typography from '@mui/material/Typography'
 import Router from 'next/router'
-import {styled, useTheme} from '@mui/material/styles'
+import {useTheme} from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import {LOGIN} from 'src/utils/constants'
 import {getUsersLogin} from 'src/store/users/actions'
+import {setIsLoading} from 'src/store/users/reducer'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 
@@ -51,8 +49,6 @@ const loginSchema = Yup.object().shape({
 
 const Form = () => {
   const dispatch = useDispatch()
-
-  // const {isLoading} = useSelector(state => state.session)
   const {isLoading} = useSelector(state => state.users)
   const {open, message, severity} = useSelector(state => state.notifications)
 
@@ -73,8 +69,17 @@ const Form = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  const submitLogin = values => {
-    dispatch(getUsersLogin(values))
+  const submitLogin = async (values) => {
+    dispatch(setIsLoading(true))
+    const response = await dispatch(getUsersLogin(values)),
+    payload = response.payload;
+    
+    if (payload !== t('Error_code')) {
+      dispatch(setIsLoading(false))
+      Router.push('/dashboards')
+    } else {
+      dispatch(setIsLoading(false))
+    }
   }
 
   const handleShowPassword = () => {
@@ -163,7 +168,7 @@ const Form = () => {
               </Button>
             </Link>
             {isLoading ? (
-              <CircularProgress size={24} />
+              <FallbackSpinner/>
             ) : (
               <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}}>
                 {t('Sign_in')}
