@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import {createUser, editUser, getUsers, deleteUser, getUsersLogin} from './actions'
 
 const initialState = {
+  currentRow: [],
   isLoading: false, 
   user: [],
   users: [],
@@ -40,6 +41,9 @@ export const usersSlice = createSlice({
     },
     setIsLoading: (state, {payload}) => {
       state.isLoading = payload
+    },
+    setRow: (state, {payload}) => {
+      state.currentRow = payload
     }
   },
   extraReducers: builder => {
