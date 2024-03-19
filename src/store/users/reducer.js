@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createUser, editUser, getUsers, deleteUserService, getUsersLogin} from './actions'
+import {createUser, editUser, getUsers, deleteUserService, getUsersLogin} from 'src/store/users/actions'
 
 const initialState = {
   isLoading: false,

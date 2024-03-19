@@ -6,7 +6,7 @@ import { toggleDeleteModal } from 'src/store/budgets/reducer'
 import { deleteBudget } from 'src/store/budgets/actions'
 import DataTable from './DataTable'
 import EditItem from './EditItem'
-import RemoveItem from '../../@core/layouts/components/shared-components/modals/RemoveItem'
+import RemoveItem from 'src/views/modals/RemoveItem'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 const Budgets = () => {

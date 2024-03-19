@@ -6,7 +6,7 @@ import { toggleModal, setRow, toggleDeleteModal } from 'src/store/users/reducer'
 import { deleteUser } from 'src/store/users/actions'
 import DataTable from './DataTable'
 import EditItem from './EditItem'
-import RemoveItem from '../../@core/layouts/components/shared-components/modals/RemoveItem'
+import RemoveItem from 'src/views/modals/RemoveItem'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 const Users = () => {
