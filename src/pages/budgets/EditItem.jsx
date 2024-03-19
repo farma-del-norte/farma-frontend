@@ -3,10 +3,10 @@ import { toggleModal, setRow } from 'src/store/budgets/reducer'
 import {useSelector, useDispatch} from 'react-redux'
 import { FormProvider } from 'react-hook-form'
 import ReusableDialog from 'src/components/modal'
-import AssignedBudget from './Fields/AssignedBudget'
-import Date from './Fields/Date'
-import CurrentAmount from './Fields/CurrentAmount'
-import Zone from './Fields/Zone'
+import AssignedBudget from 'src/pages/budgets/Fields/AssignedBudget'
+import Date from 'src/pages/budgets/Fields/Date'
+import CurrentAmount from 'src/pages/budgets/Fields/CurrentAmount'
+import Zone from 'src/pages/budgets/Fields/Zone'
 
 const EditItem = ({ methods, isOpen }) => {
   const dispatch = useDispatch(),
