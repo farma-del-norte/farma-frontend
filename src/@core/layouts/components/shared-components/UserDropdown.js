@@ -14,9 +14,9 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import {styled} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import FlagIcon from '@mui/icons-material/Flag';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import FlagIcon from '@mui/icons-material/Flag'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 // ** Icons Imports
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
@@ -35,7 +35,9 @@ import {PROFILES_USER} from 'src/configs/profiles'
 
 const UserDropdown = props => {
   const dispatch = useDispatch()
-  const { user: {user} } = useSelector(state => state.users)
+  const {
+    user: {user}
+  } = useSelector(state => state.users)
 
   // ** Props
   const {settings} = props
@@ -71,9 +73,9 @@ const UserDropdown = props => {
 
   const getCorrectName = () => {
     let name = user ? user.firstname : '',
-    lastName = user ? user.lastname : '';
+      lastName = user ? user.lastname : ''
 
-    return `${name.split(' ')[0]} ${lastName.split(' ')[0]}`;
+    return `${name.split(' ')[0]} ${lastName.split(' ')[0]}`
   }
 
   const handleConvertProfile = () => {
@@ -94,7 +96,7 @@ const UserDropdown = props => {
         }}
       >
         <Avatar alt='avatar' onClick={handleDropdownOpen} sx={{width: 40, height: 40}}>
-          <AccountCircleIcon/>
+          <AccountCircleIcon />
         </Avatar>
       </Badge>
       <Menu
@@ -116,26 +118,28 @@ const UserDropdown = props => {
               }}
             >
               <Avatar alt='avatar-menu' sx={{width: '2.5rem', height: '2.5rem'}}>
-                <AccountCircleIcon/>
+                <AccountCircleIcon />
               </Avatar>
             </Badge>
             <Box sx={{display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column'}}>
-              <Typography sx={{fontWeight: 600}}>{ getCorrectName() }</Typography>
+              <Typography sx={{fontWeight: 600}}>{getCorrectName()}</Typography>
               <Typography variant='body2' sx={{fontSize: '0.8rem', color: 'text.disabled'}}>
                 {'Gerente de Sucursal'}
               </Typography>
             </Box>
           </Box>
         </Box>
-        <Box sx={{display: 'flex', ml: 3, alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap:'10px'}}>
+        <Box sx={{display: 'flex', ml: 3, alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px'}}>
           <FlagIcon />
-          <Typography sx={{fontWeight: 600}}>{ 'Tengo un problema' }</Typography>
+          <Typography sx={{fontWeight: 600}}>{'Tengo un problema'}</Typography>
         </Box>
         <Divider />
-        <Box sx={{display: 'flex', ml: 3, alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap:'10px'}}>
-          <ExitToAppIcon />
-          <Typography sx={{fontWeight: 600}}>{ 'Cerrar Sesión' }</Typography>
-        </Box>
+        <div onClick={handleLogout} style={{cursor: 'pointer'}}>
+          <Box sx={{display: 'flex', ml: 3, alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: '10px'}}>
+            <ExitToAppIcon />
+            <Typography sx={{fontWeight: 600}}>{'Cerrar Sesión'}</Typography>
+          </Box>
+        </div>
       </Menu>
     </Fragment>
   )
