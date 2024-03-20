@@ -10,13 +10,14 @@ import {
   updatePasswordService
 } from 'src/services/catalogs/users'
 import {openSnackBar} from 'src/store/notifications'
+import { t } from 'i18next'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   try {
     const payload = await getUsersService()
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = error.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -27,8 +28,7 @@ export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkA
     const payload = await usersLogin(body)
     return payload
   } catch (error) {
-    console.log(error.response.data.message)
-    const errMessage = error.response.data.message
+    const errMessage = error?.response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -42,7 +42,7 @@ export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
     )
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = error?.response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -54,21 +54,22 @@ export const editUser = createAsyncThunk('/users/editUser', async (body, thunkAp
     thunkApi.dispatch(openSnackBar({open: true, message: t('success_user_edited', {ns: 'users'}), severity: 'success'}))
     return payload
   } catch (error) {
-    const errMessage = error.message
+    const errMessage = error?.response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })
 
-export const deleteUser = createAsyncThunk('/users/getUsers', async ({id}, thunkApi) => {
+export const deleteUser = createAsyncThunk('/users/deleteUsers', async ({id}, thunkApi) => {
   try {
     const payload = await deleteUserService(id)
+    console.log(t('success_user_deleted', {ns: 'users'}));
     thunkApi.dispatch(
       openSnackBar({open: true, message: t('success_user_deleted', {ns: 'users'}), severity: 'success'})
     )
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = error.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }

@@ -1,4 +1,4 @@
-export const columns = [
+export const budgetsColumns = [
   {
     flex: 0.25,
     minWidth: 200,

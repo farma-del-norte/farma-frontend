@@ -1,8 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createUser, editUser, getUsers, getUsersLogin} from './actions'
+import {createUser, editUser, getUsers, deleteUserService, getUsersLogin} from 'src/store/users/actions'
 
 const initialState = {
   isLoading: false,
+  currentRow: [],
   user: [],
   users: [],
   editUser: {},
@@ -40,6 +41,9 @@ export const usersSlice = createSlice({
     },
     setIsLoading: (state, {payload}) => {
       state.isLoading = payload
+    },
+    setRow: (state, {payload}) => {
+      state.currentRow = payload
     }
   },
   extraReducers: builder => {
@@ -84,9 +88,19 @@ export const usersSlice = createSlice({
     builder.addCase(editUser.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(deleteUserService.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteUserService.fulfilled, (state, {payload}) => {
+      state.users = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteUserService.rejected, state => {
+      state.isLoading = false
+    })
   }
 })
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords, setIsLoading} = usersSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords, setIsLoading, setRow} = usersSlice.actions

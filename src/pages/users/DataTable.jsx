@@ -1,20 +1,19 @@
 import { useEffect } from 'react'
 import { MAINTENANCES } from 'src/utils/constants'
 import { Typography } from '@mui/material'
-import { getBudgets } from 'src/store/budgets/actions'
-import { toggleModal, setRow, toggleDeleteModal } from 'src/store/budgets/reducer'
+import { getUsers } from 'src/store/users/actions'
+import { toggleModal, setRow, toggleDeleteModal } from 'src/store/users/reducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { Pencil, Delete } from 'mdi-material-ui'
-import { budgetsColumns } from 'src/views/tables/budgetsColumns'
-import { t } from 'i18next'
+import { usersColumns } from 'src/views/tables/usersColumns'
 import FallbackSpinner from 'src/@core/components/spinner'
 import CardTable from 'src/components/cardTable'
 
 const DataTable = () => {
   const dispatch = useDispatch(),
-    { budgets, isLoading } = useSelector(state => state.budgets),
+    { users, isLoading } = useSelector(state => state.users),
     actionableColumns = [
-      ...budgetsColumns,
+      ...usersColumns,
       {
         flex: 0.125,
         minWidth: 100,
@@ -47,21 +46,20 @@ const DataTable = () => {
     };
 
   useEffect(() => {
-    dispatch(getBudgets())
+    dispatch(getUsers())
   }, [dispatch])
 
 
   return (
-
     isLoading ? (
       <FallbackSpinner />
     ) : (
       <CardTable
         showAddButton
         columns={actionableColumns}
-        rows={budgets}
+        rows={users}
         pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-        label={t('budgets_column_name', {ns: 'budgets'})}
+        label='Usuarios'
         onAddItem={handleAddItem}
       />
     )

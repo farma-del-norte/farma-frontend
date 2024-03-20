@@ -1,14 +1,12 @@
 import ReusableDialog from 'src/components/modal'
 import { Typography, Box } from '@mui/material'
-import { toggleDeleteModal } from 'src/store/budgets/reducer'
-import { deleteBudget } from 'src/store/budgets/actions'
 import { useSelector, useDispatch } from 'react-redux'
 
-const RemoveItem = ({ isOpen }) => {
+const RemoveItem = ({ isOpen, deleteGeneric, dialogText, toggleDeleteModal, getRowFunction }) => {
   const dispatch = useDispatch(),
-  { currentRow } = useSelector(state => state.budgets),
+  { currentRow } = useSelector(getRowFunction),
   handleDeleteConfirm = () => {
-    dispatch(deleteBudget(currentRow))
+    dispatch(deleteGeneric(currentRow))
     handleCloseDeleteModal()
   },
   handleCloseDeleteModal = () => {
@@ -26,7 +24,7 @@ const RemoveItem = ({ isOpen }) => {
       ]}
     >
       <Box>
-        <Typography variant='body2'>Seguro de eliminar el presupuest seleccionado?</Typography>
+        <Typography variant='body2'>{dialogText}</Typography>
       </Box>
     </ReusableDialog>
   )
