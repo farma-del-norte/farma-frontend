@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as ConceptsCatpi from 'src/services/catalogs/concepts'
 import {openSnackBar} from 'src/store/notifications'
+import { t } from 'i18next'
 
 export const getConceptsCat = createAsyncThunk('/concepts-cat/getConceptsCat', async thunkApi => {
   try {
