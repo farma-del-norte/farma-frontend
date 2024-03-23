@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Stack } from '@mui/material'
-import { LOGIN_LOCALE } from 'src/utils/constants'
 import { useDispatch } from 'react-redux'
 import { updatePassword } from 'src/store/users/actions'
+import { setVerificationModal, setInputPasswords } from 'src/store/users/reducer'
+import { t } from 'i18next'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -12,92 +13,94 @@ import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import Alert from '@mui/material/Alert'
 
-const PasswordInputs = ({ email, code }) => {
+const PasswordInputs = ({email, code}) => {
   const dispatch = useDispatch(),
     router = useRouter(),
     [passwords, setPasswords] = useState({
-      password: LOGIN_LOCALE.EMPTY_STRING,
-      reWritedPassword: LOGIN_LOCALE.EMPTY_STRING
+      password: t('empty_string'),
+      reWritedPassword: t('empty_string')
     }),
-    [error, setError] = useState(LOGIN_LOCALE.EMPTY_STRING),
-    [updated, setUpdated] = useState(LOGIN_LOCALE.EMPTY_STRING),
+    [error, setError] = useState(t('empty_string')),
+    [updated, setUpdated] = useState(t('empty_string')),
     handleUpdatePassword = async () => {
       if (!verifyPasswords()) return
-        const body = {
+      const body = {
           email: email,
           code: code,
           password: passwords.password
-      },
-      response = await dispatch(updatePassword(body)),
-      payload = response.payload;
-      if(payload === LOGIN_LOCALE.ERROR_CODE) {
-        setError(LOGIN_LOCALE.NOT_UPDATED_PASSWORD)
+        },
+        response = await dispatch(updatePassword(body)),
+        payload = response.payload
+      if (payload === t('Error_code')) {
+        setError(t('Not_updated_password'))
       } else {
-        setUpdated(LOGIN_LOCALE.UPDATED_PASSWORD)
+        setUpdated(t('Updated_password'))
+        dispatch(setVerificationModal(false));
+        dispatch(setInputPasswords(false))
         router.replace('/')
       }
     },
     verifyPasswords = () => {
-      if (passwords.password === LOGIN_LOCALE.EMPTY_STRING || passwords.reWritedPassword === LOGIN_LOCALE.EMPTY_STRING) {
-        setError(LOGIN_LOCALE.EMPTY_FIELDS)
+      if (passwords.password === t('empty_string') || passwords.reWritedPassword === t('empty_string')) {
+        setError(t('empty_fields'))
         return false
       }
-  
+
       if (passwords.password != passwords.reWritedPassword) {
-        setError(LOGIN_LOCALE.PASSWORDS_NOT_MATCH)
+        setError(t('Passwords_not_match'))
         return false
       }
- 
-      setError(LOGIN_LOCALE.EMPTY_STRING)
+
+      setError(t('empty_string'))
       return true
     },
     handlePasswordInput = e => {
-      if (e.target.id === LOGIN_LOCALE.PASSWORD_ENG) setPasswords({ ...passwords, password: e.target.value })
-      if (e.target.id === LOGIN_LOCALE.REWRITED_PASSWORD) setPasswords({ ...passwords, reWritedPassword: e.target.value })
-    };
-  
-    return (
-      <>
-        <Card>
-          <CardHeader title={LOGIN_LOCALE.UPDATE_PASSWORD} titleTypographyProps={{ variant: 'h6' }} />
-          <CardContent>
-            <Stack spacing={2}>
-              ´<InputLabel htmlFor={LOGIN_LOCALE.PASSWORD_ENG}>{LOGIN_LOCALE.ENTER_NEW_PASSWORD}</InputLabel>
-              <TextField
-                id={LOGIN_LOCALE.PASSWORD_ENG}
-                label={LOGIN_LOCALE.PASSWORD}
-                variant='outlined'
-                onChange={e => handlePasswordInput(e)}
-                type={LOGIN_LOCALE.PASSWORD_ENG}
-                required
-              />
-              <InputLabel htmlFor={LOGIN_LOCALE.REWRITED_PASSWORD}>{LOGIN_LOCALE.ENTER_NEW_PASSWORD_AGAIN}</InputLabel>
-              <TextField
-                id={LOGIN_LOCALE.REWRITED_PASSWORD}
-                label={LOGIN_LOCALE.PASSWORD}
-                variant='outlined'
-                onChange={e => handlePasswordInput(e)}
-                type={LOGIN_LOCALE.PASSWORD_ENG}
-                required
-              />
-              <Button variant='contained' onClick={handleUpdatePassword}>
-                {LOGIN_LOCALE.UPDATE_PASSWORD}
-              </Button>
-            </Stack>
-            {error && (
-              <Alert variant='outlined' sx={{ mt: 3 }} severity='error'>
-                {error}
-              </Alert>
-            )}
-            {updated && (
-              <Alert variant='outlined' sx={{ mt: 3 }} severity='success'>
-                {updated}
-              </Alert>
-            )}
-          </CardContent>
-        </Card>
-      </>
-    )
-  }
+      if (e.target.id === t('Password_eng')) setPasswords({...passwords, password: e.target.value})
+      if (e.target.id === t('Re_writed_password')) setPasswords({...passwords, reWritedPassword: e.target.value})
+    }
 
-  export default PasswordInputs
+  return (
+    <>
+      <Card>
+        <CardHeader title={t('Password')} titleTypographyProps={{variant: 'h6'}} />
+        <CardContent>
+          <Stack spacing={2}>
+            ´<InputLabel htmlFor={t('Password_eng')}>{t('Enter_new_password')}</InputLabel>
+            <TextField
+              id={t('Password_eng')}
+              label={t('Password')}
+              variant='outlined'
+              onChange={e => handlePasswordInput(e)}
+              type={t('Password_eng')}
+              required
+            />
+            <InputLabel htmlFor={t('Re_writed_password')}>{t('Enter_new_password_again')}</InputLabel>
+            <TextField
+              id={t('Re_writed_password')}
+              label={t('Password')}
+              variant='outlined'
+              onChange={e => handlePasswordInput(e)}
+              type={t('Password_eng')}
+              required
+            />
+            <Button variant='contained' onClick={handleUpdatePassword}>
+              {t('Update_password')}
+            </Button>
+          </Stack>
+          {error && (
+            <Alert variant='outlined' sx={{mt: 3}} severity='error'>
+              {error}
+            </Alert>
+          )}
+          {updated && (
+            <Alert variant='outlined' sx={{mt: 3}} severity='success'>
+              {updated}
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
+    </>
+  )
+}
+
+export default PasswordInputs

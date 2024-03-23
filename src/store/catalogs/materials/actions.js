@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
+import {t} from 'i18next'
 import * as MaterialsAPI from 'src/services/catalogs/materials'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
 
 export const getMaterialsCat = createAsyncThunk('/materials-cat/getMaterialsCat', async thunkApi => {
   try {
@@ -18,11 +18,11 @@ export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterial
   try {
     const payload = await MaterialsAPI.createMaterialCatService(body)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_CREATE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('materials_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -31,10 +31,12 @@ export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterial
 export const editMaterialCat = createAsyncThunk('/materials-cat/editMaterialCat', async (body, thunkApi) => {
   try {
     const payload = await MaterialsAPI.editMaterialCatService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(
+      openSnackBar({open: true, message: t('materials_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
+    )
     return payload
   } catch (error) {
-    const errMessage = error.message
+    const errMessage = error?.response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -44,7 +46,7 @@ export const deleteMaterialCat = createAsyncThunk('/materials-cat/deleteMaterial
   try {
     const payload = await MaterialsAPI.deleteMaterialCatService(id)
     thunkApi.dispatch(
-      openSnackBar({open: true, message: CATALOGS_LOCALE.MATERIALS_DELETE_MESSAGE, severity: 'success'})
+      openSnackBar({open: true, message: t('materials_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
     )
     return payload
   } catch (error) {

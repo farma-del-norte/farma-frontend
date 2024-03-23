@@ -77,7 +77,7 @@
     "concepts_cat_field_type": "Tipo",
     "concepts_cat_field_definition": "Definición",
     "concepts_cat_field_observations": "Observaciones",
-    "concepts_cat_field_variable_name": "VariableCat",
+    "concepts_cat_field_variable_name": "Variable",
 
     "services_cat_title": "Catálogo de Servicios",
     "services_cat_edit_modal": "Editar Catálogo de servicio seleccionado",
@@ -125,7 +125,8 @@
     "branches_minisplits": "Minisplits:",
     "branches_curtains": "Cortinas:",
     "branches_solar_panels": "Paneles solares:",
-    "branches_branch_details_title": "Detalles de sucursal:",
+    "branches_branch_details_title": "Detalles de sucursal: {{ branch }}",
     "brances_create_branch_details": "Detalles de la sucursal agregados",
-    "branches_edit_branch_details": "Detalles de la sucursal modificados"
+    "branches_edit_branch_details": "Detalles de la sucursal modificados",
+    "branches_no_details": "'No se han dado de alta los detalles de esta sucursal.'"
 }

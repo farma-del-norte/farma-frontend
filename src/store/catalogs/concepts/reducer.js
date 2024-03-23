@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createConceptCat, editConceptCat, getConceptsCat} from './actions'
+import {createConceptCat, editConceptCat, getConceptsCat, deleteConceptCat} from './actions'
 
 const initialState = {
+  currentRow: [],
   isLoading: false,
   conceptsCat: [],
   isOpen: false,
@@ -26,6 +27,9 @@ export const conceptsCatSlice = createSlice({
     },
     setDeleteItem: (state, {payload}) => {
       state.modalDeleteItem = payload
+    },
+    setRow: (state, {payload}) => {
+      state.currentRow = payload
     }
   },
   extraReducers: builder => {
@@ -59,9 +63,19 @@ export const conceptsCatSlice = createSlice({
     builder.addCase(editConceptCat.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(deleteConceptCat.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteConceptCat.fulfilled, (state, {payload}) => {
+      state.conceptsCat = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteConceptCat.rejected, state => {
+      state.isLoading = false
+    })
   }
 })
 
 export default conceptsCatSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = conceptsCatSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setRow} = conceptsCatSlice.actions

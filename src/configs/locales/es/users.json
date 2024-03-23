@@ -1,8 +1,8 @@
 {
 
     "success_user_created": "Usuario creado con éxito",
-    "success_user_edited": "Usuario creado con éxito",
-    "success_user_deleted": "Usuario creado con éxito",
+    "success_user_edited": "Usuario editado con éxito",
+    "success_user_deleted": "Usuario eliminado con éxito",
 
     "firstName_required": "El nombre es obligatorio",
     "firstName_max_length": "El nombre no puede tener más de 50 caracteres",

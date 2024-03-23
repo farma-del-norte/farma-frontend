@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createDamageCat, editDamageCat, getDamagesCat} from './actions'
+import {createDamageCat, editDamageCat, getDamagesCat, deleteDamageCat} from './actions'
 
 const initialState = {
+  currentRow: [],
   isLoading: false,
   damagesCat: [],
   isOpen: false,
@@ -26,6 +27,9 @@ export const damagesCatSlice = createSlice({
     },
     setDeleteItem: (state, {payload}) => {
       state.modalDeleteItem = payload
+    },
+    setRow: (state, {payload}) => {
+      state.currentRow = payload
     }
   },
   extraReducers: builder => {
@@ -59,9 +63,19 @@ export const damagesCatSlice = createSlice({
     builder.addCase(editDamageCat.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(deleteDamageCat.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteDamageCat.fulfilled, (state, {payload}) => {
+      state.damagesCat = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteDamageCat.rejected, state => {
+      state.isLoading = false
+    })
   }
 })
 
 export default damagesCatSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = damagesCatSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setRow} = damagesCatSlice.actions

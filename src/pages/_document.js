@@ -10,6 +10,8 @@ import createEmotionServer from '@emotion/server/create-instance'
 // ** Utils Imports
 import {createEmotionCache} from 'src/@core/utils/create-emotion-cache'
 
+import 'src/configs/i18n'
+
 class CustomDocument extends Document {
   render() {
     return (
@@ -38,13 +40,12 @@ CustomDocument.getInitialProps = async ctx => {
   const {extractCriticalToChunks} = createEmotionServer(cache)
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: App => props =>
-        (
-          <App
-            {...props} // @ts-ignore
-            emotionCache={cache}
-          />
-        )
+      enhanceApp: App => props => (
+        <App
+          {...props} // @ts-ignore
+          emotionCache={cache}
+        />
+      )
     })
   const initialProps = await Document.getInitialProps(ctx)
   const emotionStyles = extractCriticalToChunks(initialProps.html)

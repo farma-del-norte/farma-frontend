@@ -1,8 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createUser, editUser, getUsers, getUsersLogin} from './actions'
+import {createUser, editUser, getUsers, deleteUserService, getUsersLogin} from 'src/store/users/actions'
 
 const initialState = {
   isLoading: false,
+  currentRow: [],
+  user: [],
   users: [],
   editUser: {},
   isOpen: false,
@@ -36,6 +38,12 @@ export const usersSlice = createSlice({
     },
     setInputPasswords: (state, {payload}) => {
       state.showInputPasswords = payload
+    },
+    setIsLoading: (state, {payload}) => {
+      state.isLoading = payload
+    },
+    setRow: (state, {payload}) => {
+      state.currentRow = payload
     }
   },
   extraReducers: builder => {
@@ -64,6 +72,7 @@ export const usersSlice = createSlice({
     })
     builder.addCase(getUsersLogin.fulfilled, (state, {payload}) => {
       localStorage.setItem('im-user', JSON.stringify(payload.content.token))
+      state.user = payload.content.user
       state.isLoading = false
     })
     builder.addCase(getUsersLogin.rejected, state => {
@@ -79,9 +88,19 @@ export const usersSlice = createSlice({
     builder.addCase(editUser.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(deleteUserService.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteUserService.fulfilled, (state, {payload}) => {
+      state.users = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteUserService.rejected, state => {
+      state.isLoading = false
+    })
   }
 })
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords} = usersSlice.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords, setIsLoading, setRow} = usersSlice.actions
