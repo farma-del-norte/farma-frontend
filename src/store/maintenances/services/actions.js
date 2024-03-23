@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit/dist'
 import { createService, getService, editService, deleteService } from 'src/services/maintenances/services'
 import {openSnackBar} from 'src/store/notifications'
-import CATALOGS_LOCALE from 'src/utils/locales/catalogs'
+import { MAINTENANCES_LOCALE } from 'src/utils/constants'
 
 export const getServices = createAsyncThunk('/services-cat/getServices', async thunkApi => {
   try {
@@ -17,7 +17,7 @@ export const getServices = createAsyncThunk('/services-cat/getServices', async t
 export const createServices = createAsyncThunk('/services-cat/createService', async (body, thunkApi) => {
   try {
     const payload = await createService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.SERVICE_CREATE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.SERVICES_CREATE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -29,7 +29,7 @@ export const createServices = createAsyncThunk('/services-cat/createService', as
 export const editServices = createAsyncThunk('/services-cat/editService', async (body, thunkApi) => {
   try {
     const payload = await editService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.SERVICE_EDIT_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.SERVICES_EDIT_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -41,7 +41,7 @@ export const editServices = createAsyncThunk('/services-cat/editService', async 
 export const deleteServices = createAsyncThunk('/services-cat/deleteService', async ({id}, thunkApi) => {
   try {
     const payload = await deleteService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: CATALOGS_LOCALE.SERVICE_DELETE_MESSAGE, severity: 'success'}))
+    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.SERVICES_DELETE_MESSAGE, severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message

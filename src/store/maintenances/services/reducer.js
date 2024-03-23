@@ -4,6 +4,7 @@ import {createServices, editServices, getServices, deleteServices} from './actio
 const initialState = {
   isLoading: false,
   services: [],
+  createdService: {},
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
@@ -43,6 +44,8 @@ export const services = createSlice({
       state.isLoading = true
     })
     builder.addCase(createServices.fulfilled, (state, {payload}) => {
+      const newService = payload.content.find(objeto2 => !state.services.some(objeto1 => objeto1.id === objeto2.id));
+      state.createdService = newService
       state.services = payload.content
       state.isLoading = false
     })

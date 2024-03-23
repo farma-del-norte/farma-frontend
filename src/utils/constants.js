@@ -4,6 +4,8 @@ import i18n from 'src/configs/i18n'
 export const COMMON_LOCALE = {
   BACK_BUTTON: i18n.t('back_button'),
   SAVE_BUTTON: i18n.t('save_button'),
+  REPORT_BUTTON: i18n.t('report_button'),
+  DELETE_TEXT: i18n.t('delete'),
   DELETE_BUTTON: i18n.t('delete_button'),
   ACTIONS: i18n.t('actions'),
   EMPTY_STRING: i18n.t('empty_string')
@@ -49,6 +51,8 @@ export const LOGIN_LOCALE = {
 }
 
 export const MAINTENANCES_LOCALE = {
+  //GLOBAL
+  EMPTY_SELECT: t('empty_select', {ns: 'maintenances'}),
   // MARK: - MAINTENANCES
   MAINTENANCES_TITLE: t('maintenances_title', {ns: 'maintenances'}),
   MAINTENANCES_FIELD_NAME: t('maintenances_column_name', {ns: 'maintenances'}),
@@ -70,7 +74,31 @@ export const MAINTENANCES_LOCALE = {
   SERVICES_CONFIRM_DELETE_MODAL: t('services_delete_confirm_message', {ns: 'maintenances'}),
   SERVICES_EDIT_MESSAGE: t('services_edit_message', {ns: 'maintenances'}),
   SERVICES_CREATE_MESSAGE: t('services_create_message', {ns: 'maintenances'}),
-  SERVICES_DELETE_MESSAGE: t('services_delete_message', {ns: 'maintenances'})
+  SERVICES_DELETE_MESSAGE: t('services_delete_message', {ns: 'maintenances'}),
+  // Materials
+
+  COLUMN_SERVICECAT: t('services.columns.serviceCat', {ns: 'maintenances'}),
+  COLUMN_DATE: t('services.columns.date', {ns: 'maintenances'}),
+  COLUMN_AREA_TYPE: t('services.columns.area_type', {ns: 'maintenances'}),
+  COLUMN_AREA: t('services.columns.area', {ns: 'maintenances'}),
+  COLUMN_SUPPLIER: t('services.columns.supplier', {ns: 'maintenances'}),
+  COLUMN_COST: t('services.columns.cost', {ns: 'maintenances'}),
+  COLUMN_STATUS: t('services.columns.status', {ns: 'maintenances'}),
+  COLUMN_NOTES: t('services.columns.notes', {ns: 'maintenances'}),
+  COLUMN_EVIDENCE: t('services.columns.evidence', {ns: 'maintenances'}),
+  COLUMN_MATERIAL_CAT: t('materials.columns.materialCat', {ns: 'maintenances'}),
+  COLUMN_UNIT_COST: t('materials.columns.unitCost', {ns: 'maintenances'}),
+  COLUMN_QUANTITY: t('materials.columns.quantity', {ns: 'maintenances'}),
+  COLUMN_UNITS: t('materials.columns.units', {ns: 'maintenances'}),
+  COLUMN_TOTAL_COST: t('materials.columns.totalCost', {ns: 'maintenances'}),
+  COLUMN_ACTIONS: t('actions', {ns: 'maintenances'}),
+  SERVICES_EDIT_MODAL: t('services.edit_modal', {ns: 'maintenances'}),
+  SERVICES_ADD_MODAL: t('services.add_modal', {ns: 'maintenances'}),
+  SERVICES_EXPANDED_TITLE: t('services.expanded_title', {ns: 'maintenances'}),
+
+  MATERIALS_EDIT_MODAL: t('materials.edit_modal', {ns: 'maintenances'}),
+  MATERIALS_ADD_MODAL: t('materials.add_modal', {ns: 'maintenances'}),
+  COLUMN_NOTES: t('materials.columns.notes', {ns: 'maintenances'})
 }
 
 export const DAMAGES_LOCALE = {

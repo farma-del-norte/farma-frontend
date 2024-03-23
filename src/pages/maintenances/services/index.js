@@ -6,73 +6,117 @@ import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLa
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import {Pencil, Delete} from 'mdi-material-ui'
+import {Pencil, Delete, TextBoxSearch } from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/maintenances/services/reducer'
+import {toggleMaterialModal, setIsEditing} from 'src/store/maintenances/materials/reducer'
 import {createServices, deleteServices, editServices, getServices} from 'src/store/maintenances/services/actions'
-import {createMediaService, editMediaService} from 'src/store/media/actions'
+import {createMediaService, getMediaByOwnerId, editMediaService} from 'src/store/media/actions'
 import { getServicesCat } from 'src/store/catalogs/services/actions'
 import { getSuppliers } from 'src/store/catalogs/suppliers/actions'
 import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
-import {MAINTENANCES, MAINTENANCES_LOCALE, COMMON} from 'src/utils/constants'
+import {MAINTENANCES, MAINTENANCES_LOCALE, COMMON_LOCALE, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {LoadingSelect} from 'src/utils/inputs'
 import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
-import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../../services/catalogs/branches'
+import MaterialsModal from 'src/views/details-modals/MaterialsModal'
+import { getBranches } from 'src/store/catalogs/branches/actions'
+import {ExpandedContent} from 'src/components/expandedContent/ExpandedContent'
+import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 const columns = [
     {
       flex: 0.25,
       minWidth: 200,
       field: 'serviceCatName',
-      headerName: 'Categoria del servicio'
+      headerName: MAINTENANCES_LOCALE.COLUMN_SERVICECAT
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'date',
-      headerName: 'Fecha'
+      headerName: MAINTENANCES_LOCALE.COLUMN_DATE
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'area',
-      headerName: 'Tipo de Area'
+      headerName: MAINTENANCES_LOCALE.COLUMN_AREA_TYPE
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'supplierID',
-      headerName: 'Proveedor'
+      headerName: MAINTENANCES_LOCALE.COLUMN_SUPPLIER
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'cost',
-      headerName: 'Costo'
+      headerName: MAINTENANCES_LOCALE.COLUMN_COST
     },
     {
         flex: 0.25,
         minWidth: 200,
         field: 'status',
-        headerName: 'Estatus'
+        headerName: MAINTENANCES_LOCALE.COLUMN_STATUS
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'notes',
-      headerName: 'Notas'
+      headerName: MAINTENANCES_LOCALE.COLUMN_NOTES
     }
   ]
+
+const defaultValuesServices = {
+  area: undefined, 
+  areaID: undefined, 
+  branchID: undefined,
+  cost: undefined, 
+  description: undefined, 
+  evidence: undefined, 
+  materials: undefined, 
+  motive: undefined, 
+  notes: undefined, 
+  provider: undefined, 
+  services: undefined
+}
+
+const defaultMaterialValues = {
+  materialCatID: undefined,
+  quantity: undefined,
+  unitCost: undefined,
+  units: undefined,
+  totalCost: undefined,
+  service: {
+    area: undefined, 
+    areaID: undefined, 
+    branchID: undefined,
+    cost: undefined, 
+    description: undefined, 
+    evidence: undefined, 
+    materials: undefined, 
+    motive: undefined, 
+    notes: undefined, 
+    provider: undefined, 
+    services: undefined
+  }
+}
 
 const Services = () => {
     const dispatch = useDispatch()
 
-    const {isOpen, modalItem, isDeleteOpen, services, isLoading, modalDeleteItem} = useSelector(state => state.services)
+    const {isOpen, modalItem, isDeleteOpen, createdService, services, isLoading, modalDeleteItem} = useSelector(state => state.services)
+    //media
+    const {media} = useSelector(state => state.media)
+    //materials
+    const {isEditing, isModalOpen} = useSelector(state => state.materials)
     //serviceCat
     const { serviceCat } = useSelector(state => state.serviceCat)
     //supplier
@@ -84,8 +128,10 @@ const Services = () => {
     const {conceptsCat} = useSelector(state => state.conceptsCat)
     const {open, message, severity} = useSelector(state => state.notifications)
     const [areaType, setAreaType] = useState('')
-    const [areaContent, setAreaContent] = useState([{name: "Selecciona un tipo de area para ver resultados", id: "", disabled: true}])
+    const [areaContent, setAreaContent] = useState([{name: MAINTENANCES_LOCALE.EMPTY_SELECT, id: "", disabled: true}])
     const [loadingArea, setLoadingArea] = useState(false)
+    const [typeModal, setTypeModal] = useState('service')
+    const [serviceRow, setServiceRow] = useState({})
     const areas = useMemo(
       () => [
         { name: 'Materiales', value: 'Material', getList: getMaterialsCat },
@@ -102,13 +148,24 @@ const Services = () => {
         { name: 'Cancelado' },
     ]
 
-    const {control, handleSubmit, resetField, reset, setValue} = useForm({
+    const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
       defaultValues: {
-        area: undefined, areaID: undefined, branchID: undefined,
-        cost: undefined, description: undefined, evidence: undefined, materials: undefined, 
-        motive: undefined, notes: undefined, provider: undefined, services: undefined
+        getDefaultValues
       }
     })
+
+    const [mediaObject, setMediaObject] = useState({
+      bucketName: "services",
+      partKey: undefined,
+      evidence: []
+    })
+
+    const getDefaultValues = useMemo(() => {
+      if(typeModal === 'services'){
+        return defaultValuesServices
+      }
+      return defaultMaterialValues
+    }, [typeModal])
 
     const handleChangeAreaType = (e, onChange) => {
       setLoadingArea(true)
@@ -119,7 +176,22 @@ const Services = () => {
   
     useEffect(() => {
       dispatch(getServices())
+      dispatch(getBranches())
     }, [dispatch])
+
+    // al editar obtiene la media
+    useEffect(() => {
+      setValue('evidence', media)
+    },[media, setValue])
+
+    // al crear service asigna el id del service para owner de media
+    useEffect(() => {
+      if(Object.keys(createdService).length > 0){
+        mediaObject.partKey = createdService.id
+        if(mediaObject.evidence.length > 0 && !Boolean(modalItem))
+          dispatch(createMediaService(mediaObject))
+      }
+    }, [createdService, mediaObject, dispatch, modalItem])
 
     useEffect(() =>{
       if(areaType !== ''){
@@ -163,11 +235,33 @@ const Services = () => {
       const {row, open} = params
       reset(row)
       //AL editar
+      setValue("date", row.date.split("T")[0])
       setAreaType(row.area)
+      dispatch(getMediaByOwnerId({id: row.id}))
       dispatch(getServicesCat())
       dispatch(getSuppliers())
       dispatch(toggleModal(open))
       dispatch(setModalItem(row))
+    }
+
+    const handleOpenMaterialsServiceModal = params => {
+      //reset area
+      setAreaContent([])
+      //get suppliers
+      dispatch(getSuppliers())
+      //Assign area from areaType of the row
+      const {row, open} = params
+      const area = areas.find((area) => area.value === row.area)
+      setAreaType(area.value)
+      //assign all service info into an object
+      reset({service: row})
+      setServiceRow(getValues())
+      dispatch(toggleMaterialModal(open))
+      dispatch(setIsEditing(false))
+    }
+
+    const getValueFromID = (array, id, keyToReturn) => {
+      return array.find((object) => object.id === id)[keyToReturn]
     }
   
     const handleAddItem = () => {
@@ -190,19 +284,18 @@ const Services = () => {
     }
   
     const onSubmit = values => {
-      const serviceId = uuidv4()
-      const mediaObject = {
-        id: serviceId,
-        bucketName: "services",
-        partKey: serviceId,
+      setMediaObject(prevState => ({
+        ...prevState,
         evidence: values.evidence
-      }
-      values = {...values, id: serviceId}
+      }));
+      mediaObject.evidence = values.evidence
+      delete values.evidence
       if (Boolean(modalItem)) {
+        mediaObject.partKey = values.id
         dispatch(editServices(values))
+        dispatch(editMediaService(mediaObject))
       } else {
-        dispatch(createMediaService(mediaObject))
-        //dispatch(createServices(values))
+        dispatch(createServices(values))
       }
       handleCloseModal()
     }
@@ -211,13 +304,14 @@ const Services = () => {
       ...columns,
       {
         flex: 0.125,
-        minWidth: 100,
+        minWidth: 115,
         field: 'actions',
-        headerName: 'Acciones',
+        headerName: MAINTENANCES_LOCALE.COLUMN_ACTIONS,
         renderCell: params => {
           const row = params?.row
           return (
             <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
+              <TextBoxSearch sx={{margin: '2px'}} onClick={() => handleOpenMaterialsServiceModal({row, open: true})} />
               <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal({row, open: true})} />
               <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal({row, open: true})} />
             </Typography>
@@ -225,12 +319,6 @@ const Services = () => {
         }
       }
     ]
-
-    const handleBranch = (e, onChange) => {
-      onChange(e.target.value)
-      const zoneID = branches.filter(branch => branch.id === e.target.value)[0].zoneID
-      setValue("zoneID", zoneID)
-    }
   
     return (
       <Fragment>
@@ -249,10 +337,10 @@ const Services = () => {
         <ReusableDialog
           open={isOpen}
           onClose={handleCloseModal}
-          title={Boolean(modalItem) ? MAINTENANCES_LOCALE.MAINTENANCES_EDIT_MODAL : MAINTENANCES_LOCALE.SERVICES_ADD_MODAL}
+          title={Boolean(modalItem) ? MAINTENANCES_LOCALE.MATERIALS_EDIT_MODAL : MAINTENANCES_LOCALE.MATERIALS_ADD_MODAL}
           actions={[
-            {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-            {label: 'Reportar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
+            {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+            {label: COMMON_LOCALE.SAVE_BUTTON, onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
           ]}
         >
           <form>
@@ -264,12 +352,12 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <>
-                          <InputLabel>Categoria del servicio</InputLabel>
+                          <InputLabel>{MAINTENANCES_LOCALE.COLUMN_SERVICECAT}</InputLabel>
                           <Select
                             defaultValue=""
                             value={value || ''}
-                            label="Categoria del servicio"
-                            onChange={(e) => handleBranch(e, onChange)}
+                            label={MAINTENANCES_LOCALE.COLUMN_SERVICECAT}
+                            onChange={onChange}
                           >
                             {serviceCat?.map((servCat, id) => 
                               <MenuItem key={id} value={servCat.id}>{servCat.name}</MenuItem>
@@ -285,7 +373,15 @@ const Services = () => {
                     <Controller
                       name='date'
                       control={control}
-                      render={({field: {value, onChange}}) => <TextField label='Fecha' value={value} onChange={onChange} />}
+                      render={({field: {value, onChange}}) => (
+                        <TextField
+                          type='date'
+                          label={MAINTENANCES_LOCALE.COLUMN_DATE}
+                          InputLabelProps={{shrink: true}}
+                          value={value || ''}
+                          onChange={onChange}
+                        />
+                      )}
                     />
                   </FormControl>
                 </Grid>
@@ -296,11 +392,11 @@ const Services = () => {
                         control={control}
                         render={({field: {value, onChange}}) => (
                           <>
-                            <InputLabel>Tipo de Area</InputLabel>
+                            <InputLabel>{MAINTENANCES_LOCALE.COLUMN_AREA_TYPE}</InputLabel>
                             <Select
                               defaultValue=""
                               value={value || ''}
-                              label="Tipo de Area"
+                              label={MAINTENANCES_LOCALE.COLUMN_AREA_TYPE}
                               onChange={(e) => handleChangeAreaType(e, onChange)}
                             >
                               {areas.map((area, i) =>
@@ -318,7 +414,7 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <LoadingSelect 
-                          label={"Area"}
+                          label={MAINTENANCES_LOCALE.COLUMN_AREA}
                           disabled={loadingArea}
                           content={areaContent}
                           onChange={onChange}
@@ -338,11 +434,11 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <>
-                          <InputLabel>Proveedor</InputLabel>
+                          <InputLabel>{MAINTENANCES_LOCALE.COLUMN_SUPPLIER}</InputLabel>
                           <Select
                             defaultValue=""
                             value={value || ''}
-                            label="Proveedor"
+                            label={MAINTENANCES_LOCALE.COLUMN_SUPPLIER}
                             onChange={onChange}
                           >
                             {suppliers?.map((supplier, id) => 
@@ -361,11 +457,11 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <>
-                          <InputLabel>Estatus</InputLabel>
+                          <InputLabel>{MAINTENANCES_LOCALE.COLUMN_STATUS}</InputLabel>
                           <Select
                             defaultValue=""
                             value={value || ''}
-                            label="Estatus"
+                            label={MAINTENANCES_LOCALE.COLUMN_STATUS}
                             onChange={onChange}
                           >
                             {status?.map((statu, id) => 
@@ -383,7 +479,7 @@ const Services = () => {
                       name='cost'
                       control={control}
                       render={({field: {value, onChange}}) => 
-                        <TextField label='Costo' 
+                        <TextField label={MAINTENANCES_LOCALE.COLUMN_COST} 
                           value={value} 
                           onChange={onChange} 
                           InputProps={{
@@ -404,8 +500,8 @@ const Services = () => {
                       control={control}
                       render={({field: {value = [], onChange}}) => 
                       <>
-                        <MultimediaUploader 
-                          field={"Evidencia digital"}
+                        <MultimediaUploader
+                          field={MAINTENANCES_LOCALE.COLUMN_EVIDENCE}
                           base64Images={value} 
                           handleImages={onChange} 
                         />
@@ -422,7 +518,7 @@ const Services = () => {
                         <TextField 
                           multiline
                           rows={4}
-                          label='Comentarios' 
+                          label={MAINTENANCES_LOCALE.COLUMN_NOTES}
                           value={value} 
                           onChange={onChange} 
                         />}
@@ -435,16 +531,47 @@ const Services = () => {
         <ReusableDialog
           open={isDeleteOpen}
           onClose={handleCloseDeleteModal}
-          title={'Borrar'}
+          title={COMMON_LOCALE.DELETE_TEXT}
           actions={[
-            {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-            {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
+            {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
+            {label: COMMON_LOCALE.DELETE_BUTTON, onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
           ]}
         >
           <Box>
             <Typography variant='body2'>{MAINTENANCES_LOCALE.SERVICES_CONFIRM_DELETE_MODAL}</Typography>
           </Box>
         </ReusableDialog>
+        <MaterialsModal
+          isOpen={isModalOpen}
+          control={control}
+          handleSubmit={handleSubmit}
+        >
+          <ExpandedContent label={MAINTENANCES_LOCALE.SERVICES_EXPANDED_TITLE}>
+            {isModalOpen &&
+              <Grid container>
+                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_SERVICECAT} value={serviceRow.service.serviceCatName} />
+                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_AREA_TYPE} value={serviceRow.service.area} />
+                {areaContent.length > 0 ?
+                  <DetailTextFieldForm md={6} labelText={MAINTENANCES_LOCALE.COLUMN_AREA} value={getValueFromID(areaContent, serviceRow.service.areaID, "name")} />
+                :
+                  <ClipLoader />
+                }
+                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_COST} value={serviceRow.service.cost} />
+                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_STATUS} value={serviceRow.service.status} />
+                {suppliers.length > 0 ?
+                  <DetailTextFieldForm
+                    md={6}
+                    labelText={MAINTENANCES_LOCALE.COLUMN_SUPPLIER}
+                    value={getValueFromID(suppliers, serviceRow.service.supplierID, "firstname")} 
+                  />
+                :
+                  <ClipLoader />
+                }
+                <DetailTextFieldForm md={6} multiline={true} labelText={MAINTENANCES_LOCALE.COLUMN_NOTES} value={serviceRow.service.notes} />
+              </Grid>
+            }
+          </ExpandedContent>
+        </MaterialsModal>
         <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
       </Fragment>
     )

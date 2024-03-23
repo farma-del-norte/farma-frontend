@@ -19,13 +19,14 @@ export const getMediaService = createAsyncThunk('/media/getMedia', async thunkAp
   }
 })
 
-export const getMediaByIdService = createAsyncThunk('/media/getMediabyId', async ({id}, thunkApi) => {
+export const getMediaByOwnerId = createAsyncThunk('/media/getMediabyId', async ({id}, thunkApi) => {
     try {
       const payload = await getMediaById(id)
       return payload
     } catch (error) {
-      const errMessage = error
-      thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+      if(!error.response.status === 404){
+        thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+      }
       return thunkApi.rejectWithValue('error')
     }
   })
@@ -33,7 +34,6 @@ export const getMediaByIdService = createAsyncThunk('/media/getMediabyId', async
 export const createMediaService = createAsyncThunk('/media', async (body, thunkApi) => {
   try {
     const payload = await createMedia(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Multimedia guardado con éxito', severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message ?? error
@@ -45,7 +45,6 @@ export const createMediaService = createAsyncThunk('/media', async (body, thunkA
 export const editMediaService = createAsyncThunk('/media/editMedia', async (body, thunkApi) => {
   try {
     const payload = await editMedia(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Multimedia actualizado con éxito', severity: 'success'}))
     return payload
   } catch (error) {
     const errMessage = error.message

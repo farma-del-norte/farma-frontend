@@ -14,7 +14,7 @@ export const getMedia = async () => {
 }
 
 export const getMediaById = async (id) => {
-    const url = `${MEDIA_ENDPOINT}/media/${id}`
+    const url = `${MEDIA_ENDPOINT}/media/owner/${id}`
     try {
       const result = await api_get(url)
       return result
@@ -29,15 +29,16 @@ export const createMedia = async body => {
   const auth = `Bearer ${token}`
   const typeFileMedia = { image: 'Imagen', video: 'video', application: 'Pdf'}
   const urlMedias = []
+  const medias = body
   try {
-    for(const media of body.evidence){
+    for(const media of medias.evidence){
         const extFile = media.file.split(';')[0].split('/')[1]
         const fileType = media.file.split(':')[1].split('/')[0]
         const presignedUrlHeaders = { headers: { Authorization: auth, fileType: extFile } }
 
         const bodyForPresignedUrl = {
           bucketName: 'media-farma-dev',
-          key: `${body.bucketName}/${body.partKey}/${media.name}`
+          key: `${medias.bucketName}/${medias.partKey}/${media.name}`
         }
 
         // get the s3 url to save
@@ -61,8 +62,8 @@ export const createMedia = async body => {
           body = {
             url: mediaUrl,
             type: typeFileMedia[fileType],
-            ownerId: body.id,
-            typeOwner: body.bucketName
+            ownerId: medias.partKey,
+            typeOwner: medias.bucketName
           }
 
           // saved on media endpoint
@@ -71,16 +72,27 @@ export const createMedia = async body => {
     }
     return urlMedias
   } catch (error) {
-    console.log(error)
     throw error
   }
 }
 
 export const editMedia = async body => {
-  const url = `${MEDIA_ENDPOINT}/media/${body.id}`
+  const news = body.evidence.filter((media) => !media.url && media.file)
+  const existed = body.evidence.filter((media) => media.url)
   try {
-    const result = await api_patch(url, body)
-    return result
+    const mediasExisted = await getMediaById(body.partKey)
+    if(mediasExisted.content.length > 0){
+      const toRemove = mediasExisted.content.filter((obj1) => !existed.some(obj2 => obj1.id === obj2.id))
+      for(var i = 0; i < toRemove.length; i++){
+        await deleteMedia(toRemove[i].id)
+      }
+    }
+    if(news.length > 0){
+      body.evidence = news
+      await createMedia(body)
+    }
+    const medias = await getMediaById(body.partKey)
+    return medias
   } catch (error) {
     throw error
   }

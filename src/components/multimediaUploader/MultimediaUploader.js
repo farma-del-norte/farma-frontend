@@ -9,6 +9,166 @@ import { useTheme } from '@mui/material/styles'
 import styles from './styles.module.css';
 
 //TODO: Separate the URLS from Files array maybe handling two arrays on images object (urlImages, fileImages)
+const PDFMedia = ({
+  media,
+  handleRemove,
+  index,
+}) => {
+  return (
+    <div key={index} style={{
+      position: 'relative',
+      width: '270px',
+      height: '150px',
+      overflow: 'hidden',
+      margin: '10px 5px'
+    }}>
+        <embed src={typeof (media.file) === 'string' ? media.file : URL.createObjectURL(media.file)} width="270" height="150"/>
+        <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
+        <button style={{
+          backgroundColor: '#000',
+          cursor: 'pointer',
+          border: '1px solid #ccc',
+          borderRadius: '15px',
+          height: '30px',
+          width: '30px'
+        }}
+          onClick={(e) => {
+            e.preventDefault()
+            handleRemove(index)
+          }}
+        ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
+      </div>
+    </div>
+  )
+}
+
+const VideoMedia = ({
+  media,
+  handleRemove,
+  index,
+}) => {
+  return (
+    <div key={index} style={{
+      position: 'relative',
+      width: '268px',
+      height: '150px',
+      overflow: 'hidden',
+      margin: '10px 5px'
+    }}>
+      <video
+        className="VideoInput_video"
+        width="100%"
+        height="100%"
+        controls
+        src={media.url} 
+      />
+      <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
+        <button style={{
+          backgroundColor: '#000',
+          cursor: 'pointer',
+          border: '1px solid #ccc',
+          borderRadius: '15px',
+          height: '30px',
+          width: '30px'
+        }}
+          onClick={(e) => {
+            e.preventDefault()
+            handleRemove(index)
+          }}
+        ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
+      </div>
+    </div>
+  )
+}
+
+const ImageMedia = ({
+  src,
+  handleRemove,
+  index,
+}) => {
+  return (
+    <div key={index} style={{
+      position: 'relative',
+      width: '150px',
+      height: '150px',
+      overflow: 'hidden',
+      margin: '10px 5px'
+    }}>
+      
+        <img
+          src={src}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
+        <button style={{
+          backgroundColor: '#000',
+          cursor: 'pointer',
+          border: '1px solid #ccc',
+          borderRadius: '15px',
+          height: '30px',
+          width: '30px'
+        }}
+          onClick={(e) => {
+            e.preventDefault()
+            handleRemove(index)
+          }}
+        ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
+      </div>
+    </div>
+  )
+}
+
+const SelectMedia = ({
+  media,
+  handleRemove,
+  index
+}) => {
+  const imageTypes = ["png", "jpg", "jpeg", "gif"]
+  let src
+
+  const checkMedia = (url, tipos) => {
+    if(url){
+      for (const tipo of tipos) {
+        if (url.includes(tipo)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  // si esta editando o esta creando
+  if(checkMedia(media?.url?.toLowerCase(), imageTypes) || media?.file?.type?.includes('image')){
+
+    if(media.hasOwnProperty('url')){
+      src=media.url
+    }else{
+      src= typeof (media.file) === 'string' ? media.file : URL.createObjectURL(media.file)
+    }
+
+    return (
+      <ImageMedia 
+        src={src} 
+        handleRemove={handleRemove} 
+        index={index}
+      />
+    )
+  }else if(media?.file?.type.includes('video')){
+    return (
+      <VideoMedia 
+        media={media} 
+        handleRemove={handleRemove} 
+        index={index} 
+      />
+    )
+  }
+  return (
+    <PDFMedia 
+      media={media} 
+      handleRemove={handleRemove} 
+      index={index} 
+    />
+  )
+}
 
 const MultimediaUploader = ({
   base64Images = [],
@@ -24,37 +184,69 @@ const MultimediaUploader = ({
   const animateField = document.getElementById('movingText');
 
   useEffect(() => {
-    if (base64Images.length > 0) {
+    if (base64Images.length > 0 && images.length === 0) {
       setImages(base64Images)
     }
-  }, [])
+  }, [base64Images, images])
 
   useEffect(() => {
     convertImagesToBase64()
   }, [images])
 
+  const getBlobFromUrl = (myImageUrl) => {
+    return new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.open('GET', myImageUrl, true);
+        request.responseType = 'blob';
+        request.onload = () => {
+            resolve(request.response);
+        };
+        request.onerror = reject;
+        request.send();
+    })
+}
+
   const convertImagesToBase64 = () => {
-    Promise.all(
-      images.map(
-        (image) =>
-          new Promise((resolve, reject) => {
-            if (typeof (image) != 'string') {
-              const fileReader = new FileReader();
-              fileReader.onload = (_) => {
-                resolve({file: fileReader.result, name: image.name});
-              };
-              fileReader.onerror = (error) => reject(error);
-              fileReader.readAsDataURL(image.hasOwnProperty("file") ? image.file : image);
-            } else {
-              resolve(image)
-            }
-          })
-      )
-    ).then((file) => {
-      // Send base64Images to server
-      if(file)
-        handleImages(file)
-    });
+    const notBlobImages = images.filter((image) => image.url && !image.file)
+    //al editar convierto images a blob para que no afecte a nuevo contenido
+    if(notBlobImages.length > 0){
+      Promise.all(
+        notBlobImages.map(
+          (image) => getBlobFromUrl(image.url)
+        )
+      ).then((file) => {
+        let addOnimages = [...images]
+        for(var i = 0; i < notBlobImages.length; i++){
+          const newContent = file[i]
+          addOnimages[i] = { ...addOnimages[i], file: newContent }
+        }
+        setImages(addOnimages)
+      })
+    }else{ // al crear
+      Promise.all(
+        images.map(
+          (image) =>
+            new Promise((resolve, reject) => {
+              if (typeof (image) != 'string') {
+                const fileReader = new FileReader();
+                fileReader.onload = (_) => {
+                  resolve({...image, file: fileReader.result, name: image.name || image.ownerName});
+                };
+                fileReader.onerror = (error) => reject(error);
+                fileReader.readAsDataURL(image.hasOwnProperty("file") ? image.file : image);
+              } else {
+                resolve(image)
+              }
+            })
+        )
+      ).then((file) => {
+        // Send base64Images to evidence
+        // const prevMedias = medias.filter((media) => media.url)
+        if(file){
+          handleImages(file)
+        }
+      });
+    }
   }
 
   const handleDrop = (e) => {
@@ -169,93 +361,12 @@ const MultimediaUploader = ({
         }}
       >
         {images.map((media, index) => (
-          media?.file?.type?.includes('image') ?
-          <div key={index} style={{
-            position: 'relative',
-            width: '150px',
-            height: '150px',
-            overflow: 'hidden',
-            margin: '10px 5px'
-          }}>
-            
-              <img
-                src={typeof (media.file) === 'string' ? media.file : URL.createObjectURL(media.file)}
-                alt={media.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
-              <button style={{
-                backgroundColor: '#000',
-                cursor: 'pointer',
-                border: '1px solid #ccc',
-                borderRadius: '15px',
-                height: '30px',
-                width: '30px'
-              }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleRemove(index)
-                }}
-              ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
-            </div>
-          </div>
-              :
-              media?.file?.type.includes('video') ?
-              <div key={index} style={{
-                position: 'relative',
-                width: '268px',
-                height: '150px',
-                overflow: 'hidden',
-                margin: '10px 5px'
-              }}>
-                <video
-                  className="VideoInput_video"
-                  width="100%"
-                  height="100%"
-                  controls
-                  src={media.url} 
-                />
-                <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
-                  <button style={{
-                    backgroundColor: '#000',
-                    cursor: 'pointer',
-                    border: '1px solid #ccc',
-                    borderRadius: '15px',
-                    height: '30px',
-                    width: '30px'
-                  }}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleRemove(index)
-                    }}
-                  ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
-                </div>
-              </div>
-              :
-              <div key={index} style={{
-                position: 'relative',
-                width: '270px',
-                height: '150px',
-                overflow: 'hidden',
-                margin: '10px 5px'
-              }}>
-                <embed src={typeof (media.file) === 'string' ? media.file : URL.createObjectURL(media.file)} width="270" height="150"/>
-                <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
-                <button style={{
-                  backgroundColor: '#000',
-                  cursor: 'pointer',
-                  border: '1px solid #ccc',
-                  borderRadius: '15px',
-                  height: '30px',
-                  width: '30px'
-                }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleRemove(index)
-                  }}
-                ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
-              </div>
-            </div>
+          <SelectMedia 
+            key={index}
+            media={media}
+            handleRemove={handleRemove}
+            index={index}
+          />
         ))}
         </div>
     </Box>

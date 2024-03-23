@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createMediaService, editMediaService, getMediaService, getMediaByIdService, deleteMediaService} from './actions'
+import {createMediaService, editMediaService, getMediaService, getMediaByOwnerId, deleteMediaService} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -50,14 +50,14 @@ export const usersSlice = createSlice({
     builder.addCase(createMediaService.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(getMediaByIdService.pending, state => {
+    builder.addCase(getMediaByOwnerId.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(getMediaByIdService.fulfilled, (state, {payload}) => {
+    builder.addCase(getMediaByOwnerId.fulfilled, (state, {payload}) => {
       state.media = payload.content
       state.isLoading = false
     })
-    builder.addCase(getMediaByIdService.rejected, state => {
+    builder.addCase(getMediaByOwnerId.rejected, state => {
       state.isLoading = false
     })
     builder.addCase(editMediaService.pending, state => {
