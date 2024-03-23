@@ -1,5 +1,4 @@
 import axiosInstance from './axiosInstance'
-import * as endpoints from './endpoints'
 
 export const api_get = (url, headers = {}) => {
   return new Promise((res, rej) => {

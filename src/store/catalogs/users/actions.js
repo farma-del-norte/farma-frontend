@@ -13,13 +13,24 @@ export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   }
 })
 
+export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkApi) => {
+  try {
+    const payload = await usersLogin(body)
+    return payload
+  } catch (error) {
+    const errMessage = error.response.data.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
 export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
   try {
     const payload = await createUserService(body)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Usuario creado con éxito', severity: 'success'}))
     return payload
   } catch (error) {
-    const errMessage = error?.response?.data?.message ?? error
+    const errMessage = error.response.data.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -37,14 +48,14 @@ export const editUser = createAsyncThunk('/users/editUser', async (body, thunkAp
   }
 })
 
-export const deleteUser = createAsyncThunk('/users/getUsers', async ({id}, thunkApi) => {
+export const deleteUser = createAsyncThunk('/users/deleteUsers', async ({id}, thunkApi) => {
   try {
     const payload = await deleteUserService(id)
     thunkApi.dispatch(openSnackBar({open: true, message: 'Usuario eliminado con éxito', severity: 'success'}))
     return payload
   } catch (error) {
-    const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: 'errMessage', severity: 'error'}))
+    const errMessage = error.message
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })

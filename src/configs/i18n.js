@@ -18,6 +18,7 @@ i18n
     lng: 'es',
     resources: {
       es: {
+        budgets: require('./locales/es/budgets.json'),
         translations: require('./locales/es/translations.json'),
         catalogs: require('./locales/es/catalogs.json'),
         maintenances: require('./locales/es/maintenances.json'),
@@ -25,7 +26,7 @@ i18n
         users: require('./locales/es/users.json')
       }
     },
-    ns: ['translations', 'catalogs', 'maintenances', 'branches', 'users'],
+    ns: ['budgets','translations', 'catalogs', 'maintenances', 'branches', 'users'],
     defaultNS: 'translations'
   })
 

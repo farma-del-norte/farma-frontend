@@ -1,27 +1,23 @@
 import React, {useEffect, useState} from 'react' // ** Next Imports
 import Link from 'next/link'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
 import {useForm, Controller} from 'react-hook-form'
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import FormControl from '@mui/material/FormControl'
 import InputAdornment from '@mui/material/InputAdornment'
-import FormHelperText from '@mui/material/FormHelperText'
-import {CircularProgress} from '@mui/material'
+import FallbackSpinner from 'src/@core/components/spinner'
 import Typography from '@mui/material/Typography'
 import Router from 'next/router'
-
-import {styled, useTheme} from '@mui/material/styles'
-
+import {useTheme} from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import {LOGIN_LOCALE} from 'src/utils/constants'
+import {LOGIN} from 'src/utils/constants'
 import {getUsersLogin} from 'src/store/users/actions'
+import {setIsLoading} from 'src/store/users/reducer'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 
@@ -37,6 +33,7 @@ import {useSettings} from 'src/@core/hooks/useSettings'
 
 import * as Yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
+import {t} from 'i18next'
 
 const defaulValues = {
   email: '',
@@ -44,14 +41,14 @@ const defaulValues = {
 }
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string().email(LOGIN_LOCALE.INVALID_EMAIL).required(LOGIN_LOCALE.EMAIL_REQUIRED),
-  password: Yup.string().min(8, LOGIN_LOCALE.PASSWORD_MIN).required(LOGIN_LOCALE.PASSWORD_REQUIRED)
+  email: Yup.string().email(t('invalid_email')).required(t('email_required')),
+  password: Yup.string()
+    .min(LOGIN.PASSWORD_MIN_CHARS, t('password_min', {chars: LOGIN.PASSWORD_MIN_CHARS}))
+    .required(t('password_required'))
 })
 
 const Form = () => {
   const dispatch = useDispatch()
-
-  // const {isLoading} = useSelector(state => state.session)
   const {isLoading} = useSelector(state => state.users)
   const {open, message, severity} = useSelector(state => state.notifications)
 
@@ -72,8 +69,17 @@ const Form = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  const submitLogin = values => {
-    dispatch(getUsersLogin(values))
+  const submitLogin = async (values) => {
+    dispatch(setIsLoading(true))
+    const response = await dispatch(getUsersLogin(values)),
+    payload = response.payload;
+    
+    if (payload !== t('Error_code')) {
+      dispatch(setIsLoading(false))
+      Router.push('/dashboards')
+    } else {
+      dispatch(setIsLoading(false))
+    }
   }
 
   const handleShowPassword = () => {
@@ -95,7 +101,7 @@ const Form = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} mb={10}>
               <Typography variant='h5' align='center' mb={4}>
-                {LOGIN_LOCALE.LOG_IN}
+                {t('Log_in')}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -106,7 +112,7 @@ const Form = () => {
                   rules={{required: true}}
                   render={({field: {value, onChange}}) => (
                     <>
-                      <TextField value={value} onChange={onChange} type='text' label={LOGIN_LOCALE.EMAIL} />
+                      <TextField value={value} onChange={onChange} type='text' label={t('Email')} />
                       {loginErrors.email && (
                         <Typography variant='caption' color='error'>
                           {loginErrors.email.message}
@@ -126,7 +132,7 @@ const Form = () => {
                   render={({field: {value, onChange}}) => (
                     <>
                       <TextField
-                        label={LOGIN_LOCALE.PASSWORD}
+                        label={t('Password')}
                         value={value}
                         onChange={onChange}
                         type={showPassword ? 'text' : 'password'}
@@ -158,14 +164,14 @@ const Form = () => {
           <Box mt={5} display='flex' alignItems='center'>
             <Link passHref href='/forgot-password'>
               <Button variant='outlined' color='secondary' sx={{marginRight: 'auto'}} disabled={isLoading}>
-                {LOGIN_LOCALE.FORGOT_PASSWORD}
+                {t('I_forgot_my_password')}
               </Button>
             </Link>
             {isLoading ? (
-              <CircularProgress size={24} />
+              <FallbackSpinner/>
             ) : (
-              <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}} >
-                {LOGIN_LOCALE.SIGN_IN}
+              <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}}>
+                {t('Sign_in')}
               </Button>
             )}
           </Box>

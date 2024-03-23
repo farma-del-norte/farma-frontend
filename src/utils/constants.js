@@ -11,14 +11,6 @@ export const COMMON_LOCALE = {
   EMPTY_STRING: i18n.t('empty_string')
 }
 
-export const NUMBERS = {
-  CONST_ZERO: i18n.t('Const_zero'),
-  CONST_ONE:  i18n.t('Const_one'),
-  CONST_FOUR: i18n.t('Const_four'),
-  CONST_FIVE: i18n.t('Const_five'),
-  CONST_SIX: i18n.t('Const_six')
-}
-
 export const LOGIN_LOCALE = {
   LOG_IN: i18n.t('Log_in'),
   EMAIL: i18n.t('Email'),
@@ -223,6 +215,13 @@ export const CATALOGS_LOCALE = {
   ZONES_EDIT_MESSAGE: t('zones_edit_message', {ns: 'catalogs'}),
   ZONES_CREATE_MESSAGE: t('zones_create_message', {ns: 'catalogs'}),
   ZONES_DELETE_MESSAGE: t('zones_delete_message', {ns: 'catalogs'})
+
+export const NUMBERS = {
+  CONST_ZERO: t('Const_zero'),
+  CONST_ONE: t('Const_one'),
+  CONST_FOUR: t('Const_four'),
+  CONST_FIVE: t('Const_five'),
+  CONST_SIX: t('Const_six')
 }
 
 export const COMMON = {
@@ -270,4 +269,8 @@ export const MAINTENANCES = {
   TABLE_PAGE_ROWS_OPTIONS: [7, 10, 25, 50],
   MAINTENANCES_FIELD_FLEX_SIZE: 12,
   MAINTENANCES_FIELD_NAME: 'name'
+}
+
+export const LOGIN = {
+  PASSWORD_MIN_CHARS: 8
 }
