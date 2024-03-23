@@ -32,7 +32,7 @@ const MaterialsModal = ({control, handleSubmit, children}) => {
       title={
         Boolean(isEditing)
           ? MAINTENANCES_LOCALE.MATERIALS_EDIT_MODAL
-          : MAINTENANCES_LOCALE.MAINTENANCES_ADD_MODAL
+          : MAINTENANCES_LOCALE.MATERIALS_ADD_MODAL
       }
       actions={[
         {label: i18n.t('Regresar'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},

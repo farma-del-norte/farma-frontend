@@ -245,14 +245,25 @@ const Services = () => {
     }
 
     const handleOpenMaterialsServiceModal = params => {
-      //reset area
-      setAreaContent([])
       //get suppliers
       dispatch(getSuppliers())
       //Assign area from areaType of the row
       const {row, open} = params
       const area = areas.find((area) => area.value === row.area)
-      setAreaType(area.value)
+      switch(area.value){
+        case "Material":
+          setAreaContent(materials)
+          break;
+        case "Dimensión":
+          setAreaContent(dimensionsCat)
+          break;
+        case "Variable":
+          setAreaContent(variablesCat)
+          break;
+        case "Concepto":
+          setAreaContent(conceptsCat)
+          break;
+      }
       //assign all service info into an object
       reset({service: row})
       setServiceRow(getValues())
