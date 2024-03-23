@@ -22,7 +22,7 @@ export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterial
     )
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
@@ -36,7 +36,7 @@ export const editMaterialCat = createAsyncThunk('/materials-cat/editMaterialCat'
     )
     return payload
   } catch (error) {
-    const errMessage = error.message
+    const errMessage = error?.response?.data?.message
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }

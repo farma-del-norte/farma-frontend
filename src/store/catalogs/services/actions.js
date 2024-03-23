@@ -6,6 +6,7 @@ import {
   getServiceCatService
 } from 'src/services/catalogs/services'
 import {openSnackBar} from 'src/store/notifications'
+import {t} from 'i18next'
 
 export const getServicesCat = createAsyncThunk('/services-cat/getServicesCat', async thunkApi => {
   try {

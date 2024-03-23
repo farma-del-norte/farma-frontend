@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createServiceCat, editServiceCat, getServicesCat} from './actions'
+import {createServiceCat, editServiceCat, getServicesCat, deleteServiceCat} from './actions'
 
 const initialState = {
+  currentRow: [],
   isLoading: false,
   serviceCat: [],
   isOpen: false,
@@ -26,6 +27,9 @@ export const serviceSliceCat = createSlice({
     },
     setDeleteItem: (state, {payload}) => {
       state.modalDeleteItem = payload
+    },
+    setRow: (state, {payload}) => {
+      state.currentRow = payload
     }
   },
   extraReducers: builder => {
@@ -59,9 +63,19 @@ export const serviceSliceCat = createSlice({
     builder.addCase(editServiceCat.rejected, state => {
       state.isLoading = false
     })
+    builder.addCase(deleteServiceCat.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteServiceCat.fulfilled, (state, {payload}) => {
+      state.serviceCat = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteServiceCat.rejected, state => {
+      state.isLoading = false
+    })
   }
 })
 
 export default serviceSliceCat.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = serviceSliceCat.actions
+export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setRow} = serviceSliceCat.actions
