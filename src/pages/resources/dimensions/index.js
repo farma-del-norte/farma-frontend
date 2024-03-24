@@ -25,7 +25,12 @@ function DimensionsCat() {
     state => state.dimensionsCat
   )
   const {open, message, severity} = useSelector(state => state.notifications)
-
+  const defaultValuesDimensions = {
+    id: '',
+    name: '',
+    dimension: '',
+    active: ''
+  }
   const {control, handleSubmit, reset} = useForm({
     defaultValues: defaultValuesDimensions
   })
@@ -87,13 +92,6 @@ function DimensionsCat() {
       headerName: t('dimensions_cat_column_name', {ns: 'catalogs'})
     }
   ]
-
-  const defaultValuesDimensions = {
-    id: '',
-    name: '',
-    dimension: '',
-    active: ''
-  }
 
   const actionableColumns = [
     ...columns,
