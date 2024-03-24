@@ -1,4 +1,4 @@
-import {createAsyncThunk} from '@reduxjs/toolkit/dist'
+import {createAsyncThunk} from '@reduxjs/toolkit'
 import { getMaterialsService, createMaterialService, editMaterialService, deleteMaterialService, getUnitsService } from 'src/services/maintenances/materials'
 import {openSnackBar} from 'src/store/notifications'
 import {t} from 'i18next'

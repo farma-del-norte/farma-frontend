@@ -25,7 +25,7 @@ export const getMediaById = async (id) => {
 
 export const createMedia = async body => {
   const url = `${MEDIA_ENDPOINT}/media`
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJwcm9qZWN0TmFtZSI6IkZhcm1hIGRlbCBOb3J0ZSIsInByb2plY3RJZCI6IjEifQ.Lw9Iwt9omeeuNYm2KFDhtg7U9rzEjtayKFuW_kIf-C0'
+  const token = process.env.S3_TOKEN;
   const auth = `Bearer ${token}`
   const typeFileMedia = { image: 'Imagen', video: 'video', application: 'Pdf'}
   const urlMedias = []

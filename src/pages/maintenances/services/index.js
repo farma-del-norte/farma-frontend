@@ -1,5 +1,4 @@
 import {Fragment, useEffect, useState, useMemo} from 'react'
-import {v4 as uuidv4} from 'uuid'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLabel, InputAdornment} from '@mui/material'
@@ -17,7 +16,7 @@ import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
-import {MAINTENANCES, MAINTENANCES_LOCALE, COMMON_LOCALE, COMMON} from 'src/utils/constants'
+import {MAINTENANCES, COMMON_LOCALE, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
@@ -28,49 +27,50 @@ import { getBranches } from 'src/store/catalogs/branches/actions'
 import {ExpandedContent} from 'src/components/expandedContent/ExpandedContent'
 import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
 import ClipLoader from 'react-spinners/ClipLoader'
+import {t} from 'i18next'
 
 const columns = [
     {
       flex: 0.25,
       minWidth: 200,
       field: 'serviceCatName',
-      headerName: MAINTENANCES_LOCALE.COLUMN_SERVICECAT
+      headerName: t('services.columns.serviceCat', {ns: 'maintenances'})
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'date',
-      headerName: MAINTENANCES_LOCALE.COLUMN_DATE
+      headerName: t('services.columns.date', {ns: 'maintenances'})
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'area',
-      headerName: MAINTENANCES_LOCALE.COLUMN_AREA_TYPE
+      headerName: t('services.columns.area_type', {ns: 'maintenances'})
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'supplierID',
-      headerName: MAINTENANCES_LOCALE.COLUMN_SUPPLIER
+      headerName: t('services.columns.supplier', {ns: 'maintenances'})
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'cost',
-      headerName: MAINTENANCES_LOCALE.COLUMN_COST
+      headerName: t('services.columns.cost', {ns: 'maintenances'})
     },
     {
         flex: 0.25,
         minWidth: 200,
         field: 'status',
-        headerName: MAINTENANCES_LOCALE.COLUMN_STATUS
+        headerName: t('services.columns.status', {ns: 'maintenances'})
     },
     {
       flex: 0.25,
       minWidth: 200,
       field: 'notes',
-      headerName: MAINTENANCES_LOCALE.COLUMN_NOTES
+      headerName: t('services.columns.notes', {ns: 'maintenances'})
     }
   ]
 
@@ -128,7 +128,7 @@ const Services = () => {
     const {conceptsCat} = useSelector(state => state.conceptsCat)
     const {open, message, severity} = useSelector(state => state.notifications)
     const [areaType, setAreaType] = useState('')
-    const [areaContent, setAreaContent] = useState([{name: MAINTENANCES_LOCALE.EMPTY_SELECT, id: "", disabled: true}])
+    const [areaContent, setAreaContent] = useState([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
     const [loadingArea, setLoadingArea] = useState(false)
     const [typeModal, setTypeModal] = useState('service')
     const [serviceRow, setServiceRow] = useState({})
@@ -148,6 +148,13 @@ const Services = () => {
         { name: 'Cancelado' },
     ]
 
+    const getDefaultValues = useMemo(() => {
+      if(typeModal === 'services'){
+        return defaultValuesServices
+      }
+      return defaultMaterialValues
+    }, [typeModal])
+
     const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
       defaultValues: {
         getDefaultValues
@@ -159,13 +166,6 @@ const Services = () => {
       partKey: undefined,
       evidence: []
     })
-
-    const getDefaultValues = useMemo(() => {
-      if(typeModal === 'services'){
-        return defaultValuesServices
-      }
-      return defaultMaterialValues
-    }, [typeModal])
 
     const handleChangeAreaType = (e, onChange) => {
       setLoadingArea(true)
@@ -233,6 +233,7 @@ const Services = () => {
   
     const handleOpenModal = params => {
       const {row, open} = params
+      setAreaContent([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
       reset(row)
       //AL editar
       setValue("date", row.date.split("T")[0])
@@ -245,25 +246,13 @@ const Services = () => {
     }
 
     const handleOpenMaterialsServiceModal = params => {
+      setAreaContent([])
       //get suppliers
       dispatch(getSuppliers())
       //Assign area from areaType of the row
       const {row, open} = params
       const area = areas.find((area) => area.value === row.area)
-      switch(area.value){
-        case "Material":
-          setAreaContent(materials)
-          break;
-        case "Dimensión":
-          setAreaContent(dimensionsCat)
-          break;
-        case "Variable":
-          setAreaContent(variablesCat)
-          break;
-        case "Concepto":
-          setAreaContent(conceptsCat)
-          break;
-      }
+      setAreaType(area.value)
       //assign all service info into an object
       reset({service: row})
       setServiceRow(getValues())
@@ -276,6 +265,7 @@ const Services = () => {
     }
   
     const handleAddItem = () => {
+      setAreaContent([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
       reset({})
       dispatch(toggleModal(true))
       dispatch(getServicesCat())
@@ -317,7 +307,7 @@ const Services = () => {
         flex: 0.125,
         minWidth: 115,
         field: 'actions',
-        headerName: MAINTENANCES_LOCALE.COLUMN_ACTIONS,
+        headerName: t('actions', {ns: 'maintenances'}),
         renderCell: params => {
           const row = params?.row
           return (
@@ -341,14 +331,14 @@ const Services = () => {
             columns={actionableColumns}
             rows={services}
             pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-            label={MAINTENANCES_LOCALE.SERVICES_TITLE}
+            label={t('services_title', {ns: 'maintenances'})}
             onAddItem={handleAddItem}
           />
         )}
         <ReusableDialog
           open={isOpen}
           onClose={handleCloseModal}
-          title={Boolean(modalItem) ? MAINTENANCES_LOCALE.MATERIALS_EDIT_MODAL : MAINTENANCES_LOCALE.MATERIALS_ADD_MODAL}
+          title={Boolean(modalItem) ? t('services.edit_modal', {ns: 'maintenances'}) : t('services.add_modal', {ns: 'maintenances'})}
           actions={[
             {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
             {label: COMMON_LOCALE.SAVE_BUTTON, onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -363,11 +353,11 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <>
-                          <InputLabel>{MAINTENANCES_LOCALE.COLUMN_SERVICECAT}</InputLabel>
+                          <InputLabel>{t('services.columns.serviceCat', {ns: 'maintenances'})}</InputLabel>
                           <Select
                             defaultValue=""
                             value={value || ''}
-                            label={MAINTENANCES_LOCALE.COLUMN_SERVICECAT}
+                            label={t('services.columns.serviceCat', {ns: 'maintenances'})}
                             onChange={onChange}
                           >
                             {serviceCat?.map((servCat, id) => 
@@ -387,7 +377,7 @@ const Services = () => {
                       render={({field: {value, onChange}}) => (
                         <TextField
                           type='date'
-                          label={MAINTENANCES_LOCALE.COLUMN_DATE}
+                          label={t('services.columns.date', {ns: 'maintenances'})}
                           InputLabelProps={{shrink: true}}
                           value={value || ''}
                           onChange={onChange}
@@ -403,11 +393,11 @@ const Services = () => {
                         control={control}
                         render={({field: {value, onChange}}) => (
                           <>
-                            <InputLabel>{MAINTENANCES_LOCALE.COLUMN_AREA_TYPE}</InputLabel>
+                            <InputLabel>{t('services.columns.area_type', {ns: 'maintenances'})}</InputLabel>
                             <Select
                               defaultValue=""
                               value={value || ''}
-                              label={MAINTENANCES_LOCALE.COLUMN_AREA_TYPE}
+                              label={t('services.columns.area_type', {ns: 'maintenances'})}
                               onChange={(e) => handleChangeAreaType(e, onChange)}
                             >
                               {areas.map((area, i) =>
@@ -425,7 +415,7 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <LoadingSelect 
-                          label={MAINTENANCES_LOCALE.COLUMN_AREA}
+                          label={t('services.columns.area', {ns: 'maintenances'})}
                           disabled={loadingArea}
                           content={areaContent}
                           onChange={onChange}
@@ -445,11 +435,11 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <>
-                          <InputLabel>{MAINTENANCES_LOCALE.COLUMN_SUPPLIER}</InputLabel>
+                          <InputLabel>{t('services.columns.supplier', {ns: 'maintenances'})}</InputLabel>
                           <Select
                             defaultValue=""
                             value={value || ''}
-                            label={MAINTENANCES_LOCALE.COLUMN_SUPPLIER}
+                            label={t('services.columns.supplier', {ns: 'maintenances'})}
                             onChange={onChange}
                           >
                             {suppliers?.map((supplier, id) => 
@@ -468,11 +458,11 @@ const Services = () => {
                       control={control}
                       render={({field: {value, onChange}}) => (
                         <>
-                          <InputLabel>{MAINTENANCES_LOCALE.COLUMN_STATUS}</InputLabel>
+                          <InputLabel>{t('services.columns.status', {ns: 'maintenances'})}</InputLabel>
                           <Select
                             defaultValue=""
                             value={value || ''}
-                            label={MAINTENANCES_LOCALE.COLUMN_STATUS}
+                            label={t('services.columns.status', {ns: 'maintenances'})}
                             onChange={onChange}
                           >
                             {status?.map((statu, id) => 
@@ -490,7 +480,7 @@ const Services = () => {
                       name='cost'
                       control={control}
                       render={({field: {value, onChange}}) => 
-                        <TextField label={MAINTENANCES_LOCALE.COLUMN_COST} 
+                        <TextField label={t('services.columns.cost', {ns: 'maintenances'})} 
                           value={value} 
                           onChange={onChange} 
                           InputProps={{
@@ -512,7 +502,7 @@ const Services = () => {
                       render={({field: {value = [], onChange}}) => 
                       <>
                         <MultimediaUploader
-                          field={MAINTENANCES_LOCALE.COLUMN_EVIDENCE}
+                          field={t('services.columns.evidence', {ns: 'maintenances'})}
                           base64Images={value} 
                           handleImages={onChange} 
                         />
@@ -529,7 +519,7 @@ const Services = () => {
                         <TextField 
                           multiline
                           rows={4}
-                          label={MAINTENANCES_LOCALE.COLUMN_NOTES}
+                          label={t('services.columns.notes', {ns: 'maintenances'})}
                           value={value} 
                           onChange={onChange} 
                         />}
@@ -549,7 +539,7 @@ const Services = () => {
           ]}
         >
           <Box>
-            <Typography variant='body2'>{MAINTENANCES_LOCALE.SERVICES_CONFIRM_DELETE_MODAL}</Typography>
+            <Typography variant='body2'>{t('services_delete_confirm_message', {ns: 'maintenances'})}</Typography>
           </Box>
         </ReusableDialog>
         <MaterialsModal
@@ -557,28 +547,28 @@ const Services = () => {
           control={control}
           handleSubmit={handleSubmit}
         >
-          <ExpandedContent label={MAINTENANCES_LOCALE.SERVICES_EXPANDED_TITLE}>
+          <ExpandedContent label={t('services.expanded_title', {ns: 'maintenances'})}>
             {isModalOpen &&
               <Grid container>
-                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_SERVICECAT} value={serviceRow.service.serviceCatName} />
-                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_AREA_TYPE} value={serviceRow.service.area} />
+                <DetailTextFieldForm labelText={t('services.columns.serviceCat', {ns: 'maintenances'})} value={serviceRow.service.serviceCatName} />
+                <DetailTextFieldForm labelText={t('services.columns.area_type', {ns: 'maintenances'})} value={serviceRow.service.area} />
                 {areaContent.length > 0 ?
-                  <DetailTextFieldForm md={6} labelText={MAINTENANCES_LOCALE.COLUMN_AREA} value={getValueFromID(areaContent, serviceRow.service.areaID, "name")} />
+                  <DetailTextFieldForm md={6} labelText={t('services.columns.area', {ns: 'maintenances'})} value={getValueFromID(areaContent, serviceRow.service.areaID, "name")} />
                 :
                   <ClipLoader />
                 }
-                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_COST} value={serviceRow.service.cost} />
-                <DetailTextFieldForm labelText={MAINTENANCES_LOCALE.COLUMN_STATUS} value={serviceRow.service.status} />
+                <DetailTextFieldForm labelText={t('services.columns.cost', {ns: 'maintenances'})} value={serviceRow.service.cost} />
+                <DetailTextFieldForm labelText={t('services.columns.status', {ns: 'maintenances'})} value={serviceRow.service.status} />
                 {suppliers.length > 0 ?
                   <DetailTextFieldForm
                     md={6}
-                    labelText={MAINTENANCES_LOCALE.COLUMN_SUPPLIER}
+                    labelText={t('services.columns.supplier', {ns: 'maintenances'})}
                     value={getValueFromID(suppliers, serviceRow.service.supplierID, "firstname")} 
                   />
                 :
                   <ClipLoader />
                 }
-                <DetailTextFieldForm md={6} multiline={true} labelText={MAINTENANCES_LOCALE.COLUMN_NOTES} value={serviceRow.service.notes} />
+                <DetailTextFieldForm md={6} multiline={true} labelText={t('services.columns.notes', {ns: 'maintenances'})} value={serviceRow.service.notes} />
               </Grid>
             }
           </ExpandedContent>

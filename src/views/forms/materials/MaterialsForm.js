@@ -1,10 +1,10 @@
 import {Controller} from 'react-hook-form'
 import { Grid, FormControl, TextField, InputAdornment, InputLabel, Select, MenuItem} from '@mui/material'
-import {MAINTENANCES_LOCALE} from 'src/utils/constants'
 import { getMaterialsCat } from 'src/store/catalogs/materials/actions'
 import {useSelector, useDispatch} from 'react-redux'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useEffect } from 'react';
+import {t} from 'i18next'
 
 export const MaterialsForm = ({control, handleSubmit}) => {
 
@@ -45,10 +45,10 @@ export const MaterialsForm = ({control, handleSubmit}) => {
                 control={control}
                 render={({field: {value, onChange}}) => (
                   <>
-                    <InputLabel>{MAINTENANCES_LOCALE.COLUMN_MATERIAL_CAT}</InputLabel>
+                    <InputLabel>{t('materials.columns.materialCat', {ns: 'maintenances'})}</InputLabel>
                     <Select
                       value={value || ''}
-                      label={MAINTENANCES_LOCALE.COLUMN_MATERIAL_CAT}
+                      label={t('materials.columns.materialCat', {ns: 'maintenances'})}
                       onChange={onChange}
                     >
                       {materialsCat.map((material, i) =>
@@ -67,7 +67,7 @@ export const MaterialsForm = ({control, handleSubmit}) => {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <TextField 
-                      label={MAINTENANCES_LOCALE.COLUMN_UNIT_COST}
+                      label={t('materials.columns.unitCost', {ns: 'maintenances'})}
                       value={value} 
                       onChange={onChange} 
                       InputProps={{
@@ -88,7 +88,7 @@ export const MaterialsForm = ({control, handleSubmit}) => {
                   name='quantity'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField type='number' label={MAINTENANCES_LOCALE.COLUMN_QUANTITY} value={value} onChange={onChange} />
+                    <TextField type='number' label={t('materials.columns.quantity', {ns: 'maintenances'})} value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -100,10 +100,10 @@ export const MaterialsForm = ({control, handleSubmit}) => {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <>
-                      <InputLabel>{MAINTENANCES_LOCALE.COLUMN_UNITS}</InputLabel>
+                      <InputLabel>{t('materials.columns.units', {ns: 'maintenances'})}</InputLabel>
                       <Select
                         value={value || ''}
-                        label={MAINTENANCES_LOCALE.COLUMN_UNITS}
+                        label={t('materials.columns.units', {ns: 'maintenances'})}
                         onChange={onChange}
                       >
                         {MATERIAL_UNITS.map((unit, i) =>
@@ -121,7 +121,7 @@ export const MaterialsForm = ({control, handleSubmit}) => {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <TextField 
-                      label={MAINTENANCES_LOCALE.COLUMN_TOTAL_COST}
+                      label={t('materials.columns.totalCost', {ns: 'maintenances'})}
                       value={value} 
                       onChange={onChange}
                       InputProps={{
@@ -145,7 +145,7 @@ export const MaterialsForm = ({control, handleSubmit}) => {
                     <TextField 
                       multiline
                       rows={4}
-                      label={MAINTENANCES_LOCALE.COLUMN_NOTES}
+                      label={t('services.columns.notes', {ns: 'maintenances'})}
                       value={value} 
                       onChange={onChange} 
                     />

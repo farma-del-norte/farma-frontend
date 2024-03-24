@@ -1,10 +1,9 @@
 import ReusableDialog from 'src/components/modal'
-import i18n from 'src/configs/i18n'
 import {useDispatch, useSelector} from 'react-redux'
-import {toggleMaterialModal, setIsEditing} from 'src/store/maintenances/materials/reducer'
-import {MAINTENANCES_LOCALE} from 'src/utils/constants'
+import {toggleMaterialModal} from 'src/store/maintenances/materials/reducer'
 import {createMaterial, editMaterial} from 'src/store/maintenances/materials/actions'
 import { MaterialsForm } from '../forms/materials/MaterialsForm'
+import {t} from 'i18next'
 
 const MaterialsModal = ({control, handleSubmit, children}) => {
   const dispatch = useDispatch()
@@ -31,19 +30,19 @@ const MaterialsModal = ({control, handleSubmit, children}) => {
       onClose={handleCloseModal}
       title={
         Boolean(isEditing)
-          ? MAINTENANCES_LOCALE.MATERIALS_EDIT_MODAL
-          : MAINTENANCES_LOCALE.MATERIALS_ADD_MODAL
+          ? t('materials.edit_modal', {ns: 'maintenances'})
+          : t('materials.add_modal', {ns: 'maintenances'})
       }
       actions={[
         {label: i18n.t('Regresar'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
         Boolean(isEditing)
           ? {
-              label: i18n.t('save_button'),
+              label: t('save_button'),
               onClick: handleSubmit(handleUpdateMaterial),
               color: 'primary',
               variant: 'contained'
             }
-          : {label: i18n.t('add'), onClick: handleSubmit(handleAddMaterial), color: 'primary', variant: 'contained'}
+          : {label: t('add'), onClick: handleSubmit(handleAddMaterial), color: 'primary', variant: 'contained'}
       ]}
     >
       {children}
