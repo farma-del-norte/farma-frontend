@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createRequirementCat, editRequirementCat, getRequirementsCat} from './actions'
+import {createRequirementCat, editRequirementCat, getRequirementsCat, deleteRequirementCat} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -57,6 +57,16 @@ export const requirementCatsSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(editRequirementCat.rejected, state => {
+      state.isLoading = false
+    })
+    builder.addCase(deleteRequirementCat.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteRequirementCat.fulfilled, (state, {payload}) => {
+      state.requirementsCat = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(deleteRequirementCat.rejected, state => {
       state.isLoading = false
     })
   }
