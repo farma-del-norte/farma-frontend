@@ -1,5 +1,6 @@
 // ** React Imports
-import {useState, Fragment, useEffect} from 'react'
+import {useState, Fragment} from 'react'
+//import {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 
 // ** Next Import
@@ -11,7 +12,7 @@ import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
+//import MenuItem from '@mui/material/MenuItem'
 import {styled} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -19,8 +20,8 @@ import FlagIcon from '@mui/icons-material/Flag'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 // ** Icons Imports
-import LogoutVariant from 'mdi-material-ui/LogoutVariant'
-import AccountTie from 'mdi-material-ui/AccountTie'
+//import LogoutVariant from 'mdi-material-ui/LogoutVariant'
+//import AccountTie from 'mdi-material-ui/AccountTie'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({theme}) => ({
@@ -30,8 +31,8 @@ const BadgeContentSpan = styled('span')(({theme}) => ({
   backgroundColor: theme.palette.success.main,
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }))
-import {Account} from 'mdi-material-ui'
-import {PROFILES_USER} from 'src/configs/profiles'
+//import {Account} from 'mdi-material-ui'
+//import {PROFILES_USER} from 'src/configs/profiles'
 
 const UserDropdown = props => {
   const dispatch = useDispatch()

@@ -5,7 +5,7 @@ import {useEffect} from 'react'
 import {useRouter} from 'next/router'
 
 // ** Hooks Import
-import {useSelector} from 'react-redux'
+//import {useSelector} from 'react-redux'
 
 /* const resolveProfile = (user, path) => {
   const userProfile = user?.profile ? PROFILES[user.profile] : PROFILES.default
