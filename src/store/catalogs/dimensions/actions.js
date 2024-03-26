@@ -55,7 +55,7 @@ export const deleteDimensionCat = createAsyncThunk('/dimensions-cat/deleteDimens
     )
     return payload
   } catch (error) {
-    const errMessage = error.message
+    const errMessage = error
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }

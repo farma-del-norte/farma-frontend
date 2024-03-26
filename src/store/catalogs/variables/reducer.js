@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import {createVariableCat, editVariableCat, getVariablesCat, deleteVariableCat} from './actions'
+import {createVariableCat, editVariableCat, getVariablesCat} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -57,16 +57,6 @@ export const variablesCatSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(editVariableCat.rejected, state => {
-      state.isLoading = false
-    })
-    builder.addCase(deleteVariableCat.pending, state => {
-      state.isLoading = true
-    })
-    builder.addCase(deleteVariableCat.fulfilled, (state, {payload}) => {
-      state.variablesCat = payload.content
-      state.isLoading = false
-    })
-    builder.addCase(deleteVariableCat.rejected, state => {
       state.isLoading = false
     })
   }

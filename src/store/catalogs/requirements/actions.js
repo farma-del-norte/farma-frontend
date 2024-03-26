@@ -1,7 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as RequirementCatsAPI from 'src/services/catalogs/requirements'
 import {openSnackBar} from 'src/store/notifications'
-import { t } from 'i18next'
 
 export const getRequirementsCat = createAsyncThunk('/requirements-cat/getRequirementsCat', async thunkApi => {
   try {
@@ -56,7 +55,7 @@ export const deleteRequirementCat = createAsyncThunk(
       )
       return payload
     } catch (error) {
-      const errMessage = error
+      const errMessage = error.message
       thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
       return thunkApi.rejectWithValue('error')
     }
