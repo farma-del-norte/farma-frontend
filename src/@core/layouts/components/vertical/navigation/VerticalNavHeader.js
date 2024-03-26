@@ -4,7 +4,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
-import {styled, useTheme} from '@mui/material/styles'
+import {styled} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
 // ** Icons
@@ -55,7 +55,7 @@ const VerticalNavHeader = props => {
   } = props
 
   // ** Hooks & Vars
-  const theme = useTheme()
+  //const theme = useTheme()
   const {navCollapsed} = settings
   const menuCollapsedStyles = navCollapsed && !navHover ? {opacity: 0} : {opacity: 1}
 

@@ -16,7 +16,8 @@ import {useRouter} from 'next/router'
 } */
 
 const AuthGuard = props => {
-  const {children, fallback} = props
+  const {children} = props
+  //const {fallback} = props
   // const {user} = useSelector(state => state.dashboard.general)
   const router = useRouter()
 

@@ -8,7 +8,8 @@ import {useRouter} from 'next/router'
 //import {useSelector} from 'react-redux'
 
 const GuestGuard = props => {
-  const {children, fallback} = props
+  const {children} = props
+  //const {fallback} = props
 
   const router = useRouter()
   useEffect(() => {

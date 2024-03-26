@@ -7,7 +7,8 @@ import { Cart } from 'mdi-material-ui'
 // ** Icons Imports
 import IconButton from '@mui/material/IconButton'
 
-const CartButton = props => {
+//const CartButton = props => {
+const CartButton = () => {
   const router = useRouter()
   // ** Props
 
