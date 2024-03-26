@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react' // ** Next Imports
+import React, {useEffect} from 'react' // ** Next Imports
 import Link from 'next/link'
 import Image from 'next/image'
 import {useForm, Controller} from 'react-hook-form'
@@ -13,8 +13,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import FallbackSpinner from 'src/@core/components/spinner'
 import Typography from '@mui/material/Typography'
 import Router from 'next/router'
-import {useTheme} from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import {LOGIN} from 'src/utils/constants'
 import {getUsersLogin} from 'src/store/users/actions'
 import {setIsLoading} from 'src/store/users/reducer'
@@ -29,7 +27,6 @@ import {useDispatch, useSelector} from 'react-redux'
 //actions
 
 // ** Hooks
-import {useSettings} from 'src/@core/hooks/useSettings'
 
 import * as Yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -53,12 +50,6 @@ const Form = () => {
   const {open, message, severity} = useSelector(state => state.notifications)
 
   const [showPassword, setShowPassword] = React.useState(false)
-
-  const theme = useTheme()
-  const {settings} = useSettings()
-
-  const {skin} = settings
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
   const {
     control: loginControl,

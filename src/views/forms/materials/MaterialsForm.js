@@ -11,7 +11,6 @@ export const MaterialsForm = ({control, handleSubmit}) => {
   const dispatch = useDispatch()
   //materialsCat
   const { materialsCat } = useSelector(state => state.materialsCat)
-  const { units } = useSelector(state => state.materials)
   const MATERIAL_UNITS = [
     {name:'Kilómetro'}, 
     {name:'Metro'}, 

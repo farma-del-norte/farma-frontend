@@ -8,7 +8,7 @@ import BackToLogin from './backToLogin'
 import InformationText from './informationText'
 import PasswordIlustration from './passwordIlustration'
 import EmailFormValidation from './emailFormValidation'
-import {RightWrapper, BoxWrapper, mainBoxStyling, boxWrapperStyling} from '../../utils/styles'
+import {RightWrapper, BoxWrapper, mainBoxStyling} from '../../utils/styles'
 import {t} from 'i18next'
 
 const ForgotPassword = () => {

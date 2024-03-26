@@ -1,9 +1,7 @@
 // ** React Imports
-import {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 
 // ** Next Import
-import Link from 'next/link'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'

@@ -18,8 +18,7 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
 import {useSettings} from 'src/@core/hooks/useSettings'
-import {useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 const UserLayout = ({children}) => {
   // ** Hooks

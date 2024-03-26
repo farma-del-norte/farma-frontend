@@ -1,8 +1,7 @@
-import {useEffect, useState} from 'react'
 import {Grid, FormControl} from '@mui/material'
 import {Controller, useFormContext} from 'react-hook-form'
 import {Select, MenuItem, InputLabel} from '@mui/material'
-import {useSelector, useDispatch} from 'react-redux'
+import { useDispatch} from 'react-redux'
 
 const Position = props => {
   const hasPosition = props.position,
