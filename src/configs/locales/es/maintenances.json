@@ -9,7 +9,6 @@
     "maintenances_edit_message": "Sucursal de Mantenimiento actualizado con éxito",
     "maintenances_cat_create_message": "Sucursal de Mantenimiento creado con éxito",
     "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito",
-
     "damages": {
         "title": "Siniestros de Sucursales",
         "column_damageCat": "Siniestro",
@@ -25,5 +24,56 @@
         "edit_message": "Sucursal de siniestro actualizado con éxito",
         "cat_create_message": "Sucursal de siniestro creado con éxito",
         "cat_delete_message": "Sucursal de siniestro eliminado con éxito"
+    },
+    "services_title": "Servicios",
+    "services_column_name": "Servicio",
+    "services_edit_modal": "Editar servicio seleccionado",
+    "services_add_modal": "Agregar Servicio",
+    "services_delete_modal": "Eliminar Servicio",
+    "services_delete_confirm_message": "¿Seguro de eliminar el servicio seleccionado?",
+    "services_edit_message": "Servicio actualizado con éxito",
+    "services_create_message": "Servicio creado con éxito",
+    "services_delete_message": "Servicio eliminado con éxito",
+    "empty_select": "Selecciona un tipo de area para ver resultados",
+    "actions": "Acciones",
+    "services":{
+        "columns": {
+            "serviceCat": "Catalogo del servicio",
+            "date": "Fecha",
+            "area_type": "Tipo de Area",
+            "area": "Area",
+            "supplier": "Proveedor",
+            "cost": "Costo",
+            "status": "Estatus",
+            "notes": "notas",
+            "evidence": "Evidencia digital"
+        },
+        "expanded_title": "Información del servicio",
+        "title": "Servicios",
+        "edit_modal": "Editar servicio",
+        "add_modal": "Agregar servicio",
+        "delete_modal": "Eliminar servicio",
+        "delete_confirm_message": "¿Seguro de eliminar el servicio?",
+        "edit_message": "servicio actualizado con éxito",
+        "create_message": "servicio creado con éxito",
+        "delete_message": "servicio eliminado con éxito"
+    },
+    "materials":{
+        "columns": {
+            "materialCat": "Catalogo de material",
+            "unitCost": "Costo por unidad",
+            "quantity": "Cantidad",
+            "units": "Unidad",
+            "totalCost": "Costo total",
+            "notes": "notas"
+        },
+        "title": "Materiales",
+        "edit_modal": "Editar material del servicio seleccionado",
+        "add_modal": "Agregar material del servicio seleccionado",
+        "delete_modal": "Eliminar material del servicio",
+        "delete_confirm_message": "¿Seguro de eliminar el material del servicio seleccionado?",
+        "edit_message": "material del servicio actualizado con éxito",
+        "create_message": "material del servicio creado con éxito",
+        "delete_message": "material del servicio eliminado con éxito"
     }
 }
