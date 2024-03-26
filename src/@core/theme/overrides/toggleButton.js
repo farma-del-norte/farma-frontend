@@ -1,4 +1,4 @@
-export default toogleButton = {
+export default {
   MuiToggleButtonGroup: {
     styleOverrides: {
       root: {

@@ -1,4 +1,4 @@
-export default select = {
+export default {
   MuiSelect: {
     styleOverrides: {
       select: {
