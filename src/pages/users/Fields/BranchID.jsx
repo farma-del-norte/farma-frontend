@@ -13,7 +13,7 @@ const BranchID = props => {
     handleBranch = (e, onChange) => {
       onChange(e.target.value)
     },
-    { setValue, formState: {errors} } = useFormContext();
+    { setValue } = useFormContext();
 
     if(branchID) {
       setValue('branchID', branchID)

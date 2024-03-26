@@ -1,5 +1,4 @@
 // ** React Imports
-import {useDispatch, useSelector} from 'react-redux'
 
 // ** Next Import
 
@@ -10,10 +9,7 @@ import Grid from '@mui/material/Grid'
 import UserProfileLeft from 'src/views/profile/UserProfileLeft'
 
 const Profile = () => {
-  const dispatch = useDispatch()
   // const { user } = useSelector(state => state.dashboard.general)
-  const {paymentMethods} = useSelector(state => state.paymentMethods)
-  const {address} = useSelector(state => state.address)
 
   return user.id ? (
     <Grid container spacing={6}>

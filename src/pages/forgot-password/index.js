@@ -1,4 +1,3 @@
-import {useDispatch} from 'react-redux'
 import {useTheme} from '@mui/material/styles'
 import {useSettings} from 'src/@core/hooks/useSettings'
 import Box from '@mui/material/Box'
@@ -13,7 +12,6 @@ import {t} from 'i18next'
 
 const ForgotPassword = () => {
   const theme = useTheme(),
-    dispatch = useDispatch(),
     hidden = useMediaQuery(theme.breakpoints.down('md')),
     {settings} = useSettings(),
     {skin} = settings,

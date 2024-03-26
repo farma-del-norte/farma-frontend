@@ -13,7 +13,7 @@ const Zone = props => {
     handleZone = (e, onChange) => {
       onChange(e.target.value)
     },
-    { setValue, formState: {errors} } = useFormContext();
+    { setValue } = useFormContext();
 
     if(zoneID) {
       setValue('zoneID', zoneID)

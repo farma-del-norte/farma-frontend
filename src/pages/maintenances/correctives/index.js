@@ -92,7 +92,6 @@ const Maintenances = () => {
   const {isOpen, modalItem, isDeleteOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
     state => state.maintenances
   )
-  const [images, setImages] = useState([])
   //branches
   const {branches} = useSelector(state => state.branches)
   //areas
@@ -173,10 +172,6 @@ const Maintenances = () => {
     const cleanModal = null
     dispatch(toggleModal(false))
     dispatch(setModalItem(cleanModal))
-  }
-
-  const handleImagesUpdate = images => {
-    setImages(images)
   }
 
   const handleCloseDeleteModal = () => {

@@ -10,12 +10,11 @@ const Variable = props => {
   const hasId = props.variablesID,
     variablesID = hasId ? props.variablesID : '',
     dispatch = useDispatch(),
-    { conceptsCat } = useSelector(state => state.conceptsCat),
     { variablesCat } = useSelector(state => state.variablesCat),
     handleZone = (e, onChange) => {
       onChange(e.target.value)
     },
-    { setValue, formState: {errors} } = useFormContext();
+    { setValue } = useFormContext();
 
     if(variablesID) {
       setValue('variablesID', variablesID)
