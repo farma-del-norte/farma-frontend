@@ -1,4 +1,4 @@
-export default {
+export default link = {
   MuiLink: {
     styleOverrides: {
       root: {
