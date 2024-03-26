@@ -294,10 +294,10 @@ function Branches() {
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <TextField
+                      error={branchErrors.name}
                       label={t('branch', {ns: 'branches'})}
                       value={value}
                       onChange={onChange}
-                      color={branchErrors.name ? t('error') : null}
                       focused={branchErrors.name}
                     />
                   )}
@@ -314,7 +314,7 @@ function Branches() {
                     <TextField
                       label={t('street', {ns: 'branches'})}
                       value={value}
-                      color={branchErrors.street ? t('error') : null}
+                      error={branchErrors.street}
                       focused={branchErrors.street}
                       onChange={onChange}
                     />
@@ -332,7 +332,7 @@ function Branches() {
                     <TextField
                       label={t('colony', {ns: 'branches'})}
                       value={colonies.colony || ''}
-                      color={branchErrors.neighborhood ? t('error') : null}
+                      error={branchErrors.neighborhood}
                       focused={branchErrors.neighborhood}
                       InputLabelProps={{
                         shrink: colonies.hasOwnProperty('colony')
@@ -356,7 +356,7 @@ function Branches() {
                     <TextField
                       label={t('zipcode', {ns: 'branches'})}
                       value={value}
-                      color={branchErrors.zipCode ? t('error') : null}
+                      error={branchErrors.zipCode}
                       focused={branchErrors.zipCode}
                       onChange={e => onZipCodeChange(e, onChange, setColonies)}
                     />
@@ -374,7 +374,7 @@ function Branches() {
                     <TextField
                       label={t('city', {ns: 'branches'})}
                       value={colonies.city || ''}
-                      color={branchErrors.city ? t('error') : null}
+                      error={branchErrors.city}
                       focused={branchErrors.city}
                       InputLabelProps={{
                         shrink: colonies.hasOwnProperty('city')
@@ -396,7 +396,7 @@ function Branches() {
                     <TextField
                       label={t('state', {ns: 'branches'})}
                       value={colonies.federalEntity || ''}
-                      color={branchErrors.city ? t('error') : null}
+                      error={branchErrors.city}
                       focused={branchErrors.federalEntity}
                       onChange={onChange}
                       InputLabelProps={{
