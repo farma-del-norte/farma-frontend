@@ -12,6 +12,7 @@ import {
   editRequirementCat,
   getRequirementsCat
 } from 'src/store/catalogs/requirements/actions'
+import { t } from 'i18next'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'

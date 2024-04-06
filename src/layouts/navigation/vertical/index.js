@@ -57,6 +57,12 @@ const navigation = () => {
           visible: true
         },
         {
+          title: i18n.t('services_title'),
+          path: '/maintenances/services',
+          icon: FormatListBulleted,
+          visible: true
+        },
+        {
           title: i18n.t('preventives_title'),
           path: '/maintenances/preventives',
           icon: FormatListBulleted,

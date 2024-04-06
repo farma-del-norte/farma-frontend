@@ -1,6 +1,6 @@
 import React from 'react'
 import {Card, CardHeader, Box, useMediaQuery, IconButton, Tooltip} from '@mui/material'
-import {DataGrid} from '@mui/x-data-grid'
+import {DataGrid, GridToolbar} from '@mui/x-data-grid'
 import {AddCircleOutline} from '@mui/icons-material'
 import {getLocaleText} from 'src/configs/defaultLocaleText'
 
@@ -30,7 +30,7 @@ const CardTable = ({showAddButton = false, ...props}) => {
         }
       />
       <Box sx={{height: gridHeight}}>
-        <DataGrid localeText={getLocaleText()} {...props} />
+        <DataGrid slots={{toolbar: GridToolbar}} localeText={getLocaleText()} {...props} />
       </Box>
     </Card>
   )
