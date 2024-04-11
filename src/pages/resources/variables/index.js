@@ -13,7 +13,6 @@ import {
   editVariableCat,
   getVariablesCat
 } from 'src/store/catalogs/variables/actions'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
 import i18n from 'src/configs/i18n'
@@ -316,7 +315,6 @@ function VariablesCat() {
           <Typography variant='body2'>{t('variables_cat_delete_confirm_message', {ns: 'catalogs'})}</Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

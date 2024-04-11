@@ -29,7 +29,6 @@ import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {MAINTENANCES, COMMON} from 'src/utils/constants'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {LoadingSelect} from 'src/utils/inputs'
@@ -446,7 +445,6 @@ const Maintenances = () => {
           <Typography variant='body2'>Seguro de eliminar el mantenimiento seleccionado?</Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

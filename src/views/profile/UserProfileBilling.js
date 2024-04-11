@@ -16,7 +16,6 @@ import DialogActions from '@mui/material/DialogActions'
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
 import Delete from 'mdi-material-ui/Delete'
-import CustomSnackbar from '../../components/snackbar/CustomSnackbar'
 
 // ** Third Party Imports
 import {useForm, Controller} from 'react-hook-form'
@@ -239,7 +238,6 @@ const UserProfileBilling = ({methods = []}) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

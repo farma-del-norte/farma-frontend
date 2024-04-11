@@ -14,7 +14,6 @@ import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
 import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import {CATALOGS, COMMON} from 'src/utils/constants'
 import {t} from 'i18next'
@@ -189,7 +188,6 @@ function DimensionsCat() {
           </Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

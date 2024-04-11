@@ -9,7 +9,6 @@ import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/s
 import {closeSnackBar} from 'src/store/notifications'
 import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {t} from 'i18next'
 
 const columns = [
@@ -148,7 +147,6 @@ function Zones() {
           <Typography variant='body2'>{t('zones_delete_confirm_message', {ns: 'catalogs'})}</Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

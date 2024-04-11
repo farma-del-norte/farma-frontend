@@ -9,7 +9,6 @@ import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/s
 import {createDamage, deleteDamage, editDamage, getDamages} from 'src/store/maintenances/damages/actions'
 import {getDamagesCat} from 'src/store/catalogs/damages/actions'
 import {getMaintenances} from 'src/store/maintenances/maintenances/actions'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {t} from 'i18next'
@@ -273,7 +272,6 @@ function Damages() {
           <Typography variant='body2'>{t('damages.delete_confirm_message', {ns: 'maintenances'})}</Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

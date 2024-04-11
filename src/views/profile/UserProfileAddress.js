@@ -33,7 +33,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import TableContainer from '@mui/material/TableContainer'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import DialogContentText from '@mui/material/DialogContentText'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
@@ -388,7 +387,6 @@ const UserProfileAddress = ({addresses = []}) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

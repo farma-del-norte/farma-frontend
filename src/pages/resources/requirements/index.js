@@ -12,8 +12,7 @@ import {
   editRequirementCat,
   getRequirementsCat
 } from 'src/store/catalogs/requirements/actions'
-import { t } from 'i18next'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
+import {t} from 'i18next'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {closeSnackBar} from 'src/store/notifications'
 
@@ -164,7 +163,6 @@ function RequirementsCat() {
           <Typography variant='body2'>{t('requirements_cat_delete_confirm_message', {ns: 'catalogs'})}</Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }
