@@ -5,7 +5,7 @@ import {
   editDamageService,
   getDamagesService
 } from 'src/services/maintenances/damages'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getDamages = createAsyncThunk('/damages/getDamages', async thunkApi => {
   try {
@@ -13,7 +13,7 @@ export const getDamages = createAsyncThunk('/damages/getDamages', async thunkApi
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -25,7 +25,7 @@ export const createDamage = createAsyncThunk('/damages/createDamage', async (bod
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -37,7 +37,7 @@ export const editDamage = createAsyncThunk('/damages/editDamage', async (body, t
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -49,7 +49,7 @@ export const deleteDamage = createAsyncThunk('/damages/deleteDamage', async ({id
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

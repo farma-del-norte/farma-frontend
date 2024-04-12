@@ -5,7 +5,7 @@ import {
   editServiceCatService,
   getServiceCatService
 } from 'src/services/catalogs/services'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 import {t} from 'i18next'
 
 export const getServicesCat = createAsyncThunk('/services-cat/getServicesCat', async thunkApi => {
@@ -14,7 +14,7 @@ export const getServicesCat = createAsyncThunk('/services-cat/getServicesCat', a
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -28,7 +28,7 @@ export const createServiceCat = createAsyncThunk('/services-cat/createServiceCat
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -42,7 +42,7 @@ export const editServiceCat = createAsyncThunk('/services-cat/editServiceCat', a
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -56,7 +56,7 @@ export const deleteServiceCat = createAsyncThunk('/services-cat/deleteServiceCat
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

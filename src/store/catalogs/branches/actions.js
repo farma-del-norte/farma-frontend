@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {t} from 'i18next'
 import * as Branches from 'src/services/catalogs/branches'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getBranches = createAsyncThunk('/branches/getBranches', async thunkApi => {
   try {
@@ -49,7 +49,7 @@ export const deleteBranch = createAsyncThunk('/branches/deleteBranch', async ({i
 })
 
 const rejectError = (error, thunkApi) => {
-  thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+  toast.error(error)
   return thunkApi.rejectWithValue('error')
 }
 
@@ -59,7 +59,7 @@ export const getBranchDetails = createAsyncThunk('/branches/getBranchDetails', a
     const payload = await Branches.getBranchDetailsData(branchDetailsId)
     return branchDetailsId ? payload : null
   } catch (error) {
-    // thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+    // toast.error(error)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -73,7 +73,7 @@ export const addBranchDetails = createAsyncThunk('/branches/addBranchDetails', a
     )
     return payload
   } catch (error) {
-    thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+    toast.error(error)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -88,7 +88,7 @@ export const updateBranchDetails = createAsyncThunk(
       )
       return payload
     } catch (error) {
-      thunkApi.dispatch(openSnackBar({open: true, message: error, severity: 'error'}))
+      toast.error(error)
       return thunkApi.rejectWithValue('error')
     }
   }

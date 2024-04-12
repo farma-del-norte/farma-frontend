@@ -6,7 +6,7 @@ import {
   editDimensionCatService,
   getDimensionsCatService
 } from 'src/services/catalogs/dimensions'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsCat', async thunkApi => {
   try {
@@ -14,7 +14,7 @@ export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsC
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -28,7 +28,7 @@ export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimens
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -42,7 +42,7 @@ export const editDimensionCat = createAsyncThunk('/dimensions-cat/editDimensionC
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -56,7 +56,7 @@ export const deleteDimensionCat = createAsyncThunk('/dimensions-cat/deleteDimens
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

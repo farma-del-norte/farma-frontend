@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {createUserService, deleteUserService, editUserService, getUsersService} from 'src/services/catalogs/users'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   try {
@@ -8,7 +8,7 @@ export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -19,7 +19,7 @@ export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkA
     return payload
   } catch (error) {
     const errMessage = error.response.data.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -31,7 +31,7 @@ export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
     return payload
   } catch (error) {
     const errMessage = error.response.data.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -43,7 +43,7 @@ export const editUser = createAsyncThunk('/users/editUser', async (body, thunkAp
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -55,7 +55,7 @@ export const deleteUser = createAsyncThunk('/users/deleteUsers', async ({id}, th
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

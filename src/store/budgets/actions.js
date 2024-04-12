@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as BudgetsApi from 'src/services/budgets/budgets'
-import {openSnackBar} from 'src/store/notifications'
-import { t } from 'i18next'
+import toast from 'react-hot-toast'
+import {t} from 'i18next'
 
 export const getBudgets = createAsyncThunk('/service/getBudgets', async thunkApi => {
   try {
@@ -9,7 +9,7 @@ export const getBudgets = createAsyncThunk('/service/getBudgets', async thunkApi
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -17,11 +17,12 @@ export const getBudgets = createAsyncThunk('/service/getBudgets', async thunkApi
 export const createBudget = createAsyncThunk('/service/createBudget', async (body, thunkApi) => {
   try {
     const payload = await BudgetsApi.createBudget(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: t('budgets_cat_create_message', {ns: 'budgets'}), severity: 'success'}))
+    toast.success(t('budgets_cat_create_message', {ns: 'budgets'}))
+
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -29,11 +30,12 @@ export const createBudget = createAsyncThunk('/service/createBudget', async (bod
 export const editBudget = createAsyncThunk('/service/editBudget', async (body, thunkApi) => {
   try {
     const payload = await BudgetsApi.editBudget(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: t('budgets_edit_message', {ns: 'budgets'}), severity: 'success'}))
+    toast.success(t('budgets_edit_message', {ns: 'budgets'}))
+
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -41,11 +43,12 @@ export const editBudget = createAsyncThunk('/service/editBudget', async (body, t
 export const deleteBudget = createAsyncThunk('/service/deleteBudget', async ({id}, thunkApi) => {
   try {
     const payload = await BudgetsApi.deleteBudget(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: t('budgets_cat_delete_message', {ns: 'budgets'}), severity: 'success'}))
+    toast.success(t('budgets_cat_delete_message', {ns: 'budgets'}))
+
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

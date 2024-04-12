@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as RequirementCatsAPI from 'src/services/catalogs/requirements'
-import {openSnackBar} from 'src/store/notifications'
-import { t } from 'i18next'
+import toast from 'react-hot-toast'
+import {t} from 'i18next'
 
 export const getRequirementsCat = createAsyncThunk('/requirements-cat/getRequirementsCat', async thunkApi => {
   try {
@@ -10,7 +10,7 @@ export const getRequirementsCat = createAsyncThunk('/requirements-cat/getRequire
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -26,7 +26,7 @@ export const createRequirementCat = createAsyncThunk(
       return payload
     } catch (error) {
       const errMessage = error
-      thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+      toast.error(errMessage)
       return thunkApi.rejectWithValue('error')
     }
   }
@@ -41,7 +41,7 @@ export const editRequirementCat = createAsyncThunk('/requirements-cat/editRequir
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -57,7 +57,7 @@ export const deleteRequirementCat = createAsyncThunk(
       return payload
     } catch (error) {
       const errMessage = error
-      thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+      toast.error(errMessage)
       return thunkApi.rejectWithValue('error')
     }
   }

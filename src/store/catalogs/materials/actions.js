@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {t} from 'i18next'
 import * as MaterialsAPI from 'src/services/catalogs/materials'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getMaterialsCat = createAsyncThunk('/materials-cat/getMaterialsCat', async thunkApi => {
   try {
@@ -9,7 +9,7 @@ export const getMaterialsCat = createAsyncThunk('/materials-cat/getMaterialsCat'
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -23,7 +23,7 @@ export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterial
     return payload
   } catch (error) {
     const errMessage = response?.data?.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -37,7 +37,7 @@ export const editMaterialCat = createAsyncThunk('/materials-cat/editMaterialCat'
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -51,7 +51,7 @@ export const deleteMaterialCat = createAsyncThunk('/materials-cat/deleteMaterial
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

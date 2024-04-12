@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import * as ConceptsCatpi from 'src/services/catalogs/concepts'
-import {openSnackBar} from 'src/store/notifications'
-import { t } from 'i18next'
+import toast from 'react-hot-toast'
+import {t} from 'i18next'
 
 export const getConceptsCat = createAsyncThunk('/concepts-cat/getConceptsCat', async thunkApi => {
   try {
@@ -9,7 +9,7 @@ export const getConceptsCat = createAsyncThunk('/concepts-cat/getConceptsCat', a
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -23,7 +23,7 @@ export const createConceptCat = createAsyncThunk('/concepts-cat/createConceptCat
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -37,7 +37,7 @@ export const editConceptCat = createAsyncThunk('/concepts-cat/editConceptCat', a
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -51,7 +51,7 @@ export const deleteConceptCat = createAsyncThunk('/concepts-cat/deleteConceptCat
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {t} from 'i18next'
 import * as MaintenancesApi from 'src/services/maintenances/maintenances'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getMaintenances = createAsyncThunk('/service/getMaintenances', async thunkApi => {
   try {
@@ -9,7 +9,7 @@ export const getMaintenances = createAsyncThunk('/service/getMaintenances', asyn
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -27,7 +27,7 @@ export const createMaintenance = createAsyncThunk('/service/createMaintenance', 
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -41,7 +41,7 @@ export const editMaintenance = createAsyncThunk('/service/editMaintenance', asyn
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -59,7 +59,7 @@ export const deleteMaintenance = createAsyncThunk('/service/deleteMaintenance', 
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
