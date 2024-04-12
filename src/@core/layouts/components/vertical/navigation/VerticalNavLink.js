@@ -17,7 +17,7 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Custom Components Imports
 import UserIcon from 'src/layouts/components/UserIcon'
 import Translations from 'src/layouts/components/Translations'
-import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
+//import CanViewNavLink from 'src/layouts/components/acl/CanViewNavLink'
 
 // ** Utils
 import {handleURLQueries} from 'src/@core/layouts/utils'

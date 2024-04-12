@@ -1,5 +1,4 @@
 import {api_delete, api_get, api_patch, api_post} from '../apicalls'
-import axiosInstance from '../axiosInstance'
 import {BRANCHES_ENDPOINT} from '../endpoints'
 
 export const getBranchesData = async () => {

@@ -46,15 +46,6 @@ const columns = [
   }
 ]
 
-const defaultValuesDamages = {
-  id: '',
-  damageCatID: '',
-  maintenanceID: '',
-  description: '',
-  notes: '',
-  date: ''
-}
-
 function Damages() {
   const dispatch = useDispatch()
   const {isOpen, modalItem, isDeleteOpen, damages, isLoading, modalDeleteItem} = useSelector(state => state.damages)

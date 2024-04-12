@@ -4,32 +4,19 @@ import {Fragment, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import Alert from '@mui/material/Alert'
 import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
-import Select from '@mui/material/Select'
-import Switch from '@mui/material/Switch'
-import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
 import TableRow from '@mui/material/TableRow'
-import {styled} from '@mui/material/styles'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
-import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
-import AlertTitle from '@mui/material/AlertTitle'
-import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import FormControl from '@mui/material/FormControl'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import LinearProgress from '@mui/material/LinearProgress'
 import TableContainer from '@mui/material/TableContainer'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -44,7 +31,7 @@ import {useForm} from 'react-hook-form'
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
 
-import {createAddress, updateAddress, deleteAddress, setModal} from 'src/store/address'
+import {deleteAddress, setModal} from 'src/store/address'
 import {closeSnackBar} from 'src/store/notifications'
 import DialogAddress from '../components/dialogs/DialogAddress'
 
@@ -78,8 +65,6 @@ const addressSchema = yup.object().shape({
 
 const UserProfileAddress = ({addresses = []}) => {
   const dispatch = useDispatch()
-  // ** States
-  const [openAddressCard, setOpenAddressCard] = useState(false)
   const [openDeleteCard, setOpenDeleteCard] = useState(false)
   const [editItem, setEditItem] = useState(null)
   const [deleteID, setDeleteID] = useState(null)
@@ -115,11 +100,6 @@ const UserProfileAddress = ({addresses = []}) => {
 
   const sendDelete = () => {
     if (deleteID) dispatch(deleteAddress(deleteID))
-  }
-
-  const handleAddressClose = () => {
-    dispatch(setModal(false))
-    reset(defaultAddressValues)
   }
 
   const handleDeleteModal = address => {

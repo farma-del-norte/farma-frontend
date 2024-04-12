@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { StackExchange } from 'mdi-material-ui'
 import Router from 'next/router'
 //api
 import { PROYECT, api_post } from '../../services/api'

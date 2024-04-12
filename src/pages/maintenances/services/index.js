@@ -127,7 +127,7 @@ const Services = () => {
   //media
   const {media} = useSelector(state => state.media)
   //materials
-  const {isEditing, isModalOpen} = useSelector(state => state.materials)
+  const {isModalOpen} = useSelector(state => state.materials)
   //serviceCat
   const {serviceCat} = useSelector(state => state.serviceCat)
   //supplier
@@ -143,7 +143,7 @@ const Services = () => {
     {name: t('empty_select', {ns: 'maintenances'}), id: '', disabled: true}
   ])
   const [loadingArea, setLoadingArea] = useState(false)
-  const [typeModal, setTypeModal] = useState('service')
+  const [typeModal] = useState('service')
   const [serviceRow, setServiceRow] = useState({})
   const areas = useMemo(
     () => [

@@ -3,8 +3,8 @@ import VerticalNavLink from './VerticalNavLink'
 import VerticalNavGroup from './VerticalNavGroup'
 import VerticalNavSectionTitle from './VerticalNavSectionTitle'
 
-import { PROFILES } from 'src/configs/profiles'
-import { useMemo } from 'react'
+//import { PROFILES } from 'src/configs/profiles'
+//import { useMemo } from 'react'
 
 const resolveNavItemComponent = item => {
   if (item.sectionTitle) return VerticalNavSectionTitle

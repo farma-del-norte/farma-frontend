@@ -149,8 +149,6 @@ function Branches() {
     resolver: yupResolver(branchesInfoSchema)
   })
   const dispatch = useDispatch()
-  const [pharmacyImages, setPharmacyImages] = useState([])
-  const [bluePrintImages, setBlueprintImages] = useState([])
 
   useEffect(() => {
     dispatch(setBranchDetails(null))
