@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createMaterial, editMaterial, getMaterial, deleteMaterial, getUnits} from './actions'
+import {createMaterial, editMaterial, getMaterial, deleteMaterial} from './actions'
 
 const initialState = {
   isLoading: false,

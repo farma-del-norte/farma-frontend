@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import {Grid, FormControl} from '@mui/material'
 import {Controller, useFormContext} from 'react-hook-form'
 import {Select, MenuItem, InputLabel} from '@mui/material'
@@ -13,7 +13,7 @@ const BranchID = props => {
     handleBranch = (e, onChange) => {
       onChange(e.target.value)
     },
-    { setValue, formState: {errors} } = useFormContext();
+    { setValue } = useFormContext();
 
     if(branchID) {
       setValue('branchID', branchID)

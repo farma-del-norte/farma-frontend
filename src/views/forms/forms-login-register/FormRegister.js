@@ -20,7 +20,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import Alert from '@mui/material/Alert'
-import {CircularProgress} from '@mui/material'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
