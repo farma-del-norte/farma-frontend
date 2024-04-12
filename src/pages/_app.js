@@ -14,7 +14,6 @@ import {CacheProvider} from '@emotion/react'
 
 // ** Config Imports
 import 'src/configs/i18n'
-import {defaultACLObj} from 'src/configs/acl'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Third Party Import

@@ -21,13 +21,6 @@ const columns = [
   }
 ]
 
-const defaultValuesDamages = {
-  id: '',
-  name: '',
-  damage: '',
-  active: ''
-}
-
 function Zones() {
   const dispatch = useDispatch()
 

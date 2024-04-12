@@ -13,7 +13,7 @@ const Budgets = () => {
   const dispatch = useDispatch(),
   dialogText = "Seguro de eliminar el presupuesto seleccionado?",
   methods = useForm(),
-  {isOpen, isDeleteOpen, currentRow} = useSelector(state => state.budgets),
+  {isOpen, isDeleteOpen} = useSelector(state => state.budgets),
   {open, message, severity} = useSelector(state => state.notifications);
   
     return (

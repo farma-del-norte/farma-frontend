@@ -33,8 +33,6 @@ import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {LoadingSelect} from 'src/utils/inputs'
-import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
-import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../../services/catalogs/branches'
 import {t} from 'i18next'
 
 const columns = [
@@ -94,7 +92,6 @@ const Maintenances = () => {
   const {isOpen, modalItem, isDeleteOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
     state => state.maintenances
   )
-  const [images, setImages] = useState([])
   //branches
   const {branches} = useSelector(state => state.branches)
   //areas
@@ -175,10 +172,6 @@ const Maintenances = () => {
     const cleanModal = null
     dispatch(toggleModal(false))
     dispatch(setModalItem(cleanModal))
-  }
-
-  const handleImagesUpdate = images => {
-    setImages(images)
   }
 
   const handleCloseDeleteModal = () => {

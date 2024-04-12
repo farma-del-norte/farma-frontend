@@ -19,13 +19,13 @@ import Delete from 'mdi-material-ui/Delete'
 import CustomSnackbar from '../../components/snackbar/CustomSnackbar'
 
 // ** Third Party Imports
-import {useForm, Controller} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import {createMethod, setModal, updateMethod, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
+import { setModal, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
 import {closeSnackBar} from 'src/store/notifications'
 import DialogBilling from '../components/dialogs/DialogBilling'
 

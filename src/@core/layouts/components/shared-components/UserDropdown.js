@@ -1,6 +1,7 @@
 // ** React Imports
-import {useState, Fragment, useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useState, Fragment} from 'react'
+//import {useEffect} from 'react'
+import {useSelector} from 'react-redux'
 
 // ** Next Import
 import {useRouter} from 'next/router'
@@ -11,7 +12,7 @@ import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
+//import MenuItem from '@mui/material/MenuItem'
 import {styled} from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -19,8 +20,8 @@ import FlagIcon from '@mui/icons-material/Flag'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 // ** Icons Imports
-import LogoutVariant from 'mdi-material-ui/LogoutVariant'
-import AccountTie from 'mdi-material-ui/AccountTie'
+//import LogoutVariant from 'mdi-material-ui/LogoutVariant'
+//import AccountTie from 'mdi-material-ui/AccountTie'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({theme}) => ({
@@ -30,11 +31,11 @@ const BadgeContentSpan = styled('span')(({theme}) => ({
   backgroundColor: theme.palette.success.main,
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }))
-import {Account} from 'mdi-material-ui'
-import {PROFILES_USER} from 'src/configs/profiles'
+//import {Account} from 'mdi-material-ui'
+//import {PROFILES_USER} from 'src/configs/profiles'
 
 const UserDropdown = props => {
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
   const {
     user: {user}
   } = useSelector(state => state.users)
@@ -62,10 +63,10 @@ const UserDropdown = props => {
     setAnchorEl(null)
   }
 
-  const handleGoTo = path => {
-    router.push(path)
-    handleDropdownClose()
-  }
+  // const handleGoTo = path => {
+  //   router.push(path)
+  //   handleDropdownClose()
+  // }
   const handleLogout = () => {
     router.push('/login')
     handleDropdownClose()
@@ -78,10 +79,10 @@ const UserDropdown = props => {
     return `${name.split(' ')[0]} ${lastName.split(' ')[0]}`
   }
 
-  const handleConvertProfile = () => {
-    router.push({pathname: '/register/address', query: {newAssociate: true}})
-    handleDropdownClose()
-  }
+  // const handleConvertProfile = () => {
+  //   router.push({pathname: '/register/address', query: {newAssociate: true}})
+  //   handleDropdownClose()
+  // }
 
   return (
     <Fragment>

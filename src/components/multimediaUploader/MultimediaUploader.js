@@ -4,7 +4,6 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Typography, Button } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
-import { useSettings } from 'src/@core/hooks/useSettings'
 import { useTheme } from '@mui/material/styles'
 import styles from './styles.module.css';
 
@@ -179,7 +178,6 @@ const MultimediaUploader = ({
 }) => {
   const theme = useTheme()
   const borderDesign = theme.palette.divider
-  const { settings, saveSettings } = useSettings()
   const [images, setImages] = useState([]);
   const divContent = useRef(null);
   const animateField = document.getElementById('movingText');

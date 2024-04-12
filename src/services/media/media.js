@@ -1,4 +1,4 @@
-import {api_post, api_get, api_patch, api_put, api_delete} from '../apicalls'
+import {api_post, api_get, api_put, api_delete} from '../apicalls'
 import {MEDIA_ENDPOINT, S3_ENDPOINT} from '../endpoints'
 
 //TODO: Change to real endpoint url
