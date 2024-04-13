@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/catalogs/concepts/reducer'
 import {deleteConceptCat} from 'src/store/catalogs/concepts/actions'
 import {t} from 'i18next'

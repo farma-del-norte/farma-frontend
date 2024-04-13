@@ -8,7 +8,7 @@ import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/suppliers/reducer'
 import {getSuppliers, createSupplier, editSupplier, deleteSupplier} from 'src/store/catalogs/suppliers/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {t} from 'i18next'
 
 const columns = [
@@ -53,7 +53,7 @@ const columns = [
 function Suppliers() {
   const dispatch = useDispatch()
   const {isOpen, modalItem, isDeleteOpen, isLoading, suppliers, modalDeleteItem} = useSelector(state => state.suppliers)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const {
     control,
     handleSubmit,

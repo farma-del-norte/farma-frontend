@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/users/reducer'
 import {deleteUser} from 'src/store/users/actions'
 import DataTable from './DataTable'

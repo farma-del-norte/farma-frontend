@@ -24,8 +24,8 @@ import {yupResolver} from '@hookform/resolvers/yup'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import { setModal, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
-import {closeSnackBar} from 'src/store/notifications'
+import {setModal, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
+
 import DialogBilling from '../components/dialogs/DialogBilling'
 
 const CARD_LOGOS = {
@@ -96,7 +96,7 @@ const UserProfileBilling = ({methods = []}) => {
 
   // const { user } = useSelector(state => state.dashboard.general)
   // const { isOpen, isOpenDelete } = useSelector(state => state.paymentMethods)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const {
     reset,
     control: paymentControl,

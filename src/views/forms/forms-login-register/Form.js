@@ -16,7 +16,6 @@ import Router from 'next/router'
 import {LOGIN} from 'src/utils/constants'
 import {getUsersLogin} from 'src/store/users/actions'
 import {setIsLoading} from 'src/store/users/reducer'
-import {closeSnackBar} from 'src/store/notifications'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -46,7 +45,6 @@ const loginSchema = Yup.object().shape({
 const Form = () => {
   const dispatch = useDispatch()
   const {isLoading} = useSelector(state => state.users)
-  const {open, message, severity} = useSelector(state => state.notifications)
 
   const [showPassword, setShowPassword] = React.useState(false)
 

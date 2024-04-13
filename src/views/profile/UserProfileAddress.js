@@ -32,7 +32,7 @@ import {useForm} from 'react-hook-form'
 import 'react-credit-cards/es/styles-compiled.css'
 
 import {deleteAddress, setModal} from 'src/store/address'
-import {closeSnackBar} from 'src/store/notifications'
+
 import DialogAddress from '../components/dialogs/DialogAddress'
 
 const defaultAddressValues = {
@@ -68,8 +68,6 @@ const UserProfileAddress = ({addresses = []}) => {
   const [openDeleteCard, setOpenDeleteCard] = useState(false)
   const [editItem, setEditItem] = useState(null)
   const [deleteID, setDeleteID] = useState(null)
-
-  const {open, message, severity} = useSelector(state => state.notifications)
 
   // ** Hooks
   const {

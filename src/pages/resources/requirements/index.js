@@ -14,7 +14,6 @@ import {
 } from 'src/store/catalogs/requirements/actions'
 import {t} from 'i18next'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {closeSnackBar} from 'src/store/notifications'
 
 const columns = [
   {
@@ -30,7 +29,7 @@ function RequirementsCat() {
   const {isOpen, modalItem, isDeleteOpen, isLoading, requirementsCat, modalDeleteItem} = useSelector(
     state => state.requirementsCat
   )
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })
