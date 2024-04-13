@@ -1,10 +1,10 @@
-const path = require('path')
+const million = require('million/compiler')
 
 /** @type {import('next').NextConfig} */
-
-module.exports = {
+const nextConfig = {
   env: {
-    S3_TOKEN: 'eyJhbGciOiJIUzI1NiJ9.eyJwcm9qZWN0TmFtZSI6IkZhcm1hIGRlbCBOb3J0ZSIsInByb2plY3RJZCI6IjEifQ.Lw9Iwt9omeeuNYm2KFDhtg7U9rzEjtayKFuW_kIf-C0',
+    S3_TOKEN:
+      'eyJhbGciOiJIUzI1NiJ9.eyJwcm9qZWN0TmFtZSI6IkZhcm1hIGRlbCBOb3J0ZSIsInByb2plY3RJZCI6IjEifQ.Lw9Iwt9omeeuNYm2KFDhtg7U9rzEjtayKFuW_kIf-C0'
   },
   trailingSlash: true,
   reactStrictMode: false,
@@ -18,14 +18,13 @@ module.exports = {
     '@fullcalendar/list',
     '@fullcalendar/timegrid'
   ],
-  trailingSlash: true,
-  reactStrictMode: false,
-  webpack: config => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      apexcharts: path.resolve(__dirname, './node_modules/apexcharts-clevision')
-    }
-
-    return config
+  images: {
+    domains: ['products-images-9fe5.s3.amazonaws.com', 'products-images-9fe5.s3.us-east-1.amazonaws.com']
   }
 }
+
+const millionConfig = {
+  auto: {rsc: true}
+}
+
+module.exports = million.next(nextConfig, millionConfig)
