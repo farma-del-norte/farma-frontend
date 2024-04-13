@@ -26,7 +26,7 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 //actions
 import {createUser, setErrors} from 'src/store/users'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {PROFILES_USER} from 'src/configs/profiles'
 
 const BASIC_ERRORS = {
@@ -50,7 +50,6 @@ const FormRegister = () => {
   const {query} = useRouter()
 
   // const { isLoadingRegister: isLoading, registerErrors: errors } = useSelector(state => state.users)
-  const {open, message, positioned, severity} = useSelector(state => state.notifications)
 
   // ** States
   const [values, setValues] = React.useState({

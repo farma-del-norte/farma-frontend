@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/budgets/reducer'
 import {deleteBudget} from 'src/store/budgets/actions'
 import DataTable from 'src/pages/budgets/DataTable'
@@ -12,8 +12,7 @@ const Budgets = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro de eliminar el presupuesto seleccionado?',
     methods = useForm(),
-    {isOpen, isDeleteOpen, currentRow} = useSelector(state => state.budgets),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen, currentRow} = useSelector(state => state.budgets)
 
   return (
     <Fragment>

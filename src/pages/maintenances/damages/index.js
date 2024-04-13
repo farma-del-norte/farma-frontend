@@ -9,7 +9,7 @@ import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/s
 import {createDamage, deleteDamage, editDamage, getDamages} from 'src/store/maintenances/damages/actions'
 import {getDamagesCat} from 'src/store/catalogs/damages/actions'
 import {getMaintenances} from 'src/store/maintenances/maintenances/actions'
-import {closeSnackBar} from 'src/store/notifications'
+
 import FallbackSpinner from 'src/@core/components/spinner'
 import {t} from 'i18next'
 
@@ -51,7 +51,7 @@ function Damages() {
   const {isOpen, modalItem, isDeleteOpen, damages, isLoading, modalDeleteItem} = useSelector(state => state.damages)
   const {maintenances} = useSelector(state => state.maintenances)
   const {damagesCat} = useSelector(state => state.damagesCat)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })

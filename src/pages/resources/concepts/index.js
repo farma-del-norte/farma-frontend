@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/catalogs/concepts/reducer'
 import {deleteConceptCat} from 'src/store/catalogs/concepts/actions'
 import {t} from 'i18next'
@@ -12,8 +12,7 @@ import RemoveItem from 'src/views/modals/RemoveItem'
 const Concepts = () => {
   const dispatch = useDispatch(),
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.conceptsCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.conceptsCat)
 
   return (
     <Fragment>

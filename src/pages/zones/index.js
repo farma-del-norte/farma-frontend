@@ -6,7 +6,7 @@ import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/catalogs/zones/reducer'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {createZone, deleteZone, editZone, getZones} from 'src/store/catalogs/zones/actions'
 import FallbackSpinner from 'src/@core/components/spinner'
 import {t} from 'i18next'
@@ -24,7 +24,7 @@ function Zones() {
   const dispatch = useDispatch()
 
   const {zones, isOpen, modalItem, isDeleteOpen, isLoading, modalDeleteItem} = useSelector(state => state.zones)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const {control, handleSubmit, reset} = useForm({
     defaultValues: {}
   })

@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/users/reducer'
 import {deleteUser} from 'src/store/users/actions'
 import DataTable from './DataTable'
@@ -12,8 +12,7 @@ const Users = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro que desea Eliminar usuario?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.users),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.users)
 
   return (
     <Fragment>

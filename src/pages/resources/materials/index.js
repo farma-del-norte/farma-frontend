@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/catalogs/materials/reducer'
 import {deleteMaterialCat} from 'src/store/catalogs/materials/actions'
 import DataTable from 'src/pages/resources/materials/DataTable'
@@ -12,8 +12,7 @@ const Materials = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro de eliminar el material seleccionado?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.materialsCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.materialsCat)
 
   return (
     <Fragment>

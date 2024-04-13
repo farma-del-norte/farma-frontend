@@ -14,7 +14,7 @@ import ReusableDialog from 'src/components/modal'
 import CardTable from 'src/components/cardTable'
 import {Fragment} from 'react'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {CATALOGS, COMMON} from 'src/utils/constants'
 import {t} from 'i18next'
 
@@ -23,7 +23,7 @@ function DimensionsCat() {
   const {isOpen, modalItem, isDeleteOpen, isLoading, dimensionsCat, modalDeleteItem} = useSelector(
     state => state.dimensionsCat
   )
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const defaultValuesDimensions = {
     id: '',
     name: '',

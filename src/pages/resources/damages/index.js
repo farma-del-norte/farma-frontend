@@ -1,7 +1,7 @@
 import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {toggleDeleteModal} from 'src/store/catalogs/damages/reducer'
 import {deleteDamageCat} from 'src/store/catalogs/damages/actions'
 import DataTable from 'src/pages/resources/damages/DataTable'
@@ -12,8 +12,7 @@ const Damages = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro de eliminar el siniestro seleccionado?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.damagesCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.damagesCat)
 
   return (
     <Fragment>

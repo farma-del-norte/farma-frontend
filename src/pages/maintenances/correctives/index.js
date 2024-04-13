@@ -29,7 +29,7 @@ import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {MAINTENANCES, COMMON} from 'src/utils/constants'
-import {closeSnackBar} from 'src/store/notifications'
+
 import FallbackSpinner from 'src/@core/components/spinner'
 import {LoadingSelect} from 'src/utils/inputs'
 import {t} from 'i18next'
@@ -98,7 +98,7 @@ const Maintenances = () => {
   const {dimensionsCat} = useSelector(state => state.dimensionsCat)
   const {variablesCat} = useSelector(state => state.variablesCat)
   const {conceptsCat} = useSelector(state => state.conceptsCat)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const [areaType, setAreaType] = useState('')
   const [areaContent, setAreaContent] = useState([
     {name: 'Selecciona un tipo de area para ver resultados', id: '', disabled: true}
