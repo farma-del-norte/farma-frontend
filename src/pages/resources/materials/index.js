@@ -12,8 +12,7 @@ const Materials = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro de eliminar el material seleccionado?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.materialsCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.materialsCat)
 
   return (
     <Fragment>

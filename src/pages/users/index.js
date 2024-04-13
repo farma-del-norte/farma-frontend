@@ -12,8 +12,7 @@ const Users = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro que desea Eliminar usuario?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.users),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.users)
 
   return (
     <Fragment>

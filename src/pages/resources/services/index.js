@@ -12,8 +12,7 @@ const Services = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro de eliminar el servicio seleccionado?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.serviceCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.serviceCat)
 
   return (
     <Fragment>
