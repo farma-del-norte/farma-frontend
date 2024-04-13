@@ -17,9 +17,7 @@ export const getVariablesCat = createAsyncThunk('/variables-cat/getVariablesCat'
 export const createVariableCat = createAsyncThunk('/variables-cat/createVariableCat', async (body, thunkApi) => {
   try {
     const payload = await VariablesCatAPI.createVariableCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('variables_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('variables_cat_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -31,9 +29,7 @@ export const createVariableCat = createAsyncThunk('/variables-cat/createVariable
 export const editVariableCat = createAsyncThunk('/variables-cat/editVariableCat', async (body, thunkApi) => {
   try {
     const payload = await VariablesCatAPI.editVariableCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('variables_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('variables_cat_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -45,9 +41,7 @@ export const editVariableCat = createAsyncThunk('/variables-cat/editVariableCat'
 export const deleteVariableCat = createAsyncThunk('/variables-cat/deleteVariablesCat', async ({id}, thunkApi) => {
   try {
     const payload = await VariablesCatAPI.deleteVariableCatService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('variables_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('variables_cat_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message

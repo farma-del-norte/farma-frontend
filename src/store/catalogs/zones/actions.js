@@ -17,9 +17,7 @@ export const getZones = createAsyncThunk('/zones/getZones', async thunkApi => {
 export const createZone = createAsyncThunk('/zones/createZone', async (body, thunkApi) => {
   try {
     const payload = await createZoneService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('zones_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('zones_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.response.data.message
@@ -31,9 +29,7 @@ export const createZone = createAsyncThunk('/zones/createZone', async (body, thu
 export const editZone = createAsyncThunk('/zones/editZone', async (body, thunkApi) => {
   try {
     const payload = await editZoneService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('zones_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('zones_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -45,9 +41,7 @@ export const editZone = createAsyncThunk('/zones/editZone', async (body, thunkAp
 export const deleteZone = createAsyncThunk('/zones/deleteZones', async ({id}, thunkApi) => {
   try {
     const payload = await deleteZoneService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('zones_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('zones_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message

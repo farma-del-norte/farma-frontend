@@ -20,9 +20,7 @@ export const createRequirementCat = createAsyncThunk(
   async (body, thunkApi) => {
     try {
       const payload = await RequirementCatsAPI.createRequirementCatService(body)
-      thunkApi.dispatch(
-        openSnackBar({open: true, message: t('requirements_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
-      )
+      toast.success(t('requirements_cat_create_message', {ns: 'catalogs'}))
       return payload
     } catch (error) {
       const errMessage = error
@@ -35,9 +33,7 @@ export const createRequirementCat = createAsyncThunk(
 export const editRequirementCat = createAsyncThunk('/requirements-cat/editRequirementCat', async (body, thunkApi) => {
   try {
     const payload = await RequirementCatsAPI.editRequirementCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('requirements_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('requirements_cat_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -51,9 +47,7 @@ export const deleteRequirementCat = createAsyncThunk(
   async ({id}, thunkApi) => {
     try {
       const payload = await RequirementCatsAPI.deleteRequirementCatService(id)
-      thunkApi.dispatch(
-        openSnackBar({open: true, message: t('requirements_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
-      )
+      toast.success(t('requirements_cat_delete_message', {ns: 'catalogs'}))
       return payload
     } catch (error) {
       const errMessage = error

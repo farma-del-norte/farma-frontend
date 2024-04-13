@@ -37,9 +37,7 @@ export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkA
 export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
   try {
     const payload = await createUserService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('success_user_created', {ns: 'users'}), severity: 'success'})
-    )
+    toast.success(t('success_user_created', {ns: 'users'}))
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
@@ -51,7 +49,7 @@ export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
 export const editUser = createAsyncThunk('/users/editUser', async (body, thunkApi) => {
   try {
     const payload = await editUserService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: t('success_user_edited', {ns: 'users'}), severity: 'success'}))
+    toast.success(t('success_user_edited', {ns: 'users'}))
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
@@ -63,10 +61,7 @@ export const editUser = createAsyncThunk('/users/editUser', async (body, thunkAp
 export const deleteUser = createAsyncThunk('/users/deleteUsers', async ({id}, thunkApi) => {
   try {
     const payload = await deleteUserService(id)
-    console.log(t('success_user_deleted', {ns: 'users'}))
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('success_user_deleted', {ns: 'users'}), severity: 'success'})
-    )
+    toast.success(t('success_user_deleted', {ns: 'users'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -100,7 +95,7 @@ export const validateVerificationCode = createAsyncThunk('/users/passwordRecover
 export const updatePassword = createAsyncThunk('/users/password', async (body, thunkApi) => {
   try {
     const payload = await updatePasswordService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Contraseña cambiada con éxito', severity: 'success'}))
+    toast.success('Contraseña cambiada con éxito')
     return payload
   } catch (error) {
     const errMessage = error.message

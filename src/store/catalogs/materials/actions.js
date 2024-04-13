@@ -17,9 +17,7 @@ export const getMaterialsCat = createAsyncThunk('/materials-cat/getMaterialsCat'
 export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterialCat', async (body, thunkApi) => {
   try {
     const payload = await MaterialsAPI.createMaterialCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('materials_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('materials_cat_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = response?.data?.message
@@ -31,9 +29,7 @@ export const createMaterialCat = createAsyncThunk('/materials-cat/createMaterial
 export const editMaterialCat = createAsyncThunk('/materials-cat/editMaterialCat', async (body, thunkApi) => {
   try {
     const payload = await MaterialsAPI.editMaterialCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('materials_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('materials_cat_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
@@ -45,9 +41,7 @@ export const editMaterialCat = createAsyncThunk('/materials-cat/editMaterialCat'
 export const deleteMaterialCat = createAsyncThunk('/materials-cat/deleteMaterialCat', async ({id}, thunkApi) => {
   try {
     const payload = await MaterialsAPI.deleteMaterialCatService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('materials_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('materials_cat_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message

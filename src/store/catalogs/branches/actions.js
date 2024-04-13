@@ -15,9 +15,7 @@ export const getBranches = createAsyncThunk('/branches/getBranches', async thunk
 export const createBranch = createAsyncThunk('/branches/createBranch', async (body, thunkApi) => {
   try {
     const payload = await Branches.postBranchesData(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('branches_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('branches_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     return rejectError(error, thunkApi)
@@ -27,9 +25,7 @@ export const createBranch = createAsyncThunk('/branches/createBranch', async (bo
 export const editBranch = createAsyncThunk('/branches/editBranch', async (body, thunkApi) => {
   try {
     const payload = await Branches.patchBranchData(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('branches_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('branches_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     return rejectError(error, thunkApi)
@@ -39,9 +35,7 @@ export const editBranch = createAsyncThunk('/branches/editBranch', async (body, 
 export const deleteBranch = createAsyncThunk('/branches/deleteBranch', async ({id}, thunkApi) => {
   try {
     const payload = await Branches.deleteBranchData(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('branches_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('branches_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     return rejectError(error, thunkApi)
@@ -68,9 +62,7 @@ export const addBranchDetails = createAsyncThunk('/branches/addBranchDetails', a
   try {
     const payload = await Branches.addBranchDetailsData(branchId, body)
 
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('brances_create_branch_details', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('brances_create_branch_details', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     toast.error(error)
@@ -83,9 +75,7 @@ export const updateBranchDetails = createAsyncThunk(
   async ({branchDetailsId, body}, thunkApi) => {
     try {
       const payload = await Branches.updateBranchDetailsData(branchDetailsId, body)
-      thunkApi.dispatch(
-        openSnackBar({open: true, message: t('brances_edit_branch_details', {ns: 'catalogs'}), severity: 'success'})
-      )
+      toast.success(t('brances_edit_branch_details', {ns: 'catalogs'}))
       return payload
     } catch (error) {
       toast.error(error)

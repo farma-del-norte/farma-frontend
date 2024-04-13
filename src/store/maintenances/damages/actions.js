@@ -21,7 +21,7 @@ export const getDamages = createAsyncThunk('/damages/getDamages', async thunkApi
 export const createDamage = createAsyncThunk('/damages/createDamage', async (body, thunkApi) => {
   try {
     const payload = await createDamageService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro creado con éxito', severity: 'success'}))
+    toast.success('Siniestro creado con éxito')
     return payload
   } catch (error) {
     const errMessage = error
@@ -33,7 +33,7 @@ export const createDamage = createAsyncThunk('/damages/createDamage', async (bod
 export const editDamage = createAsyncThunk('/damages/editDamage', async (body, thunkApi) => {
   try {
     const payload = await editDamageService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro actualizado con éxito', severity: 'success'}))
+    toast.success('Siniestro actualizado con éxito')
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -45,7 +45,7 @@ export const editDamage = createAsyncThunk('/damages/editDamage', async (body, t
 export const deleteDamage = createAsyncThunk('/damages/deleteDamage', async ({id}, thunkApi) => {
   try {
     const payload = await deleteDamageService(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Siniestro eliminado con éxito', severity: 'success'}))
+    toast.success('Siniestro eliminado con éxito')
     return payload
   } catch (error) {
     const errMessage = error.message

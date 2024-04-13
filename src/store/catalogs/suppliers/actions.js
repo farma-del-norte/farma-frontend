@@ -18,9 +18,7 @@ export const getSuppliers = createAsyncThunk('/suppliers/getSuppliers', async th
 export const createSupplier = createAsyncThunk('/suppliers/createSupplier', async (body, thunkApi) => {
   try {
     const payload = await SuppliersAPI.createSuppliersService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('suppliers_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('suppliers_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -32,9 +30,7 @@ export const createSupplier = createAsyncThunk('/suppliers/createSupplier', asyn
 export const editSupplier = createAsyncThunk('/suppliers/editSupplier', async (body, thunkApi) => {
   try {
     const payload = await SuppliersAPI.editSuppliersService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('suppliers_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('suppliers_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -46,9 +42,7 @@ export const editSupplier = createAsyncThunk('/suppliers/editSupplier', async (b
 export const deleteSupplier = createAsyncThunk('/suppliers/deleteSupplier', async ({id}, thunkApi) => {
   try {
     const payload = await SuppliersAPI.deleteSuppliersService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('suppliers_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('suppliers_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message

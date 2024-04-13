@@ -50,7 +50,7 @@ export const editMediaService = createAsyncThunk('/media/editMedia', async (body
 export const deleteMediaService = createAsyncThunk('/media/deleteMedia', async ({id}, thunkApi) => {
   try {
     const payload = await deleteMedia(id)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Multimedia eliminado con éxito', severity: 'success'}))
+    toast.success('Multimedia eliminado con éxito')
     return payload
   } catch (error) {
     const errMessage = error

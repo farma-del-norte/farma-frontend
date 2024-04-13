@@ -22,9 +22,7 @@ export const getDimensionsCat = createAsyncThunk('/dimensions-cat/getDimensionsC
 export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimensionCat', async (body, thunkApi) => {
   try {
     const payload = await createDimensionCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('dimensions_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('dimensions_cat_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -36,9 +34,7 @@ export const createDimensionCat = createAsyncThunk('/dimensions-cat/createDimens
 export const editDimensionCat = createAsyncThunk('/dimensions-cat/editDimensionCat', async (body, thunkApi) => {
   try {
     const payload = await editDimensionCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('dimensions_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('dimensions_cat_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -50,9 +46,7 @@ export const editDimensionCat = createAsyncThunk('/dimensions-cat/editDimensionC
 export const deleteDimensionCat = createAsyncThunk('/dimensions-cat/deleteDimensionCat', async ({id}, thunkApi) => {
   try {
     const payload = await deleteDimensionCatService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('dimensions_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('dimensions_cat_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message

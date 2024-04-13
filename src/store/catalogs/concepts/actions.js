@@ -17,9 +17,7 @@ export const getConceptsCat = createAsyncThunk('/concepts-cat/getConceptsCat', a
 export const createConceptCat = createAsyncThunk('/concepts-cat/createConceptCat', async (body, thunkApi) => {
   try {
     const payload = await ConceptsCatpi.createConceptCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('concepts_cat_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('concepts_cat_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error
@@ -31,9 +29,7 @@ export const createConceptCat = createAsyncThunk('/concepts-cat/createConceptCat
 export const editConceptCat = createAsyncThunk('/concepts-cat/editConceptCat', async (body, thunkApi) => {
   try {
     const payload = await ConceptsCatpi.editConceptCatService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('concepts_cat_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('concepts_cat_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -45,9 +41,7 @@ export const editConceptCat = createAsyncThunk('/concepts-cat/editConceptCat', a
 export const deleteConceptCat = createAsyncThunk('/concepts-cat/deleteConceptCats', async ({id}, thunkApi) => {
   try {
     const payload = await ConceptsCatpi.deleteConceptCatService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('concepts_cat_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('concepts_cat_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
