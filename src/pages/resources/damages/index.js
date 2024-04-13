@@ -12,8 +12,7 @@ const Damages = () => {
   const dispatch = useDispatch(),
     dialogText = 'Seguro de eliminar el siniestro seleccionado?',
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.damagesCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.damagesCat)
 
   return (
     <Fragment>

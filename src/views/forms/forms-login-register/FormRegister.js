@@ -50,7 +50,6 @@ const FormRegister = () => {
   const {query} = useRouter()
 
   // const { isLoadingRegister: isLoading, registerErrors: errors } = useSelector(state => state.users)
-  const {open, message, positioned, severity} = useSelector(state => state.notifications)
 
   // ** States
   const [values, setValues] = React.useState({
