@@ -1,6 +1,6 @@
 // ** React Imports
 import {Fragment, useState} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'

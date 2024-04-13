@@ -3,8 +3,7 @@ import {
   getMaterialsService,
   createMaterialService,
   editMaterialService,
-  deleteMaterialService,
-  getUnitsService
+  deleteMaterialService
 } from 'src/services/maintenances/materials'
 import toast from 'react-hot-toast'
 import {t} from 'i18next'

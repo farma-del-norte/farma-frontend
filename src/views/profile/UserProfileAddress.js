@@ -1,7 +1,7 @@
 // ** React Imports
 import {Fragment, useState} from 'react'
 
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -18,8 +18,6 @@ import CardContent from '@mui/material/CardContent'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import TableContainer from '@mui/material/TableContainer'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import DialogContentText from '@mui/material/DialogContentText'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
