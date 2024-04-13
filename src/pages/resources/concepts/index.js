@@ -12,8 +12,7 @@ import RemoveItem from 'src/views/modals/RemoveItem'
 const Concepts = () => {
   const dispatch = useDispatch(),
     methods = useForm(),
-    {isOpen, isDeleteOpen} = useSelector(state => state.conceptsCat),
-    {open, message, severity} = useSelector(state => state.notifications)
+    {isOpen, isDeleteOpen} = useSelector(state => state.conceptsCat)
 
   return (
     <Fragment>
