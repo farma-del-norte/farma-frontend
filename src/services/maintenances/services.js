@@ -11,6 +11,16 @@ export const getService = async () => {
   }
 }
 
+export const getServicesByMaintenanceId = async (id) => {
+  const url = `${SERVICES_ENDPOINT}/services/maintenances/${id}`
+  try {
+    const result = await api_get(url)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 export const createService = async body => {
   const url = `${SERVICES_ENDPOINT}/services`
   try {

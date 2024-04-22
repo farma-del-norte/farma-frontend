@@ -1,11 +1,22 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
-import { createService, getService, editService, deleteService } from 'src/services/maintenances/services'
+import { createService, getService, editService, deleteService, getServicesByMaintenanceId } from 'src/services/maintenances/services'
 import {openSnackBar} from 'src/store/notifications'
 import { MAINTENANCES_LOCALE } from 'src/utils/constants'
 
 export const getServices = createAsyncThunk('/services-cat/getServices', async thunkApi => {
   try {
     const payload = await getService()
+    return payload
+  } catch (error) {
+    const errMessage = error
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const getServicesByMaintenancesId = createAsyncThunk('/services-cat/getServicesByMaintenanceId', async (id, thunkApi) => {
+  try {
+    const payload = await getServicesByMaintenanceId(id)
     return payload
   } catch (error) {
     const errMessage = error

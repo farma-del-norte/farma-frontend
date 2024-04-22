@@ -11,7 +11,7 @@ export const getMaterialsService = async () => {
   }
 }
 
-export const getUnitsService = async (id) => {
+export const getMaterialsByService = async (id) => {
   const url = `${MATERIALS_ENDPOINT}/materials/service/${id}`
   try {
     const result = await api_get(url)

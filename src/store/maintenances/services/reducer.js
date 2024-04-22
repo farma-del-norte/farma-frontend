@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createServices, editServices, getServices, deleteServices} from './actions'
+import {createServices, editServices, getServices, deleteServices, getServicesByMaintenancesId} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -70,6 +70,16 @@ export const services = createSlice({
         state.isLoading = false
     })
     builder.addCase(deleteServices.rejected, state => {
+        state.isLoading = false
+    })
+    builder.addCase(getServicesByMaintenancesId.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(getServicesByMaintenancesId.fulfilled, (state, {payload}) => {
+        state.services = payload.content
+        state.isLoading = false
+    })
+    builder.addCase(getServicesByMaintenancesId.rejected, state => {
         state.isLoading = false
     })
   }

@@ -34,7 +34,7 @@ const MaterialsModal = ({control, handleSubmit, children}) => {
           : t('materials.add_modal', {ns: 'maintenances'})
       }
       actions={[
-        {label: i18n.t('Regresar'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+        {label: t('back_button'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
         Boolean(isEditing)
           ? {
               label: t('save_button'),

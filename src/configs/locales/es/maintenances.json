@@ -9,6 +9,9 @@
     "maintenances_edit_message": "Sucursal de Mantenimiento actualizado con éxito",
     "maintenances_cat_create_message": "Sucursal de Mantenimiento creado con éxito",
     "maintenances_cat_delete_message": "Sucursal de Mantenimiento eliminado con éxito",
+    "maintenances_details_column_name": "Servicios",
+    "maintenances_materials_column_name": "Materiales utilizados",
+    "maintenances_services_column_name": "Servicios utilizados",
     "damages": {
         "title": "Siniestros de Sucursales",
         "column_damageCat": "Siniestro",

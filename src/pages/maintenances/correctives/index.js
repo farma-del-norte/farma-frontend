@@ -10,34 +10,34 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  InputAdornment
+  InputAdornment,
+  Divider
 } from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-import {Pencil, Delete} from 'mdi-material-ui'
-import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/maintenances/maintenances/reducer'
-import {
-  createMaintenance,
-  deleteMaintenance,
-  editMaintenance,
-  getMaintenances
-} from 'src/store/maintenances/maintenances/actions'
+import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
+import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal, toggleDetailModal, setDetailItem} from 'src/store/maintenances/correctives/reducer'
+import {createMaintenance, deleteMaintenance, editMaintenance, getMaintenances} from 'src/store/maintenances/correctives/actions'
+import {toggleMaterialModal, setIsEditing} from 'src/store/maintenances/materials/reducer'
+import { getMaterialsByServices } from 'src/store/maintenances/materials/actions'
 import {getBranches} from 'src/store/catalogs/branches/actions'
-import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
-import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
-import {getVariablesCat} from 'src/store/catalogs/variables/actions'
-import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {MAINTENANCES, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {LoadingSelect} from 'src/utils/inputs'
 import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
-import {getBranchesData, postBranchesData, patchBranchData, deleteBranchData} from '../../../services/catalogs/branches'
 import {t} from 'i18next'
+import ServicesModal from 'src/views/details-modals/ServicesModal'
+import MaterialsModal from 'src/views/details-modals/MaterialsModal'
 
 const columns = [
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'name',
+    headerName: 'Mantenimiento'
+  },
   {
     flex: 0.25,
     minWidth: 200,
@@ -65,60 +65,169 @@ const columns = [
   {
     flex: 0.25,
     minWidth: 200,
-    field: 'area',
-    headerName: 'Tipo de Area'
-  },
-  {
-    flex: 0.25,
-    minWidth: 200,
-    field: 'areaName',
-    headerName: 'Area'
-  },
-  {
-    flex: 0.25,
-    minWidth: 200,
     field: 'cost',
     headerName: 'Costo'
   },
+]
+
+const materialsColumns = [
   {
     flex: 0.25,
-    minWidth: 200,
-    field: 'notes',
-    headerName: 'Notas'
-  }
+    minWidth: 100,
+    field: 'material',
+    headerName: 'Material',
+    editable: true
+  },
+  {
+    flex: 0.25,
+    minWidth: 100,
+    field: 'service',
+    type: 'singleSelect',
+    valueOptions: ['aqui', 'estaran', 'los', 'servicos', 'del', 'back'],
+    headerName: 'Servicio',
+    editable: true,
+  },
+  {
+    flex: 0.25,
+    minWidth: 100,
+    field: 'quantity',
+    type: 'number',
+    headerName: 'Cantidad',
+    editable: true
+  },
+  {
+    flex: 0.25,
+    minWidth: 100,
+    field: 'unity',
+    headerName: 'Unidad',
+    editable: true
+  },
+  {
+    flex: 0.25,
+    minWidth: 100,
+    field: 'cost',
+    type: 'number',
+    headerName: 'Costo',
+    editable: true
+  },
 ]
+
+//component for services details format
+
+const DetailsForm = ({control, resetField, reset, setValue, getValues }) => {
+
+  const row = getValues()
+  const [multimedia, setMultimedia] = useState([])
+  const columns = [...materialsColumns]
+  columns.splice(1, 1)
+  
+  const handleImagesUpdate = images => {
+    setMultimedia(images)
+  }
+
+  return (
+    <form>
+      <Grid container spacing={5}>
+        <Grid item xs={MAINTENANCES.MAINTENANCES_FIELD_FLEX_SIZE} md={3} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
+          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+            Servicio
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
+            {row.service}
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+            Poveedor
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
+            {row.provider}
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+            Area
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
+            {row.area}
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+            Estatus
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
+            {row.status}
+          </Typography>
+          <Divider variant="middle" />
+          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+            Fecha de aplicación
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem', textAlign: 'center' }}>
+            {new Date(row.date).toLocaleDateString("es-Mx", { "day": "numeric", "month": "numeric", "year": "numeric" })}
+          </Typography>
+        </Grid>
+        <Grid item xs={9} md={9} sx={{marginTop: '6px'}}>
+          <FormControl fullWidth>
+            <Controller
+              name='evidencia'
+              control={control}
+              render={({field: {value, onChange}}) => 
+              <>
+                <MultimediaUploader 
+                  field={"Evidencia digital"}
+                  base64Images={[]} 
+                  handleImages={handleImagesUpdate} 
+                />
+              </>
+            }/>
+          </FormControl>
+        </Grid>
+        <Grid item xs={8} md={8} sx={{marginTop: '6px'}}>
+          <FormControl fullWidth>
+            <Controller
+              name='evidencia'
+              control={control}
+              render={({field: {value = []}}) => 
+                <CardTable
+                    columns={columns}
+                    rows={value}
+                    pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
+                    label={t('maintenances_materials_column_name',{ns: 'maintenances'})}
+                  />
+              }/>
+          </FormControl>
+        </Grid>
+        <Grid item md={4} sx={{marginTop: COMMON.FORM_MARGIN_TOP, padding: '1rem', textAlign: 'center'}}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
+            Costo del servicio
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '0.875rem' }}>
+            $ {row.serviceCost}
+          </Typography>
+          <Divider variant="middle" />
+          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
+            Costo total de los materiales
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '0.875rem' }}>
+            $ {row.materialCost}
+          </Typography>
+        </Grid>
+      </Grid>
+    </form>
+  )
+}
 
 const Maintenances = () => {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
-    state => state.maintenances
-  )
-  const [images, setImages] = useState([])
+  const {isOpen, modalItem, isDeleteOpen, isDetailsOpen, maintenances, modalDetailItem,  isLoading, modalDeleteItem} = useSelector(state => state.maintenances)
+  const { isModalOpen, materials } = useSelector(state => state.materials)
+  const [selectedMaint, setSelectedMaint] = useState([])
   //branches
   const {branches} = useSelector(state => state.branches)
-  //areas
-  const {materials} = useSelector(state => state.materialsCat)
-  const {dimensionsCat} = useSelector(state => state.dimensionsCat)
-  const {variablesCat} = useSelector(state => state.variablesCat)
-  const {conceptsCat} = useSelector(state => state.conceptsCat)
+  //motivo
+  const motivos = [
+    { name: 'Preventivos', value: 'Preventivos'},
+    { name: 'Siniestros', value: 'Siniestros'}
+  ]
   const {open, message, severity} = useSelector(state => state.notifications)
-  const [areaType, setAreaType] = useState('')
-  const [areaContent, setAreaContent] = useState([
-    {name: 'Selecciona un tipo de area para ver resultados', id: '', disabled: true}
-  ])
-  const [loadingArea, setLoadingArea] = useState(false)
-  const areas = useMemo(
-    () => [
-      {name: 'Materiales', value: 'Material', getList: getMaterialsCat},
-      {name: 'Dimensiones', value: 'Dimensión', getList: getDimensionsCat},
-      {name: 'Variables', value: 'Variable', getList: getVariablesCat},
-      {name: 'Concepto', value: 'Concepto', getList: getConceptsCat}
-    ],
-    []
-  )
 
-  const {control, handleSubmit, resetField, reset, setValue} = useForm({
+  const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
     defaultValues: {
       area: undefined,
       areaID: undefined,
@@ -134,41 +243,9 @@ const Maintenances = () => {
     }
   })
 
-  const handleChangeAreaType = (e, onChange) => {
-    setLoadingArea(true)
-    resetField('areaID')
-    setAreaType(e.target.value)
-    onChange(e.target.value)
-  }
-
   useEffect(() => {
     dispatch(getMaintenances())
   }, [dispatch])
-
-  useEffect(() => {
-    if (areaType !== '') {
-      //llamar a la api del area seleccionada
-      const areaId = areas.findIndex(area => area.value === areaType)
-      dispatch(areas[areaId]?.getList())
-    }
-  }, [areaType, dispatch, areas])
-
-  useEffect(() => {
-    switch (areaType) {
-      case 'Material':
-        setAreaContent(materials)
-        break
-      case 'Dimensión':
-        setAreaContent(dimensionsCat)
-        break
-      case 'Variable':
-        setAreaContent(variablesCat)
-        break
-      case 'Concepto':
-        setAreaContent(conceptsCat)
-        break
-    }
-  }, [materials, dimensionsCat, variablesCat, conceptsCat, areaType])
 
   const handleCloseModal = () => {
     reset()
@@ -177,8 +254,11 @@ const Maintenances = () => {
     dispatch(setModalItem(cleanModal))
   }
 
-  const handleImagesUpdate = images => {
-    setImages(images)
+  const handleCloseDetailsModal = () => {
+    const cleanModal = null
+    setSelectedMaint([])
+    dispatch(toggleDetailModal(false))
+    dispatch(setDetailItem(cleanModal))
   }
 
   const handleCloseDeleteModal = () => {
@@ -196,11 +276,27 @@ const Maintenances = () => {
     dispatch(setModalItem(row))
   }
 
+  const handleDetailModal = params => {
+    const {row, open} = params
+    reset(row)
+    setSelectedMaint(row)
+    dispatch(getBranches())
+    dispatch(toggleDetailModal(open))
+    // debe ser el id de servicios
+    dispatch(getMaterialsByServices(row.id))
+    dispatch(setDetailItem(row))
+  }
+
   const handleAddItem = () => {
     reset({})
     dispatch(toggleModal(true))
     dispatch(getBranches())
     dispatch(setModalItem(null))
+  }
+
+  const handleAddMaterial = () => {
+    reset({})
+    dispatch(toggleMaterialModal(true))
   }
 
   const handleDeleteModal = row => {
@@ -226,7 +322,7 @@ const Maintenances = () => {
     ...columns,
     {
       flex: 0.125,
-      minWidth: 100,
+      minWidth: 120,
       field: 'actions',
       headerName: 'Acciones',
       renderCell: params => {
@@ -234,6 +330,7 @@ const Maintenances = () => {
         return (
           <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
             <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal(row)} />
+            <TextBoxSearch sx={{margin: '5px'}} onClick={() => handleDetailModal({row, open: true})} />
             <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal(row)} />
           </Typography>
         )
@@ -263,8 +360,9 @@ const Maintenances = () => {
       )}
       <ReusableDialog
         open={isOpen}
+        size={"xl"}
         onClose={handleCloseModal}
-        title={Boolean(modalItem) ? t('maintenances_edit', {ns: 'maintenances'}) : 'Reportar Mantenimiento'}
+        title={Boolean(modalItem) ? 'editar' : 'Reportar Mantenimiento Correctivo'}
         actions={[
           {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
           {label: 'Reportar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
@@ -272,6 +370,17 @@ const Maintenances = () => {
       >
         <form>
           <Grid container spacing={5}>
+          <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
+              <FormControl fullWidth>
+                <Controller
+                  name='name'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <TextField label='Nombre del mantenimiento' value={value} onChange={onChange} />
+                  )}
+                />
+              </FormControl>
+            </Grid>
             <Grid item xs={MAINTENANCES.MAINTENANCES_FIELD_FLEX_SIZE} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
               <FormControl fullWidth>
                 <Controller
@@ -300,99 +409,27 @@ const Maintenances = () => {
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='description'
+                  name='date'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Descripcion de mantenimiento' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={3} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='area'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <>
-                      <InputLabel>Tipo de Area</InputLabel>
-                      <Select
-                        defaultValue=''
-                        value={value || ''}
-                        label='Tipo de Area'
-                        onChange={e => handleChangeAreaType(e, onChange)}
-                      >
-                        {areas.map((area, i) => (
-                          <MenuItem key={i} value={area.value}>
-                            {area.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </>
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={5} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='areaID'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <LoadingSelect
-                      label={'Area'}
-                      disabled={loadingArea}
-                      content={areaContent}
-                      onChange={onChange}
+                    <TextField
+                      type='date'
+                      label={t('services.columns.date', {ns: 'maintenances'})}
+                      InputLabelProps={{shrink: true}}
                       value={value || ''}
-                      loading={loadingArea}
-                      setLoading={setLoadingArea}
-                      loadingLabel={'Cargando...'}
+                      onChange={onChange}
                     />
                   )}
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={4} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='services'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Servicios' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
               <FormControl fullWidth>
                 <Controller
-                  name='motive'
+                  name='description'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <TextField label='Motivo' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='provider'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Proveedor' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='materials'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Materiales' value={value} onChange={onChange} />
+                    <TextField label='Descripcion de mantenimiento' value={value} onChange={onChange} />
                   )}
                 />
               </FormControl>
@@ -446,6 +483,109 @@ const Maintenances = () => {
           <Typography variant='body2'>Seguro de eliminar el mantenimiento seleccionado?</Typography>
         </Box>
       </ReusableDialog>
+      <ReusableDialog
+          open={isDetailsOpen}
+          onClose={handleCloseDetailsModal}
+          size={"xl"}
+          title={'Detalles del mantenimiento'}
+          actions={[
+            {label: 'Regresar', onClick: handleCloseDetailsModal, color: 'primary', variant: 'outlined'},
+            {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
+          ]}
+        >
+          <form>
+            <Grid container spacing={5}>
+              <Grid item xs={MAINTENANCES.MAINTENANCES_FIELD_FLEX_SIZE} md={3} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
+                  <FormControl fullWidth>
+                    <Controller
+                      name='branchID'
+                      control={control}
+                      render={({field: {value, onChange}}) => (
+                        <>
+                          <InputLabel>Sucursal</InputLabel>
+                          <Select
+                            defaultValue=""
+                            value={value || ''}
+                            label="Sucursal"
+                            onChange={(e) => handleBranch(e, onChange)}
+                          >
+                            {branches?.map((branch, id) => 
+                              <MenuItem key={id} value={branch.id}>{branch.name}</MenuItem>
+                            )}
+                          </Select>
+                        </>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{marginTop: '12px'}}>
+                    <Controller
+                      name='description'
+                      control={control}
+                      render={({field: {value, onChange}}) => <TextField label='Descripcion de mantenimiento' value={value} onChange={onChange} />}
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{marginTop: '48px'}}>
+                    <Controller
+                      name='motive'
+                      control={control}
+                      render={({field: {value, onChange}}) => (
+                        <>
+                          <InputLabel>Motivo</InputLabel>
+                          <Select
+                            defaultValue=""
+                            value={value || ''}
+                            label="Motivo"
+                            onChange={(e) => handleBranch(e, onChange)}
+                          >
+                            {motivos?.map((motive, id) => 
+                              <MenuItem key={id} value={motive.id}>{motive.name}</MenuItem>
+                            )}
+                          </Select>
+                        </>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={9} sx={{marginTop: '6px'}} >
+                  <ServicesModal
+                    cardTitle={t('maintenances_services_column_name', {ns: 'maintenances'})}
+                    maintenance={selectedMaint}
+                  />
+                </Grid>
+                <Grid item xs={7} md={7} sx={{marginTop: '6px'}}>
+                  <CardTable
+                    showAddButton
+                    columns={materialsColumns}
+                    rows={materials}
+                    pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
+                    label={t('maintenances_column_name', {ns: 'maintenances'})}
+                    onAddItem={handleAddMaterial}
+                  />
+                  <MaterialsModal
+                    isOpen={isModalOpen}
+                    control={control}
+                    handleSubmit={handleSubmit}
+                  />
+                </Grid>
+                <Grid item xs={5} md={5} sx={{marginTop: '6px'}}>
+                  <FormControl fullWidth sx={{marginTop: '12px'}}>
+                    <Controller
+                      name='notes'
+                      control={control}
+                      render={({field: {value, onChange}}) => 
+                        <TextField 
+                          multiline
+                          rows={8}
+                          label='Comentarios' 
+                          value={value} 
+                          onChange={onChange} 
+                        />}
+                    />
+                  </FormControl>
+                </Grid>
+            </Grid>
+          </form>
+        </ReusableDialog>
       <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )

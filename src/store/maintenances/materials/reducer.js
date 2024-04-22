@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createMaterial, editMaterial, getMaterial, deleteMaterial, getUnits} from './actions'
+import {createMaterial, editMaterial, getMaterial, deleteMaterial, getMaterialsByServices} from './actions'
 
 const initialState = {
   isLoading: false,
@@ -67,6 +67,16 @@ export const materials = createSlice({
         state.isLoading = false
     })
     builder.addCase(deleteMaterial.rejected, state => {
+        state.isLoading = false
+    })
+    builder.addCase(getMaterialsByServices.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(getMaterialsByServices.fulfilled, (state, {payload}) => {
+        state.materials = payload.content
+        state.isLoading = false
+    })
+    builder.addCase(getMaterialsByServices.rejected, state => {
         state.isLoading = false
     })
   }

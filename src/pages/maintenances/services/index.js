@@ -16,7 +16,7 @@ import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
-import {MAINTENANCES, COMMON_LOCALE, COMMON} from 'src/utils/constants'
+import {MAINTENANCES, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
@@ -340,8 +340,8 @@ const Services = () => {
           onClose={handleCloseModal}
           title={Boolean(modalItem) ? t('services.edit_modal', {ns: 'maintenances'}) : t('services.add_modal', {ns: 'maintenances'})}
           actions={[
-            {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-            {label: COMMON_LOCALE.SAVE_BUTTON, onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
+            {label: t('back_button'), onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+            {label: t('save_button'), onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
           ]}
         >
           <form>
@@ -532,10 +532,10 @@ const Services = () => {
         <ReusableDialog
           open={isDeleteOpen}
           onClose={handleCloseDeleteModal}
-          title={COMMON_LOCALE.DELETE_TEXT}
+          title={t('services.delete_modal', {ns: 'maintenances'})}
           actions={[
-            {label: COMMON_LOCALE.BACK_BUTTON, onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-            {label: COMMON_LOCALE.DELETE_BUTTON, onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
+            {label: t('back_button'), onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
+            {label: t('save_button'), onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
           ]}
         >
           <Box>

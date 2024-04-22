@@ -1,16 +1,16 @@
 import React from 'react'
 import {Dialog, DialogTitle, DialogContent, DialogActions, Button, useMediaQuery} from '@mui/material'
 
-const ReusableDialog = ({open = false, onClose = () => {}, title = '', children, actions = []}) => {
+const ReusableDialog = ({open = false, onClose = () => {}, title = '', children, actions = [], size = false}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth={false}
+      maxWidth={size}
       fullWidth={!isMobile}
-      sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+      fullScreen={isMobile}
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>

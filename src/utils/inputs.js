@@ -22,12 +22,12 @@ export const LoadingSelect = ({
     }
 
     useEffect(() => {
-        if(loading && content.length > 0){
-            setNameValue('')
-            setLoading(false)
-        }else if(!loading && value?.length > 0 && content.length > 1){
-          setNameValue(content.filter((val) => val.id === value)[0]?.name || [])
-        }
+      if(loading && content?.length > 0){
+        setNameValue('')
+        setLoading(false)
+      }else if(!loading && value?.length > 0 && content?.length > 1){
+        setNameValue(content.filter((val) => val.id === value)[0]?.name || [])
+      }
     }, [content])
 
     return (

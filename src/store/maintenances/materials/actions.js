@@ -1,11 +1,22 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
-import { getMaterialsService, createMaterialService, editMaterialService, deleteMaterialService, getUnitsService } from 'src/services/maintenances/materials'
+import { getMaterialsService, createMaterialService, editMaterialService, deleteMaterialService, getMaterialsByService } from 'src/services/maintenances/materials'
 import {openSnackBar} from 'src/store/notifications'
 import {t} from 'i18next'
 
 export const getMaterial = createAsyncThunk('/materials/getMaterials', async thunkApi => {
   try {
     const payload = await getMaterialsService()
+    return payload
+  } catch (error) {
+    const errMessage = error
+    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const getMaterialsByServices = createAsyncThunk('/materials/getMaterialsByService', async (id, thunkApi) => {
+  try {
+    const payload = await getMaterialsByService(id)
     return payload
   } catch (error) {
     const errMessage = error
