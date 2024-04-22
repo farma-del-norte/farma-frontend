@@ -5,10 +5,11 @@ import {useEffect} from 'react'
 import {useRouter} from 'next/router'
 
 // ** Hooks Import
-import {useSelector} from 'react-redux'
+//import {useSelector} from 'react-redux'
 
 const GuestGuard = props => {
-  const {children, fallback} = props
+  const {children} = props
+  //const {fallback} = props
 
   const router = useRouter()
   useEffect(() => {

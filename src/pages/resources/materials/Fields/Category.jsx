@@ -1,4 +1,4 @@
-import {Grid, FormControl, TextField, FormHelperText} from '@mui/material'
+import {Grid, FormControl, TextField} from '@mui/material'
 import {useFormContext, Controller} from 'react-hook-form'
 
 const Category = props => {

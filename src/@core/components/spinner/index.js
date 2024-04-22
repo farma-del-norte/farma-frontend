@@ -1,12 +1,11 @@
 // ** MUI Import
 import Box from '@mui/material/Box'
-import {useTheme} from '@mui/material/styles'
 import CircularProgress from '@mui/material/CircularProgress'
 import Image from 'next/image'
 
 const FallbackSpinner = () => {
   // ** Hook
-  const theme = useTheme()
+  //const theme = useTheme()
 
   return (
     <Box

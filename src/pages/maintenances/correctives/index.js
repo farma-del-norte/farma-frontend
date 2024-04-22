@@ -26,7 +26,7 @@ import {MAINTENANCES, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
+import {LoadingSelect} from 'src/utils/inputs'
 import {t} from 'i18next'
 import ServicesModal from 'src/views/details-modals/ServicesModal'
 import MaterialsModal from 'src/views/details-modals/MaterialsModal'
@@ -215,9 +215,9 @@ const DetailsForm = ({control, resetField, reset, setValue, getValues }) => {
 const Maintenances = () => {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen, isDetailsOpen, maintenances, modalDetailItem,  isLoading, modalDeleteItem} = useSelector(state => state.maintenances)
-  const { isModalOpen, materials } = useSelector(state => state.materials)
-  const [selectedMaint, setSelectedMaint] = useState([])
+  const {isOpen, modalItem, isDeleteOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
+    state => state.maintenances
+  )
   //branches
   const {branches} = useSelector(state => state.branches)
   //motivo
@@ -252,13 +252,6 @@ const Maintenances = () => {
     const cleanModal = null
     dispatch(toggleModal(false))
     dispatch(setModalItem(cleanModal))
-  }
-
-  const handleCloseDetailsModal = () => {
-    const cleanModal = null
-    setSelectedMaint([])
-    dispatch(toggleDetailModal(false))
-    dispatch(setDetailItem(cleanModal))
   }
 
   const handleCloseDeleteModal = () => {

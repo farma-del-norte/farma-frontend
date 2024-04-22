@@ -5,7 +5,7 @@ import {useEffect} from 'react'
 import {useRouter} from 'next/router'
 
 // ** Hooks Import
-import {useSelector} from 'react-redux'
+//import {useSelector} from 'react-redux'
 
 /* const resolveProfile = (user, path) => {
   const userProfile = user?.profile ? PROFILES[user.profile] : PROFILES.default
@@ -16,7 +16,8 @@ import {useSelector} from 'react-redux'
 } */
 
 const AuthGuard = props => {
-  const {children, fallback} = props
+  const {children} = props
+  //const {fallback} = props
   // const {user} = useSelector(state => state.dashboard.general)
   const router = useRouter()
 

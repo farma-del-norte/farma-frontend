@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField'
 import VerifyCodeModal from 'src/components/modals/VerificationCode/verifyCode'
 var currentEmail
 
-const EmailFormValidation = props => {
+const EmailFormValidation = () => {
   const dispatch = useDispatch(),
     defaulValues = {
       email: ''

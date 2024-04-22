@@ -26,10 +26,6 @@ const columns = [
   }
 ]
 
-const defaultValuesRequirementCats = {
-  name: ''
-}
-
 function RequirementsCat() {
   const dispatch = useDispatch()
   const {isOpen, modalItem, isDeleteOpen, isLoading, requirementsCat, modalDeleteItem} = useSelector(
