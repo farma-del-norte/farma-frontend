@@ -1,7 +1,7 @@
 // ** React Imports
 import {Fragment, useState} from 'react'
 
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -18,7 +18,6 @@ import CardContent from '@mui/material/CardContent'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import TableContainer from '@mui/material/TableContainer'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
@@ -30,8 +29,8 @@ import {useForm} from 'react-hook-form'
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
 
-import { deleteAddress, setModal} from 'src/store/address'
-import {closeSnackBar} from 'src/store/notifications'
+import {deleteAddress, setModal} from 'src/store/address'
+
 import DialogAddress from '../components/dialogs/DialogAddress'
 
 const defaultAddressValues = {
@@ -67,8 +66,6 @@ const UserProfileAddress = ({addresses = []}) => {
   const [openDeleteCard, setOpenDeleteCard] = useState(false)
   const [editItem, setEditItem] = useState(null)
   const [deleteID, setDeleteID] = useState(null)
-
-  const {open, message, severity} = useSelector(state => state.notifications)
 
   // ** Hooks
   const {
@@ -366,7 +363,6 @@ const UserProfileAddress = ({addresses = []}) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

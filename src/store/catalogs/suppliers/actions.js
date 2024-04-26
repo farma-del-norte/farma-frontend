@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {t} from 'i18next'
 import * as SuppliersAPI from 'src/services/catalogs/suppliers'
-import {openSnackBar} from 'src/store/notifications'
+import toast from 'react-hot-toast'
 
 export const getSuppliers = createAsyncThunk('/suppliers/getSuppliers', async thunkApi => {
   try {
@@ -10,7 +10,7 @@ export const getSuppliers = createAsyncThunk('/suppliers/getSuppliers', async th
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -18,13 +18,11 @@ export const getSuppliers = createAsyncThunk('/suppliers/getSuppliers', async th
 export const createSupplier = createAsyncThunk('/suppliers/createSupplier', async (body, thunkApi) => {
   try {
     const payload = await SuppliersAPI.createSuppliersService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('suppliers_create_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('suppliers_create_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -32,13 +30,11 @@ export const createSupplier = createAsyncThunk('/suppliers/createSupplier', asyn
 export const editSupplier = createAsyncThunk('/suppliers/editSupplier', async (body, thunkApi) => {
   try {
     const payload = await SuppliersAPI.editSuppliersService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('suppliers_edit_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('suppliers_edit_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -46,13 +42,11 @@ export const editSupplier = createAsyncThunk('/suppliers/editSupplier', async (b
 export const deleteSupplier = createAsyncThunk('/suppliers/deleteSupplier', async ({id}, thunkApi) => {
   try {
     const payload = await SuppliersAPI.deleteSuppliersService(id)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('suppliers_delete_message', {ns: 'catalogs'}), severity: 'success'})
-    )
+    toast.success(t('suppliers_delete_message', {ns: 'catalogs'}))
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

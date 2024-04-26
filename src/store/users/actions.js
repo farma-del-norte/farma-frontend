@@ -9,8 +9,8 @@ import {
   validateVerificationCodeService,
   updatePasswordService
 } from 'src/services/catalogs/users'
-import {openSnackBar} from 'src/store/notifications'
-import { t } from 'i18next'
+import toast from 'react-hot-toast'
+import {t} from 'i18next'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   try {
@@ -18,7 +18,7 @@ export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -29,7 +29,7 @@ export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkA
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -37,13 +37,11 @@ export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkA
 export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
   try {
     const payload = await createUserService(body)
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('success_user_created', {ns: 'users'}), severity: 'success'})
-    )
+    toast.success(t('success_user_created', {ns: 'users'}))
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -51,11 +49,11 @@ export const createUser = createAsyncThunk('/users', async (body, thunkApi) => {
 export const editUser = createAsyncThunk('/users/editUser', async (body, thunkApi) => {
   try {
     const payload = await editUserService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: t('success_user_edited', {ns: 'users'}), severity: 'success'}))
+    toast.success(t('success_user_edited', {ns: 'users'}))
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -63,14 +61,11 @@ export const editUser = createAsyncThunk('/users/editUser', async (body, thunkAp
 export const deleteUser = createAsyncThunk('/users/deleteUsers', async ({id}, thunkApi) => {
   try {
     const payload = await deleteUserService(id)
-    console.log(t('success_user_deleted', {ns: 'users'}));
-    thunkApi.dispatch(
-      openSnackBar({open: true, message: t('success_user_deleted', {ns: 'users'}), severity: 'success'})
-    )
+    toast.success(t('success_user_deleted', {ns: 'users'}))
     return payload
   } catch (error) {
     const errMessage = error.message
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -81,7 +76,7 @@ export const getVerificationCode = createAsyncThunk('/users/passwordRecoveryCode
     return payload
   } catch (error) {
     const errMessage = error.message
-    await thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    await toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -92,7 +87,7 @@ export const validateVerificationCode = createAsyncThunk('/users/passwordRecover
     return payload
   } catch (error) {
     const errMessage = error.message
-    await thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    await toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
@@ -100,11 +95,11 @@ export const validateVerificationCode = createAsyncThunk('/users/passwordRecover
 export const updatePassword = createAsyncThunk('/users/password', async (body, thunkApi) => {
   try {
     const payload = await updatePasswordService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: 'Contraseña cambiada con éxito', severity: 'success'}))
+    toast.success('Contraseña cambiada con éxito')
     return payload
   } catch (error) {
     const errMessage = error.message
-    await thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    await toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

@@ -16,8 +16,6 @@ import Router from 'next/router'
 import {LOGIN} from 'src/utils/constants'
 import {getUsersLogin} from 'src/store/users/actions'
 import {setIsLoading} from 'src/store/users/reducer'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
-import {closeSnackBar} from 'src/store/notifications'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -47,7 +45,6 @@ const loginSchema = Yup.object().shape({
 const Form = () => {
   const dispatch = useDispatch()
   const {isLoading} = useSelector(state => state.users)
-  const {open, message, severity} = useSelector(state => state.notifications)
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -60,11 +57,11 @@ const Form = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  const submitLogin = async (values) => {
+  const submitLogin = async values => {
     dispatch(setIsLoading(true))
     const response = await dispatch(getUsersLogin(values)),
-    payload = response.payload;
-    
+      payload = response.payload
+
     if (payload !== t('Error_code')) {
       dispatch(setIsLoading(false))
       Router.push('/dashboards')
@@ -159,7 +156,7 @@ const Form = () => {
               </Button>
             </Link>
             {isLoading ? (
-              <FallbackSpinner/>
+              <FallbackSpinner />
             ) : (
               <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}}>
                 {t('Sign_in')}
@@ -167,12 +164,6 @@ const Form = () => {
             )}
           </Box>
         </form>
-        <CustomSnackbar
-          open={open}
-          message={message}
-          severity={severity}
-          handleClose={() => dispatch(closeSnackBar())}
-        />
       </Box>
     </>
   )

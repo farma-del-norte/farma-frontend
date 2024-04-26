@@ -32,8 +32,7 @@ import {
 } from 'src/store/catalogs/branches/actions'
 import {t} from 'i18next'
 import {getZones} from 'src/store/catalogs/zones/actions'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
-import {closeSnackBar} from 'src/store/notifications'
+
 import FallbackSpinner from 'src/@core/components/spinner'
 import BranchDetailsModel from 'src/views/details-modals/BranchDetailsModal'
 import BranchDetailsFormModal from 'src/views/details-modals/BranchDetailsFormModal'
@@ -105,7 +104,7 @@ function Branches() {
     state => state.branches
   )
   const {zones} = useSelector(state => state.zones)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const [colonies, setColonies] = useState({})
 
   const branchesInfoSchema = yup.object().shape({
@@ -473,7 +472,6 @@ function Branches() {
           <Typography variant='body2'>{t('delete_branch_question', {ns: 'branches'})}</Typography>
         </Box>
       </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

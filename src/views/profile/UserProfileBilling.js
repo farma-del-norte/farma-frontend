@@ -1,6 +1,6 @@
 // ** React Imports
 import {Fragment, useState} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -16,7 +16,6 @@ import DialogActions from '@mui/material/DialogActions'
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
 import Delete from 'mdi-material-ui/Delete'
-import CustomSnackbar from '../../components/snackbar/CustomSnackbar'
 
 // ** Third Party Imports
 import {useForm} from 'react-hook-form'
@@ -25,8 +24,8 @@ import {yupResolver} from '@hookform/resolvers/yup'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import { setModal, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
-import {closeSnackBar} from 'src/store/notifications'
+import {setModal, setModalDelete, deleteMethod} from 'src/store/paymentMethods'
+
 import DialogBilling from '../components/dialogs/DialogBilling'
 
 const CARD_LOGOS = {
@@ -97,7 +96,7 @@ const UserProfileBilling = ({methods = []}) => {
 
   // const { user } = useSelector(state => state.dashboard.general)
   // const { isOpen, isOpenDelete } = useSelector(state => state.paymentMethods)
-  const {open, message, severity} = useSelector(state => state.notifications)
+
   const {
     reset,
     control: paymentControl,
@@ -239,7 +238,6 @@ const UserProfileBilling = ({methods = []}) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }
