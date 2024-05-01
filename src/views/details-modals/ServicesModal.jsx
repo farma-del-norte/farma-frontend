@@ -2,11 +2,11 @@ import ReusableDialog from 'src/components/modal'
 import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { ServicesForm } from '../forms/services/ServicesForm'
-import {Pencil, Delete, TextBoxSearch } from 'mdi-material-ui'
+import {Pencil, Delete } from 'mdi-material-ui'
 import CardTable from 'src/components/cardTable'
-import {useForm, Controller} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import {MAINTENANCES} from 'src/utils/constants'
-import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLabel, InputAdornment} from '@mui/material'
+import {Typography, Box} from '@mui/material'
 import {createServices, deleteServices, editServices, getServicesByMaintenancesId} from 'src/store/maintenances/services/actions'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/maintenances/services/reducer'
 import {createMediaService, getMediaByOwnerId, editMediaService} from 'src/store/media/actions'
@@ -155,7 +155,9 @@ const ServicesModal = ({cardTitle, maintenance}) => {
     setAreaContent([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
     reset(row)
     //AL editar
-    setValue("date", row.date.split("T")[0])
+    console.log('editar', row)
+    if(row.date)
+      setValue("date", row.date.split("T")[0])
     setAreaType(row.area)
     dispatch(getMediaByOwnerId({id: row.id}))
     dispatch(toggleModal(open))
@@ -190,6 +192,7 @@ const ServicesModal = ({cardTitle, maintenance}) => {
       evidence: values.evidence
     }));
     mediaObject.evidence = values.evidence
+    values.maintenanceID = maintenance.id
     delete values.evidence
     if (Boolean(modalItem)) {
       mediaObject.partKey = values.id
@@ -221,7 +224,7 @@ const ServicesModal = ({cardTitle, maintenance}) => {
   ]
 
   return (
-    <>
+    <div>
         <CardTable
           showAddButton
           columns={actionableColumns}
@@ -251,17 +254,18 @@ const ServicesModal = ({cardTitle, maintenance}) => {
                 : {label: t('add'), onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
             ]}
         >
-        <ServicesForm
-            control={control}
-            handleArea={handleChangeAreaType}
-            loadingArea={loadingArea}
-            areaIdContent={areaContent}
-            setLoadingArea={setLoadingArea}
-        />
+          <ServicesForm
+              control={control}
+              handleArea={handleChangeAreaType}
+              loadingArea={loadingArea}
+              areaIdContent={areaContent}
+              setLoadingArea={setLoadingArea}
+          />
         </ReusableDialog>
         <ReusableDialog
           open={isDeleteOpen}
           onClose={handleCloseDeleteModal}
+          size={"xs"}
           title={t('services.delete_modal', {ns: 'maintenances'})}
           actions={[
             {label: t('back_button'), onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
@@ -273,7 +277,7 @@ const ServicesModal = ({cardTitle, maintenance}) => {
           </Box>
         </ReusableDialog>
         <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
-    </>
+    </div>
   )
 }
 

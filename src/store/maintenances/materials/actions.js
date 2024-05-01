@@ -14,10 +14,14 @@ export const getMaterial = createAsyncThunk('/materials/getMaterials', async thu
   }
 })
 
-export const getMaterialsByServices = createAsyncThunk('/materials/getMaterialsByService', async (id, thunkApi) => {
+export const getMaterialsByServices = createAsyncThunk('/materials/getMaterialsByService', async (services, thunkApi) => {
   try {
-    const payload = await getMaterialsByService(id)
-    return payload
+    let materials = []
+    for( service in services) {
+      const payload = await getMaterialsByService(service.id)
+      materials = materials.concat(payload.content);
+    }
+    return materials
   } catch (error) {
     const errMessage = error
     thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))

@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState, useMemo} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
 import {
@@ -19,14 +19,14 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal, toggleDetailModal, setDetailItem} from 'src/store/maintenances/correctives/reducer'
 import {createMaintenance, deleteMaintenance, editMaintenance, getMaintenances} from 'src/store/maintenances/correctives/actions'
-import {toggleMaterialModal, setIsEditing} from 'src/store/maintenances/materials/reducer'
+import {toggleMaterialModal} from 'src/store/maintenances/materials/reducer'
 import { getMaterialsByServices } from 'src/store/maintenances/materials/actions'
 import {getBranches} from 'src/store/catalogs/branches/actions'
 import {MAINTENANCES, COMMON} from 'src/utils/constants'
 import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {closeSnackBar} from 'src/store/notifications'
 import FallbackSpinner from 'src/@core/components/spinner'
-import {LoadingSelect} from 'src/utils/inputs'
+import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
 import {t} from 'i18next'
 import ServicesModal from 'src/views/details-modals/ServicesModal'
 import MaterialsModal from 'src/views/details-modals/MaterialsModal'
@@ -215,9 +215,12 @@ const DetailsForm = ({control, resetField, reset, setValue, getValues }) => {
 const Maintenances = () => {
   const dispatch = useDispatch()
 
-  const {isOpen, modalItem, isDeleteOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
+  const {isOpen, modalItem, isDeleteOpen, isDetailsOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
     state => state.maintenances
   )
+  const { services } = useSelector(state => state.services)
+  const { isModalOpen, materials } = useSelector(state => state.materials)
+  const [selectedMaint, setSelectedMaint] = useState([])
   //branches
   const {branches} = useSelector(state => state.branches)
   //motivo
@@ -247,11 +250,25 @@ const Maintenances = () => {
     dispatch(getMaintenances())
   }, [dispatch])
 
+  // de un arreglo de ids de servicios, obtiene los materiales de esos servicios
+  // useEffect(() => {
+  //   if(services.length > 0) {
+  //     dispatch(getMaterialsByServices(services))
+  //   }
+  // }, [services, dispatch])
+
   const handleCloseModal = () => {
     reset()
     const cleanModal = null
     dispatch(toggleModal(false))
     dispatch(setModalItem(cleanModal))
+  }
+
+  const handleCloseDetailsModal = () => {
+    const cleanModal = null
+    setSelectedMaint([])
+    dispatch(toggleDetailModal(false))
+    dispatch(setDetailItem(cleanModal))
   }
 
   const handleCloseDeleteModal = () => {
@@ -263,7 +280,6 @@ const Maintenances = () => {
   const handleOpenModal = row => {
     reset(row)
     //AL editar
-    setAreaType(row.area ?? '')
     dispatch(getBranches())
     dispatch(toggleModal(true))
     dispatch(setModalItem(row))
@@ -276,7 +292,6 @@ const Maintenances = () => {
     dispatch(getBranches())
     dispatch(toggleDetailModal(open))
     // debe ser el id de servicios
-    dispatch(getMaterialsByServices(row.id))
     dispatch(setDetailItem(row))
   }
 
@@ -551,7 +566,7 @@ const Maintenances = () => {
                     columns={materialsColumns}
                     rows={materials}
                     pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-                    label={t('maintenances_column_name', {ns: 'maintenances'})}
+                    label={t('materials.title', {ns: 'maintenances'})}
                     onAddItem={handleAddMaterial}
                   />
                   <MaterialsModal

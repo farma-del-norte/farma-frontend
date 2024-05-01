@@ -27,12 +27,12 @@ export const getServicesByMaintenancesId = createAsyncThunk('/services-cat/getSe
 
 export const createServices = createAsyncThunk('/services-cat/createService', async (body, thunkApi) => {
   try {
-    const payload = await createService(body)
-    thunkApi.dispatch(openSnackBar({open: true, message: MAINTENANCES_LOCALE.SERVICES_CREATE_MESSAGE, severity: 'success'}))
-    return payload
+    const createdService = await createService(body)
+    const payload = await getServicesByMaintenanceId(body.maintenanceID)
+    return {payload, createdService}
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    // thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
     return thunkApi.rejectWithValue('error')
   }
 })

@@ -44,9 +44,9 @@ export const services = createSlice({
       state.isLoading = true
     })
     builder.addCase(createServices.fulfilled, (state, {payload}) => {
-      const newService = payload.content.find(objeto2 => !state.services.some(objeto1 => objeto1.id === objeto2.id));
-      state.createdService = newService
-      state.services = payload.content
+      console.log(payload)
+      state.createdService = payload.createdService.content[0]
+      state.services = payload.payload.content
       state.isLoading = false
     })
     builder.addCase(createServices.rejected, state => {
@@ -76,7 +76,9 @@ export const services = createSlice({
       state.isLoading = true
     })
     builder.addCase(getServicesByMaintenancesId.fulfilled, (state, {payload}) => {
-        state.services = payload.content
+        if(Array.isArray(payload.content)) {
+          state.services = payload.content
+        }
         state.isLoading = false
     })
     builder.addCase(getServicesByMaintenancesId.rejected, state => {
