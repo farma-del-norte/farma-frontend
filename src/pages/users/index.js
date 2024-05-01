@@ -1,35 +1,35 @@
-import { Fragment } from 'react'
+import {Fragment} from 'react'
 import {useForm} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {closeSnackBar} from 'src/store/notifications'
-import { toggleDeleteModal } from 'src/store/users/reducer'
-import { deleteUser } from 'src/store/users/actions'
+
+import {toggleDeleteModal} from 'src/store/users/reducer'
+import {deleteUser} from 'src/store/users/actions'
 import DataTable from './DataTable'
 import EditItem from './EditItem'
 import RemoveItem from 'src/views/modals/RemoveItem'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 
 const Users = () => {
   const dispatch = useDispatch(),
-  dialogText = "Seguro que desea Eliminar usuario?",
-  methods = useForm(),
-  {isOpen, isDeleteOpen} = useSelector(state => state.users),
-  {open, message, severity} = useSelector(state => state.notifications);
-  
-    return (
-      <Fragment>
-        <DataTable/>
-        {
-          isOpen && <EditItem methods={methods} isOpen={isOpen}/>
-        }
+    dialogText = 'Seguro que desea Eliminar usuario?',
+    methods = useForm(),
+    {isOpen, isDeleteOpen} = useSelector(state => state.users)
 
-        {
-          isDeleteOpen && <RemoveItem isOpen={isDeleteOpen} deleteGeneric={deleteUser} dialogText={dialogText} toggleDeleteModal={toggleDeleteModal} getRowFunction={state => state.users}/>
-        }
-        
-        <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
-      </Fragment>
-    )
+  return (
+    <Fragment>
+      <DataTable />
+      {isOpen && <EditItem methods={methods} isOpen={isOpen} />}
+
+      {isDeleteOpen && (
+        <RemoveItem
+          isOpen={isDeleteOpen}
+          deleteGeneric={deleteUser}
+          dialogText={dialogText}
+          toggleDeleteModal={toggleDeleteModal}
+          getRowFunction={state => state.users}
+        />
+      )}
+    </Fragment>
+  )
 }
 
 export default Users

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -18,7 +18,6 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import Alert from '@mui/material/Alert'
 
 // ** Icons Imports
@@ -27,7 +26,7 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 //actions
 import {createUser, setErrors} from 'src/store/users'
-import {closeSnackBar} from 'src/store/notifications'
+
 import {PROFILES_USER} from 'src/configs/profiles'
 
 const BASIC_ERRORS = {
@@ -51,7 +50,6 @@ const FormRegister = () => {
   const {query} = useRouter()
 
   // const { isLoadingRegister: isLoading, registerErrors: errors } = useSelector(state => state.users)
-  const {open, message, positioned, severity} = useSelector(state => state.notifications)
 
   // ** States
   const [values, setValues] = React.useState({
@@ -198,13 +196,6 @@ const FormRegister = () => {
           </form>
         </CardContent>
       </Card>
-      <CustomSnackbar
-        open={open}
-        message={message}
-        severity={severity}
-        positioned={positioned}
-        handleClose={() => dispatch(closeSnackBar())}
-      />
     </>
   )
 }

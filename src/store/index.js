@@ -9,7 +9,6 @@ import damages from 'src/store/maintenances/damages/reducer'
 import damagesCat from 'src/store/catalogs/damages/reducer'
 import dimensionsCat from 'src/store/catalogs/dimensions/reducer'
 import materialsCat from 'src/store/catalogs/materials/reducer'
-import notifications from './notifications'
 import requirementsCat from 'src/store/catalogs/requirements/reducer'
 import serviceCat from 'src/store/catalogs/services/reducer'
 import suppliers from 'src/store/catalogs/suppliers/reducer'
@@ -30,7 +29,6 @@ export const store = configureStore({
     damagesCat,
     dimensionsCat,
     materialsCat,
-    notifications,
     requirementsCat,
     serviceCat,
     suppliers,

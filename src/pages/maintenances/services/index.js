@@ -1,17 +1,27 @@
 import {Fragment, useEffect, useState, useMemo} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {useSelector, useDispatch} from 'react-redux'
-import {Typography, Grid, FormControl, TextField, Box, Select, MenuItem, InputLabel, InputAdornment} from '@mui/material'
+import {
+  Typography,
+  Grid,
+  FormControl,
+  TextField,
+  Box,
+  Select,
+  MenuItem,
+  InputLabel,
+  InputAdornment
+} from '@mui/material'
 import CardTable from 'src/components/cardTable'
 import ReusableDialog from 'src/components/modal'
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import {Pencil, Delete, TextBoxSearch } from 'mdi-material-ui'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/maintenances/services/reducer'
 import {toggleMaterialModal, setIsEditing} from 'src/store/maintenances/materials/reducer'
 import {createServices, deleteServices, editServices, getServices} from 'src/store/maintenances/services/actions'
 import {createMediaService, getMediaByOwnerId, editMediaService} from 'src/store/media/actions'
-import { getServicesCat } from 'src/store/catalogs/services/actions'
-import { getSuppliers } from 'src/store/catalogs/suppliers/actions'
+import {getServicesCat} from 'src/store/catalogs/services/actions'
+import {getSuppliers} from 'src/store/catalogs/suppliers/actions'
 import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
@@ -23,68 +33,68 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import {LoadingSelect} from 'src/utils/inputs'
 import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
 import MaterialsModal from 'src/views/details-modals/MaterialsModal'
-import { getBranches } from 'src/store/catalogs/branches/actions'
+import {getBranches} from 'src/store/catalogs/branches/actions'
 import {ExpandedContent} from 'src/components/expandedContent/ExpandedContent'
 import DetailTextFieldForm from 'src/components/form/DetailTextFieldForm'
 import ClipLoader from 'react-spinners/ClipLoader'
 import {t} from 'i18next'
 
 const columns = [
-    {
-      flex: 0.25,
-      minWidth: 200,
-      field: 'serviceCatName',
-      headerName: t('services.columns.serviceCat', {ns: 'maintenances'})
-    },
-    {
-      flex: 0.25,
-      minWidth: 200,
-      field: 'date',
-      headerName: t('services.columns.date', {ns: 'maintenances'})
-    },
-    {
-      flex: 0.25,
-      minWidth: 200,
-      field: 'area',
-      headerName: t('services.columns.area_type', {ns: 'maintenances'})
-    },
-    {
-      flex: 0.25,
-      minWidth: 200,
-      field: 'supplierID',
-      headerName: t('services.columns.supplier', {ns: 'maintenances'})
-    },
-    {
-      flex: 0.25,
-      minWidth: 200,
-      field: 'cost',
-      headerName: t('services.columns.cost', {ns: 'maintenances'})
-    },
-    {
-        flex: 0.25,
-        minWidth: 200,
-        field: 'status',
-        headerName: t('services.columns.status', {ns: 'maintenances'})
-    },
-    {
-      flex: 0.25,
-      minWidth: 200,
-      field: 'notes',
-      headerName: t('services.columns.notes', {ns: 'maintenances'})
-    }
-  ]
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'serviceCatName',
+    headerName: t('services.columns.serviceCat', {ns: 'maintenances'})
+  },
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'date',
+    headerName: t('services.columns.date', {ns: 'maintenances'})
+  },
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'area',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'})
+  },
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'supplierID',
+    headerName: t('services.columns.supplier', {ns: 'maintenances'})
+  },
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'cost',
+    headerName: t('services.columns.cost', {ns: 'maintenances'})
+  },
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'status',
+    headerName: t('services.columns.status', {ns: 'maintenances'})
+  },
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'notes',
+    headerName: t('services.columns.notes', {ns: 'maintenances'})
+  }
+]
 
 const defaultValuesServices = {
-  area: undefined, 
-  areaID: undefined, 
+  area: undefined,
+  areaID: undefined,
   branchID: undefined,
-  cost: undefined, 
-  description: undefined, 
-  evidence: undefined, 
-  materials: undefined, 
-  motive: undefined, 
-  notes: undefined, 
-  provider: undefined, 
+  cost: undefined,
+  description: undefined,
+  evidence: undefined,
+  materials: undefined,
+  motive: undefined,
+  notes: undefined,
+  provider: undefined,
   services: undefined
 }
 
@@ -95,170 +105,168 @@ const defaultMaterialValues = {
   units: undefined,
   totalCost: undefined,
   service: {
-    area: undefined, 
-    areaID: undefined, 
+    area: undefined,
+    areaID: undefined,
     branchID: undefined,
-    cost: undefined, 
-    description: undefined, 
-    evidence: undefined, 
-    materials: undefined, 
-    motive: undefined, 
-    notes: undefined, 
-    provider: undefined, 
+    cost: undefined,
+    description: undefined,
+    evidence: undefined,
+    materials: undefined,
+    motive: undefined,
+    notes: undefined,
+    provider: undefined,
     services: undefined
   }
 }
 
 const Services = () => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-    const {isOpen, modalItem, isDeleteOpen, createdService, services, isLoading, modalDeleteItem} = useSelector(state => state.services)
-    //media
-    const {media} = useSelector(state => state.media)
-    //materials
-    const { isModalOpen } = useSelector(state => state.materials)
-    //serviceCat
-    const { serviceCat } = useSelector(state => state.serviceCat)
-    //supplier
-    const { suppliers } = useSelector(state => state.suppliers)
-    //areas
-    const {materials} = useSelector(state => state.materialsCat)
-    const {dimensionsCat} = useSelector(state => state.dimensionsCat)
-    const {variablesCat} = useSelector(state => state.variablesCat)
-    const {conceptsCat} = useSelector(state => state.conceptsCat)
-    const {open, message, severity} = useSelector(state => state.notifications)
-    const [areaType, setAreaType] = useState('')
-    const [areaContent, setAreaContent] = useState([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
-    const [loadingArea, setLoadingArea] = useState(false)
-    const [typeModal] = useState('service')
-    const [serviceRow, setServiceRow] = useState({})
-    const areas = useMemo(
-      () => [
-        { name: 'Materiales', value: 'Material', getList: getMaterialsCat },
-        { name: 'Dimensiones', value: 'Dimensión', getList: getDimensionsCat },
-        { name: 'Variables', value: 'Variable', getList: getVariablesCat },
-        { name: 'Concepto', value: 'Concepto', getList: getConceptsCat },
-      ],
-      []
-    );
-    const status = [
-        { name: 'Planeación'},
-        { name: 'Desarrollo'},
-        { name: 'Finalizado'},
-        { name: 'Cancelado' },
-    ]
+  const {isOpen, modalItem, isDeleteOpen, createdService, services, isLoading, modalDeleteItem} = useSelector(
+    state => state.services
+  )
+  //media
+  const {media} = useSelector(state => state.media)
+  //materials
+  const {isModalOpen} = useSelector(state => state.materials)
+  //serviceCat
+  const {serviceCat} = useSelector(state => state.serviceCat)
+  //supplier
+  const {suppliers} = useSelector(state => state.suppliers)
+  //areas
+  const {materials} = useSelector(state => state.materialsCat)
+  const {dimensionsCat} = useSelector(state => state.dimensionsCat)
+  const {variablesCat} = useSelector(state => state.variablesCat)
+  const {conceptsCat} = useSelector(state => state.conceptsCat)
 
-    const getDefaultValues = useMemo(() => {
-      if(typeModal === 'services'){
-        return defaultValuesServices
-      }
-      return defaultMaterialValues
-    }, [typeModal])
+  const [areaType, setAreaType] = useState('')
+  const [areaContent, setAreaContent] = useState([
+    {name: t('empty_select', {ns: 'maintenances'}), id: '', disabled: true}
+  ])
+  const [loadingArea, setLoadingArea] = useState(false)
+  const [typeModal] = useState('service')
+  const [serviceRow, setServiceRow] = useState({})
+  const areas = useMemo(
+    () => [
+      {name: 'Materiales', value: 'Material', getList: getMaterialsCat},
+      {name: 'Dimensiones', value: 'Dimensión', getList: getDimensionsCat},
+      {name: 'Variables', value: 'Variable', getList: getVariablesCat},
+      {name: 'Concepto', value: 'Concepto', getList: getConceptsCat}
+    ],
+    []
+  )
+  const status = [{name: 'Planeación'}, {name: 'Desarrollo'}, {name: 'Finalizado'}, {name: 'Cancelado'}]
 
-    const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
-      defaultValues: {
-        getDefaultValues
-      }
-    })
-
-    const [mediaObject, setMediaObject] = useState({
-      bucketName: "services",
-      partKey: undefined,
-      evidence: []
-    })
-
-    const handleChangeAreaType = (e, onChange) => {
-      setLoadingArea(true)
-      resetField("areaID")
-      setAreaType(e.target.value)
-      onChange(e.target.value)
+  const getDefaultValues = useMemo(() => {
+    if (typeModal === 'services') {
+      return defaultValuesServices
     }
-  
-    useEffect(() => {
-      dispatch(getServices())
-      dispatch(getBranches())
-    }, [dispatch])
+    return defaultMaterialValues
+  }, [typeModal])
 
-    // al editar obtiene la media
-    useEffect(() => {
-      setValue('evidence', media)
-    },[media, setValue])
-
-    // al crear service asigna el id del service para owner de media
-    useEffect(() => {
-      if(Object.keys(createdService).length > 0){
-        mediaObject.partKey = createdService.id
-        if(mediaObject.evidence.length > 0 && !Boolean(modalItem))
-          dispatch(createMediaService(mediaObject))
-      }
-    }, [createdService, mediaObject, dispatch, modalItem])
-
-    useEffect(() =>{
-      if(areaType !== ''){
-        //llamar a la api del area seleccionada
-        const areaId = areas.findIndex((area) => area.value === areaType);
-        dispatch(areas[areaId]?.getList())
-      }
-    }, [areaType, dispatch, areas])
-
-    useEffect(() => {
-      switch(areaType){
-        case "Material":
-          setAreaContent(materials)
-          break;
-        case "Dimensión":
-          setAreaContent(dimensionsCat)
-          break;
-        case "Variable":
-          setAreaContent(variablesCat)
-          break;
-        case "Concepto":
-          setAreaContent(conceptsCat)
-          break;
-      }
-    }, [materials, dimensionsCat, variablesCat, conceptsCat, areaType])
-  
-    const handleCloseModal = () => {
-      reset()
-      const cleanModal = null
-      dispatch(toggleModal(false))
-      dispatch(setModalItem(cleanModal))
+  const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
+    defaultValues: {
+      getDefaultValues
     }
-  
-    const handleCloseDeleteModal = () => {
-      const cleanModal = null
-      dispatch(toggleDeleteModal(false))
-      dispatch(setDeleteItem(cleanModal))
-    }
-  
-    const handleOpenModal = params => {
-      const {row, open} = params
-      setAreaContent([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
-      reset(row)
-      //AL editar
-      setValue("date", row.date.split("T")[0])
-      setAreaType(row.area)
-      dispatch(getMediaByOwnerId({id: row.id}))
-      dispatch(getServicesCat())
-      dispatch(getSuppliers())
-      dispatch(toggleModal(open))
-      dispatch(setModalItem(row))
-    }
+  })
 
-    const handleOpenMaterialsServiceModal = params => {
-      setAreaContent([])
-      //get suppliers
-      dispatch(getSuppliers())
-      //Assign area from areaType of the row
-      const {row, open} = params
-      const area = areas.find((area) => area.value === row.area)
-      setAreaType(area.value)
-      //assign all service info into an object
-      reset({service: row})
-      setServiceRow(getValues())
-      dispatch(toggleMaterialModal(open))
-      dispatch(setIsEditing(false))
+  const [mediaObject, setMediaObject] = useState({
+    bucketName: 'services',
+    partKey: undefined,
+    evidence: []
+  })
+
+  const handleChangeAreaType = (e, onChange) => {
+    setLoadingArea(true)
+    resetField('areaID')
+    setAreaType(e.target.value)
+    onChange(e.target.value)
+  }
+
+  useEffect(() => {
+    dispatch(getServices())
+    dispatch(getBranches())
+  }, [dispatch])
+
+  // al editar obtiene la media
+  useEffect(() => {
+    setValue('evidence', media)
+  }, [media, setValue])
+
+  // al crear service asigna el id del service para owner de media
+  useEffect(() => {
+    if (Object.keys(createdService).length > 0) {
+      mediaObject.partKey = createdService.id
+      if (mediaObject.evidence.length > 0 && !Boolean(modalItem)) dispatch(createMediaService(mediaObject))
     }
+  }, [createdService, mediaObject, dispatch, modalItem])
+
+  useEffect(() => {
+    if (areaType !== '') {
+      //llamar a la api del area seleccionada
+      const areaId = areas.findIndex(area => area.value === areaType)
+      dispatch(areas[areaId]?.getList())
+    }
+  }, [areaType, dispatch, areas])
+
+  useEffect(() => {
+    switch (areaType) {
+      case 'Material':
+        setAreaContent(materials)
+        break
+      case 'Dimensión':
+        setAreaContent(dimensionsCat)
+        break
+      case 'Variable':
+        setAreaContent(variablesCat)
+        break
+      case 'Concepto':
+        setAreaContent(conceptsCat)
+        break
+    }
+  }, [materials, dimensionsCat, variablesCat, conceptsCat, areaType])
+
+  const handleCloseModal = () => {
+    reset()
+    const cleanModal = null
+    dispatch(toggleModal(false))
+    dispatch(setModalItem(cleanModal))
+  }
+
+  const handleCloseDeleteModal = () => {
+    const cleanModal = null
+    dispatch(toggleDeleteModal(false))
+    dispatch(setDeleteItem(cleanModal))
+  }
+
+  const handleOpenModal = params => {
+    const {row, open} = params
+    setAreaContent([{name: t('empty_select', {ns: 'maintenances'}), id: '', disabled: true}])
+    reset(row)
+    //AL editar
+    setValue('date', row.date.split('T')[0])
+    setAreaType(row.area)
+    dispatch(getMediaByOwnerId({id: row.id}))
+    dispatch(getServicesCat())
+    dispatch(getSuppliers())
+    dispatch(toggleModal(open))
+    dispatch(setModalItem(row))
+  }
+
+  const handleOpenMaterialsServiceModal = params => {
+    setAreaContent([])
+    //get suppliers
+    dispatch(getSuppliers())
+    //Assign area from areaType of the row
+    const {row, open} = params
+    const area = areas.find(area => area.value === row.area)
+    setAreaType(area.value)
+    //assign all service info into an object
+    reset({service: row})
+    setServiceRow(getValues())
+    dispatch(toggleMaterialModal(open))
+    dispatch(setIsEditing(false))
+  }
 
     const getValueFromID = (array, id, keyToReturn) => {
       return array.find((object) => object.id === id)[keyToReturn]
