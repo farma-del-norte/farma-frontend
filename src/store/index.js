@@ -19,6 +19,7 @@ import maintenances from 'src/store/maintenances/correctives/reducer'
 import services from 'src/store/maintenances/services/reducer'
 import materials from 'src/store/maintenances/materials/reducer'
 import media from 'src/store/media/reducer'
+import simple from 'src/store/simple/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -38,7 +39,8 @@ export const store = configureStore({
     maintenances,
     services,
     materials,
-    media
+    media,
+    simple
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
