@@ -6,8 +6,8 @@ const initialState = {
   materials: [],
   isModalOpen: false,
   isEditing: false,
-  isDeleteOpen: false,
-  modalDeleteItem: null
+  isMaterialDeleteOpen: false,
+  modalDeleteMaterial: null
 }
 
 export const materials = createSlice({
@@ -21,11 +21,11 @@ export const materials = createSlice({
     setIsEditing: (state, {payload}) => {
       state.isEditing = payload
     },
-    toggleDeleteModal: (state, {payload}) => {
-      state.isDeleteOpen = payload
+    toggleDeleteMaterialModal: (state, {payload}) => {
+      state.isMaterialDeleteOpen = payload
     },
-    setDeleteItem: (state, {payload}) => {
-      state.modalDeleteItem = payload
+    setMaterialDeleteItem: (state, {payload}) => {
+      state.modalDeleteMaterial = payload
     }
   },
   extraReducers: builder => {
@@ -43,7 +43,7 @@ export const materials = createSlice({
       state.isLoading = true
     })
     builder.addCase(createMaterial.fulfilled, (state, {payload}) => {
-      state.materials = payload.content
+      state.materials = payload
       state.isLoading = false
     })
     builder.addCase(createMaterial.rejected, state => {
@@ -63,7 +63,7 @@ export const materials = createSlice({
         state.isLoading = true
     })
     builder.addCase(deleteMaterial.fulfilled, (state, {payload}) => {
-        state.materials = payload.content
+        state.materials = payload
         state.isLoading = false
     })
     builder.addCase(deleteMaterial.rejected, state => {
@@ -73,7 +73,7 @@ export const materials = createSlice({
       state.isLoading = true
     })
     builder.addCase(getMaterialsByServices.fulfilled, (state, {payload}) => {
-        state.materials = payload.content
+        state.materials = payload
         state.isLoading = false
     })
     builder.addCase(getMaterialsByServices.rejected, state => {
@@ -84,4 +84,4 @@ export const materials = createSlice({
 
 export default materials.reducer
 
-export const {toggleMaterialModal, setIsEditing, toggleDeleteModal, setDeleteItem} = materials.actions
+export const {toggleMaterialModal, setIsEditing, toggleDeleteMaterialModal, setMaterialDeleteItem} = materials.actions

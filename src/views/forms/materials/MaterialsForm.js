@@ -11,6 +11,7 @@ export const MaterialsForm = ({control, handleSubmit}) => {
   const dispatch = useDispatch()
   //materialsCat
   const { materialsCat } = useSelector(state => state.materialsCat)
+  const { services } = useSelector(state => state.services)
   const MATERIAL_UNITS = [
     {name:'Kilómetro'}, 
     {name:'Metro'}, 
@@ -37,28 +38,49 @@ export const MaterialsForm = ({control, handleSubmit}) => {
     <form onSubmit={handleSubmit()}>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <Grid item xs={12} sx={{marginBottom: '10px', marginTop: '10px'}}>
-          <FormControl fullWidth>
-            <Controller
-                name='materialCatID'
-                control={control}
-                render={({field: {value, onChange}}) => (
-                  <>
-                    <InputLabel>{t('materials.columns.materialCat', {ns: 'maintenances'})}</InputLabel>
-                    <Select
-                      value={value || ''}
-                      label={t('materials.columns.materialCat', {ns: 'maintenances'})}
-                      onChange={onChange}
-                    >
-                      {materialsCat.map((material, i) =>
-                        <MenuItem key={i} value={material.id}>{material.name}</MenuItem>
-                      )}
-                    </Select>
-                  </>)}
-            />       
-          </FormControl>
-          </Grid>
           <Grid container spacing={5}>
+          <Grid item xs={6} sx={{marginTop: '10px'}}>
+            <FormControl fullWidth>
+              <Controller
+                  name='serviceID'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <>
+                      <InputLabel>{t('services_column_name', {ns: 'maintenances'})}</InputLabel>
+                      <Select
+                        value={value || ''}
+                        label={t('services_column_name', {ns: 'maintenances'})}
+                        onChange={onChange}
+                      >
+                        {services.map((service, i) =>
+                          <MenuItem key={i} value={service.id}>{service.id}</MenuItem>
+                        )}
+                      </Select>
+                    </>)}
+              />       
+            </FormControl>
+          </Grid>
+          <Grid item xs={6} sx={{marginTop: '10px'}}>
+            <FormControl fullWidth>
+              <Controller
+                  name='materialCatID'
+                  control={control}
+                  render={({field: {value, onChange}}) => (
+                    <>
+                      <InputLabel>{t('materials.columns.materialCat', {ns: 'maintenances'})}</InputLabel>
+                      <Select
+                        value={value || ''}
+                        label={t('materials.columns.materialCat', {ns: 'maintenances'})}
+                        onChange={onChange}
+                      >
+                        {materialsCat.map((material, i) =>
+                          <MenuItem key={i} value={material.id}>{material.name}</MenuItem>
+                        )}
+                      </Select>
+                    </>)}
+              />       
+            </FormControl>
+          </Grid>
             <Grid item xs={12} md={6} sx={{marginTop: '10px'}}>
               <FormControl fullWidth>
                 <Controller

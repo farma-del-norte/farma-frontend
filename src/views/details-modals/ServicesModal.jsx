@@ -10,8 +10,6 @@ import {Typography, Box} from '@mui/material'
 import {createServices, deleteServices, editServices, getServicesByMaintenancesId} from 'src/store/maintenances/services/actions'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/maintenances/services/reducer'
 import {createMediaService, getMediaByOwnerId, editMediaService} from 'src/store/media/actions'
-import {closeSnackBar} from 'src/store/notifications'
-import CustomSnackbar from 'src/components/snackbar/CustomSnackbar'
 import {t} from 'i18next'
 
 const columns = [
@@ -78,7 +76,6 @@ const ServicesModal = ({cardTitle, maintenance}) => {
   const {isOpen, modalItem, isDeleteOpen, createdService, services, isLoading, modalDeleteItem} = useSelector(state => state.services)
   //media
   const {media} = useSelector(state => state.media)
-  const {open, message, severity} = useSelector(state => state.notifications)
   const [areaContent, setAreaContent] = useState([{name: t('empty_select', {ns: 'maintenances'}), id: "", disabled: true}])
   const [loadingArea, setLoadingArea] = useState(false)
   const [areaType, setAreaType] = useState('')
@@ -276,7 +273,6 @@ const ServicesModal = ({cardTitle, maintenance}) => {
             <Typography variant='body2'>{t('services_delete_confirm_message', {ns: 'maintenances'})}</Typography>
           </Box>
         </ReusableDialog>
-        <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </div>
   )
 }

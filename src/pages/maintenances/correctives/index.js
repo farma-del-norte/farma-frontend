@@ -19,8 +19,8 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal, toggleDetailModal, setDetailItem} from 'src/store/maintenances/correctives/reducer'
 import {createMaintenance, deleteMaintenance, editMaintenance, getMaintenances} from 'src/store/maintenances/correctives/actions'
-import {toggleMaterialModal} from 'src/store/maintenances/materials/reducer'
-import { getMaterialsByServices } from 'src/store/maintenances/materials/actions'
+import {toggleMaterialModal, toggleDeleteMaterialModal, setMaterialDeleteItem} from 'src/store/maintenances/materials/reducer'
+import { getMaterialsByServices, deleteMaterial } from 'src/store/maintenances/materials/actions'
 import {getBranches} from 'src/store/catalogs/branches/actions'
 import {MAINTENANCES, COMMON} from 'src/utils/constants'
 
@@ -73,18 +73,15 @@ const materialsColumns = [
   {
     flex: 0.25,
     minWidth: 100,
-    field: 'material',
-    headerName: 'Material',
-    editable: true
+    field: 'serviceID',
+    type: 'singleSelect',
+    headerName: 'Servicio',
   },
   {
     flex: 0.25,
     minWidth: 100,
-    field: 'service',
-    type: 'singleSelect',
-    valueOptions: ['aqui', 'estaran', 'los', 'servicos', 'del', 'back'],
-    headerName: 'Servicio',
-    editable: true,
+    field: 'serviceCatName',
+    headerName: 'Cat material',
   },
   {
     flex: 0.25,
@@ -92,22 +89,25 @@ const materialsColumns = [
     field: 'quantity',
     type: 'number',
     headerName: 'Cantidad',
-    editable: true
   },
   {
     flex: 0.25,
     minWidth: 100,
-    field: 'unity',
+    field: 'units',
     headerName: 'Unidad',
-    editable: true
   },
   {
     flex: 0.25,
     minWidth: 100,
-    field: 'cost',
+    field: 'unitCost',
+    headerName: 'costo unidad',
+  },
+  {
+    flex: 0.25,
+    minWidth: 100,
+    field: 'totalCost',
     type: 'number',
-    headerName: 'Costo',
-    editable: true
+    headerName: 'Costo total',
   },
 ]
 
@@ -218,7 +218,7 @@ const Maintenances = () => {
     state => state.maintenances
   )
   const { services } = useSelector(state => state.services)
-  const { isModalOpen, materials } = useSelector(state => state.materials)
+  const { isModalOpen, materials, isMaterialDeleteOpen, modalDeleteMaterial } = useSelector(state => state.materials)
   const [selectedMaint, setSelectedMaint] = useState([])
   //branches
   const {branches} = useSelector(state => state.branches)
@@ -227,7 +227,6 @@ const Maintenances = () => {
     { name: 'Preventivos', value: 'Preventivos'},
     { name: 'Siniestros', value: 'Siniestros'}
   ]
-  const {open, message, severity} = useSelector(state => state.notifications)
 
   const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
     defaultValues: {
@@ -250,11 +249,11 @@ const Maintenances = () => {
   }, [dispatch])
 
   // de un arreglo de ids de servicios, obtiene los materiales de esos servicios
-  // useEffect(() => {
-  //   if(services.length > 0) {
-  //     dispatch(getMaterialsByServices(services))
-  //   }
-  // }, [services, dispatch])
+  useEffect(() => {
+    if(services.length > 0) {
+      dispatch(getMaterialsByServices(services))
+    }
+  }, [services, dispatch])
 
   const handleCloseModal = () => {
     reset()
@@ -290,7 +289,6 @@ const Maintenances = () => {
     setSelectedMaint(row)
     dispatch(getBranches())
     dispatch(toggleDetailModal(open))
-    // debe ser el id de servicios
     dispatch(setDetailItem(row))
   }
 
@@ -300,9 +298,30 @@ const Maintenances = () => {
     dispatch(getBranches())
     dispatch(setModalItem(null))
   }
-
+  // materials
   const handleAddMaterial = () => {
     reset({})
+    dispatch(toggleMaterialModal(true))
+  }
+
+  const handleDelMaterial = (row) => {
+    dispatch(toggleDeleteMaterialModal(true))
+    dispatch(setMaterialDeleteItem(row))
+  }
+
+  const handleCloseMaterialDeleteModal = () => {
+    dispatch(toggleDeleteMaterialModal(false))
+  }
+
+  const handleMaterialDeleteConfirm = () => {
+    const values = { ...modalDeleteMaterial, services}
+    dispatch(deleteMaterial(values))
+    handleCloseMaterialDeleteModal()
+  }
+
+  const handleEditMaterial = row => {
+    reset(row)
+    //AL editar
     dispatch(toggleMaterialModal(true))
   }
 
@@ -324,6 +343,25 @@ const Maintenances = () => {
     }
     handleCloseModal()
   }
+
+  const actionableMaterialColumns = [
+    ...materialsColumns,
+    {
+      flex: 0.125,
+      minWidth: 120,
+      field: 'actions',
+      headerName: 'Acciones',
+      renderCell: params => {
+        const row = params?.row
+        return (
+          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
+            <Pencil sx={{margin: '5px'}} onClick={() => handleEditMaterial(row)} />
+            <Delete sx={{margin: '5px'}} onClick={() => handleDelMaterial(row)} />
+          </Typography>
+        )
+      }
+    }
+  ]
 
   const actionableColumns = [
     ...columns,
@@ -497,7 +535,6 @@ const Maintenances = () => {
           title={'Detalles del mantenimiento'}
           actions={[
             {label: 'Regresar', onClick: handleCloseDetailsModal, color: 'primary', variant: 'outlined'},
-            {label: 'Guardar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
           ]}
         >
           <form>
@@ -562,7 +599,7 @@ const Maintenances = () => {
                 <Grid item xs={7} md={7} sx={{marginTop: '6px'}}>
                   <CardTable
                     showAddButton
-                    columns={materialsColumns}
+                    columns={actionableMaterialColumns}
                     rows={materials}
                     pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
                     label={t('materials.title', {ns: 'maintenances'})}
@@ -592,8 +629,21 @@ const Maintenances = () => {
                 </Grid>
             </Grid>
           </form>
+          <ReusableDialog
+            open={isMaterialDeleteOpen}
+            size={"md"}
+            onClose={handleCloseMaterialDeleteModal}
+            title={'Borrar'}
+            actions={[
+              {label: 'Regresar', onClick: handleCloseMaterialDeleteModal, color: 'primary', variant: 'outlined'},
+              {label: 'Eliminar', onClick: handleMaterialDeleteConfirm, color: 'primary', variant: 'contained'}
+            ]}
+          >
+            <Box>
+              <Typography variant='body2'>Seguro de eliminar el material seleccionado?</Typography>
+            </Box>
+          </ReusableDialog>
         </ReusableDialog>
-      <CustomSnackbar open={open} message={message} severity={severity} handleClose={() => dispatch(closeSnackBar())} />
     </Fragment>
   )
 }

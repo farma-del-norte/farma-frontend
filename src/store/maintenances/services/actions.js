@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
-import {createService, getService, editService, deleteService} from 'src/services/maintenances/services'
+import {createService, getService, editService, deleteService, getServicesByMaintenanceId} from 'src/services/maintenances/services'
 import toast from 'react-hot-toast'
 import {MAINTENANCES_LOCALE} from 'src/utils/constants'
 
@@ -16,9 +16,10 @@ export const getServices = createAsyncThunk('/services-cat/getServices', async t
 
 export const createServices = createAsyncThunk('/services-cat/createService', async (body, thunkApi) => {
   try {
-    const payload = await createService(body)
+    const createdService = await createService(body)
+    const payload = await getServicesByMaintenanceId(body.maintenanceID)
     toast.success(MAINTENANCES_LOCALE.SERVICES_CREATE_MESSAGE)
-    return payload
+    return {payload, createdService}
   } catch (error) {
     const errMessage = error
     toast.error(errMessage)
@@ -26,14 +27,13 @@ export const createServices = createAsyncThunk('/services-cat/createService', as
   }
 })
 
-export const createServices = createAsyncThunk('/services-cat/createService', async (body, thunkApi) => {
+export const getServicesByMaintenancesId = createAsyncThunk('/services-cat/getServicesByMaintenanceId', async (id, thunkApi) => {
   try {
-    const createdService = await createService(body)
-    const payload = await getServicesByMaintenanceId(body.maintenanceID)
-    return {payload, createdService}
+    const payload = await getServicesByMaintenanceId(id)
+    return payload
   } catch (error) {
     const errMessage = error
-    // thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })

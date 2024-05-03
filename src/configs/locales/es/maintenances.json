@@ -71,8 +71,8 @@
             "notes": "notas"
         },
         "title": "Materiales",
-        "edit_modal": "Editar material del servicio seleccionado",
-        "add_modal": "Agregar material del servicio seleccionado",
+        "edit_modal": "Editar material",
+        "add_modal": "Agregar material",
         "delete_modal": "Eliminar material del servicio",
         "delete_confirm_message": "¿Seguro de eliminar el material del servicio seleccionado?",
         "edit_message": "material del servicio actualizado con éxito",

@@ -8,9 +8,10 @@ import {t} from 'i18next'
 const MaterialsModal = ({control, handleSubmit, children}) => {
   const dispatch = useDispatch()
   const {isModalOpen, isEditing} = useSelector(state => state.materials)
+  const { services } = useSelector(state => state.services)
 
   const handleAddMaterial = values => {
-    values = { ...values, serviceID: values.service.id}
+    values = { ...values, services: services}
     dispatch(createMaterial(values))
     handleCloseModal()
   }

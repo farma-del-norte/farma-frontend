@@ -45,6 +45,12 @@ const navigation = () => {
       visible: true
     },
     {
+      title: 'Simple',
+      path: '/simple',
+      icon: ListAlt,
+      visible: true
+    },
+    {
       title: i18n.t('maintenances_title'),
       path: '/maintenances',
       icon: Storage,

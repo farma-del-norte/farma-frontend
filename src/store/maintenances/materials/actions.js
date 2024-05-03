@@ -3,7 +3,8 @@ import {
   getMaterialsService,
   createMaterialService,
   editMaterialService,
-  deleteMaterialService
+  deleteMaterialService,
+  getMaterialsByService
 } from 'src/services/maintenances/materials'
 import toast from 'react-hot-toast'
 import {t} from 'i18next'
@@ -22,23 +23,30 @@ export const getMaterial = createAsyncThunk('/materials/getMaterials', async thu
 export const getMaterialsByServices = createAsyncThunk('/materials/getMaterialsByService', async (services, thunkApi) => {
   try {
     let materials = []
-    for( service in services) {
-      const payload = await getMaterialsByService(service.id)
+    for(var i = 0; i < services.length; i ++) {
+      const payload = await getMaterialsByService(services[i].id)
       materials = materials.concat(payload.content);
     }
     return materials
   } catch (error) {
     const errMessage = error
-    thunkApi.dispatch(openSnackBar({open: true, message: errMessage, severity: 'error'}))
+    toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
 })
 
 export const createMaterial = createAsyncThunk('/materials/createMaterial', async (body, thunkApi) => {
   try {
-    const payload = await createMaterialService(body)
+    let materials = []
+    const services = body.services
+    delete body.services
+    await createMaterialService(body)
+    for(var i = 0; i < services.length; i ++) {
+      const payload = await getMaterialsByService(services[i].id)
+      materials = materials.concat(payload.content);
+    }
     toast.success(t('materials:create_message', {ns: 'maintenances'}))
-    return payload
+    return materials
   } catch (error) {
     const errMessage = error
     toast.error(errMessage)
@@ -58,11 +66,18 @@ export const editMaterial = createAsyncThunk('/materials/editService', async (bo
   }
 })
 
-export const deleteMaterial = createAsyncThunk('/materials/deleteService', async ({id}, thunkApi) => {
+export const deleteMaterial = createAsyncThunk('/materials/deleteService', async (body, thunkApi) => {
   try {
-    const payload = await deleteMaterialService(id)
+    const services = body.services
+    delete body.services
+    await deleteMaterialService(body.id)
+    let materials = []
+    for(var i = 0; i < services.length; i ++) {
+      const payload = await getMaterialsByService(services[i].id)
+      materials = materials.concat(payload.content);
+    }
     toast.success(t('materials:delete_message', {ns: 'maintenances'}))
-    return payload
+    return materials
   } catch (error) {
     const errMessage = error.message
     toast.error(errMessage)
