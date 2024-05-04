@@ -1,10 +1,7 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
-import store from 'src/store/index'
 
-export const get = async () => {
-  const state = store.simple.getState()
-  console.log(state)
-  const url = `${MAINTENANCES_ENDPOINT}/zones`
+export const get = async (params) => {
+  const url = `${params.endpoint}`
   try {
     const result = await api_get(url)
     return result
@@ -14,7 +11,7 @@ export const get = async () => {
 }
 
 export const create = async body => {
-  const url = `${MAINTENANCES_ENDPOINT}/maintenances`
+  const url = `${MAINTENANCES_ENDPOINT}`
   try {
     const result = await api_post(url, body)
     return result
@@ -24,7 +21,7 @@ export const create = async body => {
 }
 
 export const edit = async body => {
-  const url = `${MAINTENANCES_ENDPOINT}/maintenances/${body.id}`
+  const url = `${MAINTENANCES_ENDPOINT}/${body.id}`
   try {
     const result = await api_patch(url, body)
     return result
@@ -33,8 +30,8 @@ export const edit = async body => {
   }
 }
 
-export const del = async id => {
-  const url = `${MAINTENANCES_ENDPOINT}/maintenances/${id}`
+export const del = async (params) => {
+  const url = `${params.endpointsParams.endpoint}/${params.id}`
   try {
     const result = await api_delete(url)
     return result

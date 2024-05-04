@@ -3,9 +3,9 @@ import {t} from 'i18next'
 import { get, create, edit, del } from 'src/services/simple/globalCalls'
 import toast from 'react-hot-toast'
 
-export const getCall = createAsyncThunk('/service/getMaintenances', async thunkApi => {
+export const getCall = createAsyncThunk('/service/get', async (params, thunkApi) => {
   try {
-    const payload = await get()
+    const payload = await get(params)
     return payload
   } catch (error) {
     const errMessage = error
@@ -14,7 +14,7 @@ export const getCall = createAsyncThunk('/service/getMaintenances', async thunkA
   }
 })
 
-export const createCall = createAsyncThunk('/service/createMaintenance', async (body, thunkApi) => {
+export const createCall = createAsyncThunk('/service/create', async (body, thunkApi) => {
   try {
     const payload = await create(body)
     toast.success(t('maintenances_cat_create_message', {ns: 'maintenances'}))
@@ -26,7 +26,7 @@ export const createCall = createAsyncThunk('/service/createMaintenance', async (
   }
 })
 
-export const editCall = createAsyncThunk('/service/editMaintenance', async (body, thunkApi) => {
+export const editCall = createAsyncThunk('/service/edit', async (body, thunkApi) => {
   try {
     const payload = await edit(body)
     toast.success(t('maintenances_edit_message', {ns: 'maintenances'}))
@@ -38,10 +38,10 @@ export const editCall = createAsyncThunk('/service/editMaintenance', async (body
   }
 })
 
-export const deleteCall = createAsyncThunk('/service/deleteMaintenance', async ({id}, thunkApi) => {
+export const deleteCall = createAsyncThunk('/service/delete', async (params, thunkApi) => {
   try {
-    const payload = await del(id)
-    toast.success(t('maintenances_cat_delete_message', {ns: 'maintenances'}))
+    const payload = await del(params)
+    toast.success('eliminado con exito')
     return payload
   } catch (error) {
     const errMessage = error.message

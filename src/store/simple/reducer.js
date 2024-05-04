@@ -2,11 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import {getCall, createCall, editCall, deleteCall} from './actions'
 
 const initialState = {
-  mainEndpoint: null,
-  lists: {
-    prueba: [],
-    Prueba2: [],
-  },
+  tables: {},
 }
 
 export const simpleSlice = createSlice({
@@ -14,29 +10,24 @@ export const simpleSlice = createSlice({
   initialState,
   reducers: {
     /* edit modal */
-    toggleModal: (state, {payload}) => {
-      state.isOpen = payload
+    initList: (state, {payload}) => {
+      state.tables[payload] = { isLoading: true, list: [] }
     },
-    toggleDeleteModal: (state, {payload}) => {
-      state.isDeleteOpen = payload
-    },
-    setRow: (state, {payload}) => {
-      state.currentRow = payload
-    },
-    setEndpoint: (state, {payload}) => {
-      
-    }
   },
   extraReducers: builder => {
-    builder.addCase(getCall.pending, state => {
-      state.isLoading = true
+    builder.addCase(getCall.pending, (state, action) => {
+      const key = action.meta.arg.key
+      if (!state.tables[key])
+        state.tables[key] = { isLoading: true, list: [] }
     })
-    builder.addCase(getCall.fulfilled, (state, {payload}) => {
-      state.budgets = payload.content
-      state.isLoading = false
+    builder.addCase(getCall.fulfilled, (state, action) => {
+      const key = action.meta.arg.key
+      state.tables[key].list = action.payload.content
+      state.tables[key].isLoading = false
     })
-    builder.addCase(getCall.rejected, state => {
-      state.isLoading = false
+    builder.addCase(getCall.rejected, (state, action) => {
+      const key = action.meta.arg.key
+      state.tables[key].isLoading = false
     })
     builder.addCase(createCall.pending, state => {
       state.isLoading = true
@@ -58,18 +49,22 @@ export const simpleSlice = createSlice({
     builder.addCase(editCall.rejected, state => {
       state.isLoading = false
     })
-    builder.addCase(deleteCall.pending, state => {
-      state.isLoading = true
+    builder.addCase(deleteCall.pending, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].isLoading = true
     })
-    builder.addCase(deleteCall.fulfilled, (state, {payload}) => {
-      state.budgets = payload.content
-      state.isLoading = false
+    builder.addCase(deleteCall.fulfilled, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].list = action.payload.content
+      state.tables[key].isLoading = false
+    })
+    builder.addCase(deleteCall.rejected, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].isLoading
     })
   }
 })
 
 export default simpleSlice.reducer
 
-export const mainEndpoint = state => state.mainEndpoint;
-
-export const {toggleModal, toggleDeleteModal, setRow} = simpleSlice.actions
+export const {initList} = simpleSlice.actions
