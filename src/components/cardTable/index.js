@@ -1,8 +1,14 @@
 import React from 'react'
-import {Card, CardHeader, Box, useMediaQuery, IconButton, Tooltip} from '@mui/material'
-import {DataGrid, GridToolbar} from '@mui/x-data-grid'
+import {Card, Box, useMediaQuery, IconButton, Tooltip, Typography} from '@mui/material'
+import {
+  DataGrid,
+  GridToolbarExport,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarQuickFilter
+} from '@mui/x-data-grid'
+import {esES} from '@mui/x-data-grid/locales'
 import {AddCircleOutline} from '@mui/icons-material'
-import {getLocaleText} from 'src/configs/defaultLocaleText'
 
 const CardTable = ({showAddButton = false, ...props}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
@@ -15,22 +21,45 @@ const CardTable = ({showAddButton = false, ...props}) => {
 
   const addButtonTooltip = `Agregar ${props.label}` // Tooltip text
 
-  return (
-    <Card>
-      <CardHeader
-        title={props.label}
-        action={
-          showAddButton && (
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer sx={{justifyContent: 'space-between', p: '1rem'}}>
+        <Typography sx={{fontWeight: 'bold', ml: '7px'}} variant='h6'>
+          {props.label}
+        </Typography>
+        <GridToolbarQuickFilter />
+        <Box>
+          <GridToolbarColumnsButton />
+          {/* <GridToolbarFilterButton /> */}
+          {/* <GridToolbarDensitySelector /> */}
+          <GridToolbarExport
+            csvOptions={{
+              utf8WithBom: true
+            }}
+          />
+          {showAddButton && (
             <Tooltip title={addButtonTooltip}>
               <IconButton onClick={handleAddClick} color='primary'>
                 <AddCircleOutline />
               </IconButton>
             </Tooltip>
-          )
-        }
-      />
+          )}
+        </Box>
+      </GridToolbarContainer>
+    )
+  }
+
+  return (
+    <Card>
       <Box sx={{height: gridHeight}}>
-        <DataGrid slots={{toolbar: GridToolbar}} localeText={getLocaleText()} {...props} />
+        <DataGrid
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          loading={true}
+          slots={{
+            toolbar: CustomToolbar
+          }}
+          {...props}
+        />
       </Box>
     </Card>
   )
