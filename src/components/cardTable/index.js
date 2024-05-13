@@ -9,8 +9,11 @@ import {
 } from '@mui/x-data-grid'
 import {esES} from '@mui/x-data-grid/locales'
 import {AddCircleOutline} from '@mui/icons-material'
+import FallbackSpinner from 'src/@core/components/spinner'
+import CircularProgress from '@mui/material/CircularProgress'
+import Image from 'next/image'
 
-const CardTable = ({showAddButton = false, ...props}) => {
+const CardTable = ({showAddButton = false, loading, ...props}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const gridHeight = isMobile ? 300 : 500
 
@@ -20,6 +23,10 @@ const CardTable = ({showAddButton = false, ...props}) => {
   }
 
   const addButtonTooltip = `Agregar ${props.label}` // Tooltip text
+
+  function CustomLoadingOverlay() {
+    return <FallbackSpinner />
+  }
 
   function CustomToolbar() {
     return (
@@ -54,9 +61,10 @@ const CardTable = ({showAddButton = false, ...props}) => {
       <Box sx={{height: gridHeight}}>
         <DataGrid
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          loading={true}
+          loading={loading}
           slots={{
-            toolbar: CustomToolbar
+            toolbar: CustomToolbar,
+            loadingOverlay: CustomLoadingOverlay
           }}
           {...props}
         />
