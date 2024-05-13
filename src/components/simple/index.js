@@ -76,7 +76,7 @@ export const Simple = ({table, modal}) => {
       <CardTable
         showAddButton={table.showAddButton}
         columns={actionableColumns}
-        rows={tables[keyList].list}
+        rows={tables[keyList]?.list || []}
         loading={!tables[keyList] || tables[keyList].loading}
         pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
         label={table.label}
