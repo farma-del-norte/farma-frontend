@@ -2,12 +2,28 @@ import ReusableDialog from 'src/components/modal'
 import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import Form from 'src/components/simple/form'
+import * as Yup from 'yup'
+import {yupResolver} from '@hookform/resolvers/yup'
+
+const generateValidationSchema = formFields => {
+  let schemaFields = {}
+
+  formFields.forEach(field => {
+    if (['text', 'textarea'].includes(field.type)) {
+      schemaFields[field.name] = field.isRequired ? Yup.string().required() : Yup.string().notRequired()
+    }
+  })
+
+  return Yup.object().shape(schemaFields)
+}
 
 export const Modal = ({open, setOpen, modal}) => {
   const [isEditing, setIsEditing] = useState(false)
   const [actions, setActions] = useState([])
+  const defaultValues = modal.form.reduce((acc, field) => ({...acc, [field.name]: undefined}), {})
   const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
-    defaultValues: {}
+    defaultValues: defaultValues,
+    resolver: yupResolver(generateValidationSchema(modal.form))
   })
 
   const handleCloseModal = () => {

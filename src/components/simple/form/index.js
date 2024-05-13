@@ -21,7 +21,6 @@ const Form = ({inputs, control, resetField, reset, setValue, getValues}) => {
             <Controller
               name={input.name}
               control={control}
-              rules={{required: input.isRequired}}
               render={({field: {value, onChange}, fieldState: {error}}) => (
                 <Inputs input={input} value={value} onChange={onChange} error={error} />
               )}
