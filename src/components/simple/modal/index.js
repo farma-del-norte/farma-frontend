@@ -1,6 +1,7 @@
 import ReusableDialog from 'src/components/modal'
 import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
+import Form from 'src/components/simple/form'
 
 export const Modal = ({open, setOpen, modal}) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -42,6 +43,15 @@ export const Modal = ({open, setOpen, modal}) => {
         {label: modal?.actions?.back ?? 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
         ...actions
       ]}
-    ></ReusableDialog>
+    >
+      <Form
+        inputs={modal.form}
+        control={control}
+        resetField={resetField}
+        reset={reset}
+        setValue={setValue}
+        getValues={getValues}
+      />
+    </ReusableDialog>
   )
 }
