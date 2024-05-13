@@ -10,8 +10,6 @@ import {
 import {esES} from '@mui/x-data-grid/locales'
 import {AddCircleOutline} from '@mui/icons-material'
 import FallbackSpinner from 'src/@core/components/spinner'
-import CircularProgress from '@mui/material/CircularProgress'
-import Image from 'next/image'
 
 const CardTable = ({showAddButton = false, loading, ...props}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))

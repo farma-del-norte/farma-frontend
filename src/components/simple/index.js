@@ -1,7 +1,6 @@
 import CardTable from 'src/components/cardTable'
 import {Modal} from 'src/components/simple/modal'
 import ReusableDialog from 'src/components/modal'
-import FallbackSpinner from 'src/@core/components/spinner'
 import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
 import {Fragment, useState, useEffect, useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
