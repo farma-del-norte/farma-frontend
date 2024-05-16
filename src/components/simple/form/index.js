@@ -19,7 +19,7 @@ const Form = ({inputs, control, resetField, reset, setValue, getValues}) => {
         <Grid key={index} item xs={12} md={input.width}>
           <FormControl fullWidth>
             <Controller
-              name={input.name}
+              name={input.field}
               control={control}
               render={({field: {value, onChange}, fieldState: {error}}) => (
                 <Inputs input={input} value={value} onChange={onChange} error={error} />

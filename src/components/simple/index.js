@@ -52,10 +52,10 @@ export const Simple = ({table, modal}) => {
   const actionableColumns = [
     ...table.columns,
     {
-      flex: 0.125,
-      minWidth: 120,
+      flex: true,
       field: 'actions',
       headerName: 'Acciones',
+      type: 'actions',
       renderCell: params => {
         const row = params?.row
         return (

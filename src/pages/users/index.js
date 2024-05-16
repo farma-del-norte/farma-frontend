@@ -1,102 +1,82 @@
 import {Simple} from 'src/components/simple'
 import {USERS_ENDPOINT} from 'src/services/endpoints'
+import Tooltip from '@mui/material/Tooltip'
 
 export default function Users() {
-  const columns = [
+  const data = [
     {
-      flex: 0.25,
-      minWidth: 200,
+      headerName: 'Nombre(s)',
       field: 'firstname',
-      headerName: 'Nombre(s)'
+      type: 'text',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
     },
     {
-      flex: 0.25,
-      minWidth: 200,
+      headerName: 'Apellidos',
       field: 'lastname',
-      headerName: 'Apellidos'
+      type: 'text',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
     },
     {
-      flex: 0.25,
-      minWidth: 200,
+      headerName: 'Correo electrónico',
       field: 'email',
-      headerName: 'Correo electrónico'
+      type: 'text',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
     },
     {
-      flex: 0.25,
-      minWidth: 200,
+      headerName: 'Teléfono',
       field: 'phone',
-      headerName: 'Teléfono'
+      type: 'text',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
     },
     {
-      flex: 0.25,
-      minWidth: 200,
+      headerName: 'Contraseña',
+      field: 'password',
+      type: 'text',
+      value: '',
+      hidden: true,
+      isRequired: true,
+      width: 6,
+      flex: true
+    },
+    {
+      headerName: 'Zona',
       field: 'zoneID',
-      headerName: 'Zona'
+      type: 'text',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true,
+      renderCell: params => {
+        if (params.row.zones && params.row.zones.length > 0) {
+          const zoneNames = params.row.zones.map(zone => zone.zoneName)
+          const fullResponse = zoneNames.join(', ')
+          console.log(fullResponse)
+          return <Tooltip title={fullResponse}>{fullResponse}</Tooltip>
+        } else {
+          return ''
+        }
+      }
     },
     {
-      flex: 0.25,
-      minWidth: 200,
+      headerName: 'Posición',
       field: 'position',
-      headerName: 'Posición'
-    }
-  ]
-  const form = [
-    {
-      label: 'Nombre(s)',
-      name: 'firstname',
       type: 'text',
       value: '',
       isRequired: true,
-      width: 12
-    },
-    {
-      label: 'Apellidos',
-      name: 'lastname',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 12
-    },
-    {
-      label: 'Correo electrónico',
-      name: 'email',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 12
-    },
-    {
-      label: 'Teléfono',
-      name: 'phone',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 12
-    },
-    {
-      label: 'Contraseña',
-      name: 'password',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 12
-    },
-    {
-      label: 'Zona',
-      name: 'zoneID',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 12
-    },
-
-    {
-      label: 'Posición',
-      name: 'position',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 12
+      width: 6,
+      flex: true
     }
   ]
 
@@ -107,15 +87,14 @@ export default function Users() {
         endpoints: {
           baseUrl: `${USERS_ENDPOINT}/users`
         },
-        loading: true,
+        columns: data,
         showAddButton: true,
-        columns: columns,
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
         title: 'Crear usuario',
+        form: data,
         size: 'md',
-        form: form,
         actions: {
           back: 'Regresar',
           save: 'Guardar'

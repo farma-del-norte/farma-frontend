@@ -1,9 +1,11 @@
+import React from 'react'
 import TextField from '@mui/material/TextField'
 
 const Text = ({input, value, onChange, error}) => {
+  const labelContent = input.headerName + (input.isRequired ? '*' : '')
   return (
     <TextField
-      label={input.label}
+      label={labelContent}
       value={value}
       defaultValue={input.value}
       onChange={onChange}
