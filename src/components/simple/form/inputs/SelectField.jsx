@@ -1,15 +1,15 @@
 import {Select, MenuItem, InputLabel} from '@mui/material'
-import { useState, useEffect, useMemo } from 'react'
-import { getCall } from 'src/store/simple/actions'
+import {useState, useEffect, useMemo} from 'react'
+import {getCall} from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
 
 const Text = ({input, value, onChange, error}) => {
   const dispatch = useDispatch()
   const [options, setOptions] = useState(input.options || [])
-  const label = input.isRequired ? `${input.label}* ` : input.label
+  const label = input.isRequired ? `${input.headerName}* ` : input.headerName
   const {tables} = useSelector(state => state.simple)
   //for reducer
-  const keyList = input.label.replace(/\s+/g, '')
+  const keyList = input.headerName.replace(/\s+/g, '')
   const endpointsParams = useMemo(() => {
     return {
       endpoint: input.endpoint,
@@ -31,7 +31,6 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [tables, keyList])
 
-
   return (
     <>
       <InputLabel>{label}</InputLabel>
@@ -43,11 +42,11 @@ const Text = ({input, value, onChange, error}) => {
         error={!!error}
         helperText={error ? error.message : ' '}
       >
-      {options.map((item, id) => (
-        <MenuItem key={id} value={item.id}>
+        {options.map((item, id) => (
+          <MenuItem key={id} value={item.id}>
             {item.name}
-        </MenuItem>
-      ))}
+          </MenuItem>
+        ))}
       </Select>
     </>
   )
