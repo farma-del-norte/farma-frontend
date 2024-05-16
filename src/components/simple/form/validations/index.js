@@ -32,6 +32,14 @@ const createValidationSchema = formFields => {
             .matches(/\d/, 'La contraseña debe contener al menos un dígito')
             .matches(/[^a-zA-Z0-9\s!@#$%^&*()]/, 'La contraseña debe contener al menos un caracter especial')
             .notOneOf(['password', '12345678', 'qwerty'], 'La contraseña no debe ser una contraseña común')
+    } else if (['select'].includes(field.type)) {
+      schemaFields[field.name] = field.isRequired
+        ? Yup.string().required('Seleccione una opción')
+        : Yup.string().notRequired()
+    } else if (['multipleSelect'].includes(field.type)) {
+      schemaFields[field.name] = field.isRequired
+        ? Yup.array().required().min(1, 'Seleccione al menos una opción')
+        : Yup.array().notRequired()
     }
   })
 

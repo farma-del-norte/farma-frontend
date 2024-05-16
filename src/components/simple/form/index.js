@@ -5,12 +5,15 @@ import Text from 'src/components/simple/form/inputs/Text'
 import SelectField from 'src/components/simple/form/inputs/SelectField'
 import PasswordField from 'src/components/simple/form/inputs/PasswordField'
 import EmailField from 'src/components/simple/form/inputs/EmailField'
+import MultipleSelectField from 'src/components/simple/form/inputs/MultipleSelectField'
 const Inputs = ({input, value, onChange, error}) => {
   switch (input.type) {
     case 'text':
       return <Text input={input} value={value} onChange={onChange} error={error} />
     case 'select':
       return <SelectField input={input} value={value} onChange={onChange} error={error} />
+    case 'multipleSelect':
+      return <MultipleSelectField input={input} value={value} onChange={onChange} error={error} />
     case 'password':
       return <PasswordField input={input} value={value} onChange={onChange} error={error} />
     case 'email':
