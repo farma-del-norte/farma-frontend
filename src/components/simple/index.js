@@ -11,9 +11,11 @@ import {Typography, Box} from '@mui/material'
 export const Simple = ({table, modal}) => {
   const dispatch = useDispatch()
   const {tables} = useSelector(state => state.simple)
+  const [isEditing, setIsEditing] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [openDelModal, setOpenDelModal] = useState(false)
   const [delItem, setDelItem] = useState({})
+  const [rowItem, setRowItem] = useState({})
   // key for reducer
   const keyList = table.label.replace(/\s+/g, '')
   // params fro endpoints
@@ -24,9 +26,17 @@ export const Simple = ({table, modal}) => {
     }
   }, [table.endpoints, keyList])
 
-  // handles open main modal
+  // handles open add modal
   const handleAddItem = () => {
+    setIsEditing(false)
     setOpenModal(true)
+  }
+
+  // handles edit modal
+  const handleOpenModal = row => {
+    setRowItem(row)
+    //AL editar
+    setIsEditing(true)
   }
 
   // handles delete modal
@@ -82,7 +92,15 @@ export const Simple = ({table, modal}) => {
         label={table.label}
         onAddItem={handleAddItem}
       />
-      <Modal open={openModal} setOpen={setOpenModal} modal={modal} />
+      <Modal 
+        open={openModal}
+        setOpen={setOpenModal} 
+        values={isEditing ? rowItem : {}}
+        modal={modal} 
+        endpointsParams={endpointsParams}
+        isEditing={isEditing} 
+        setIsEditing={setIsEditing} 
+      />
       <ReusableDialog
         open={openDelModal}
         size={'md'}

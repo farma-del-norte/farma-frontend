@@ -2,10 +2,15 @@ import React from 'react'
 import {Grid, FormControl} from '@mui/material'
 import {Controller} from 'react-hook-form'
 import Text from './inputs/Text'
+import SelectField from './inputs/SelectField'
 
 const Inputs = ({input, value, onChange, error}) => {
   switch (input.type) {
     case 'text':
+      return <Text input={input} value={value} onChange={onChange} error={error} />
+    case 'select':
+      return <SelectField input={input} value={value} onChange={onChange} error={error} />
+    default:
       return <Text input={input} value={value} onChange={onChange} error={error} />
   }
 }

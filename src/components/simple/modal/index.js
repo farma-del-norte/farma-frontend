@@ -4,6 +4,8 @@ import {useForm} from 'react-hook-form'
 import Form from 'src/components/simple/form'
 import * as Yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
+import { createCall, editCall } from 'src/store/simple/actions'
+import { useDispatch } from 'react-redux'
 
 const generateValidationSchema = formFields => {
   let schemaFields = {}
@@ -17,8 +19,8 @@ const generateValidationSchema = formFields => {
   return Yup.object().shape(schemaFields)
 }
 
-export const Modal = ({open, setOpen, modal}) => {
-  const [isEditing, setIsEditing] = useState(false)
+export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, endpointsParams, values}) => {
+  const dispatch = useDispatch()
   const [actions, setActions] = useState([])
   const defaultValues = modal.form.reduce((acc, field) => ({...acc, [field.name]: undefined}), {})
   const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
@@ -26,14 +28,29 @@ export const Modal = ({open, setOpen, modal}) => {
     resolver: yupResolver(generateValidationSchema(modal.form))
   })
 
+  // close modal edit, create, details
   const handleCloseModal = () => {
     setOpen(false)
     setIsEditing(false)
   }
 
   const onSubmit = values => {
-    console.log(values)
+    if (Boolean(isEditing)) {
+      dispatch(editCall({...values, endpointsParams}))
+    } else {
+      dispatch(createCall({...values, endpointsParams}))
+    }
   }
+
+  //init fields when edits
+  useEffect(() => {
+    if (Object.keys(values).length > 0 && isEditing) {
+      reset(values)
+      setOpen(true)
+    } else {
+      reset({})
+    }
+  }, [isEditing, values, reset, setOpen])
 
   // init modal actions
   useEffect(() => {
@@ -53,6 +70,7 @@ export const Modal = ({open, setOpen, modal}) => {
     <ReusableDialog
       open={open}
       size={modal.size}
+      tabs={modal.tabs}
       onClose={handleCloseModal}
       title={Boolean(isEditing) ? 'editar' : modal.title}
       actions={[

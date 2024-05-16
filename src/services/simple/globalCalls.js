@@ -10,20 +10,20 @@ export const get = async (params) => {
   }
 }
 
-export const create = async body => {
-  const url = `${MAINTENANCES_ENDPOINT}`
+export const create = async (params) => {
+  const url = `${params.endpointsParams.endpoint}`
   try {
-    const result = await api_post(url, body)
+    const result = await api_post(url, params)
     return result
   } catch {
     throw error
   }
 }
 
-export const edit = async body => {
-  const url = `${MAINTENANCES_ENDPOINT}/${body.id}`
+export const edit = async (params) => {
+  const url = `${params.endpointsParams.endpoint}/${params.id}`
   try {
-    const result = await api_patch(url, body)
+    const result = await api_patch(url, params)
     return result
   } catch (error) {
     throw error
