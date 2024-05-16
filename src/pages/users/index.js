@@ -25,7 +25,7 @@ export default function Users() {
     {
       headerName: 'Correo electrónico',
       field: 'email',
-      type: 'text',
+      type: 'email',
       value: '',
       isRequired: true,
       width: 6,
@@ -34,7 +34,7 @@ export default function Users() {
     {
       headerName: 'Teléfono',
       field: 'phone',
-      type: 'text',
+      type: 'phone',
       value: '',
       isRequired: true,
       width: 6,
@@ -43,9 +43,9 @@ export default function Users() {
     {
       headerName: 'Contraseña',
       field: 'password',
-      type: 'text',
+      type: 'password',
       value: '',
-      hidden: true,
+      hideColumn: true,
       isRequired: true,
       width: 6,
       flex: true
@@ -53,7 +53,7 @@ export default function Users() {
     {
       headerName: 'Zona',
       field: 'zoneID',
-      type: 'text',
+      type: 'multipleSelect',
       value: '',
       isRequired: true,
       width: 6,
@@ -62,7 +62,6 @@ export default function Users() {
         if (params.row.zones && params.row.zones.length > 0) {
           const zoneNames = params.row.zones.map(zone => zone.zoneName)
           const fullResponse = zoneNames.join(', ')
-          console.log(fullResponse)
           return <Tooltip title={fullResponse}>{fullResponse}</Tooltip>
         } else {
           return ''
@@ -72,7 +71,7 @@ export default function Users() {
     {
       headerName: 'Posición',
       field: 'position',
-      type: 'text',
+      type: 'select',
       value: '',
       isRequired: true,
       width: 6,
