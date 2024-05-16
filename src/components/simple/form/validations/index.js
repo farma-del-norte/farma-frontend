@@ -6,11 +6,15 @@ const createValidationSchema = formFields => {
   formFields.forEach(field => {
     if (['text', 'textarea'].includes(field.type)) {
       schemaFields[field.name] = field.isRequired
-        ? Yup.string().required(`${field.headerName} es requerido`)
+        ? Yup.string().required(`El ${field.headerName} es requerido`)
         : Yup.string().notRequired()
-    }
-
-    if (['password'].includes(field.type)) {
+    } else if (['email'].includes(field.type)) {
+      schemaFields[field.name] = field.isRequired
+        ? Yup.string()
+            .required(`El ${field.headerName} es requerido`)
+            .email('La dirección de correo electrónico no es válida')
+        : Yup.string().notRequired().email('La dirección de correo electrónico no es válida') // Optional email validation
+    } else if (['password'].includes(field.type)) {
       schemaFields[field.name] = field.isRequired
         ? Yup.string()
             .required('La contraseña es obligatoria')
