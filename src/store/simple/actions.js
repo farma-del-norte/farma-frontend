@@ -14,9 +14,9 @@ export const getCall = createAsyncThunk('/service/get', async (params, thunkApi)
   }
 })
 
-export const createCall = createAsyncThunk('/service/create', async (body, thunkApi) => {
+export const createCall = createAsyncThunk('/service/create', async (params, thunkApi) => {
   try {
-    const payload = await create(body)
+    const payload = await create(params)
     toast.success(t('maintenances_cat_create_message', {ns: 'maintenances'}))
     return payload
   } catch (error) {
@@ -26,9 +26,9 @@ export const createCall = createAsyncThunk('/service/create', async (body, thunk
   }
 })
 
-export const editCall = createAsyncThunk('/service/edit', async (body, thunkApi) => {
+export const editCall = createAsyncThunk('/service/edit', async (params, thunkApi) => {
   try {
-    const payload = await edit(body)
+    const payload = await edit(params)
     toast.success(t('maintenances_edit_message', {ns: 'maintenances'}))
     return payload
   } catch (error) {

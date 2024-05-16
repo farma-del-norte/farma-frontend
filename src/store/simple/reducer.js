@@ -29,15 +29,17 @@ export const simpleSlice = createSlice({
       const key = action.meta.arg.key
       state.tables[key].isLoading = false
     })
-    builder.addCase(createCall.pending, state => {
-      state.isLoading = true
+    builder.addCase(createCall.pending, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].isLoading = true
     })
-    builder.addCase(createCall.fulfilled, (state, {payload}) => {
-      state.budgets = payload.content
+    builder.addCase(createCall.fulfilled, (state, action) => {
+      state.budgets = action.payload.content
       state.isLoading = false
     })
     builder.addCase(createCall.rejected, state => {
-      state.isLoading = false
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].isLoading = false
     })
     builder.addCase(editCall.pending, state => {
       state.isLoading = true
