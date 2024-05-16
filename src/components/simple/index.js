@@ -80,26 +80,27 @@ export const Simple = ({table, modal}) => {
       }
     }
   ]
+  const filteredColumns = actionableColumns.filter(column => !column.hideColumn)
 
   return (
     <Fragment>
       <CardTable
         showAddButton={table.showAddButton}
-        columns={actionableColumns}
+        columns={filteredColumns}
         rows={tables[keyList]?.list || []}
         loading={!tables[keyList] || tables[keyList].loading}
         pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
         label={table.label}
         onAddItem={handleAddItem}
       />
-      <Modal 
+      <Modal
         open={openModal}
-        setOpen={setOpenModal} 
+        setOpen={setOpenModal}
         values={isEditing ? rowItem : {}}
-        modal={modal} 
+        modal={modal}
         endpointsParams={endpointsParams}
-        isEditing={isEditing} 
-        setIsEditing={setIsEditing} 
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
       />
       <ReusableDialog
         open={openDelModal}
