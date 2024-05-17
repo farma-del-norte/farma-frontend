@@ -7,6 +7,8 @@ import PasswordField from 'src/components/simple/form/inputs/PasswordField'
 import EmailField from 'src/components/simple/form/inputs/EmailField'
 import MultipleSelectField from 'src/components/simple/form/inputs/MultipleSelectField'
 import PhoneField from 'src/components/simple/form/inputs/PhoneField'
+import Date from './inputs/Date'
+
 const Inputs = ({input, value, onChange, error}) => {
   switch (input.type) {
     case 'text':
@@ -21,6 +23,8 @@ const Inputs = ({input, value, onChange, error}) => {
       return <EmailField input={input} value={value} onChange={onChange} error={error} />
     case 'phone':
       return <PhoneField input={input} value={value} onChange={onChange} error={error} />
+    case 'date':
+      return <Date input={input} value={value} onChange={onChange} error={error} />
     default:
       return <Text input={input} value={value} onChange={onChange} error={error} />
   }

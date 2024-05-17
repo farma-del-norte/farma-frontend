@@ -1,6 +1,6 @@
-import {Select, MenuItem, InputLabel} from '@mui/material'
-import {useState, useEffect, useMemo} from 'react'
-import {getCall} from 'src/store/simple/actions'
+import {TextField, MenuItem } from '@mui/material'
+import { useState, useEffect, useMemo } from 'react'
+import { getCall } from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
 
 const Text = ({input, value, onChange, error}) => {
@@ -31,24 +31,23 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [tables, keyList])
 
+
   return (
-    <>
-      <InputLabel>{label}</InputLabel>
-      <Select
-        defaultValue={input.value}
-        value={value || ''}
-        label={label}
-        onChange={onChange}
-        error={!!error}
-        helperText={error ? error.message : ' '}
-      >
-        {options.map((item, id) => (
-          <MenuItem key={id} value={item.id}>
-            {item.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </>
+    <TextField
+      select
+      defaultValue={input.value}
+      value={value || ''}
+      label={label}
+      onChange={onChange}
+      error={!!error}
+      helperText={error ? error.message : ' '}
+    >
+    {options.map((item, id) => (
+      <MenuItem key={id} value={item.id}>
+          {item.name}
+      </MenuItem>
+    ))}
+  </TextField>
   )
 }
 

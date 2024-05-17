@@ -1,40 +1,34 @@
 import {Simple} from 'src/components/simple'
-import {MAINTENANCES_ENDPOINT} from 'src/services/endpoints'
+import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT} from 'src/services/endpoints'
 
 const columns = [
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'name',
     headerName: 'Mantenimiento'
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'branchName',
     headerName: 'Sucursal'
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'description',
     headerName: 'descripciòn'
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'date',
     headerName: 'fecha'
   },
   {
     flex: 0.25,
-    minWidth: 200,
     field: 'zoneName',
     headerName: 'Zona'
   },
   {
     flex: 0.25,
-    minWidth: 200,
     field: 'cost',
     headerName: 'Costo'
   }
@@ -58,29 +52,39 @@ export default function pruebaSimple() {
         size: 'md',
         form: [
           {
-            label: 'Zona',
-            name: 'name',
+            headerName: 'Nombre del mantenimiento',
+            field: 'name',
             type: 'text',
             value: '',
             isRequired: true,
-            width: 12
+            width: 6
           },
           {
-            label: 'Zona1',
-            name: 'name1',
-            type: 'text',
-            value: '',
+            headerName: 'Sucursal',
+            field: 'branchID',
+            type: 'select',
+            endpoint: `${BRANCHES_ENDPOINT}/branches`,
+            options: [],
+            value: 0,
             isRequired: true,
-            width: 12
+            width: 6
           },
           {
-            label: 'Zona2',
-            name: 'name2',
+            headerName: 'Descripcion de mantenimiento',
+            field: 'description',
             type: 'text',
             value: '',
             isRequired: true,
-            width: 12
-          }
+            width: 6
+          },
+          {
+            headerName: 'Fecha',
+            field: 'date',
+            type: 'date',
+            value: '',
+            isRequired: true,
+            width: 6
+          },
         ],
         actions: {
           back: 'Regresar',

@@ -44,6 +44,8 @@ const createValidationSchema = formFields => {
       schemaFields[input.field] = input.isRequired
         ? Yup.string().required('El número de teléfono es requerido').min(10, 'Teléfono no valido')
         : Yup.string().notRequired().min(10, 'Teléfono no valido')
+    } else if(['date'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired ? Yup.date().required(`${input.headerName} es requerido`) : Yup.date().notRequired()
     }
   })
 
