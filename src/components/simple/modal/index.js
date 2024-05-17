@@ -10,7 +10,7 @@ import createValidationSchema from '../form/validations'
 export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, endpointsParams, values}) => {
   const dispatch = useDispatch()
   const [actions, setActions] = useState([])
-  const defaultValues = modal.form.reduce((acc, field) => ({...acc, [field.name]: undefined}), {})
+  const defaultValues = modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {})
   const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(createValidationSchema(modal.form))
