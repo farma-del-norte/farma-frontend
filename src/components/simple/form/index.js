@@ -7,12 +7,15 @@ import PasswordField from 'src/components/simple/form/inputs/PasswordField'
 import EmailField from 'src/components/simple/form/inputs/EmailField'
 import MultipleSelectField from 'src/components/simple/form/inputs/MultipleSelectField'
 import PhoneField from 'src/components/simple/form/inputs/PhoneField'
-import Date from './inputs/Date'
+import TextArea from 'src/components/simple/form/inputs/TextArea'
+import Date from 'src/components/simple/form/inputs/Date'
 
 const Inputs = ({input, value, onChange, error}) => {
   switch (input.type) {
     case 'text':
       return <Text input={input} value={value} onChange={onChange} error={error} />
+    case 'textarea':
+      return <TextArea input={input} value={value} onChange={onChange} error={error} />
     case 'select':
       return <SelectField input={input} value={value} onChange={onChange} error={error} />
     case 'multipleSelect':

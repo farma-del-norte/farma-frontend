@@ -50,6 +50,57 @@ export default function pruebaSimple() {
       modal={{
         title: 'modal de prueba',
         size: 'md',
+        tabs: [
+          {
+            title: 'Detalles del Mantenimiento',
+            form: [
+              {
+                headerName: 'Nombre del mantenimiento',
+                field: 'name',
+                type: 'text',
+                value: '',
+                isRequired: true,
+                width: 6
+              },
+              {
+                headerName: 'Sucursal',
+                field: 'branchID',
+                type: 'select',
+                endpoint: `${BRANCHES_ENDPOINT}/branches`,
+                options: [],
+                value: 0,
+                isRequired: true,
+                width: 6
+              },
+              {
+                headerName: 'Descripcion de mantenimiento',
+                field: 'description',
+                type: 'text',
+                value: '',
+                isRequired: true,
+                width: 6
+              },
+              {
+                headerName: 'Fecha',
+                field: 'date',
+                type: 'date',
+                value: '',
+                isRequired: true,
+                width: 6
+              },
+              {
+                headerName: 'Comentarios',
+                field: 'notes',
+                type: 'textarea',
+                value: '',
+                width: 6
+              },
+            ],
+            actions: {
+              back: 'Regresar',
+            }
+          }
+        ],
         form: [
           {
             headerName: 'Nombre del mantenimiento',
@@ -83,6 +134,13 @@ export default function pruebaSimple() {
             type: 'date',
             value: '',
             isRequired: true,
+            width: 6
+          },
+          {
+            headerName: 'Comentarios',
+            field: 'notes',
+            type: 'textarea',
+            value: '',
             width: 6
           },
         ],

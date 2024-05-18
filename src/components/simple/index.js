@@ -12,6 +12,7 @@ export const Simple = ({table, modal}) => {
   const dispatch = useDispatch()
   const {tables} = useSelector(state => state.simple)
   const [isEditing, setIsEditing] = useState(false)
+  const [useTabs, setUseTabs] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [openDelModal, setOpenDelModal] = useState(false)
   const [delItem, setDelItem] = useState({})
@@ -37,6 +38,12 @@ export const Simple = ({table, modal}) => {
     setRowItem(row)
     //AL editar
     setIsEditing(true)
+  }
+
+  // handles detail modal
+  const handleDetailModal = row => {
+    setRowItem(row)
+    setUseTabs(true)
   }
 
   // handles delete modal
@@ -72,7 +79,7 @@ export const Simple = ({table, modal}) => {
           <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
             {table.actions.includes('edit') && <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal(row)} />}
             {table.actions.includes('detail') && (
-              <TextBoxSearch sx={{margin: '5px'}} onClick={() => handleDetailModal({row, open: true})} />
+              <TextBoxSearch sx={{margin: '5px'}} onClick={() => handleDetailModal(row)} />
             )}
             {table.actions.includes('delete') && <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal(row)} />}
           </Typography>
@@ -98,6 +105,8 @@ export const Simple = ({table, modal}) => {
         setOpen={setOpenModal}
         values={isEditing ? rowItem : {}}
         modal={modal}
+        useTabs={useTabs}
+        setUseTabs={setUseTabs}
         endpointsParams={endpointsParams}
         isEditing={isEditing}
         setIsEditing={setIsEditing}

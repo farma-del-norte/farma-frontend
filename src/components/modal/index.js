@@ -47,7 +47,7 @@ const CustomTabPanel = (props) => {
   );
 }
 
-const MainTabs = ({tabs, actions}) => {
+const MainTabs = ({tabs, actions, children}) => {
 
   const [selectedTab, setSelectedTab] = useState(0)
 
@@ -75,7 +75,7 @@ const MainTabs = ({tabs, actions}) => {
           value={selectedTab}
           index={index}
         >
-          <DialogContent>Item {index}</DialogContent>
+          <DialogContent>{ children }</DialogContent>
           <Actions actions={actions} toIndex={tabs[selectedTab].indexActions}/>
         </CustomTabPanel>
       ))}

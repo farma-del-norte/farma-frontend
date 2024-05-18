@@ -7,7 +7,7 @@ import {createCall, editCall} from 'src/store/simple/actions'
 import {useDispatch} from 'react-redux'
 import createValidationSchema from '../form/validations'
 
-export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, endpointsParams, values}) => {
+export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, setUseTabs, endpointsParams, values}) => {
   const dispatch = useDispatch()
   const [actions, setActions] = useState([])
   const defaultValues = modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {})
@@ -16,10 +16,11 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, endpointsP
     resolver: yupResolver(createValidationSchema(modal.form))
   })
 
-  // close modal edit, create, details
+  // close modal edit, create, details, etc
   const handleCloseModal = () => {
-    setOpen(false)
     setIsEditing(false)
+    setUseTabs(false)
+    setOpen(false)
   }
 
   const onSubmit = values => {
@@ -30,15 +31,15 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, endpointsP
     }
   }
 
-  //init fields when edits
+  //init fields when is not creating
   useEffect(() => {
-    if (Object.keys(values).length > 0 && isEditing) {
+    if (useTabs || isEditing) {
       reset(values)
       setOpen(true)
     } else {
       reset({})
     }
-  }, [isEditing, values, reset, setOpen])
+  }, [isEditing, useTabs, values, reset, open, setOpen])
 
   // init modal actions
   useEffect(() => {
@@ -58,7 +59,7 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, endpointsP
     <ReusableDialog
       open={open}
       size={modal.size}
-      tabs={modal.tabs}
+      tabs={Boolean(useTabs) ? modal.tabs : undefined}
       onClose={handleCloseModal}
       title={Boolean(isEditing) ? 'editar' : modal.title}
       actions={[
