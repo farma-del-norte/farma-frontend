@@ -95,7 +95,7 @@ export const Simple = ({table, modal}) => {
         showAddButton={table.showAddButton}
         columns={filteredColumns}
         rows={tables[keyList]?.list || []}
-        loading={!tables[keyList] || tables[keyList].loading}
+        loading={!tables[keyList] ? true : tables[keyList]?.loading}
         pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
         label={table.label}
         onAddItem={handleAddItem}
@@ -103,7 +103,7 @@ export const Simple = ({table, modal}) => {
       <Modal
         open={openModal}
         setOpen={setOpenModal}
-        values={isEditing ? rowItem : {}}
+        values={rowItem}
         modal={modal}
         useTabs={useTabs}
         setUseTabs={setUseTabs}

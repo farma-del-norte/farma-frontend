@@ -40,7 +40,7 @@ const CustomTabPanel = (props) => {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <strong>{children}</strong>
+          {children}
         </Box>
       )}
     </div>
@@ -94,20 +94,11 @@ const ReusableDialog = ({open = false, onClose = () => {}, title = '', children,
       fullWidth={!isMobile}
       fullScreen={isMobile}
     >
-      {tabs ?
-        <MainTabs
-          tabs={tabs}
-          actions={actions}
-        >
-          {children}
-        </MainTabs>
-        :
-        <Box>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogContent>{children}</DialogContent>
-          <Actions actions={actions} />
-        </Box>
-      }
+      <Box>
+        <DialogTitle>{title}</DialogTitle>
+        {children}
+        <Actions actions={actions} />
+      </Box>
     </Dialog>
   )
 }

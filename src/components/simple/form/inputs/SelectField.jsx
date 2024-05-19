@@ -8,6 +8,7 @@ const Text = ({input, value, onChange, error}) => {
   const [options, setOptions] = useState(input.options || [])
   const label = input.isRequired ? `${input.headerName}* ` : input.headerName
   const {tables} = useSelector(state => state.simple)
+  const defaultValue = input.value || value || ''
   //for reducer
   const keyList = input.headerName.replace(/\s+/g, '')
   const endpointsParams = useMemo(() => {
@@ -35,8 +36,7 @@ const Text = ({input, value, onChange, error}) => {
   return (
     <TextField
       select
-      defaultValue={input.value}
-      value={value || ''}
+      value={defaultValue}
       label={label}
       onChange={onChange}
       error={!!error}

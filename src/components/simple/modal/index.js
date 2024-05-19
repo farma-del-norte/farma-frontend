@@ -6,14 +6,21 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import {createCall, editCall} from 'src/store/simple/actions'
 import {useDispatch} from 'react-redux'
 import createValidationSchema from '../form/validations'
+import {
+  DialogContent,
+  Tab,
+  Tabs,
+} 
+from '@mui/material'
 
 export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, setUseTabs, endpointsParams, values}) => {
   const dispatch = useDispatch()
   const [actions, setActions] = useState([])
-  const defaultValues = modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {})
+  const [selectedTab, setSelectedTab] = useState(0)
+  const [defaultValues, setDefaultValues] = useState(modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {}))
   const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
     defaultValues: defaultValues,
-    resolver: yupResolver(createValidationSchema(modal.form))
+    resolver: yupResolver(createValidationSchema(Boolean(useTabs) ? modal.tabs[selectedTab].form : modal.form))
   })
 
   // close modal edit, create, details, etc
@@ -31,9 +38,20 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
     }
   }
 
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
+  // set default values when changing tabs
+  useEffect(() => {
+    if (useTabs) {
+      setDefaultValues(modal.tabs[selectedTab].form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {}))
+    }
+  }, [selectedTab, useTabs, setDefaultValues, modal.tabs])
+
   //init fields when is not creating
   useEffect(() => {
-    if (useTabs || isEditing) {
+    if (Object.keys(values).length > 0 && (useTabs || isEditing)) {
       reset(values)
       setOpen(true)
     } else {
@@ -67,14 +85,39 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
         ...actions
       ]}
     >
-      <Form
-        inputs={modal.form}
-        control={control}
-        resetField={resetField}
-        reset={reset}
-        setValue={setValue}
-        getValues={getValues}
-      />
+      <DialogContent>
+        {useTabs 
+          ?
+            <>
+              <Tabs value={selectedTab} onChange={handleTabChange}>
+                {modal.tabs.map((tab, index) => (
+                  <Tab label={tab.title} key={index} />
+                ))}
+              </Tabs>
+              {modal.tabs.map((tab, index) => (
+                <div key={index} hidden={selectedTab !== index}>
+                  <Form
+                    inputs={tab.form}
+                    control={control}
+                    resetField={resetField}
+                    reset={reset}
+                    setValue={setValue}
+                    getValues={getValues}
+                  />
+                </div>
+              ))}
+            </>
+          :
+            <Form
+              inputs={modal.form}
+              control={control}
+              resetField={resetField}
+              reset={reset}
+              setValue={setValue}
+              getValues={getValues}
+            />
+        }
+      </DialogContent>
     </ReusableDialog>
   )
 }

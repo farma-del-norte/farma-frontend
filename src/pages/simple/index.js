@@ -1,5 +1,5 @@
 import {Simple} from 'src/components/simple'
-import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT} from 'src/services/endpoints'
+import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT} from 'src/services/endpoints'
 
 const columns = [
   {
@@ -38,7 +38,7 @@ export default function pruebaSimple() {
   return (
     <Simple
       table={{
-        label: 'Prueba',
+        label: 'Mantenimientos',
         endpoints: {
           baseUrl: `${MAINTENANCES_ENDPOINT}/maintenances`
         },
@@ -48,11 +48,12 @@ export default function pruebaSimple() {
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
-        title: 'modal de prueba',
+        title: 'Mantenimiento',
         size: 'md',
         tabs: [
           {
-            title: 'Detalles del Mantenimiento',
+            title: 'Mantenimiento',
+            indexActions: 1,
             form: [
               {
                 headerName: 'Nombre del mantenimiento',
@@ -96,9 +97,27 @@ export default function pruebaSimple() {
                 width: 6
               },
             ],
-            actions: {
-              back: 'Regresar',
-            }
+          },
+          {
+            title: 'Servicios',
+            indexActions: 1,
+            form: [
+              {
+                headerName: 'Mantenimiento',
+                field: 'name',
+                type: 'table',
+                table: {
+                  label: 'Prueba',
+                  endpoints: {
+                    baseUrl: `${SERVICES_ENDPOINT}/services`
+                  },
+                  showAddButton: true,
+                  columns: columns,
+                  actions: ['edit', 'delete']
+                },
+                width: 12
+              },
+            ],
           }
         ],
         form: [

@@ -10,7 +10,6 @@ const Text = ({input, value, onChange, error}) => {
       label={label}
       InputLabelProps={{shrink: true}}
       value={dateValue}
-      defaultValue={dateValue}
       onChange={onChange}
       error={!!error}
       helperText={error ? error.message : ' '}
