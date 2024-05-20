@@ -1,6 +1,6 @@
-import {TextField, MenuItem } from '@mui/material'
-import { useState, useEffect, useMemo } from 'react'
-import { getCall } from 'src/store/simple/actions'
+import {TextField, MenuItem} from '@mui/material'
+import {useState, useEffect, useMemo} from 'react'
+import {getCall} from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
 
 const Text = ({input, value, onChange, error}) => {
@@ -32,6 +32,9 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [tables, keyList])
 
+  useEffect(() => {
+    console.log('options', options)
+  }, [options])
 
   return (
     <TextField
@@ -42,12 +45,12 @@ const Text = ({input, value, onChange, error}) => {
       error={!!error}
       helperText={error ? error.message : ' '}
     >
-    {options.map((item, id) => (
-      <MenuItem key={id} value={item.id}>
+      {options.map((item, id) => (
+        <MenuItem key={id} value={item.id ? item.id : item.name}>
           {item.name}
-      </MenuItem>
-    ))}
-  </TextField>
+        </MenuItem>
+      ))}
+    </TextField>
   )
 }
 
