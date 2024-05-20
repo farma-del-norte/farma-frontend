@@ -2,7 +2,10 @@ import {Select, MenuItem, InputLabel, FormControl} from '@mui/material'
 import {useState, useEffect, useMemo} from 'react'
 import {getCall} from 'src/store/simple/actions' // Assuming this fetches options
 import {useSelector, useDispatch} from 'react-redux'
-
+import Checkbox from '@mui/material/Checkbox'
+import ListItemText from '@mui/material/ListItemText'
+import FormHelperText from '@mui/material/FormHelperText'
+import OutlinedInput from '@mui/material/OutlinedInput'
 const MultipleSelectField = ({input, value, onChange, error}) => {
   const dispatch = useDispatch()
   const [options, setOptions] = useState(input.options || []) // Initial options
@@ -38,17 +41,28 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
       <InputLabel>{label}</InputLabel>
       <Select
         multiple
-        value={value || []} // Handle empty value case
-        label={label}
+        value={value || []}
+        input={<OutlinedInput label={label} />}
         onChange={onChange}
+        renderValue={selected =>
+          selected.map(id => {
+            const item = options.find(option => option.id === id)
+            return item ? `${item.name}, ` : options.find(option => !option.id)?.name
+          })
+        }
       >
         {options.map((item, id) => (
           <MenuItem key={id} value={item.id}>
-            {item.name}
+            <Checkbox checked={value?.indexOf(item.id) > -1} />
+            <ListItemText primary={item.name} />
           </MenuItem>
         ))}
       </Select>
-      {error && <span style={{color: 'red'}}>{error.message}</span>}
+      {error && (
+        <FormHelperText color='error' type='text2'>
+          {error.message}
+        </FormHelperText>
+      )}
     </FormControl>
   )
 }
