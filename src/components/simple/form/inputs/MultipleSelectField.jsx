@@ -22,17 +22,15 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
     [input.endpoint, keyList]
   )
 
-  // Get options on mount or endpoint change
   useEffect(() => {
     if (input.endpoint) {
       dispatch(getCall(endpointsParams))
     }
   }, [dispatch, keyList, endpointsParams, input])
 
-  // Set options from state
   useEffect(() => {
     if (tables[keyList]) {
-      setOptions(tables[keyList]?.list || []) // Handle empty list case
+      setOptions(tables[keyList]?.list || [])
     }
   }, [tables, keyList])
 
