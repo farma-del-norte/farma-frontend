@@ -32,10 +32,6 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [tables, keyList])
 
-  useEffect(() => {
-    console.log('options', options)
-  }, [options])
-
   return (
     <TextField
       select
