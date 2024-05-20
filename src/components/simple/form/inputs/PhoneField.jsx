@@ -9,7 +9,7 @@ const PhoneField = ({input, value, onChange, error}) => {
   }
 
   return (
-    <InputMask mask='99 9999 9999' value={value} onChange={handlePhoneChange}>
+    <InputMask mask='9999999999' maskChar='_' alwaysShowMask={false} value={value} onChange={handlePhoneChange}>
       {() => (
         <TextField
           label={input.headerName + (input.isRequired ? '*' : '')}
