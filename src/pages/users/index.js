@@ -1,5 +1,5 @@
 import {Simple} from 'src/components/simple'
-import {USERS_ENDPOINT} from 'src/services/endpoints'
+import {USERS_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
 import Tooltip from '@mui/material/Tooltip'
 
 export default function Users() {
@@ -54,6 +54,8 @@ export default function Users() {
       headerName: 'Zona',
       field: 'zoneID',
       type: 'multipleSelect',
+      endpoint: `${ZONES_ENDPOINT}/zones`,
+      options: [],
       value: '',
       isRequired: true,
       width: 6,
@@ -72,6 +74,7 @@ export default function Users() {
       headerName: 'Posición',
       field: 'position',
       type: 'select',
+      options: [{name: 'Gerente de zona'}, {name: 'Administrador'}],
       value: '',
       isRequired: true,
       width: 6,
