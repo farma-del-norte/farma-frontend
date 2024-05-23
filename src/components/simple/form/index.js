@@ -9,6 +9,7 @@ import MultipleSelectField from 'src/components/simple/form/inputs/MultipleSelec
 import PhoneField from 'src/components/simple/form/inputs/PhoneField'
 import TextArea from 'src/components/simple/form/inputs/TextArea'
 import Date from 'src/components/simple/form/inputs/Date'
+import CashField from 'src/components/simple/form/inputs/CashField'
 
 const Inputs = ({input, value, onChange, error}) => {
   switch (input.type) {
@@ -28,6 +29,8 @@ const Inputs = ({input, value, onChange, error}) => {
       return <PhoneField input={input} value={value} onChange={onChange} error={error} />
     case 'date':
       return <Date input={input} value={value} onChange={onChange} error={error} />
+    case 'cash':
+      return <CashField input={input} value={value} onChange={onChange} error={error} />
     default:
       return <Text input={input} value={value} onChange={onChange} error={error} />
   }

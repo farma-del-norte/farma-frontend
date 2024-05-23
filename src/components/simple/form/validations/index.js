@@ -5,14 +5,10 @@ const createValidationSchema = formFields => {
 
   formFields.forEach(input => {
     if (['text', 'textarea'].includes(input.type)) {
-      schemaFields[input.field] = input.isRequired
-        ? Yup.string().required(`El ${input.headerName} es requerido`)
-        : Yup.string().notRequired()
+      schemaFields[input.field] = input.isRequired ? Yup.string().required(`Requerido`) : Yup.string().notRequired()
     } else if (['email'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired
-        ? Yup.string()
-            .required(`El ${input.headerName} es requerido`)
-            .email('La dirección de correo electrónico no es válida')
+        ? Yup.string().required(`Requerido`).email('La dirección de correo electrónico no es válida')
         : Yup.string().notRequired().email('La dirección de correo electrónico no es válida') // Optional email validation
     } else if (['password'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired
@@ -33,19 +29,24 @@ const createValidationSchema = formFields => {
             .matches(/[^a-zA-Z0-9\s!@#$%^&*()]/, 'La contraseña debe contener al menos un caracter especial')
             .notOneOf(['password', '12345678', 'qwerty'], 'La contraseña no debe ser una contraseña común')
     } else if (['select'].includes(input.type)) {
-      schemaFields[input.field] = input.isRequired
-        ? Yup.string().required('Seleccione una opción')
-        : Yup.string().notRequired()
+      schemaFields[input.field] = input.isRequired ? Yup.string().required('Requerido') : Yup.string().notRequired()
     } else if (['multipleSelect'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired
         ? Yup.array().required().min(1, 'Seleccione al menos una opción')
         : Yup.array().notRequired()
     } else if (['phone'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired
-        ? Yup.string().required('El número de teléfono es requerido').min(10, 'Teléfono no valido')
+        ? Yup.string().required('Requerido').min(10, 'Teléfono no valido')
         : Yup.string().notRequired().min(10, 'Teléfono no valido')
-    } else if(['date'].includes(input.type)) {
-      schemaFields[input.field] = input.isRequired ? Yup.date().required(`${input.headerName} es requerido`) : Yup.date().notRequired()
+    } else if (['date'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired ? Yup.date().required(`Requerido`) : Yup.date().notRequired()
+    } else if (['cash'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired
+        ? Yup.number()
+            .typeError('Debe ser un número válido')
+            .required('Requerido')
+            .min(0, 'El valor no puede ser negativo')
+        : Yup.number().typeError('Debe ser un número válido').notRequired().min(0, 'El valor no puede ser negativo')
     }
   })
 

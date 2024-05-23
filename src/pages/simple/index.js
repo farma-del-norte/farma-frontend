@@ -95,8 +95,8 @@ export default function pruebaSimple() {
                 type: 'textarea',
                 value: '',
                 width: 6
-              },
-            ],
+              }
+            ]
           },
           {
             title: 'Servicios',
@@ -116,8 +116,8 @@ export default function pruebaSimple() {
                   actions: ['edit', 'delete']
                 },
                 width: 12
-              },
-            ],
+              }
+            ]
           }
         ],
         form: [
@@ -148,6 +148,15 @@ export default function pruebaSimple() {
             width: 6
           },
           {
+            headerName: 'cash',
+            field: 'cash',
+            type: 'cash',
+            value: '',
+            isRequired: true,
+            width: 6,
+            flex: true
+          },
+          {
             headerName: 'Fecha',
             field: 'date',
             type: 'date',
@@ -159,9 +168,10 @@ export default function pruebaSimple() {
             headerName: 'Comentarios',
             field: 'notes',
             type: 'textarea',
+            isRequired: true,
             value: '',
             width: 6
-          },
+          }
         ],
         actions: {
           back: 'Regresar',
