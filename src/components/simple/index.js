@@ -8,7 +8,7 @@ import {getCall, deleteCall} from 'src/store/simple/actions'
 import {MAINTENANCES} from 'src/utils/constants'
 import {Typography, Box} from '@mui/material'
 
-export const Simple = ({table, modal}) => {
+export const Simple = ({table, modal, id}) => {
   const dispatch = useDispatch()
   const {tables} = useSelector(state => state.simple)
   const [isEditing, setIsEditing] = useState(false)
@@ -23,9 +23,10 @@ export const Simple = ({table, modal}) => {
   const endpointsParams = useMemo(() => {
     return {
       endpoint: table.endpoints.baseUrl,
-      key: keyList
+      key: keyList,
+      id: id
     }
-  }, [table.endpoints, keyList])
+  }, [table.endpoints, keyList, id])
 
   // handles open add modal
   const handleAddItem = () => {

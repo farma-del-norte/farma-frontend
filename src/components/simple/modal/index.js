@@ -95,16 +95,17 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
                 ))}
               </Tabs>
               {modal.tabs.map((tab, index) => (
-                <div key={index} hidden={selectedTab !== index}>
-                  <Form
-                    inputs={tab.form}
-                    control={control}
-                    resetField={resetField}
-                    reset={reset}
-                    setValue={setValue}
-                    getValues={getValues}
-                  />
-                </div>
+                selectedTab === index &&
+                  <div key={index}>
+                    <Form
+                      inputs={tab.form}
+                      control={control}
+                      resetField={resetField}
+                      reset={reset}
+                      setValue={setValue}
+                      getValues={getValues}
+                    />
+                  </div>
               ))}
             </>
           :

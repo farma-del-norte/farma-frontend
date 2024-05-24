@@ -1,7 +1,8 @@
 import {api_post, api_get, api_patch, api_delete} from '../apicalls'
 
 export const get = async (params) => {
-  const url = `${params.endpoint}`
+  let url = `${params.endpoint}`
+  url = url.replace(':id', params.id);
   try {
     const result = await api_get(url)
     return result
@@ -11,10 +12,18 @@ export const get = async (params) => {
 }
 
 export const create = async (params) => {
-  const url = `${params.endpointsParams.endpoint}`
+  let url = `${params.endpointsParams.endpoint}`;
   try {
-    const result = await api_post(url, params)
-    return result
+    // casos donde obtiene por id
+    if (url.includes(':id')){
+      url = url.substring(0, url.indexOf("/"));
+      const created = await api_post(url, params)
+      const result = await api_get(url)
+      return {result, created}
+    } else {
+      const result = await api_post(url, params)
+      return result
+    }
   } catch {
     throw error
   }
