@@ -34,8 +34,9 @@ export const simpleSlice = createSlice({
       state.tables[key].isLoading = true
     })
     builder.addCase(createCall.fulfilled, (state, action) => {
-      state.budgets = action.payload.content
-      state.isLoading = false
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].list = action.payload.content
+      state.tables[key].isLoading = false
     })
     builder.addCase(createCall.rejected, state => {
       const key = action.meta.arg.endpointsParams.key

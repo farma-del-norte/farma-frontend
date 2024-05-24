@@ -96,7 +96,7 @@ export const Simple = ({table, modal, id}) => {
         showAddButton={table.showAddButton}
         columns={filteredColumns}
         rows={tables[keyList]?.list || []}
-        loading={!tables[keyList] ? true : tables[keyList]?.loading}
+        loading={tables[keyList]?.loading || !tables[keyList]}
         pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
         label={table.label}
         onAddItem={handleAddItem}

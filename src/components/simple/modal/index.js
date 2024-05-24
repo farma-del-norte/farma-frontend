@@ -36,6 +36,7 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
     } else {
       dispatch(createCall({...values, endpointsParams}))
     }
+    handleCloseModal()
   }
 
   const handleTabChange = (event, newValue) => {
