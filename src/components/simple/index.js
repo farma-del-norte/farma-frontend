@@ -30,7 +30,6 @@ export const Simple = ({table, modal, id}) => {
 
   // handles open add modal
   const handleAddItem = () => {
-    setIsEditing(false)
     setOpenModal(true)
   }
 

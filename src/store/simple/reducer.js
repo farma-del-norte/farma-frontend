@@ -38,19 +38,22 @@ export const simpleSlice = createSlice({
       state.tables[key].list = action.payload.content
       state.tables[key].isLoading = false
     })
-    builder.addCase(createCall.rejected, state => {
+    builder.addCase(createCall.rejected, (state, action) => {
       const key = action.meta.arg.endpointsParams.key
       state.tables[key].isLoading = false
     })
-    builder.addCase(editCall.pending, state => {
-      state.isLoading = true
+    builder.addCase(editCall.pending, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].isLoading = true
     })
-    builder.addCase(editCall.fulfilled, (state, {payload}) => {
-      state.budgets = payload.content
-      state.isLoading = false
+    builder.addCase(editCall.fulfilled, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].list = action.payload.content
+      state.tables[key].isLoading = false
     })
-    builder.addCase(editCall.rejected, state => {
-      state.isLoading = false
+    builder.addCase(editCall.rejected, (state, action) => {
+      const key = action.meta.arg.endpointsParams.key
+      state.tables[key].isLoading = false
     })
     builder.addCase(deleteCall.pending, (state, action) => {
       const key = action.meta.arg.endpointsParams.key
