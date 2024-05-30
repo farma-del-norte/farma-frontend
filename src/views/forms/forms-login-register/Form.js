@@ -79,93 +79,89 @@ const Form = () => {
     if (usuarioLocalStorage) Router.push('/dashboards')
   }, [])
 
-  return (
-    <>
-      <Box sx={{position: 'absolute', top: '30px', left: '30px'}}>
-        <Image src='/images/logos/simiLogo.png' alt='Simi Logo' width={200} height={200} layout='fixed' />
-      </Box>
-      <Box className='content-center' maxWidth='400px' mx='auto' mt={-20}>
-        <form onSubmit={handleSubmit(submitLogin)}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} mb={10}>
+  return isLoading ? (
+    <FallbackSpinner />
+  ) : (
+    <Box className='content-center' maxWidth='400px' mx='auto' mt={-20}>
+      <form onSubmit={handleSubmit(submitLogin)}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} mb={10}>
+            <Box display='flex' flexDirection='column' alignItems='center'>
+              <Image src='/images/logos/simiLogo.png' alt='Simi Logo' width={200} height={200} layout='fixed' />
               <Typography variant='h5' align='center' mb={4}>
                 {t('Log_in')}
               </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <Controller
-                  name='email'
-                  control={loginControl}
-                  rules={{required: true}}
-                  render={({field: {value, onChange}}) => (
-                    <>
-                      <TextField value={value} onChange={onChange} type='text' label={t('Email')} />
-                      {loginErrors.email && (
-                        <Typography variant='caption' color='error'>
-                          {loginErrors.email.message}
-                        </Typography>
-                      )}
-                    </>
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <Controller
-                  name='password'
-                  control={loginControl}
-                  rules={{required: true}}
-                  render={({field: {value, onChange}}) => (
-                    <>
-                      <TextField
-                        label={t('Password')}
-                        value={value}
-                        onChange={onChange}
-                        type={showPassword ? 'text' : 'password'}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position='end'>
-                              <IconButton
-                                edge='end'
-                                onClick={handleShowPassword}
-                                aria-label='toggle password visibility'
-                              >
-                                {showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                      {loginErrors.password && (
-                        <Typography variant='caption' color='error'>
-                          {loginErrors.password.message}
-                        </Typography>
-                      )}
-                    </>
-                  )}
-                />
-              </FormControl>
-            </Grid>
+            </Box>
           </Grid>
-          <Box mt={5} display='flex' alignItems='center'>
-            <Link passHref href='/forgot-password'>
-              <Button variant='outlined' color='secondary' sx={{marginRight: 'auto'}} disabled={isLoading}>
-                {t('I_forgot_my_password')}
-              </Button>
-            </Link>
-            {isLoading ? (
-              <FallbackSpinner />
-            ) : (
-              <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}}>
-                {t('Sign_in')}
-              </Button>
-            )}
-          </Box>
-        </form>
-      </Box>
-    </>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <Controller
+                name='email'
+                control={loginControl}
+                rules={{required: true}}
+                render={({field: {value, onChange}}) => (
+                  <>
+                    <TextField value={value} onChange={onChange} type='text' label={t('Email')} />
+                    {loginErrors.email && (
+                      <Typography variant='caption' color='error'>
+                        {loginErrors.email.message}
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <Controller
+                name='password'
+                control={loginControl}
+                rules={{required: true}}
+                render={({field: {value, onChange}}) => (
+                  <>
+                    <TextField
+                      label={t('Password')}
+                      value={value}
+                      onChange={onChange}
+                      type={showPassword ? 'text' : 'password'}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position='end'>
+                            <IconButton edge='end' onClick={handleShowPassword} aria-label='toggle password visibility'>
+                              {showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                    {loginErrors.password && (
+                      <Typography variant='caption' color='error'>
+                        {loginErrors.password.message}
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Box mt={5} display='flex' alignItems='center'>
+          <Link passHref href='/forgot-password'>
+            <Button variant='outlined' color='secondary' sx={{marginRight: 'auto'}} disabled={isLoading}>
+              {t('I_forgot_my_password')}
+            </Button>
+          </Link>
+          {isLoading ? (
+            <FallbackSpinner />
+          ) : (
+            <Button type='submit' variant='contained' sx={{marginLeft: 'auto'}}>
+              {t('Sign_in')}
+            </Button>
+          )}
+        </Box>
+      </form>
+    </Box>
   )
 }
 export default Form
