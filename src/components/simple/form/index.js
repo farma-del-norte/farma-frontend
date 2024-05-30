@@ -1,49 +1,13 @@
 import React from 'react'
 import {Grid, FormControl} from '@mui/material'
 import {Controller} from 'react-hook-form'
-import Text from 'src/components/simple/form/inputs/Text'
-import SelectField from 'src/components/simple/form/inputs/SelectField'
-import PasswordField from 'src/components/simple/form/inputs/PasswordField'
-import EmailField from 'src/components/simple/form/inputs/EmailField'
-import MultipleSelectField from 'src/components/simple/form/inputs/MultipleSelectField'
-import PhoneField from 'src/components/simple/form/inputs/PhoneField'
-import TextArea from 'src/components/simple/form/inputs/TextArea'
-import Date from 'src/components/simple/form/inputs/Date'
-import Table from 'src/components/simple/form/inputs/Table'
-import CashField from 'src/components/simple/form/inputs/CashField'
+import InputManager from 'src/components/simple/form/inputManager'
 
-const Inputs = ({input, value, onChange, error}) => {
-  switch (input.type) {
-    case 'text':
-      return <Text input={input} value={value} onChange={onChange} error={error} />
-    case 'textarea':
-      return <TextArea input={input} value={value} onChange={onChange} error={error} />
-    case 'select':
-      return <SelectField input={input} value={value} onChange={onChange} error={error} />
-    case 'multipleSelect':
-      return <MultipleSelectField input={input} value={value} onChange={onChange} error={error} />
-    case 'password':
-      return <PasswordField input={input} value={value} onChange={onChange} error={error} />
-    case 'email':
-      return <EmailField input={input} value={value} onChange={onChange} error={error} />
-    case 'phone':
-      return <PhoneField input={input} value={value} onChange={onChange} error={error} />
-    case 'date':
-      return <Date input={input} value={value} onChange={onChange} error={error} />
-    case 'table':
-      return <Table input={input} value={value} />
-    case 'cash':
-      return <CashField input={input} value={value} onChange={onChange} error={error} />
-    default:
-      return <Text input={input} value={value} onChange={onChange} error={error} />
-  }
-}
-
-const Form = ({inputs, control, resetField, reset, setValue, getValues}) => {
+const Form = ({inputs, control}) => {
   const filteredInputs = inputs.filter(input => !input.hideInput)
 
   return (
-    <Grid sx={{pt: '1rem'}} container spacing={5}>
+    <Grid container spacing={3} sx={{pt: 2}}>
       {filteredInputs.map((input, index) => (
         <Grid key={index} item xs={12} md={input.width}>
           <FormControl fullWidth>
@@ -51,7 +15,7 @@ const Form = ({inputs, control, resetField, reset, setValue, getValues}) => {
               name={input.field}
               control={control}
               render={({field: {value, onChange}, fieldState: {error}}) => (
-                <Inputs input={input} value={value} onChange={onChange} error={error} />
+                <InputManager input={input} value={value} onChange={onChange} error={error} />
               )}
             />
           </FormControl>

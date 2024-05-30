@@ -32,7 +32,7 @@ const createValidationSchema = formFields => {
       schemaFields[input.field] = input.isRequired ? Yup.string().required('Requerido') : Yup.string().notRequired()
     } else if (['multipleSelect'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired
-        ? Yup.array().required().min(1, 'Seleccione al menos una opción')
+        ? Yup.array().required('Seleccione al menos una opción')
         : Yup.array().notRequired()
     } else if (['phone'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired
