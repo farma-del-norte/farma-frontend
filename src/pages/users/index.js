@@ -64,7 +64,11 @@ export default function Users() {
         if (params.row.zones && params.row.zones.length > 0) {
           const zoneNames = params.row.zones.map(zone => zone.zoneName)
           const fullResponse = zoneNames.join(', ')
-          return <Tooltip title={fullResponse}>{fullResponse}</Tooltip>
+          return (
+            <Tooltip title={fullResponse}>
+              {fullResponse.length > 15 ? fullResponse.substring(0, 15) + '...' : fullResponse}
+            </Tooltip>
+          )
         } else {
           return ''
         }
