@@ -1,7 +1,8 @@
 import {Simple} from 'src/components/simple'
-import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT} from 'src/services/endpoints'
+import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT, SERVICES_CAT_ENDPOINT, SUPPLIERS_ENDPOINT} from 'src/services/endpoints'
+import {t} from 'i18next'
 
-const columns = [
+const maintenancesColumns = [
   {
     flex: true,
     field: 'name',
@@ -23,18 +24,63 @@ const columns = [
     headerName: 'fecha'
   },
   {
-    flex: 0.25,
+    flex: true,
     field: 'zoneName',
     headerName: 'Zona'
   },
   {
-    flex: 0.25,
+    flex: true,
     field: 'cost',
     headerName: 'Costo'
   }
 ]
 
+const servicesColumns = [
+  {
+    flex: true,
+    field: 'serviceCatName',
+    headerName: t('services.columns.serviceCat', {ns: 'maintenances'})
+  },
+  {
+    flex: true,
+    field: 'date',
+    headerName: t('services.columns.date', {ns: 'maintenances'})
+  },
+  {
+    flex: true,
+    field: 'area',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'})
+  },
+  {
+    flex: true,
+    field: 'supplierName',
+    headerName: t('services.columns.supplier', {ns: 'maintenances'})
+  },
+  {
+    flex: true,
+    field: 'cost',
+    headerName: t('services.columns.cost', {ns: 'maintenances'})
+  },
+  {
+    flex: true,
+    field: 'status',
+    headerName: t('services.columns.status', {ns: 'maintenances'})
+  },
+  {
+    flex: true,
+    field: 'notes',
+    headerName: t('services.columns.notes', {ns: 'maintenances'})
+  }
+]
+
 export default function pruebaSimple() {
+  const status = [
+    { name: 'Planeación'},
+    { name: 'Desarrollo'},
+    { name: 'Finalizado'},
+    { name: 'Cancelado' },
+  ]
+
   return (
     <Simple
       table={{
@@ -44,15 +90,15 @@ export default function pruebaSimple() {
         },
         loading: true,
         showAddButton: true,
-        columns: columns,
+        columns: maintenancesColumns,
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
         title: 'Mantenimiento',
-        size: 'md',
+        size: 'lg',
         tabs: [
           {
-            title: 'Mantenimiento',
+            title: 'Detalles',
             indexActions: 1,
             form: [
               {
@@ -103,21 +149,91 @@ export default function pruebaSimple() {
             indexActions: 1,
             form: [
               {
-                headerName: 'Mantenimiento',
-                field: 'name',
+                headerName: 'Servicios del mantenimiento',
+                field: 'id',
                 type: 'table',
                 table: {
-                  label: 'Prueba',
+                  label: 'Servicios',
                   endpoints: {
-                    baseUrl: `${SERVICES_ENDPOINT}/services`
+                    baseUrl: `${SERVICES_ENDPOINT}/services/maintenances/:id`
                   },
                   showAddButton: true,
-                  columns: columns,
+                  columns: servicesColumns,
                   actions: ['edit', 'delete']
                 },
-                width: 12
-              }
-            ]
+                modal: {
+                  title: 'Servicio',
+                  size: 'md',
+                  indexActions: 1,
+                  form: [
+                    {
+                      headerName: 'Catalogo del servicio',
+                      field: 'serviceCatID',
+                      type: 'select',
+                      endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
+                      isRequired: true,
+                      width: 6
+                    },
+                    {
+                      headerName: 'Fecha',
+                      field: 'date',
+                      type: 'date',
+                      value: '',
+                      isRequired: true,
+                      width: 6
+                    },
+                    {
+                      headerName: 'Proveedor',
+                      field: 'supplierID',
+                      type: 'select',
+                      endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+                      value: 0,
+                      isRequired: true,
+                      width: 6
+                    },
+                    {
+                      headerName: 'Estatus',
+                      field: 'status',
+                      type: 'select',
+                      options: status,
+                      keyValue: 'name',
+                      value: 0,
+                      isRequired: true,
+                      width: 6
+                    },
+                    {
+                      headerName: 'Costo',
+                      field: 'cost',
+                      type: 'cash',
+                      value: '',
+                      isRequired: true,
+                      width: 6,
+                      flex: true
+                    },
+                    {
+                      headerName: t('services.columns.evidence', {ns: 'maintenances'}),
+                      field: 'evidence',
+                      type: 'multimedia',
+                      value: [],
+                      width: 6,
+                    },
+                    {
+                      headerName: 'Notas',
+                      field: 'notes',
+                      type: 'textarea',
+                      isRequired: true,
+                      value: '',
+                      width: 6
+                    }
+                  ]
+                },
+                width: 12,
+                actions: {
+                  back: 'Regresar',
+                  save: 'Guardar',
+                }
+              },
+            ],
           }
         ],
         form: [
@@ -148,8 +264,8 @@ export default function pruebaSimple() {
             width: 6
           },
           {
-            headerName: 'cash',
-            field: 'cash',
+            headerName: 'Costo inicial',
+            field: 'cost',
             type: 'cash',
             value: '',
             isRequired: true,
@@ -171,7 +287,7 @@ export default function pruebaSimple() {
             isRequired: true,
             value: '',
             width: 6
-          }
+          },
         ],
         actions: {
           back: 'Regresar',

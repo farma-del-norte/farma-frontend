@@ -16,18 +16,9 @@ export const usersSlice = createSlice({
   name: 'media',
   initialState,
   reducers: {
-    toggleModal: (state, {payload}) => {
-      state.isOpen = payload
+    setMedia: (state, {payload}) => {
+      state.media = payload
     },
-    setModalItem: (state, {payload}) => {
-      state.modalItem = payload
-    },
-    toggleDeleteModal: (state, {payload}) => {
-      state.isDeleteOpen = payload
-    },
-    setDeleteItem: (state, {payload}) => {
-      state.modalDeleteItem = payload
-    }
   },
   extraReducers: builder => {
     builder.addCase(getMediaService.pending, state => {
@@ -85,4 +76,4 @@ export const usersSlice = createSlice({
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem} = usersSlice.actions
+export const {setMedia} = usersSlice.actions

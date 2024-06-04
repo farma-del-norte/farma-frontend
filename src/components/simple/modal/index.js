@@ -30,8 +30,8 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
     setOpen(false)
   }
 
-  const onSubmit = (values, isEditing) => {
-    if (Boolean(isEditing)) {
+  const onSubmit = (values) => {
+    if (values?.id) {
       dispatch(editCall({...values, endpointsParams}))
     } else {
       dispatch(createCall({...values, endpointsParams}))
@@ -66,7 +66,7 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
     if (modal?.actions?.save) {
       tempActions.push({
         label: modal?.actions?.save,
-        onClick: handleSubmit(onSubmit, isEditing),
+        onClick: handleSubmit(onSubmit),
         color: 'primary',
         variant: 'contained'
       })

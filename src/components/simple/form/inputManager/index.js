@@ -9,6 +9,7 @@ import TextArea from 'src/components/simple/form/inputs/TextArea'
 import Date from 'src/components/simple/form/inputs/Date'
 import Table from 'src/components/simple/form/inputs/Table'
 import CashField from 'src/components/simple/form/inputs/CashField'
+import MultimediaUploader from 'src/components/simple/form/inputs/MultimediaUploader'
 
 const inputs = {
   text: Text,
@@ -20,7 +21,8 @@ const inputs = {
   phone: PhoneField,
   date: Date,
   table: Table,
-  cash: CashField
+  cash: CashField,
+  multimedia: MultimediaUploader
 }
 
 const InputManager = ({input, value, onChange, error}) => {
