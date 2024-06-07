@@ -138,7 +138,7 @@ export const Simple = ({table, modal, id}) => {
         ]}
       >
         <CardContent>
-          <Typography variant='body2'>Seguro de eliminar el elemento seleccionado?</Typography>
+          <Typography variant='body2'>¿Seguro de eliminar el elemento seleccionado?</Typography>
         </CardContent>
       </ReusableDialog>
     </Fragment>

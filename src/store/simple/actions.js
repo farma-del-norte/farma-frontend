@@ -1,6 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
-import {t} from 'i18next'
-import { get, create, edit, del } from 'src/services/simple/globalCalls'
+import {get, create, edit, del} from 'src/services/simple/globalCalls'
 import toast from 'react-hot-toast'
 
 export const getCall = createAsyncThunk('/service/get', async (params, thunkApi) => {
@@ -17,7 +16,7 @@ export const getCall = createAsyncThunk('/service/get', async (params, thunkApi)
 export const createCall = createAsyncThunk('/service/create', async (params, thunkApi) => {
   try {
     const payload = await create(params)
-    toast.success(t('maintenances_cat_create_message', {ns: 'maintenances'}))
+    toast.success('Creado con éxito')
     return payload
   } catch (error) {
     const errMessage = error
@@ -29,7 +28,7 @@ export const createCall = createAsyncThunk('/service/create', async (params, thu
 export const editCall = createAsyncThunk('/service/edit', async (params, thunkApi) => {
   try {
     const payload = await edit(params)
-    toast.success(t('maintenances_edit_message', {ns: 'maintenances'}))
+    toast.success('Actualizado con éxito')
     return payload
   } catch (error) {
     const errMessage = error.message
@@ -41,7 +40,7 @@ export const editCall = createAsyncThunk('/service/edit', async (params, thunkAp
 export const deleteCall = createAsyncThunk('/service/delete', async (params, thunkApi) => {
   try {
     const payload = await del(params)
-    toast.success('eliminado con exito')
+    toast.success('Eliminado con éxito')
     return payload
   } catch (error) {
     const errMessage = error.message
