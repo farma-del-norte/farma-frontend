@@ -6,7 +6,7 @@ import {Fragment, useState, useEffect, useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getCall, deleteCall} from 'src/store/simple/actions'
 import {MAINTENANCES} from 'src/utils/constants'
-import {Typography, Box, IconButton, Tooltip} from '@mui/material'
+import {Typography, IconButton, Tooltip, CardContent} from '@mui/material'
 
 export const Simple = ({table, modal, id}) => {
   const dispatch = useDispatch()
@@ -137,9 +137,9 @@ export const Simple = ({table, modal, id}) => {
           {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
         ]}
       >
-        <Box>
-          <Typography variant='body2'>Seguro de eliminar {table.label} seleccionado?</Typography>
-        </Box>
+        <CardContent>
+          <Typography variant='body2'>Seguro de eliminar el elemento seleccionado?</Typography>
+        </CardContent>
       </ReusableDialog>
     </Fragment>
   )
