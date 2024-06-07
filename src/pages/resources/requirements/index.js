@@ -175,7 +175,7 @@ export default function Materials() {
       type: 'text',
       value: '',
       isRequired: true,
-      width: 6,
+      width: 12,
       flex: true
     }
   ]
@@ -194,7 +194,7 @@ export default function Materials() {
       modal={{
         title: 'Crear Requerimiento',
         form: data,
-        size: 'md',
+        size: 'sm',
         actions: {
           back: 'Regresar',
           save: 'Guardar'
