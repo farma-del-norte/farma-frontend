@@ -2,9 +2,11 @@ import TextField from '@mui/material/TextField'
 
 const Text = ({input, value, onChange, error}) => {
   const defaultValue = input.value || value || ''
+  const label = input.isRequired ? `${input.headerName}* ` : input.headerName
+
   return (
     <TextField
-      label={input.headerName}
+      label={label}
       value={defaultValue}
       onChange={onChange}
       type={input.type}

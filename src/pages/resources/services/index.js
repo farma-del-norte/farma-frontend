@@ -49,10 +49,11 @@ export default function Services() {
       flex: true
     },
     {
-      headerName: 'Categoria',
+      headerName: 'Categoría',
       field: 'category',
-      type: 'text',
+      type: 'select',
       value: '',
+      options: [{name: 'Normal'}, {name: 'Especial'}],
       isRequired: true,
       width: 12,
       flex: true

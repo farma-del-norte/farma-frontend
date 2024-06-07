@@ -60,8 +60,14 @@ export default function Materials() {
     {
       headerName: 'Categoría',
       field: 'category',
-      type: 'text',
-      value: '',
+      type: 'select',
+      value: 'Prefabricados',
+      options: [
+        {name: 'Limpieza'},
+        {name: 'Prefabricados'},
+        {name: 'Primera mano'},
+        {name: 'Utensilios y herramientas'}
+      ],
       isRequired: true,
       width: 6,
       flex: true
@@ -69,8 +75,9 @@ export default function Materials() {
     {
       headerName: 'Obligación',
       field: 'obligation',
-      type: 'text',
-      value: '',
+      type: 'select',
+      value: 'Requisito',
+      options: [{name: 'Material mandatorio'}, {name: 'Material opcional'}, {name: 'Obligatorio'}, {name: 'Requisito'}],
       isRequired: true,
       width: 6,
       flex: true
@@ -96,8 +103,25 @@ export default function Materials() {
     {
       headerName: 'Unidades',
       field: 'units',
-      type: 'text',
-      value: '',
+      type: 'select',
+      value: 'NA',
+      options: [
+        {name: 'Kilómetro'},
+        {name: 'Metro'},
+        {name: 'Centímetro'},
+        {name: 'Milímetro'},
+        {name: 'Pulgada'},
+        {name: 'Kilogramo'},
+        {name: 'Gramo'},
+        {name: 'Miligramo'},
+        {name: 'Litro'},
+        {name: 'Mililitro'},
+        {name: 'Metro cúbico'},
+        {name: 'Centímetro cúbico'},
+        {name: 'Metro cuadrado'},
+        {name: 'Centímetro cuadrado'},
+        {name: 'NA'}
+      ],
       isRequired: true,
       width: 6,
       flex: true
