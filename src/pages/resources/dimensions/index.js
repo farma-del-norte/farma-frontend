@@ -218,7 +218,7 @@ export default function DimensionsCat() {
         },
         columns: data,
         showAddButton: true,
-        actions: ['edit', 'detail', 'delete']
+        actions: ['edit', 'delete']
       }}
       modal={{
         title: 'Crear Dimensión',
