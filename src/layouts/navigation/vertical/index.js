@@ -48,7 +48,7 @@ const navigation = () => {
       title: 'Simple',
       path: '/simple',
       icon: ListAlt,
-      visible: true
+      visible: false
     },
     {
       title: i18n.t('maintenances_title'),
