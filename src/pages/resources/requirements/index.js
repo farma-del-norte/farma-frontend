@@ -167,7 +167,7 @@
 import {Simple} from 'src/components/simple'
 import {REQUIREMENTS_CAT_ENDPOINT} from 'src/services/endpoints'
 
-export default function Materials() {
+export default function RequirimentsCat() {
   const data = [
     {
       headerName: 'Requerimiento',

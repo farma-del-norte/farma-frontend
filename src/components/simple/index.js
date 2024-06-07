@@ -69,7 +69,7 @@ export const Simple = ({table, modal, id}) => {
   const actionableColumns = [
     ...table.columns,
     {
-      flex: table.columns.length < 2 ? 0.15 : true,
+      flex: table.columns.length < 2 ? 0.15 : table.columns.length < 3 ? 0.25 : true,
       field: 'actions',
       headerName: 'Acciones',
       type: 'actions',
