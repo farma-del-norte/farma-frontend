@@ -36,7 +36,7 @@
 
 import {Simple} from 'src/components/simple'
 import {DAMAGES_CAT_ENDPOINT} from 'src/services/endpoints'
-export default function DimensionsCat() {
+export default function DamagesCat() {
   const data = [
     {
       headerName: 'Siniestro',
