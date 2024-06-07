@@ -1,19 +1,19 @@
 // ** Util Import
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import {hexToRGBA} from 'src/@core/utils/hex-to-rgba'
 
 const GlobalStyles = (theme, settings) => {
   // ** Vars
-  const { skin } = settings
+  const {skin} = settings
 
   const perfectScrollbarThumbBgColor = () => {
     if (skin === 'semi-dark' && theme.palette.mode === 'light') {
-      return '#504B6D !important'
+      return '#C2C4D1 !important'
     } else if (skin === 'semi-dark' && theme.palette.mode === 'dark') {
       return '#C2C4D1 !important'
     } else if (theme.palette.mode === 'light') {
       return '#C2C4D1 !important'
     } else {
-      return '#504B6D !important'
+      return '#C2C4D1 !important'
     }
   }
 

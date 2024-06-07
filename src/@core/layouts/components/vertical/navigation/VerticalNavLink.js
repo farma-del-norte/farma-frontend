@@ -97,7 +97,11 @@ const VerticalNavLink = ({
   return (
     // <CanViewNavLink navLink={item}>
     <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{mt: 1.5, px: '0 !important'}}>
-      <Link passHref href={item.path === undefined ? '/' : `${item.path}`} style={{textDecoration: 'none'}}>
+      <Link
+        passHref
+        href={item.path === undefined ? '/' : `${item.path}`}
+        style={{textDecoration: 'none', width: '100%'}}
+      >
         <MenuNavLink
           component={'a'}
           className={isNavLinkActive() ? 'active' : ''}
