@@ -6,7 +6,7 @@ import {Fragment, useState, useEffect, useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getCall, deleteCall} from 'src/store/simple/actions'
 import {MAINTENANCES} from 'src/utils/constants'
-import {Typography, Box} from '@mui/material'
+import {Typography, Box, IconButton, Tooltip} from '@mui/material'
 
 export const Simple = ({table, modal, id}) => {
   const dispatch = useDispatch()
@@ -76,13 +76,29 @@ export const Simple = ({table, modal, id}) => {
       renderCell: params => {
         const row = params?.row
         return (
-          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            {table.actions.includes('edit') && <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal(row)} />}
-            {table.actions.includes('detail') && (
-              <TextBoxSearch sx={{margin: '5px'}} onClick={() => handleDetailModal(row)} />
+          <>
+            {table.actions.includes('edit') && (
+              <Tooltip title={'Editar'}>
+                <IconButton size='small' color='warning' onClick={() => handleOpenModal(row)}>
+                  <Pencil />
+                </IconButton>
+              </Tooltip>
             )}
-            {table.actions.includes('delete') && <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal(row)} />}
-          </Typography>
+            {table.actions.includes('detail') && (
+              <Tooltip title={'Ver Detalles'}>
+                <IconButton size='small' color='info' onClick={() => handleDetailModal(row)}>
+                  <TextBoxSearch />
+                </IconButton>
+              </Tooltip>
+            )}
+            {table.actions.includes('delete') && (
+              <Tooltip title={'Eliminar'}>
+                <IconButton size='small' color='error' onClick={() => handleDeleteModal(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            )}
+          </>
         )
       }
     }

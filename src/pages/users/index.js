@@ -95,7 +95,7 @@ export default function Users() {
         },
         columns: data,
         showAddButton: true,
-        actions: ['edit', 'detail', 'delete']
+        actions: ['edit', 'delete']
       }}
       modal={{
         title: 'Crear usuario',
