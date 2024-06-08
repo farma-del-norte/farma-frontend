@@ -8,7 +8,6 @@ import {Pencil, Delete} from 'mdi-material-ui'
 import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal} from 'src/store/maintenances/damages/reducer'
 import {createDamage, deleteDamage, editDamage, getDamages} from 'src/store/maintenances/damages/actions'
 import {getDamagesCat} from 'src/store/catalogs/damages/actions'
-import {getMaintenances} from 'src/store/maintenances/maintenances/actions'
 
 import FallbackSpinner from 'src/@core/components/spinner'
 import {t} from 'i18next'
@@ -59,7 +58,6 @@ function Damages() {
   useEffect(() => {
     dispatch(getDamages())
     dispatch(getDamagesCat())
-    dispatch(getMaintenances())
   }, [dispatch])
 
   const handleCloseModal = () => {
