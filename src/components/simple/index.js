@@ -104,14 +104,13 @@ export const Simple = ({table, modal, id}) => {
     }
   ]
   const filteredColumns = actionableColumns.filter(column => !column.hideColumn)
-
   return (
     <Fragment>
       <CardTable
         showAddButton={table.showAddButton}
         columns={filteredColumns}
         rows={tables[keyList]?.list || []}
-        loading={tables[keyList]?.loading || !tables[keyList]}
+        isLoading={tables[keyList]?.isLoading || !tables[keyList]}
         pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
         label={table.label}
         onAddItem={handleAddItem}

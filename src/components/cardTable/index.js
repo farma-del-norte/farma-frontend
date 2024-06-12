@@ -11,10 +11,9 @@ import {esES} from '@mui/x-data-grid/locales'
 import {AddCircleOutline} from '@mui/icons-material'
 import FallbackSpinner from 'src/@core/components/spinner'
 
-const CardTable = ({showAddButton = false, loading, ...props}) => {
+const CardTable = ({showAddButton = false, isLoading, ...props}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
-  const gridHeight = isMobile ? 300 : 500
-
+  const gridHeight = isMobile ? 300 : 560
   const handleAddClick = () => {
     // Handle the click event for the add button
     props.onAddItem()
@@ -59,7 +58,7 @@ const CardTable = ({showAddButton = false, loading, ...props}) => {
       <Box sx={{height: gridHeight}}>
         <DataGrid
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          loading={loading}
+          loading={isLoading}
           slots={{
             toolbar: CustomToolbar,
             loadingOverlay: CustomLoadingOverlay
