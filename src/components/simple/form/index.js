@@ -3,7 +3,7 @@ import {Grid, FormControl} from '@mui/material'
 import {Controller} from 'react-hook-form'
 import InputManager from 'src/components/simple/form/inputManager'
 
-const Form = ({inputs, control}) => {
+const Form = ({inputs, control, getValues}) => {
   const filteredInputs = inputs.filter(input => !input.hideInput)
 
   return (
@@ -15,7 +15,7 @@ const Form = ({inputs, control}) => {
               name={input.field}
               control={control}
               render={({field: {value, onChange}, fieldState: {error}}) => (
-                <InputManager input={input} value={value} onChange={onChange} error={error} />
+                <InputManager input={input} value={value} onChange={onChange} getValues={getValues} error={error} />
               )}
             />
           </FormControl>

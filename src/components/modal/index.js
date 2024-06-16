@@ -1,14 +1,10 @@
-import { useState} from 'react'
 import {
   Dialog, 
   DialogTitle, 
-  DialogContent, 
   DialogActions, 
   Button, 
   useMediaQuery,
   Box,
-  Tab,
-  Tabs,
 } 
 from '@mui/material'
 
@@ -29,61 +25,7 @@ const Actions = ({actions, toIndex = undefined}) => {
   )
 }
 
-const CustomTabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
-
-const MainTabs = ({tabs, actions, children}) => {
-
-  const [selectedTab, setSelectedTab] = useState(0)
-
-  const handleChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
-
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, paddingTop: 1, borderColor: 'divider' }}>
-        <Tabs value={selectedTab} onChange={handleChange} aria-label="lab API tabs example">
-          { tabs.map((tab, index) => (
-            <Tab
-              sx={{ fontSize: '1rem' }}
-              key={index} 
-              label={tab.title || ''} 
-              value={index} 
-            />
-          ))}
-        </Tabs>
-      </Box>
-      {tabs.map((tab, index) => (
-        <CustomTabPanel
-          key={index} 
-          value={selectedTab}
-          index={index}
-        >
-          <DialogContent>{ children }</DialogContent>
-          <Actions actions={actions} toIndex={tabs[selectedTab].indexActions}/>
-        </CustomTabPanel>
-      ))}
-    </Box>
-  )
-}
-
-const ReusableDialog = ({open = false, onClose = () => {}, title = '', children, actions = [], size = false, tabs = undefined}) => {
+const ReusableDialog = ({open = false, onClose = () => {}, title = '', children, actions = [], size = false, footerButtons}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
 
   return (
@@ -97,7 +39,7 @@ const ReusableDialog = ({open = false, onClose = () => {}, title = '', children,
       <Box>
         <DialogTitle>{title}</DialogTitle>
         {children}
-        <Actions actions={actions} />
+        <Actions actions={actions} toIndex={footerButtons} />
       </Box>
     </Dialog>
   )

@@ -151,6 +151,7 @@ export default function pruebaSimple() {
               {
                 headerName: 'Servicios del mantenimiento',
                 field: 'id',
+                fieldName: 'maintenanceID',
                 type: 'table',
                 table: {
                   label: 'Servicios',
@@ -164,7 +165,6 @@ export default function pruebaSimple() {
                 modal: {
                   title: 'Servicio',
                   size: 'md',
-                  indexActions: 1,
                   form: [
                     {
                       headerName: 'Catalogo del servicio',
@@ -213,6 +213,7 @@ export default function pruebaSimple() {
                     {
                       headerName: t('services.columns.evidence', {ns: 'maintenances'}),
                       field: 'evidence',
+                      owner: 'services',
                       type: 'multimedia',
                       value: [],
                       width: 6,
@@ -225,13 +226,13 @@ export default function pruebaSimple() {
                       value: '',
                       width: 6
                     }
-                  ]
+                  ],
+                  actions: {
+                    back: 'Regresar',
+                    save: 'Guardar'
+                  }
                 },
                 width: 12,
-                actions: {
-                  back: 'Regresar',
-                  save: 'Guardar',
-                }
               },
             ],
           }

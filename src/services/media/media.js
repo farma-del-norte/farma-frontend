@@ -31,14 +31,14 @@ export const createMedia = async body => {
   const urlMedias = []
   const medias = body
   try {
-    for(const media of medias.evidence){
+    for(const media of medias.files){
         const extFile = media.file.split(';')[0].split('/')[1]
         const fileType = media.file.split(':')[1].split('/')[0]
         const presignedUrlHeaders = { headers: { Authorization: auth, fileType: extFile } }
 
         const bodyForPresignedUrl = {
           bucketName: 'media-farma-dev',
-          key: `${medias.bucketName}/${medias.partKey}/${media.name}`
+          key: `${medias.belongsTo}/${medias.id}/${media.name}`
         }
 
         // get the s3 url to save
@@ -62,8 +62,8 @@ export const createMedia = async body => {
           body = {
             url: mediaUrl,
             type: typeFileMedia[fileType],
-            ownerId: medias.partKey,
-            typeOwner: medias.bucketName
+            ownerId: medias.id,
+            typeOwner: medias.belongsTo
           }
 
           // saved on media endpoint
@@ -77,10 +77,16 @@ export const createMedia = async body => {
 }
 
 export const editMedia = async body => {
-  const news = body.evidence.filter((media) => !media.url && media.file)
-  const existed = body.evidence.filter((media) => media.url)
+  const media = {
+    id: body.form.id,
+    belongsTo: body.media.mediaOwner,
+    files: body.form[body.media.field]
+  }
+  console.log('editMedia', media, body)
+  const news = media.files.filter((media) => !media.url && media.file)
+  const existed = media.files.filter((media) => media.url)
   try {
-    const mediasExisted = await getMediaById(body.partKey)
+    const mediasExisted = await getMediaById(media.id)
     if(mediasExisted.content.length > 0){
       const toRemove = mediasExisted.content.filter((obj1) => !existed.some(obj2 => obj1.id === obj2.id))
       for(var i = 0; i < toRemove.length; i++){
@@ -88,10 +94,10 @@ export const editMedia = async body => {
       }
     }
     if(news.length > 0){
-      body.evidence = news
-      await createMedia(body)
+      media.files = news
+      await createMedia(media)
     }
-    const medias = await getMediaById(body.partKey)
+    const medias = await getMediaById(media.id)
     return medias
   } catch (error) {
     throw error

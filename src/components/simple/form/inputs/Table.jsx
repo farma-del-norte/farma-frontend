@@ -8,6 +8,7 @@ export default function Table({input, value}) {
     <Simple
       table={input.table}
       modal={input.modal}
+      tablekey={input?.fieldName}
       id={id}
     />
   )

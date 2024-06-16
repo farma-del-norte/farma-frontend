@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form'
 import Form from 'src/components/simple/form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {createCall, editCall} from 'src/store/simple/actions'
+import {editMediaService} from 'src/store/media/actions'
 import {useDispatch} from 'react-redux'
 import createValidationSchema from '../form/validations'
 import {
@@ -31,10 +32,14 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
   }
 
   const onSubmit = (values) => {
+    // multimedia purpose
+    const saveMultimedia = modal.form.some(item => item.type === 'multimedia')
+    const mediaInput = modal.form.find(item => item.type === 'multimedia')
     if (values?.id) {
-      dispatch(editCall({...values, endpointsParams}))
+      dispatch(editCall({form: values, endpointsParams}))
+      dispatch(editMediaService({form: values, media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}}))
     } else {
-      dispatch(createCall({...values, endpointsParams}))
+      dispatch(createCall({form: values, endpointsParams, media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}}))
     }
     handleCloseModal()
   }
@@ -78,9 +83,9 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
     <ReusableDialog
       open={open}
       size={modal.size}
-      tabs={Boolean(useTabs) ? modal.tabs : undefined}
       onClose={handleCloseModal}
       title={Boolean(isEditing) ? 'editar' : modal.title}
+      footerButtons={Boolean(useTabs) ? modal.tabs[selectedTab]?.indexActions : undefined}
       actions={[
         {label: modal?.actions?.back ?? 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
         ...actions

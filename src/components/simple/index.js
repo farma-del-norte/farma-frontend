@@ -8,7 +8,7 @@ import {getCall, deleteCall} from 'src/store/simple/actions'
 import {MAINTENANCES} from 'src/utils/constants'
 import {Typography, IconButton, Tooltip, CardContent} from '@mui/material'
 
-export const Simple = ({table, modal, id}) => {
+export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
   const dispatch = useDispatch()
   const {tables} = useSelector(state => state.simple)
   const [isEditing, setIsEditing] = useState(false)
@@ -24,7 +24,7 @@ export const Simple = ({table, modal, id}) => {
     return {
       endpoint: table.endpoints.baseUrl,
       key: keyList,
-      id: id
+      [tablekey]: id
     }
   }, [table.endpoints, keyList, id])
 
