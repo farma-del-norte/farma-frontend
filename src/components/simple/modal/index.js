@@ -19,7 +19,7 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
   const [actions, setActions] = useState([])
   const [selectedTab, setSelectedTab] = useState(0)
   const [defaultValues, setDefaultValues] = useState(modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {}))
-  const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
+  const {control, handleSubmit, watch, resetField, reset, setValue, getValues} = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(createValidationSchema(Boolean(useTabs) ? modal.tabs[selectedTab].form : modal.form))
   })
@@ -104,10 +104,12 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
                 selectedTab === index &&
                   <div key={index}>
                     <Form
+                      title={tab.title}
                       inputs={tab.form}
                       control={control}
                       resetField={resetField}
                       reset={reset}
+                      watch={watch}
                       setValue={setValue}
                       getValues={getValues}
                     />
@@ -116,8 +118,10 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
             </>
           :
             <Form
+              title={modal.title}
               inputs={modal.form}
               control={control}
+              watch={watch}
               resetField={resetField}
               reset={reset}
               setValue={setValue}

@@ -20,6 +20,7 @@ import services from 'src/store/maintenances/services/reducer'
 import materials from 'src/store/maintenances/materials/reducer'
 import media from 'src/store/media/reducer'
 import simple from 'src/store/simple/reducer'
+import form from 'src/store/form/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -40,7 +41,8 @@ export const store = configureStore({
     services,
     materials,
     media,
-    simple
+    simple,
+    form
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

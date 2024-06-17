@@ -18,6 +18,11 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [input.endpoint, keyList])
 
+  // cuando desde la raiz se cambian opciones
+  useEffect(() => {
+    setOptions(input.options || [])
+  }, [input.options])
+
   // get options
   useEffect(() => {
     if (input.endpoint) {
