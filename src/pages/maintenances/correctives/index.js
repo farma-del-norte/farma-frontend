@@ -1,651 +1,372 @@
-import {Fragment, useEffect, useState} from 'react'
-import {useForm, Controller} from 'react-hook-form'
+import {Simple} from 'src/components/simple'
+import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT, SERVICES_CAT_ENDPOINT, SUPPLIERS_ENDPOINT} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
-import {
-  Typography,
-  Grid,
-  FormControl,
-  TextField,
-  Box,
-  Select,
-  MenuItem,
-  InputLabel,
-  InputAdornment,
-  Divider
-} from '@mui/material'
-import CardTable from 'src/components/cardTable'
-import ReusableDialog from 'src/components/modal'
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
-import {toggleModal, setModalItem, setDeleteItem, toggleDeleteModal, toggleDetailModal, setDetailItem} from 'src/store/maintenances/correctives/reducer'
-import {createMaintenance, deleteMaintenance, editMaintenance, getMaintenances} from 'src/store/maintenances/correctives/actions'
-import {toggleMaterialModal, toggleDeleteMaterialModal, setMaterialDeleteItem} from 'src/store/maintenances/materials/reducer'
-import { getMaterialsByServices, deleteMaterial } from 'src/store/maintenances/materials/actions'
-import {getBranches} from 'src/store/catalogs/branches/actions'
-import {MAINTENANCES, COMMON} from 'src/utils/constants'
-
-import FallbackSpinner from 'src/@core/components/spinner'
-import MultimediaUploader from 'src/components/multimediaUploader/MultimediaUploader'
+import { useEffect, useState, useMemo } from 'react'
+import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
+import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
+import {getVariablesCat} from 'src/store/catalogs/variables/actions'
+import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {t} from 'i18next'
-import ServicesModal from 'src/views/details-modals/ServicesModal'
-import MaterialsModal from 'src/views/details-modals/MaterialsModal'
 
-const columns = [
+const maintenancesColumns = [
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
+    headerName: 'Nombre del mantenimiento',
     field: 'name',
-    headerName: 'Mantenimiento'
+    type: 'text',
+    value: '',
+    isRequired: true,
+    width: 6
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'branchName',
-    headerName: 'Sucursal'
+    headerName: 'Sucursal',
+    hideInput: true
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    headerName: 'Sucursal',
+    field: 'branchID',
+    type: 'select',
+    endpoint: `${BRANCHES_ENDPOINT}/branches`,
+    options: [],
+    value: 0,
+    isRequired: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    flex: true,
+    headerName: 'Descripcion de mantenimiento',
     field: 'description',
-    headerName: 'descripciòn'
+    type: 'text',
+    value: '',
+    width: 6
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'date',
-    headerName: 'fecha'
+    headerName: 'Fecha',
+    type: 'date',
+    value: '',
+    isRequired: true,
+    width: 6,
+    hideColumn: true
   },
   {
-    flex: 0.25,
-    minWidth: 200,
+    flex: true,
     field: 'zoneName',
-    headerName: 'Zona'
+    headerName: 'Zona',
+    hideInput: true
   },
   {
-    flex: 0.25,
-    minWidth: 200,
-    field: 'cost',
-    headerName: 'Costo'
-  },
+    flex: true,
+    headerName: 'Comentarios',
+    field: 'notes',
+    type: 'textarea',
+    value: '',
+    width: 6,
+    hideColumn: true
+  }
 ]
 
-const materialsColumns = [
+const servicesColumns = [
   {
-    flex: 0.25,
-    minWidth: 100,
-    field: 'serviceID',
-    type: 'singleSelect',
-    headerName: 'Servicio',
+    flex: true,
+    headerName: 'Nombre del Servicio',
+    field: 'name',
+    type: 'text',
+    value: '',
+    width: 6
   },
   {
-    flex: 0.25,
-    minWidth: 100,
+    flex: true,
     field: 'serviceCatName',
-    headerName: 'Cat material',
+    headerName: t('services.columns.serviceCat', {ns: 'maintenances'}),
+    hideInput: true
   },
   {
-    flex: 0.25,
-    minWidth: 100,
-    field: 'quantity',
-    type: 'number',
-    headerName: 'Cantidad',
+    headerName: 'Catalogo del servicio',
+    field: 'serviceCatID',
+    type: 'select',
+    endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
+    isRequired: true,
+    width: 6,
+    hideColumn: true
   },
   {
-    flex: 0.25,
-    minWidth: 100,
-    field: 'units',
-    headerName: 'Unidad',
+    flex: true,
+    headerName: t('services.columns.date', {ns: 'maintenances'}),
+    field: 'date',
+    type: 'date',
+    value: '',
+    isRequired: true,
+    width: 6,
+    hideColumn: true
   },
   {
-    flex: 0.25,
-    minWidth: 100,
-    field: 'unitCost',
-    headerName: 'costo unidad',
+    flex: true,
+    field: 'area',
+    headerName: t('services.columns.area', {ns: 'maintenances'}),
+    type: 'select',
+    options: [],
+    isRequired: true,
+    width: 6,
+    hideColumn: true
   },
   {
-    flex: 0.25,
-    minWidth: 100,
-    field: 'totalCost',
-    type: 'number',
-    headerName: 'Costo total',
+    flex: true,
+    field: 'areaID',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+    options: [],
+    isRequired: true,
+    width: 6,
+    hideColumn: true
   },
+  {
+    flex: true,
+    field: 'supplierName',
+    headerName: t('services.columns.supplier', {ns: 'maintenances'}),
+    hideInput: true
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierID',
+    type: 'select',
+    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+    fieldName: ['firstname', 'lastname'],
+    value: 0,
+    isRequired: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    flex: true,
+    headerName: t('services.columns.cost', {ns: 'maintenances'}),
+    field: 'cost',
+    type: 'cash',
+    value: '',
+    isRequired: true,
+    width: 6,
+  },
+  {
+    flex: true,
+    headerName: t('services.columns.status', {ns: 'maintenances'}),
+    field: 'status',
+    type: 'select',
+    options: [],
+    keyValue: 'name',
+    value: 0,
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: t('services.columns.evidence', {ns: 'maintenances'}),
+    field: 'evidence',
+    accept: '.jpg,.png,.webp,pdf,application/pdf',
+    owner: 'services',
+    type: 'multimedia',
+    value: [],
+    hideColumn: true,
+    width: 6,
+  },
+  {
+    flex: true,
+    headerName: t('services.columns.notes', {ns: 'maintenances'}),
+    field: 'notes',
+    type: 'textarea',
+    hideColumn: true,
+    value: '',
+    width: 6
+  }
 ]
 
-//component for services details format
-
-const DetailsForm = ({control, resetField, reset, setValue, getValues }) => {
-
-  const row = getValues()
-  const [multimedia, setMultimedia] = useState([])
-  const columns = [...materialsColumns]
-  columns.splice(1, 1)
-  
-  const handleImagesUpdate = images => {
-    setMultimedia(images)
-  }
-
-  return (
-    <form>
-      <Grid container spacing={5}>
-        <Grid item xs={MAINTENANCES.MAINTENANCES_FIELD_FLEX_SIZE} md={3} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-            Servicio
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
-            {row.service}
-          </Typography>
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-            Poveedor
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
-            {row.provider}
-          </Typography>
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-            Area
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
-            {row.area}
-          </Typography>
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-            Estatus
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
-            {row.status}
-          </Typography>
-          <Divider variant="middle" />
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-            Fecha de aplicación
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem', textAlign: 'center' }}>
-            {new Date(row.date).toLocaleDateString("es-Mx", { "day": "numeric", "month": "numeric", "year": "numeric" })}
-          </Typography>
-        </Grid>
-        <Grid item xs={9} md={9} sx={{marginTop: '6px'}}>
-          <FormControl fullWidth>
-            <Controller
-              name='evidencia'
-              control={control}
-              render={({field: {value, onChange}}) => 
-              <>
-                <MultimediaUploader 
-                  field={"Evidencia digital"}
-                  base64Images={[]} 
-                  handleImages={handleImagesUpdate} 
-                />
-              </>
-            }/>
-          </FormControl>
-        </Grid>
-        <Grid item xs={8} md={8} sx={{marginTop: '6px'}}>
-          <FormControl fullWidth>
-            <Controller
-              name='evidencia'
-              control={control}
-              render={({field: {value = []}}) => 
-                <CardTable
-                    columns={columns}
-                    rows={value}
-                    pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-                    label={t('maintenances_materials_column_name',{ns: 'maintenances'})}
-                  />
-              }/>
-          </FormControl>
-        </Grid>
-        <Grid item md={4} sx={{marginTop: COMMON.FORM_MARGIN_TOP, padding: '1rem', textAlign: 'center'}}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
-            Costo del servicio
-          </Typography>
-          <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '0.875rem' }}>
-            $ {row.serviceCost}
-          </Typography>
-          <Divider variant="middle" />
-          <Typography variant="subtitle1" sx={{ fontWeight: 200, fontSize: '0.875rem' }}>
-            Costo total de los materiales
-          </Typography>
-          <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '0.875rem' }}>
-            $ {row.materialCost}
-          </Typography>
-        </Grid>
-      </Grid>
-    </form>
-  )
-}
-
-const Maintenances = () => {
+export default function PruebaSimple() {
   const dispatch = useDispatch()
+  const {form} = useSelector(state => state.form)
+  const {materialsCat} = useSelector(state => state.materialsCat)
+  const {dimensionsCat} = useSelector(state => state.dimensionsCat)
+  const {variablesCat} = useSelector(state => state.variablesCat)
+  const {conceptsCat} = useSelector(state => state.conceptsCat)
+  const [servicesForm, setServicesForm] = useState(servicesColumns)
+  const areas = useMemo(
+    () => [
+      { name: 'Materiales', id: 'Material' },
+      { name: 'Dimensiones', id: 'Dimensión' },
+      { name: 'Variables', id: 'Variable' },
+      { name: 'Concepto', id: 'Concepto' },
+    ],
+    []
+  );
+  const status = useMemo(
+    () => [
+    { name: 'Planeación', id: 'Planeación'},
+    { name: 'Desarrollo', id: 'Desarrollo'},
+    { name: 'Finalizado', id: 'Finalizado'},
+    { name: 'Cancelado', id: 'Cancelado' },
+  ],[]
+  );
 
-  const {isOpen, modalItem, isDeleteOpen, isDetailsOpen, maintenances, isLoading, modalDeleteItem} = useSelector(
-    state => state.maintenances
-  )
-  const { services } = useSelector(state => state.services)
-  const { isModalOpen, materials, isMaterialDeleteOpen, modalDeleteMaterial } = useSelector(state => state.materials)
-  const [selectedMaint, setSelectedMaint] = useState([])
-  //branches
-  const {branches} = useSelector(state => state.branches)
-  //motivo
-  const motivos = [
-    { name: 'Preventivos', value: 'Preventivos'},
-    { name: 'Siniestros', value: 'Siniestros'}
-  ]
-
-  const {control, handleSubmit, resetField, reset, setValue, getValues} = useForm({
-    defaultValues: {
-      area: undefined,
-      areaID: undefined,
-      branchID: undefined,
-      cost: undefined,
-      description: undefined,
-      evidencia: undefined,
-      materials: undefined,
-      motive: undefined,
-      notes: undefined,
-      provider: undefined,
-      services: undefined
-    }
-  })
-
+  // inicilaizar opciones de servicio
   useEffect(() => {
-    dispatch(getMaintenances())
-  }, [dispatch])
+    setServicesForm(prevInputs => {
+      const newInputs = [...prevInputs]
+      newInputs[4].options = areas;
+      newInputs[9].options = status;
+      return newInputs;
+    });
+    dispatch(getMaterialsCat())
+    dispatch(getDimensionsCat())
+    dispatch(getVariablesCat())
+    dispatch(getConceptsCat())
+  }, [areas, status, dispatch])
 
-  // de un arreglo de ids de servicios, obtiene los materiales de esos servicios
+  const handleAreaId = (options) => {
+    setServicesForm(prevInputs => {
+      const newInputs = [...prevInputs]
+      newInputs[5].options = options;
+      return newInputs;
+    })
+  }
+
+  // cambiar opciones en area
   useEffect(() => {
-    if(services.length > 0) {
-      dispatch(getMaterialsByServices(services))
-    }
-  }, [services, dispatch])
-
-  const handleCloseModal = () => {
-    reset()
-    const cleanModal = null
-    dispatch(toggleModal(false))
-    dispatch(setModalItem(cleanModal))
-  }
-
-  const handleCloseDetailsModal = () => {
-    const cleanModal = null
-    setSelectedMaint([])
-    dispatch(toggleDetailModal(false))
-    dispatch(setDetailItem(cleanModal))
-  }
-
-  const handleCloseDeleteModal = () => {
-    const cleanModal = null
-    dispatch(toggleDeleteModal(false))
-    dispatch(setDeleteItem(cleanModal))
-  }
-
-  const handleOpenModal = row => {
-    reset(row)
-    //AL editar
-    dispatch(getBranches())
-    dispatch(toggleModal(true))
-    dispatch(setModalItem(row))
-  }
-
-  const handleDetailModal = params => {
-    const {row, open} = params
-    reset(row)
-    setSelectedMaint(row)
-    dispatch(getBranches())
-    dispatch(toggleDetailModal(open))
-    dispatch(setDetailItem(row))
-  }
-
-  const handleAddItem = () => {
-    reset({})
-    dispatch(toggleModal(true))
-    dispatch(getBranches())
-    dispatch(setModalItem(null))
-  }
-  // materials
-  const handleAddMaterial = () => {
-    reset({})
-    dispatch(toggleMaterialModal(true))
-  }
-
-  const handleDelMaterial = (row) => {
-    dispatch(toggleDeleteMaterialModal(true))
-    dispatch(setMaterialDeleteItem(row))
-  }
-
-  const handleCloseMaterialDeleteModal = () => {
-    dispatch(toggleDeleteMaterialModal(false))
-  }
-
-  const handleMaterialDeleteConfirm = () => {
-    const values = { ...modalDeleteMaterial, services}
-    dispatch(deleteMaterial(values))
-    handleCloseMaterialDeleteModal()
-  }
-
-  const handleEditMaterial = row => {
-    reset(row)
-    //AL editar
-    dispatch(toggleMaterialModal(true))
-  }
-
-  const handleDeleteModal = row => {
-    dispatch(toggleDeleteModal(true))
-    dispatch(setDeleteItem(row))
-  }
-
-  const handleDeleteConfirm = () => {
-    dispatch(deleteMaintenance(modalDeleteItem))
-    handleCloseDeleteModal()
-  }
-
-  const onSubmit = values => {
-    if (Boolean(modalItem)) {
-      dispatch(editMaintenance(values))
-    } else {
-      dispatch(createMaintenance(values))
-    }
-    handleCloseModal()
-  }
-
-  const actionableMaterialColumns = [
-    ...materialsColumns,
-    {
-      flex: 0.125,
-      minWidth: 120,
-      field: 'actions',
-      headerName: 'Acciones',
-      renderCell: params => {
-        const row = params?.row
-        return (
-          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <Pencil sx={{margin: '5px'}} onClick={() => handleEditMaterial(row)} />
-            <Delete sx={{margin: '5px'}} onClick={() => handleDelMaterial(row)} />
-          </Typography>
-        )
+    if(form?.Servicio) {
+      if (form.Servicio.area) {
+        switch (form.Servicio.area){
+          case 'Material':
+            handleAreaId(materialsCat)
+            break;
+          case 'Dimensión':
+            handleAreaId(dimensionsCat)
+            break;
+          case 'Variable':
+            handleAreaId(variablesCat)
+            break;
+          case 'Concepto':
+            handleAreaId(conceptsCat)
+            break;
+          default:
+            break;
+        }
+        
       }
     }
-  ]
-
-  const actionableColumns = [
-    ...columns,
-    {
-      flex: 0.125,
-      minWidth: 120,
-      field: 'actions',
-      headerName: 'Acciones',
-      renderCell: params => {
-        const row = params?.row
-        return (
-          <Typography variant='body2' sx={{color: '#6495ED', cursor: 'pointer'}}>
-            <Pencil sx={{margin: '5px'}} onClick={() => handleOpenModal(row)} />
-            <TextBoxSearch sx={{margin: '5px'}} onClick={() => handleDetailModal({row, open: true})} />
-            <Delete sx={{margin: '5px'}} onClick={() => handleDeleteModal(row)} />
-          </Typography>
-        )
-      }
-    }
-  ]
-
-  const handleBranch = (e, onChange) => {
-    onChange(e.target.value)
-    const zoneID = branches.filter(branch => branch.id === e.target.value)[0].zoneID
-    setValue('zoneID', zoneID)
-  }
+  }, [form])
 
   return (
-    <Fragment>
-      {isLoading ? (
-        <FallbackSpinner />
-      ) : (
-        <CardTable
-          showAddButton
-          columns={actionableColumns}
-          rows={maintenances}
-          pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-          label={t('maintenances_column_name', {ns: 'maintenances'})}
-          onAddItem={handleAddItem}
-        />
-      )}
-      <ReusableDialog
-        open={isOpen}
-        size={"xl"}
-        onClose={handleCloseModal}
-        title={Boolean(modalItem) ? 'editar' : 'Reportar Mantenimiento Correctivo'}
-        actions={[
-          {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
-          {label: 'Reportar', onClick: handleSubmit(onSubmit), color: 'primary', variant: 'contained'}
-        ]}
-      >
-        <form>
-          <Grid container spacing={5}>
-          <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='name'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Nombre del mantenimiento' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={MAINTENANCES.MAINTENANCES_FIELD_FLEX_SIZE} md={6} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='branchID'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <>
-                      <InputLabel>Sucursal</InputLabel>
-                      <Select
-                        defaultValue=''
-                        value={value || ''}
-                        label='Sucursal'
-                        onChange={e => handleBranch(e, onChange)}
-                      >
-                        {branches?.map((branch, id) => (
-                          <MenuItem key={id} value={branch.id}>
-                            {branch.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </>
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='date'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField
-                      type='date'
-                      label={t('services.columns.date', {ns: 'maintenances'})}
-                      InputLabelProps={{shrink: true}}
-                      value={value || ''}
-                      onChange={onChange}
-                    />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='description'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField label='Descripcion de mantenimiento' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='cost'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField
-                      label='Costo inicial'
-                      value={value}
-                      onChange={onChange}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <AttachMoneyIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{marginTop: '6px'}}>
-              <FormControl fullWidth>
-                <Controller
-                  name='notes'
-                  control={control}
-                  render={({field: {value, onChange}}) => (
-                    <TextField multiline rows={4} label='Comentarios' value={value} onChange={onChange} />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
-        </form>
-      </ReusableDialog>
-      <ReusableDialog
-        open={isDeleteOpen}
-        onClose={handleCloseDeleteModal}
-        title={'Borrar'}
-        actions={[
-          {label: 'Regresar', onClick: handleCloseDeleteModal, color: 'primary', variant: 'outlined'},
-          {label: 'Eliminar', onClick: handleDeleteConfirm, color: 'primary', variant: 'contained'}
-        ]}
-      >
-        <Box>
-          <Typography variant='body2'>Seguro de eliminar el mantenimiento seleccionado?</Typography>
-        </Box>
-      </ReusableDialog>
-      <ReusableDialog
-          open={isDetailsOpen}
-          onClose={handleCloseDetailsModal}
-          size={"xl"}
-          title={'Detalles del mantenimiento'}
-          actions={[
-            {label: 'Regresar', onClick: handleCloseDetailsModal, color: 'primary', variant: 'outlined'},
-          ]}
-        >
-          <form>
-            <Grid container spacing={5}>
-              <Grid item xs={MAINTENANCES.MAINTENANCES_FIELD_FLEX_SIZE} md={3} sx={{marginTop: COMMON.FORM_MARGIN_TOP}}>
-                  <FormControl fullWidth>
-                    <Controller
-                      name='branchID'
-                      control={control}
-                      render={({field: {value, onChange}}) => (
-                        <>
-                          <InputLabel>Sucursal</InputLabel>
-                          <Select
-                            defaultValue=""
-                            value={value || ''}
-                            label="Sucursal"
-                            onChange={(e) => handleBranch(e, onChange)}
-                          >
-                            {branches?.map((branch, id) => 
-                              <MenuItem key={id} value={branch.id}>{branch.name}</MenuItem>
-                            )}
-                          </Select>
-                        </>
-                      )}
-                    />
-                  </FormControl>
-                  <FormControl fullWidth sx={{marginTop: '12px'}}>
-                    <Controller
-                      name='description'
-                      control={control}
-                      render={({field: {value, onChange}}) => <TextField label='Descripcion de mantenimiento' value={value} onChange={onChange} />}
-                    />
-                  </FormControl>
-                  <FormControl fullWidth sx={{marginTop: '48px'}}>
-                    <Controller
-                      name='motive'
-                      control={control}
-                      render={({field: {value, onChange}}) => (
-                        <>
-                          <InputLabel>Motivo</InputLabel>
-                          <Select
-                            defaultValue=""
-                            value={value || ''}
-                            label="Motivo"
-                            onChange={(e) => handleBranch(e, onChange)}
-                          >
-                            {motivos?.map((motive, id) => 
-                              <MenuItem key={id} value={motive.id}>{motive.name}</MenuItem>
-                            )}
-                          </Select>
-                        </>
-                      )}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={9} sx={{marginTop: '6px'}} >
-                  <ServicesModal
-                    cardTitle={t('maintenances_services_column_name', {ns: 'maintenances'})}
-                    maintenance={selectedMaint}
-                  />
-                </Grid>
-                <Grid item xs={7} md={7} sx={{marginTop: '6px'}}>
-                  <CardTable
-                    showAddButton
-                    columns={actionableMaterialColumns}
-                    rows={materials}
-                    pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
-                    label={t('materials.title', {ns: 'maintenances'})}
-                    onAddItem={handleAddMaterial}
-                  />
-                  <MaterialsModal
-                    isOpen={isModalOpen}
-                    control={control}
-                    handleSubmit={handleSubmit}
-                  />
-                </Grid>
-                <Grid item xs={5} md={5} sx={{marginTop: '6px'}}>
-                  <FormControl fullWidth sx={{marginTop: '12px'}}>
-                    <Controller
-                      name='notes'
-                      control={control}
-                      render={({field: {value, onChange}}) => 
-                        <TextField 
-                          multiline
-                          rows={8}
-                          label='Comentarios' 
-                          value={value} 
-                          onChange={onChange} 
-                        />}
-                    />
-                  </FormControl>
-                </Grid>
-            </Grid>
-          </form>
-          <ReusableDialog
-            open={isMaterialDeleteOpen}
-            size={"md"}
-            onClose={handleCloseMaterialDeleteModal}
-            title={'Borrar'}
-            actions={[
-              {label: 'Regresar', onClick: handleCloseMaterialDeleteModal, color: 'primary', variant: 'outlined'},
-              {label: 'Eliminar', onClick: handleMaterialDeleteConfirm, color: 'primary', variant: 'contained'}
-            ]}
-          >
-            <Box>
-              <Typography variant='body2'>Seguro de eliminar el material seleccionado?</Typography>
-            </Box>
-          </ReusableDialog>
-        </ReusableDialog>
-    </Fragment>
+    <Simple
+      table={{
+        label: 'Mantenimientos',
+        endpoints: {
+          baseUrl: `${MAINTENANCES_ENDPOINT}/maintenances`
+        },
+        loading: true,
+        showAddButton: true,
+        columns: maintenancesColumns,
+        actions: ['edit', 'detail', 'delete']
+      }}
+      modal={{
+        title: 'Mantenimiento',
+        size: 'lg',
+        tabs: [
+          {
+            title: 'Detalles',
+            indexActions: 1,
+            form: maintenancesColumns
+          },
+          {
+            title: 'Servicios',
+            indexActions: 1,
+            form: [
+              {
+                headerName: 'Servicios del mantenimiento',
+                field: 'id',
+                fieldName: 'maintenanceID',
+                type: 'table',
+                table: {
+                  label: 'Servicios',
+                  endpoints: {
+                    baseUrl: `${SERVICES_ENDPOINT}/services/maintenances/:id`
+                  },
+                  showAddButton: true,
+                  columns: servicesColumns,
+                  actions: ['edit', 'delete']
+                },
+                modal: {
+                  title: 'Servicio',
+                  size: 'md',
+                  form: servicesForm,
+                  actions: {
+                    back: 'Regresar',
+                    save: 'Guardar'
+                  }
+                },
+                width: 12,
+              },
+            ],
+          }
+        ],
+        form: [
+          {
+            headerName: 'Nombre del mantenimiento',
+            field: 'name',
+            type: 'text',
+            value: '',
+            isRequired: true,
+            width: 6
+          },
+          {
+            headerName: 'Sucursal',
+            field: 'branchID',
+            type: 'select',
+            endpoint: `${BRANCHES_ENDPOINT}/branches`,
+            options: [],
+            value: 0,
+            isRequired: true,
+            width: 6
+          },
+          {
+            headerName: 'Descripcion de mantenimiento',
+            field: 'description',
+            type: 'text',
+            value: '',
+            isRequired: true,
+            width: 6
+          },
+          {
+            headerName: 'Costo inicial',
+            field: 'cost',
+            type: 'cash',
+            value: '',
+            isRequired: true,
+            width: 6,
+            flex: true
+          },
+          {
+            headerName: 'Fecha',
+            field: 'date',
+            type: 'date',
+            value: '',
+            isRequired: true,
+            width: 6
+          },
+          {
+            headerName: 'Comentarios',
+            field: 'notes',
+            type: 'textarea',
+            isRequired: true,
+            value: '',
+            width: 6
+          },
+        ],
+        actions: {
+          back: 'Regresar',
+          save: 'Guardar'
+        }
+      }}
+    />
   )
 }
-
-export default Maintenances

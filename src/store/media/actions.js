@@ -18,7 +18,7 @@ export const getMediaByOwnerId = createAsyncThunk('/media/getMediabyId', async (
     const payload = await getMediaById(id)
     return payload
   } catch (error) {
-    if (!error.response.status === 404) {
+    if (error.response.status !== 404) {
       toast.error(error)
     }
     return thunkApi.rejectWithValue('error')

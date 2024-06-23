@@ -82,11 +82,11 @@ export const editMedia = async body => {
     belongsTo: body.media.mediaOwner,
     files: body.form[body.media.field]
   }
-  console.log('editMedia', media, body)
   const news = media.files.filter((media) => !media.url && media.file)
   const existed = media.files.filter((media) => media.url)
+  const getUrl = `${MEDIA_ENDPOINT}/media/owner/${media.id}`
   try {
-    const mediasExisted = await getMediaById(media.id)
+    const mediasExisted = await api_get(getUrl)
     if(mediasExisted.content.length > 0){
       const toRemove = mediasExisted.content.filter((obj1) => !existed.some(obj2 => obj1.id === obj2.id))
       for(var i = 0; i < toRemove.length; i++){
@@ -100,6 +100,7 @@ export const editMedia = async body => {
     const medias = await getMediaById(media.id)
     return medias
   } catch (error) {
+    console.log('manda error aqui', error)
     throw error
   }
 }

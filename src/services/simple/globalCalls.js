@@ -85,7 +85,7 @@ export const create = async (params) => {
       params.form[paramKey] = params.endpointsParams[paramKey]
       const created = await api_post(url, params.form)
       // si un campo del form tiene media
-      if (params.media.saveMultimedia) {
+      if (params.form[params.media.field] && params.media.saveMultimedia) {
         const mediaId = created.content[0].id
         const media = {
           id: mediaId,
@@ -106,8 +106,15 @@ export const create = async (params) => {
 }
 
 export const edit = async (params) => {
-  const url = `${params.endpointsParams.endpoint}/${params.id}`
+  let url = `${params.endpointsParams.endpoint}/${params.id}`
   try {
+    // casos donde [guardar sera a esa id]
+    if (url.includes(':id')){
+      let urlSplit = url.split('/')
+      urlSplit = urlSplit.slice(0, -3)
+      url = urlSplit.join('/')
+      url += `/${params.form.id}`;
+    }
     const result = await api_patch(url, params.form)
     return result
   } catch (error) {

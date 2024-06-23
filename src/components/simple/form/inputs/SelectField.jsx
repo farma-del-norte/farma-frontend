@@ -37,6 +37,18 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [tables, keyList])
 
+  // set field name
+  const rowField = (row) => {
+    if (input.fieldName) {
+      let name = ''
+      for (let i = 0; i < input.fieldName.length; i++) {
+        name += `${row[input.fieldName[i]]} `
+      }
+      return name
+    }
+    return row.name
+  }
+
   return (
     <TextField
       select
@@ -48,7 +60,7 @@ const Text = ({input, value, onChange, error}) => {
     >
       {options.map((item, id) => (
         <MenuItem key={id} value={item.id ? item.id : item.name}>
-          {item.name}
+          {rowField(item)}
         </MenuItem>
       ))}
     </TextField>

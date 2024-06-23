@@ -4,6 +4,7 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import {useSelector, useDispatch} from 'react-redux'
 import {getMediaByOwnerId} from 'src/store/media/actions'
+import {setMedia} from 'src/store/media/reducer'
 import { Typography, Button } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
 import { useTheme } from '@mui/material/styles'
@@ -179,13 +180,18 @@ const MultimediaUploader = ({
   useEffect(() => {
     const row = getValues()
     if(row?.id){
-        dispatch(getMediaByOwnerId({id: row.id}))
+      dispatch(getMediaByOwnerId({id: row.id}))
     }
-  }, [dispatch, getValues])
+
+    return () => {
+      // Código de limpieza a ejecutar antes de que el componente se desmonte
+      dispatch(setMedia([]))
+    };
+  }, [])
 
   useEffect(() => {
-    if(media.length > 0){
-        convertImagesToBase64(media)
+    if(media.length > 0 && getValues()?.id){
+      convertImagesToBase64(media)
     }
   }, [media])
 
@@ -223,10 +229,11 @@ const MultimediaUploader = ({
         images.map(
           (image) =>
             new Promise((resolve, reject) => {
-              if (typeof (image) != 'string') {
+              if (typeof (image.file) != 'string') {
                 const fileReader = new FileReader();
                 fileReader.onload = (_) => {
-                  resolve({...image, file: fileReader.result, name: image.name || image.ownerName});
+                  const {type} = image.file
+                  resolve({...image, type, file: fileReader.result, name: image.name || image.ownerName});
                 };
                 fileReader.onerror = (error) => reject(error);
                 fileReader.readAsDataURL(image.hasOwnProperty("file") ? image.file : image);
@@ -245,18 +252,26 @@ const MultimediaUploader = ({
     }
   }
 
+  useEffect(() => {
+    console.log(images)
+  })
+
   const handleDrop = (e) => {
     e.preventDefault();
     const newImages = [...images];
     for (const file of e.dataTransfer.files) {
       if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
-        newImages.push({file: file, name: file.name});
+        if(accept.includes("jpg") || accept.includes("png") || accept.includes("webp")){
+          newImages.push({file: file, name: file.name});
+        }
       }
       else if (file.type === 'video/mp4' || file.type === 'video/x-m4v' || file.type === 'video/*'){
-        const file = e.dataTransfer.files[0];
-        const url = URL.createObjectURL(file);
-        newImages.push({file: file, url: url, name: file.name});
-      }else if(file.type === "application/pdf"){
+        if(accept.includes("video")){
+          const file = e.target.files[0];
+          const url = URL.createObjectURL(file);
+          newImages.push({file: file, url: url, name: file.name});
+        }
+      }else if(file.type === "application/pdf" && accept.includes("pdf")){
         newImages.push({file: file, name: file.name});
       }
     }
@@ -265,6 +280,7 @@ const MultimediaUploader = ({
 
   const handleRemove = (indexToRemove) => {
     const newImages = images.filter((image, index) => index !== indexToRemove);
+    onChange(newImages)
     setImages(newImages);
   }
 
@@ -273,13 +289,17 @@ const MultimediaUploader = ({
     const newImages = [...images];
     for (const file of e.target.files) {
       if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
-        newImages.push({file: file, name: file.name});
+        if(accept.includes("image")){
+          newImages.push({file: file, name: file.name});
+        }
       }
       else if (file.type === 'video/mp4' || file.type === 'video/x-m4v' || file.type === 'video/*'){
-        const file = e.target.files[0];
-        const url = URL.createObjectURL(file);
-        newImages.push({file: file, url: url, name: file.name});
-      }else if(file.type === "application/pdf"){
+        if(accept.includes("video")){
+          const file = e.target.files[0];
+          const url = URL.createObjectURL(file);
+          newImages.push({file: file, url: url, name: file.name});
+        }
+      }else if(file.type === "application/pdf" && accept.includes("pdf")){
         newImages.push({file: file, name: file.name});
       }
     }
@@ -364,7 +384,8 @@ const MultimediaUploader = ({
             overflow: 'hidden',
             margin: '10px 5px'
           }}>
-            
+            {media.type.includes('image') ?
+              <>
               <img
                 alt={media.file}
                 src={media.file}
@@ -385,6 +406,28 @@ const MultimediaUploader = ({
                 }}
               ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
             </div>
+            </>
+            :
+            media.type.includes('pdf') &&
+            <>
+              <embed src={media.file} width="270" height="150"/>
+              <div style={{ position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold' }}>
+                <button style={{
+                  backgroundColor: '#000',
+                  cursor: 'pointer',
+                  border: '1px solid #ccc',
+                  borderRadius: '15px',
+                  height: '30px',
+                  width: '30px'
+                }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleRemove(index)
+                  }}
+                  ><Typography variant='body2' color={'#eee'}><strong>X</strong></Typography></button>
+                </div>
+             </>
+            }
           </div>
         ))}
         </div>

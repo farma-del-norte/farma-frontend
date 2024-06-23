@@ -29,6 +29,7 @@ export const usersSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(getMediaService.rejected, state => {
+      state.media = []
       state.isLoading = false
     })
     builder.addCase(createMediaService.pending, state => {
@@ -42,6 +43,7 @@ export const usersSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(getMediaByOwnerId.pending, state => {
+      state.media = []
       state.isLoading = true
     })
     builder.addCase(getMediaByOwnerId.fulfilled, (state, {payload}) => {

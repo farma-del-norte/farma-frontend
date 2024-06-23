@@ -64,7 +64,7 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
   // init get
   useEffect(() => {
     dispatch(getCall(endpointsParams))
-  }, [dispatch, keyList, endpointsParams])
+  }, [])
 
   const actionableColumns = [
     ...table.columns,

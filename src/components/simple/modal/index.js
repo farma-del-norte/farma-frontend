@@ -37,7 +37,9 @@ export const Modal = ({open, setOpen, modal, isEditing, setIsEditing, useTabs, s
     const mediaInput = modal.form.find(item => item.type === 'multimedia')
     if (values?.id) {
       dispatch(editCall({form: values, endpointsParams}))
-      dispatch(editMediaService({form: values, media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}}))
+      if (saveMultimedia && values[mediaInput?.field]?.length) {
+        dispatch(editMediaService({form: values, media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}}))
+      }
     } else {
       dispatch(createCall({form: values, endpointsParams, media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}}))
     }

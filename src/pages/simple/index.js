@@ -1,7 +1,11 @@
 import {Simple} from 'src/components/simple'
 import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT, SERVICES_CAT_ENDPOINT, SUPPLIERS_ENDPOINT} from 'src/services/endpoints'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { useEffect, useState, useMemo } from 'react'
+import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
+import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
+import {getVariablesCat} from 'src/store/catalogs/variables/actions'
+import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {t} from 'i18next'
 
 const maintenancesColumns = [
@@ -37,7 +41,6 @@ const maintenancesColumns = [
     field: 'description',
     type: 'text',
     value: '',
-    isRequired: true,
     width: 6
   },
   {
@@ -68,6 +71,14 @@ const maintenancesColumns = [
 ]
 
 const servicesColumns = [
+  {
+    flex: true,
+    headerName: 'Nombre del Servicio',
+    field: 'name',
+    type: 'text',
+    value: '',
+    width: 6
+  },
   {
     flex: true,
     field: 'serviceCatName',
@@ -124,6 +135,7 @@ const servicesColumns = [
     field: 'supplierID',
     type: 'select',
     endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+    fieldName: ['firstname', 'lastname'],
     value: 0,
     isRequired: true,
     width: 6,
@@ -156,6 +168,7 @@ const servicesColumns = [
     owner: 'services',
     type: 'multimedia',
     value: [],
+    hideColumn: true,
     width: 6,
   },
   {
@@ -163,30 +176,35 @@ const servicesColumns = [
     headerName: t('services.columns.notes', {ns: 'maintenances'}),
     field: 'notes',
     type: 'textarea',
-    isRequired: true,
+    hideColumn: true,
     value: '',
     width: 6
   }
 ]
 
 export default function PruebaSimple() {
+  const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
+  const {materialsCat} = useSelector(state => state.materialsCat)
+  const {dimensionsCat} = useSelector(state => state.dimensionsCat)
+  const {variablesCat} = useSelector(state => state.variablesCat)
+  const {conceptsCat} = useSelector(state => state.conceptsCat)
   const [servicesForm, setServicesForm] = useState(servicesColumns)
   const areas = useMemo(
     () => [
-      { name: 'Materiales', value: 'Material' },
-      { name: 'Dimensiones', value: 'Dimensión' },
-      { name: 'Variables', value: 'Variable' },
-      { name: 'Concepto', value: 'Concepto' },
+      { name: 'Materiales', id: 'Material' },
+      { name: 'Dimensiones', id: 'Dimensión' },
+      { name: 'Variables', id: 'Variable' },
+      { name: 'Concepto', id: 'Concepto' },
     ],
     []
   );
   const status = useMemo(
     () => [
-    { name: 'Planeación', value: 'Planeación'},
-    { name: 'Desarrollo', value: 'Desarrollo'},
-    { name: 'Finalizado', value: 'Finalizado'},
-    { name: 'Cancelado', value: 'Cancelado' },
+    { name: 'Planeación', id: 'Planeación'},
+    { name: 'Desarrollo', id: 'Desarrollo'},
+    { name: 'Finalizado', id: 'Finalizado'},
+    { name: 'Cancelado', id: 'Cancelado' },
   ],[]
   );
 
@@ -194,22 +212,45 @@ export default function PruebaSimple() {
   useEffect(() => {
     setServicesForm(prevInputs => {
       const newInputs = [...prevInputs]
-      newInputs[3].options = areas;
-      newInputs[7].options = status;
+      newInputs[4].options = areas;
+      newInputs[9].options = status;
       return newInputs;
     });
-  }, [areas, status])
+    dispatch(getMaterialsCat())
+    dispatch(getDimensionsCat())
+    dispatch(getVariablesCat())
+    dispatch(getConceptsCat())
+  }, [areas, status, dispatch])
 
+  const handleAreaId = (options) => {
+    setServicesForm(prevInputs => {
+      const newInputs = [...prevInputs]
+      newInputs[5].options = options;
+      return newInputs;
+    })
+  }
+
+  // cambiar opciones en area
   useEffect(() => {
     if(form?.Servicio) {
       if (form.Servicio.area) {
-        console.log('altera options', form.Servicio.area)
-        setServicesForm(prevInputs => {
-          const newInputs = [...prevInputs]
-          console.log('newInputs', newInputs[4])
-          newInputs[4].options = status;
-          return newInputs;
-        })
+        switch (form.Servicio.area){
+          case 'Material':
+            handleAreaId(materialsCat)
+            break;
+          case 'Dimensión':
+            handleAreaId(dimensionsCat)
+            break;
+          case 'Variable':
+            handleAreaId(variablesCat)
+            break;
+          case 'Concepto':
+            handleAreaId(conceptsCat)
+            break;
+          default:
+            break;
+        }
+        
       }
     }
   }, [form])
