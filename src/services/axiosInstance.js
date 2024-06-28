@@ -1,21 +1,16 @@
 import axios from 'axios'
 
-// const axiosInstance = axios.create({
-//   baseURL: ''
-// })
-
+// Configuración de la instancia de Axios
 const axiosInstance = axios.create({
-    timeout: 5000,
-    headers: {
-        'Content-Type': 'application/json',
-    }
-});
-export default axiosInstance;
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
 
+// Interceptor de respuesta para manejar errores
 axiosInstance.interceptors.response.use(
-  response => {
-    return response
-  },
+  response => response,
   error => {
     let message = ''
     if (error.response.status === 404) {
@@ -28,10 +23,11 @@ axiosInstance.interceptors.response.use(
         'Existe un problema con el servicio, intente de nuevo mas tarde, si el problema persiste contacte a soporte.'
     }
 
+    // Descomenta esto si necesitas manejar un error 401
     // if (error.response.status === 401) {
     //   console.error('RESPONSE 401')
-    // localStorage.removeItem('persist:root')
-    // window.location.href = '/login'
+    //   localStorage.removeItem('persist:root')
+    //   window.location.href = '/login'
     //   return Promise.reject(message)
     // }
 
@@ -40,4 +36,20 @@ axiosInstance.interceptors.response.use(
   }
 )
 
-export { axiosInstance }
+// Interceptor de solicitud para agregar headers
+axiosInstance.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('im-user')
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
+
+export default axiosInstance
