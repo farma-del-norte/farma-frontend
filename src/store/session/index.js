@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import Router from 'next/router'
 //api
-import { PROYECT, api_post } from '../../services/api'
+import {PROYECT, api_post} from '../../services/api'
 // import { setUser } from '../dashboard/generalSlice'
-import { setUser } from '../users'
+import {setUser} from '../login'
 
 //actions
 export const loginCall = createAsyncThunk('/session/login', async (body, thunkApi) => {
@@ -12,7 +12,7 @@ export const loginCall = createAsyncThunk('/session/login', async (body, thunkAp
 
     thunkApi.dispatch(setUser(response.content))
     if (response.content.user.active === false) {
-      Router.push({ pathname: '/register/welcome' })
+      Router.push({pathname: '/register/welcome'})
       return response
     } else {
       Router.push('/ecommerce/products')
@@ -25,7 +25,7 @@ export const loginCall = createAsyncThunk('/session/login', async (body, thunkAp
       thunkApi.dispatch(setErrors(data.content.errors.body))
     } else {
       const newErrors = []
-      newErrors.push({ msg: data.message })
+      newErrors.push({msg: data.message})
       thunkApi.dispatch(setErrors(newErrors))
     }
 
@@ -33,15 +33,13 @@ export const loginCall = createAsyncThunk('/session/login', async (body, thunkAp
   }
 })
 
-const initialState = {
-  
-}
+const initialState = {}
 
 export const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setErrors: (state, { payload }) => {
+    setErrors: (state, {payload}) => {
       state.errors = payload
     }
   },
@@ -50,8 +48,8 @@ export const sessionSlice = createSlice({
       state.isLoading = true
       state.errors = null
     })
-    builder.addCase(loginCall.fulfilled, (state, { payload }) => {
-      const { content } = payload
+    builder.addCase(loginCall.fulfilled, (state, {payload}) => {
+      const {content} = payload
       state.isLoading = false
       state.errors = null
       state.token = content.token
@@ -66,4 +64,4 @@ export const sessionSlice = createSlice({
 
 export default sessionSlice.reducer
 
-export const { login, setErrors } = sessionSlice.actions
+export const {login, setErrors} = sessionSlice.actions

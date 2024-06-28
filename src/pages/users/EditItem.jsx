@@ -1,8 +1,8 @@
-import { createUser, editUser } from 'src/store/users/actions'
-import { toggleModal, setRow } from 'src/store/users/reducer'
-import { useSelector, useDispatch } from 'react-redux'
-import { FormProvider } from 'react-hook-form'
-import { Grid } from '@mui/material'
+import {createUser, editUser} from 'src/store/login/actions'
+import {toggleModal, setRow} from 'src/store/login/reducer'
+import {useSelector, useDispatch} from 'react-redux'
+import {FormProvider} from 'react-hook-form'
+import {Grid} from '@mui/material'
 import ReusableDialog from 'src/components/modal'
 import FirstName from 'src/pages/users/Fields/FirstName'
 import LastName from 'src/pages/users/Fields/LastName'
@@ -13,16 +13,16 @@ import BranchID from 'src/pages/users/Fields/BranchID'
 import Password from 'src/pages/users/Fields/Password'
 import Zone from 'src/pages/users/Fields/Zone'
 
-const EditItem = ({ methods, isOpen }) => {
+const EditItem = ({methods, isOpen}) => {
   const dispatch = useDispatch(),
-    { currentRow } = useSelector(state => state.users),
+    {currentRow} = useSelector(state => state.users),
     handleCloseModal = () => {
       dispatch(toggleModal(false))
       dispatch(setRow([]))
       methods.reset()
       methods.clearErrors()
     },
-    onSubmit = (body) => {
+    onSubmit = body => {
       if (currentRow && currentRow.length >= 0) {
         dispatch(createUser(body))
         dispatch(toggleModal(false))
@@ -38,8 +38,14 @@ const EditItem = ({ methods, isOpen }) => {
       open={isOpen}
       onClose={handleCloseModal}
       actions={[
-        { label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined' },
-        { label: currentRow.length >= 0 ? 'Agregar' : 'Actualizar', onClick: methods.handleSubmit(onSubmit), color: 'primary', variant: 'contained', type: 'submit' }
+        {label: 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
+        {
+          label: currentRow.length >= 0 ? 'Agregar' : 'Actualizar',
+          onClick: methods.handleSubmit(onSubmit),
+          color: 'primary',
+          variant: 'contained',
+          type: 'submit'
+        }
       ]}
     >
       <FormProvider {...methods}>
@@ -49,9 +55,7 @@ const EditItem = ({ methods, isOpen }) => {
             <LastName {...currentRow} />
             <Email {...currentRow} />
             <PhoneNumber {...currentRow} />
-            {
-              currentRow.length === 0 && <Password isOpen={currentRow.length === 0} />
-            }
+            {currentRow.length === 0 && <Password isOpen={currentRow.length === 0} />}
             <Position {...currentRow} />
             <Zone {...currentRow} />
             <BranchID {...currentRow} />
@@ -62,4 +66,4 @@ const EditItem = ({ methods, isOpen }) => {
   )
 }
 
-export default EditItem;
+export default EditItem

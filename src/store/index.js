@@ -21,6 +21,7 @@ import materials from 'src/store/maintenances/materials/reducer'
 import media from 'src/store/media/reducer'
 import simple from 'src/store/simple/reducer'
 import form from 'src/store/form/reducer'
+import login from 'src/store/login/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -42,7 +43,8 @@ export const store = configureStore({
     materials,
     media,
     simple,
-    form
+    form,
+    login
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Modal} from '@mui/material'
 import {formStyle, inputStyle, buttonStyle, modalContentStyle} from './styles'
-import {setInputPasswords} from 'src/store/users/reducer'
-import {validateVerificationCode} from 'src/store/users/actions'
+import {setInputPasswords} from 'src/store/login/reducer'
+import {validateVerificationCode} from 'src/store/login/actions'
 import {default as PasswordInputs} from './inputPasswords'
-import { t } from 'i18next'
+import {t} from 'i18next'
 import Button from '@mui/material/Button'
 
 const mapstatetoprops = state => ({
@@ -27,8 +27,8 @@ class VerifyCodeModal extends Component {
 
   onShowInputPasswords = async () => {
     this.setState({
-      showLoading : true
-    });
+      showLoading: true
+    })
     let body = {
         email: this.email,
         code: Number(this.state.code.join(t('empty_string')))
@@ -45,7 +45,7 @@ class VerifyCodeModal extends Component {
       if (hasFolio && message.includes(t('Valid_code'))) {
         this.props.setInputPasswords(true)
       }
-      this.setState({ showLoading: false })
+      this.setState({showLoading: false})
     }
   }
 

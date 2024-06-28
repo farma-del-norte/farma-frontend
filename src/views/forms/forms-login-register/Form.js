@@ -14,7 +14,7 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import Typography from '@mui/material/Typography'
 import Router from 'next/router'
 import {LOGIN} from 'src/utils/constants'
-import {getUsersLogin} from 'src/store/users/actions'
+import {loginCall} from 'src/store/login/actions'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -43,7 +43,7 @@ const loginSchema = Yup.object().shape({
 
 const Form = () => {
   const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.users)
+  const {isLoading} = useSelector(state => state.login)
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -56,8 +56,8 @@ const Form = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  const submitLogin = async values => {
-    dispatch(getUsersLogin(values))
+  const submitLogin = values => {
+    dispatch(loginCall(values))
   }
 
   const handleShowPassword = () => {
