@@ -11,6 +11,8 @@ import {
 } from 'src/services/catalogs/users'
 import toast from 'react-hot-toast'
 import {t} from 'i18next'
+//import Router from 'next/router'
+import {setUser} from 'src/store/users/reducer'
 
 export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
   try {
@@ -26,6 +28,11 @@ export const getUsers = createAsyncThunk('/users/getusers', async thunkApi => {
 export const getUsersLogin = createAsyncThunk('/user/login', async (body, thunkApi) => {
   try {
     const payload = await usersLogin(body)
+    console.log('repsonse', payload)
+    thunkApi.dispatch(setUser(payload.content))
+    console.log('repsonse1')
+    //Router.push({pathname: '/dashboards'})
+    console.log('repsonse2')
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message

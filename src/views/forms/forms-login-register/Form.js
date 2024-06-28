@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography'
 import Router from 'next/router'
 import {LOGIN} from 'src/utils/constants'
 import {getUsersLogin} from 'src/store/users/actions'
-import {setIsLoading} from 'src/store/users/reducer'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -58,16 +57,7 @@ const Form = () => {
   })
 
   const submitLogin = async values => {
-    dispatch(setIsLoading(true))
-    const response = await dispatch(getUsersLogin(values)),
-      payload = response.payload
-
-    if (payload !== t('Error_code')) {
-      dispatch(setIsLoading(false))
-      Router.push('/dashboards')
-    } else {
-      dispatch(setIsLoading(false))
-    }
+    dispatch(getUsersLogin(values))
   }
 
   const handleShowPassword = () => {

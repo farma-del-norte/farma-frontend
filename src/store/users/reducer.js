@@ -4,7 +4,7 @@ import {createUser, editUser, getUsers, deleteUserService, getUsersLogin} from '
 const initialState = {
   isLoading: false,
   currentRow: [],
-  user: [],
+  user: {},
   users: [],
   editUser: {},
   isOpen: false,
@@ -44,6 +44,12 @@ export const usersSlice = createSlice({
     },
     setRow: (state, {payload}) => {
       state.currentRow = payload
+    },
+    setUser: (state, {payload}) => {
+      console.log('Reducer', payload)
+      const {content} = payload
+      localStorage.setItem('im-user', content.token)
+      state.user = content.user
     }
   },
   extraReducers: builder => {
@@ -68,14 +74,18 @@ export const usersSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(getUsersLogin.pending, state => {
+      console.log('extraReducer')
       state.isLoading = true
     })
     builder.addCase(getUsersLogin.fulfilled, (state, {payload}) => {
-      localStorage.setItem('im-user', JSON.stringify(payload.content.token))
-      state.user = payload.content.user
+      console.log('extraReducer', payload)
+      const {content} = payload
+      localStorage.setItem('im-user', content.token)
+      state.user = content.user
       state.isLoading = false
     })
     builder.addCase(getUsersLogin.rejected, state => {
+      console.log('rejected')
       state.isLoading = false
     })
     builder.addCase(editUser.pending, state => {
@@ -103,4 +113,14 @@ export const usersSlice = createSlice({
 
 export default usersSlice.reducer
 
-export const {toggleModal, setModalItem, toggleDeleteModal, setDeleteItem, setVerificationModal, setInputPasswords, setIsLoading, setRow} = usersSlice.actions
+export const {
+  toggleModal,
+  setModalItem,
+  toggleDeleteModal,
+  setDeleteItem,
+  setVerificationModal,
+  setInputPasswords,
+  setIsLoading,
+  setRow,
+  setUser
+} = usersSlice.actions
