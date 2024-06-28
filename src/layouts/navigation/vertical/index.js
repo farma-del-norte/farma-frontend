@@ -15,8 +15,9 @@ import {
   AspectRatio,
   Warning
 } from '@mui/icons-material'
+import {PERMISSIONS} from 'src/configs/profiles'
 /* TODO
-  nav with menus and subMenus
+  nav with menus and subMenu
 */
 const navigation = () => {
   const navItems = [
@@ -24,111 +25,135 @@ const navigation = () => {
       title: i18n.t('users_title'),
       path: '/users',
       icon: AccountCircle,
-      visible: true
+      visible: true,
+      permission: PERMISSIONS.users
     },
     {
       title: i18n.t('zones_title'),
       path: '/zones',
       icon: Dashboard,
-      visible: true
+      visible: true,
+      permission: PERMISSIONS.zones
     },
     {
       title: i18n.t('branches_title'),
       path: '/branches',
       icon: Business,
-      visible: true
+      visible: true,
+      permission: PERMISSIONS.branches
     },
     {
       title: i18n.t('budgets_title'),
       path: '/budgets',
       icon: ListAlt,
-      visible: true
+      visible: true,
+      permission: PERMISSIONS.budgets
     },
     {
       title: 'Simple',
       path: '/simple',
       icon: ListAlt,
-      visible: true
+      visible: false,
+      permission: PERMISSIONS.home
     },
     {
       title: i18n.t('maintenances_title'),
       path: '/maintenances',
       icon: Storage,
       visible: true,
+      permission: PERMISSIONS.maintenances,
       children: [
         {
           title: i18n.t('correctives_title'),
           path: '/maintenances/correctives',
           icon: FormatListBulleted,
-          visible: true
+          visible: true,
+          permission: PERMISSIONS.correctivesMaintenances
         },
         {
           title: i18n.t('services_title'),
           path: '/maintenances/services',
           icon: FormatListBulleted,
-          visible: true
+          visible: true,
+          permission: PERMISSIONS.servicesMaintenances
         },
         {
           title: i18n.t('preventives_title'),
           path: '/maintenances/preventives',
           icon: FormatListBulleted,
-          visible: true
+          visible: true,
+          permission: PERMISSIONS.preventivesMaintenances
         },
         {
           title: i18n.t('damages_cat_title'),
           path: '/maintenances/damages',
           icon: Warning,
-          visible: true
+          visible: true,
+          permission: PERMISSIONS.damagesMaintenances
         }
       ]
     },
     {
       title: i18n.t('resources_title'),
       icon: Storage,
-      permission: 'recursos',
       visible: true,
+      permission: PERMISSIONS.resources,
       children: [
         {
           title: i18n.t('concepts_cat_title'),
           path: '/resources/concepts',
-          icon: Label
+          icon: Label,
+          visible: true,
+          permission: PERMISSIONS.conceptsResources
         },
         {
           title: i18n.t('dimensions_cat_title'),
           path: '/resources/dimensions',
-          icon: AspectRatio
+          icon: AspectRatio,
+          visible: true,
+          permission: PERMISSIONS.dimensionsResources
         },
-
         {
           title: i18n.t('materials_cat_title'),
           path: '/resources/materials',
-          icon: ShoppingCart
+          icon: ShoppingCart,
+          visible: true,
+          permission: PERMISSIONS.materialsResources
         },
         {
           title: i18n.t('requirements_cat_title'),
           path: '/resources/requirements',
-          icon: Nature
+          icon: Nature,
+          visible: true,
+          permission: PERMISSIONS.requirementsResources
         },
         {
           title: i18n.t('services_cat_title'),
           path: '/resources/services',
-          icon: Build
+          icon: Build,
+          visible: true,
+          permission: PERMISSIONS.servicesResources
         },
         {
           title: i18n.t('suppliers_title'),
           path: '/resources/suppliers',
-          icon: Business
+          icon: Business,
+          visible: true,
+          permission: PERMISSIONS.suppliersResources
         },
         {
           title: i18n.t('variables_cat_title'),
           path: '/resources/variables',
-          icon: Settings
+          icon: Settings,
+          visible: true,
+          permission: PERMISSIONS.variablesResources
         },
         {
           title: i18n.t('damages_cat_title'),
           path: '/resources/damages',
           icon: Warning,
-          visible: true
+          visible: true,
+          permission: PERMISSIONS.damagesResources
         }
       ]
     }

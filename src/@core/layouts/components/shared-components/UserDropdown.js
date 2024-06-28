@@ -69,6 +69,7 @@ const UserDropdown = props => {
   // }
   const handleLogout = () => {
     localStorage.removeItem('im-user')
+    localStorage.removeItem('data-user')
     router.push('/login')
     handleDropdownClose()
   }
