@@ -19,7 +19,7 @@ export const createCall = createAsyncThunk('/service/create', async (params, thu
     toast.success('Creado con éxito')
     return payload
   } catch (error) {
-    const errMessage = error
+    const errMessage = error?.response?.data?.message || error.message
     toast.error(errMessage)
     return thunkApi.rejectWithValue('error')
   }
