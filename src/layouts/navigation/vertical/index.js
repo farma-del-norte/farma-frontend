@@ -26,6 +26,7 @@ const navigation = () => {
       path: '/users',
       icon: AccountCircle,
       visible: true,
+
       permission: PERMISSIONS.users
     },
     {
@@ -67,28 +68,28 @@ const navigation = () => {
           title: i18n.t('correctives_title'),
           path: '/maintenances/correctives',
           icon: FormatListBulleted,
-          visible: true,
+
           permission: PERMISSIONS.correctivesMaintenances
         },
         {
           title: i18n.t('services_title'),
           path: '/maintenances/services',
           icon: FormatListBulleted,
-          visible: true,
+
           permission: PERMISSIONS.servicesMaintenances
         },
         {
           title: i18n.t('preventives_title'),
           path: '/maintenances/preventives',
           icon: FormatListBulleted,
-          visible: true,
+
           permission: PERMISSIONS.preventivesMaintenances
         },
         {
           title: i18n.t('damages_cat_title'),
           path: '/maintenances/damages',
           icon: Warning,
-          visible: true,
+
           permission: PERMISSIONS.damagesMaintenances
         }
       ]
@@ -103,56 +104,56 @@ const navigation = () => {
           title: i18n.t('concepts_cat_title'),
           path: '/resources/concepts',
           icon: Label,
-          visible: true,
+
           permission: PERMISSIONS.conceptsResources
         },
         {
           title: i18n.t('dimensions_cat_title'),
           path: '/resources/dimensions',
           icon: AspectRatio,
-          visible: true,
+
           permission: PERMISSIONS.dimensionsResources
         },
         {
           title: i18n.t('materials_cat_title'),
           path: '/resources/materials',
           icon: ShoppingCart,
-          visible: true,
+
           permission: PERMISSIONS.materialsResources
         },
         {
           title: i18n.t('requirements_cat_title'),
           path: '/resources/requirements',
           icon: Nature,
-          visible: true,
+
           permission: PERMISSIONS.requirementsResources
         },
         {
           title: i18n.t('services_cat_title'),
           path: '/resources/services',
           icon: Build,
-          visible: true,
+
           permission: PERMISSIONS.servicesResources
         },
         {
           title: i18n.t('suppliers_title'),
           path: '/resources/suppliers',
           icon: Business,
-          visible: true,
+
           permission: PERMISSIONS.suppliersResources
         },
         {
           title: i18n.t('variables_cat_title'),
           path: '/resources/variables',
           icon: Settings,
-          visible: true,
+
           permission: PERMISSIONS.variablesResources
         },
         {
           title: i18n.t('damages_cat_title'),
           path: '/resources/damages',
           icon: Warning,
-          visible: true,
+
           permission: PERMISSIONS.damagesResources
         }
       ]

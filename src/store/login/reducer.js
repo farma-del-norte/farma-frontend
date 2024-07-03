@@ -3,7 +3,7 @@ import {loginCall} from 'src/store/login/actions'
 
 const initialState = {
   isLoading: false,
-  user: {}
+  user: null
 }
 
 // MARK: - Reducer
@@ -17,7 +17,6 @@ export const usersSlice = createSlice({
     builder.addCase(loginCall.fulfilled, (state, {payload}) => {
       const {content} = payload
       localStorage.setItem('im-user', content.token)
-      localStorage.setItem('data-user', JSON.stringify(content.user))
       state.user = content.user
       state.isLoading = false
     })

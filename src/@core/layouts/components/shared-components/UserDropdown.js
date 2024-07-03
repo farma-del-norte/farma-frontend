@@ -36,16 +36,13 @@ const BadgeContentSpan = styled('span')(({theme}) => ({
 
 const UserDropdown = props => {
   //const dispatch = useDispatch()
-  const {
-    user: {user}
-  } = useSelector(state => state.users)
 
   // ** Props
   const {settings} = props
 
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
-  // const { user } = useSelector(state => state.dashboard.general)
+  const {user} = useSelector(state => state.login)
   // ** Hooks
   const router = useRouter()
 
@@ -69,7 +66,6 @@ const UserDropdown = props => {
   // }
   const handleLogout = () => {
     localStorage.removeItem('im-user')
-    localStorage.removeItem('data-user')
     router.push('/login')
     handleDropdownClose()
   }
@@ -127,7 +123,7 @@ const UserDropdown = props => {
             <Box sx={{display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column'}}>
               <Typography sx={{fontWeight: 600}}>{getCorrectName()}</Typography>
               <Typography variant='body2' sx={{fontSize: '0.8rem', color: 'text.disabled'}}>
-                {'Gerente de Sucursal'}
+                {user.position}
               </Typography>
             </Box>
           </Box>

@@ -16,7 +16,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
+import {getInitials} from 'src/@core/utils/get-initials'
 
 const roleColors = {
   'Administrador de Productos': 'error',
@@ -26,7 +26,7 @@ const roleColors = {
   Consumidor: 'primary'
 }
 
-const UserProfileLeft = ({ data }) => {
+const UserProfileLeft = ({data}) => {
   const renderUserAvatar = () => {
     if (data) {
       return (
@@ -34,7 +34,7 @@ const UserProfileLeft = ({ data }) => {
           skin='light'
           variant='rounded'
           color={data.avatarColor}
-          sx={{ width: 120, height: 120, fontWeight: 600, mb: 4, fontSize: '3rem' }}
+          sx={{width: 120, height: 120, fontWeight: 600, mb: 4, fontSize: '3rem'}}
         >
           {getInitials(data.email)}
         </CustomAvatar>
@@ -49,9 +49,9 @@ const UserProfileLeft = ({ data }) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Card>
-            <CardContent sx={{ pt: 15, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <CardContent sx={{pt: 15, display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
               {renderUserAvatar()}
-              <Typography variant='h6' sx={{ mb: 2 }}>
+              <Typography variant='h6' sx={{mb: 2}}>
                 {data.email}
               </Typography>
               {
@@ -66,31 +66,31 @@ const UserProfileLeft = ({ data }) => {
                     fontWeight: 600,
                     borderRadius: '5px',
                     textTransform: 'capitalize',
-                    '& .MuiChip-label': { mt: -0.25 }
+                    '& .MuiChip-label': {mt: -0.25}
                   }}
                 />
               }
             </CardContent>
 
-            <CardContent sx={{ mt: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
-                  <CustomAvatar skin='light' variant='rounded' sx={{ mr: 3 }}>
+            <CardContent sx={{mt: 2}}>
+              <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Box sx={{mr: 8, display: 'flex', alignItems: 'center'}}>
+                  <CustomAvatar skin='light' variant='rounded' sx={{mr: 3}}>
                     <Check />
                   </CustomAvatar>
                   <Box>
-                    <Typography variant='h6' sx={{ lineHeight: 1.3 }}>
+                    <Typography variant='h6' sx={{lineHeight: 1.3}}>
                       1 año
                     </Typography>
                     <Typography variant='body2'>Tiempo</Typography>
                   </Box>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <CustomAvatar skin='light' variant='rounded' sx={{ mr: 3 }}>
+                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                  <CustomAvatar skin='light' variant='rounded' sx={{mr: 3}}>
                     <BriefcaseVariantOutline />
                   </CustomAvatar>
                   <Box>
-                    <Typography variant='h6' sx={{ lineHeight: 1.3 }}>
+                    <Typography variant='h6' sx={{lineHeight: 1.3}}>
                       43
                     </Typography>
                     <Typography variant='body2'>Compras</Typography>

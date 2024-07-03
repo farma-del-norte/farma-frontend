@@ -12,8 +12,7 @@ import {PROFILES, ROUTES_PERMISSION} from 'src/configs/profiles'
 const resolveProfile = (user, path) => {
   const userProfile = user?.position ? PROFILES[user.position] : PROFILES.default
   const permission = ROUTES_PERMISSION[path]
-  console.log('User Profile:', userProfile) // Debug log
-  console.log('Permission Required:', permission, path) // Debug log
+
   return userProfile.includes(permission)
 }
 
@@ -21,9 +20,8 @@ const AuthGuard = props => {
   const {children} = props
   const {fallback} = props
   const router = useRouter()
-  const {isLoading} = useSelector(state => state.login)
-  const userData = localStorage.getItem('data-user')
-  const user = userData ? JSON.parse(userData) : null
+  const {isLoading, user} = useSelector(state => state.login)
+
   useEffect(
     () => {
       if (!router.isReady) {
@@ -32,10 +30,7 @@ const AuthGuard = props => {
       if (router.asPath === '/') {
         router.replace('/login')
       }
-      if (!user) {
-        localStorage.removeItem('im-user')
-        router.replace('/login')
-      } else if (!resolveProfile(user, router.asPath)) {
+      if (!resolveProfile(user, router.asPath)) {
         router.replace('/401')
       }
     },
