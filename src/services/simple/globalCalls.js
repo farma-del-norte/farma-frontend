@@ -103,13 +103,13 @@ export const create = async params => {
       const result = await api_post(url, params.form)
       return result
     }
-  } catch {
+  } catch (error) {
     throw error
   }
 }
 
 export const edit = async params => {
-  let url = `${params.endpointsParams.endpoint}/${params.form.id}`
+  let url = `${params.endpointsParams.endpoint}`
   try {
     // casos donde [guardar sera a esa id]
     if (url.includes(':id')) {
@@ -118,6 +118,7 @@ export const edit = async params => {
       url = urlSplit.join('/')
       url += `/${params.form.id}`
     }
+    url = `${params.endpointsParams.endpoint}/${params.form.id}`
     const result = await api_patch(url, params.form)
     return result
   } catch (error) {
