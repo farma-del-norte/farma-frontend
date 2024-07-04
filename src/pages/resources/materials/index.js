@@ -43,7 +43,7 @@ export default function Materials() {
       headerName: 'Material',
       field: 'name',
       type: 'text',
-      value: 'pruebas',
+      value: '',
       isRequired: true,
       width: 6,
       flex: true

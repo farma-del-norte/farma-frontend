@@ -26,7 +26,6 @@ export const createCall = createAsyncThunk('/service/create', async (params, thu
 })
 
 export const editCall = createAsyncThunk('/service/edit', async (params, thunkApi) => {
-  console.log(params)
   try {
     const payload = await edit(params)
     toast.success('Actualizado con éxito')

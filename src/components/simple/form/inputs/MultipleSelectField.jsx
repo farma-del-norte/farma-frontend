@@ -11,6 +11,7 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
   const [options, setOptions] = useState(input.options || []) // Initial options
   const label = input.isRequired ? `${input.headerName}* ` : input.headerName
   const {tables} = useSelector(state => state.simple)
+  const defaultValue = input.value || []
 
   // for reducer
   const keyList = input.headerName.replace(/\s+/g, '')
@@ -40,6 +41,7 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
       <Select
         multiple
         value={value || []}
+        defaultValue={defaultValue}
         input={<OutlinedInput label={label} />}
         onChange={onChange}
         renderValue={selected =>
