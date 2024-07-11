@@ -18,11 +18,24 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
 import {useSettings} from 'src/@core/hooks/useSettings'
+import {useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {loadSession} from 'src/store/login/actions'
+import {useRouter} from 'next/router'
 
+import {PROFILES, ROUTES_PERMISSION} from 'src/configs/profiles'
 const UserLayout = ({children}) => {
   // ** Hooks
-  const {settings, saveSettings} = useSettings()
+  const dispatch = useDispatch()
+  const router = useRouter()
 
+  const {settings, saveSettings} = useSettings()
+  const resolveProfile = (user, path) => {
+    const userProfile = user?.position ? PROFILES[user.position] : PROFILES.default
+    const permission = ROUTES_PERMISSION[path]
+
+    return userProfile.includes(permission)
+  }
   /**
    *  The below variable will hide the current layout menu at given screen size.
    *  The menu will be accessible from the Hamburger icon only (Vertical Overlay Menu).
@@ -32,6 +45,26 @@ const UserLayout = ({children}) => {
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
+
+  const {user} = useSelector(state => state.login)
+
+  useEffect(() => {
+    if (localStorage.getItem('im-user') && !user) {
+      dispatch(loadSession())
+    }
+  }, [user])
+
+  useEffect(
+    () => {
+      if (user && !resolveProfile(user, router.pathname)) {
+        router.replace({
+          pathname: '/401/'
+        })
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user]
+  )
 
   return (
     <Layout

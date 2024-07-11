@@ -37,27 +37,27 @@ export const PROFILES = {
 }
 
 export const ROUTES_PERMISSION = {
-  ['/dashboards/']: PERMISSIONS.home,
-  ['/users/']: PERMISSIONS.users,
-  ['/zones/']: PERMISSIONS.zones,
-  ['/branches/']: PERMISSIONS.branches,
-  ['/budgets/']: PERMISSIONS.budgets,
-  ['/maintenances/']: PERMISSIONS.maintenances,
-  ['/maintenances/correctives/']: PERMISSIONS.correctivesMaintenances,
-  ['/maintenances/services/']: PERMISSIONS.servicesMaintenances,
-  ['/maintenances/preventives/']: PERMISSIONS.preventivesMaintenances,
-  ['/maintenances/damages/']: PERMISSIONS.damagesMaintenances,
-  ['/resources/']: PERMISSIONS.resources,
-  ['/resources/concepts/']: PERMISSIONS.conceptsResources,
-  ['/resources/dimensions/']: PERMISSIONS.dimensionsResources,
-  ['/resources/materials/']: PERMISSIONS.materialsResources,
-  ['/resources/requirements/']: PERMISSIONS.requirementsResources,
-  ['/resources/services/']: PERMISSIONS.servicesResources,
-  ['/resources/suppliers/']: PERMISSIONS.suppliersResources,
-  ['/resources/variables/']: PERMISSIONS.variablesResources,
-  ['/resources/damages/']: PERMISSIONS.damagesResources,
-  ['/401/']: PERMISSIONS.home,
-  ['/404/']: PERMISSIONS.home
+  ['/dashboards']: PERMISSIONS.home,
+  ['/users']: PERMISSIONS.users,
+  ['/zones']: PERMISSIONS.zones,
+  ['/branches']: PERMISSIONS.branches,
+  ['/budgets']: PERMISSIONS.budgets,
+  ['/maintenances']: PERMISSIONS.maintenances,
+  ['/maintenances/correctives']: PERMISSIONS.correctivesMaintenances,
+  ['/maintenances/services']: PERMISSIONS.servicesMaintenances,
+  ['/maintenances/preventives']: PERMISSIONS.preventivesMaintenances,
+  ['/maintenances/damages']: PERMISSIONS.damagesMaintenances,
+  ['/resources']: PERMISSIONS.resources,
+  ['/resources/concepts']: PERMISSIONS.conceptsResources,
+  ['/resources/dimensions']: PERMISSIONS.dimensionsResources,
+  ['/resources/materials']: PERMISSIONS.materialsResources,
+  ['/resources/requirements']: PERMISSIONS.requirementsResources,
+  ['/resources/services']: PERMISSIONS.servicesResources,
+  ['/resources/suppliers']: PERMISSIONS.suppliersResources,
+  ['/resources/variables']: PERMISSIONS.variablesResources,
+  ['/resources/damages']: PERMISSIONS.damagesResources,
+  ['/401']: PERMISSIONS.home,
+  ['/404']: PERMISSIONS.home
 }
 
 export const PROFILES_USER = {

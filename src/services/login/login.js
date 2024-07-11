@@ -1,4 +1,4 @@
-import {api_post, api_patch} from '../apicalls'
+import {api_post, api_patch, api_get} from '../apicalls'
 import {USERS_ENDPOINT} from '../endpoints'
 
 export const usersLogin = async body => {
@@ -8,6 +8,19 @@ export const usersLogin = async body => {
     return result
   } catch (error) {
     throw error
+  }
+}
+
+export const usersLoadSession = async () => {
+  const url = `${USERS_ENDPOINT}/users/data-user`
+
+  try {
+    const response = await api_get(url)
+    return response.content
+  } catch (error) {
+    const errMessage = error?.response?.data?.message
+    toast.error(errMessage)
+    return thunkApi.rejectWithValue('error')
   }
 }
 

@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {loginCall} from 'src/store/login/actions'
+import {loginCall, loadSession} from 'src/store/login/actions'
 
 const initialState = {
   isLoading: false,
@@ -22,6 +22,16 @@ export const usersSlice = createSlice({
     })
     builder.addCase(loginCall.rejected, state => {
       state.isLoading = false
+    })
+    builder.addCase(loadSession.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(loadSession.rejected, state => {
+      state.isLoading = false
+    })
+    builder.addCase(loadSession.fulfilled, (state, {payload}) => {
+      state.isLoading = false
+      state.user = payload.user
     })
   }
 })

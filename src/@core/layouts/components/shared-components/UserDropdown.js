@@ -123,7 +123,7 @@ const UserDropdown = props => {
             <Box sx={{display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column'}}>
               <Typography sx={{fontWeight: 600}}>{getCorrectName()}</Typography>
               <Typography variant='body2' sx={{fontSize: '0.8rem', color: 'text.disabled'}}>
-                {user.position}
+                {user?.position}
               </Typography>
             </Box>
           </Box>

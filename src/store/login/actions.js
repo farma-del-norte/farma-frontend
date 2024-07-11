@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {
   usersLogin,
+  usersLoadSession,
   getVerificationCodeService,
   validateVerificationCodeService,
   updatePasswordService
@@ -12,6 +13,17 @@ export const loginCall = createAsyncThunk('/user/login', async (body, thunkApi) 
   try {
     const payload = await usersLogin(body)
     Router.push({pathname: '/dashboards'})
+    return payload
+  } catch (error) {
+    const errMessage = error?.response?.data?.message
+    toast.error(errMessage)
+    return thunkApi.rejectWithValue('error')
+  }
+})
+
+export const loadSession = createAsyncThunk('/session/loadSession', async thunkApi => {
+  try {
+    const payload = await usersLoadSession()
     return payload
   } catch (error) {
     const errMessage = error?.response?.data?.message
