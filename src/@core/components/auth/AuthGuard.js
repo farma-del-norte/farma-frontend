@@ -30,16 +30,22 @@ const AuthGuard = props => {
       if (router.asPath === '/') {
         router.replace('/login')
       }
-      if (!resolveProfile(user, router.asPath)) {
-        router.replace('/401')
+      if (!localStorage.getItem('im-user')) {
+        router.replace({
+          pathname: '/login'
+        })
+      } else if (user && !resolveProfile(user, router.pathname)) {
+        router.replace({
+          pathname: '/401/'
+        })
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.route]
   )
-  if (isLoading || user === null) {
-    return fallback
-  }
+  // if (isLoading || user === null) {
+  //   return fallback
+  // }
 
   return <>{children}</>
 }

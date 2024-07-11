@@ -14,7 +14,7 @@ import FallbackSpinner from 'src/@core/components/spinner'
 import Typography from '@mui/material/Typography'
 import Router from 'next/router'
 import {LOGIN} from 'src/utils/constants'
-import {loginCall} from 'src/store/login/actions'
+import {loginCall, loadSession} from 'src/store/login/actions'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -43,7 +43,7 @@ const loginSchema = Yup.object().shape({
 
 const Form = () => {
   const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.login)
+  const {isLoading, user} = useSelector(state => state.login)
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -66,7 +66,12 @@ const Form = () => {
 
   useEffect(() => {
     const usuarioLocalStorage = localStorage.getItem('im-user')
-    if (usuarioLocalStorage) Router.push('/dashboards')
+    if (usuarioLocalStorage && !user) {
+      dispatch(loadSession())
+      Router.push('/dashboards')
+    } else if (usuarioLocalStorage && user) {
+      Router.push('/dashboards')
+    }
   }, [])
 
   return isLoading ? (
