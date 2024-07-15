@@ -331,6 +331,10 @@ export default function Correctives() {
     }
   }, [form])
 
+  useEffect(() => {
+    console.log(form)
+  }, [form])
+
   return (
     <Simple
       table={{
@@ -344,7 +348,7 @@ export default function Correctives() {
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
-        title: 'Mantenimiento',
+        title: `Mantenimiento ${form?.Detalles.name} ${form?.Detalles.branchName}`,
         size: 'lg',
         tabs: [
           {
