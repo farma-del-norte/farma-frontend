@@ -432,7 +432,6 @@ export default function Correctives() {
             headerName: 'Comentarios',
             field: 'notes',
             type: 'textarea',
-            isRequired: true,
             value: '',
             width: 6
           }
