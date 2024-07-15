@@ -10,6 +10,7 @@ export default function TextArea({input, value, onChange, error}) {
       label={label}
       value={value}
       defaultValue={defaultValue}
+      disabled={input.disabled}
       onChange={onChange}
       type={input.type}
       multiline

@@ -13,6 +13,7 @@ const Password = ({input, value, onChange, error}) => {
       label={labelContent}
       value={value}
       defaultValue={input.value}
+      disabled={input.disabled}
       onChange={onChange}
       type={showPassword ? 'text' : 'password'}
       error={!!error}

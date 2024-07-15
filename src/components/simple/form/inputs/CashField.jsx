@@ -12,6 +12,7 @@ const CashField = ({input, value, onChange, error}) => {
       value={value}
       thousandSeparator={true}
       decimalScale={2}
+      disabled={input.disabled}
       fixedDecimalScale={true}
       //prefix={'$'}
       customInput={TextField}

@@ -10,6 +10,7 @@ const Text = ({input, value, onChange, error}) => {
       type='date'
       label={label}
       InputLabelProps={{shrink: true}}
+      disabled={input.disabled}
       value={dateValue}
       defaultValue={defaultValue}
       onChange={onChange}
