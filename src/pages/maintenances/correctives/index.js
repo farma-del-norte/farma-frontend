@@ -4,7 +4,9 @@ import {
   BRANCHES_ENDPOINT,
   SERVICES_ENDPOINT,
   SERVICES_CAT_ENDPOINT,
-  SUPPLIERS_ENDPOINT
+  SUPPLIERS_ENDPOINT,
+  MATERIALS_ENDPOINT,
+  MATERIALS_CAT_ENDPOINT
 } from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState, useMemo} from 'react'
@@ -13,6 +15,7 @@ import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {t} from 'i18next'
+import Tooltip from '@mui/material/Tooltip'
 
 const maintenancesColumns = [
   {
@@ -258,6 +261,117 @@ const servicesColumns = [
   }
 ]
 
+const materialsColumns = [
+  {
+    flex: 1.4,
+    headerName: 'Catálogo de Materiales',
+    field: 'materialCatID',
+    type: 'select',
+    endpoint: `${MATERIALS_CAT_ENDPOINT}/materials-cat`,
+    isRequired: true,
+    width: 6,
+    renderCell: params => {
+      if (params.row.name) {
+        const materialName = params.row.name
+        return (
+          <Tooltip title={materialName}>
+            {materialName.length > 15 ? materialName.substring(0, 15) + '...' : materialName}
+          </Tooltip>
+        )
+      } else {
+        return ''
+      }
+    }
+  },
+  {
+    flex: true,
+
+    headerName: 'Servicios',
+    field: 'serviceID',
+    type: 'select',
+    endpoint: `${SERVICES_ENDPOINT}/services`,
+    isRequired: true,
+    width: 6,
+    renderCell: params => {
+      if (params.row.serviceName) {
+        const serviceName = params.row.serviceName
+        return (
+          <Tooltip title={serviceName}>
+            {serviceName.length > 15 ? serviceName.substring(0, 15) + '...' : serviceName}
+          </Tooltip>
+        )
+      } else {
+        return ''
+      }
+    }
+  },
+  {
+    flex: true,
+    field: 'units',
+    headerName: 'Unidades',
+    type: 'select',
+    options: [
+      {name: 'Kilómetro'},
+      {name: 'Metro'},
+      {name: 'Centímetro'},
+      {name: 'Milímetro'},
+      {name: 'Pulgada'},
+      {name: 'Kilogramo'},
+      {name: 'Gramo'},
+      {name: 'Miligramo'},
+      {name: 'Litro'},
+      {name: 'Mililitro'},
+      {name: 'Metro cúbico'},
+      {name: 'Centímetro cúbico'},
+      {name: 'Metro cuadrado'},
+      {name: 'Centímetro cuadrado'},
+      {name: 'NA'}
+    ],
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'unitCost',
+    headerName: 'Costo por unidad',
+    type: 'cash',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'cantity',
+    headerName: 'Cantidad',
+    type: 'number',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'totalCost',
+    headerName: 'Costo total',
+    type: 'cash',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Notas',
+    field: 'notes',
+    type: 'textarea',
+    value: '',
+    width: 6,
+    renderCell: params => {
+      if (params.row.notes) {
+        const notes = params.row.notes
+        return <Tooltip title={notes}>{notes.length > 15 ? notes.substring(0, 15) + '...' : notes}</Tooltip>
+      } else {
+        return ''
+      }
+    }
+  }
+]
+
 export default function Correctives() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
@@ -331,10 +445,6 @@ export default function Correctives() {
     }
   }, [form])
 
-  useEffect(() => {
-    console.log(form)
-  }, [form])
-
   return (
     <Simple
       table={{
@@ -348,7 +458,7 @@ export default function Correctives() {
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
-        title: `Mantenimiento ${form?.Detalles.name} ${form?.Detalles.branchName}`,
+        title: `Mantenimiento ${form?.Detalles?.name} ${form?.Detalles?.branchName}`,
         size: 'lg',
         tabs: [
           {
@@ -378,6 +488,37 @@ export default function Correctives() {
                   title: 'Servicio',
                   size: 'md',
                   form: servicesForm,
+                  actions: {
+                    back: 'Regresar',
+                    save: 'Guardar'
+                  }
+                },
+                width: 12
+              }
+            ]
+          },
+          {
+            title: 'Materiales',
+            indexActions: 1,
+            form: [
+              {
+                headerName: 'Materiales del mantenimiento',
+                field: 'id',
+                fieldName: 'materialsID',
+                type: 'table',
+                table: {
+                  label: 'Materiales',
+                  endpoints: {
+                    baseUrl: `${MATERIALS_ENDPOINT}/materials/maintenance/:id`
+                  },
+                  showAddButton: true,
+                  columns: materialsColumns,
+                  actions: ['edit', 'delete']
+                },
+                modal: {
+                  title: 'Servicio',
+                  size: 'md',
+                  form: materialsColumns,
                   actions: {
                     back: 'Regresar',
                     save: 'Guardar'
