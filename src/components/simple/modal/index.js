@@ -37,6 +37,7 @@ export const Modal = ({
     setUseTabs(false)
     setOpen(false)
     setSelectedTab(0)
+    reset()
   }
 
   const onSubmit = values => {

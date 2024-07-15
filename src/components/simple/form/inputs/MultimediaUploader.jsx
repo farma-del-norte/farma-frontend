@@ -9,7 +9,7 @@ import {Typography, Button} from '@mui/material'
 import React, {useEffect, useState, useRef} from 'react'
 import {useTheme} from '@mui/material/styles'
 import styles from './styles/styles.module.css'
-
+import FallbackSpinner from 'src/@core/components/spinner'
 //TODO: Separate the URLS from Files array maybe handling two arrays on images object (urlImages, fileImages)
 const PDFMedia = ({media, handleRemove, index}) => {
   return (
@@ -144,7 +144,7 @@ const SelectMedia = ({media, handleRemove, index}) => {
 
 const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
   const dispatch = useDispatch()
-  const {media} = useSelector(state => state.media)
+  const {media, isLoading} = useSelector(state => state.media)
   const {headerName, accept = '.jpg,.png,.webp,video/mp4,video/x-m4v,video/*,pdf,application/pdf'} = input
   const theme = useTheme()
   const borderDesign = theme.palette.divider
@@ -311,6 +311,7 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
           flexWrap: 'wrap'
         }}
       >
+        {isLoading ? <FallbackSpinner /> : null}
         {images.map((media, index) => (
           <div
             key={index}
