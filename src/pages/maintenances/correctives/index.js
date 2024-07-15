@@ -161,7 +161,7 @@ const servicesColumns = [
     hideInput: true
   },
   {
-    headerName: 'Catalogo del servicio',
+    headerName: 'Catálogo del servicio',
     field: 'serviceCatID',
     type: 'select',
     endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,

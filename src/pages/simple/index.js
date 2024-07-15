@@ -1,7 +1,13 @@
 import {Simple} from 'src/components/simple'
-import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT, SERVICES_CAT_ENDPOINT, SUPPLIERS_ENDPOINT} from 'src/services/endpoints'
+import {
+  MAINTENANCES_ENDPOINT,
+  BRANCHES_ENDPOINT,
+  SERVICES_ENDPOINT,
+  SERVICES_CAT_ENDPOINT,
+  SUPPLIERS_ENDPOINT
+} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
-import { useEffect, useState, useMemo } from 'react'
+import {useEffect, useState, useMemo} from 'react'
 import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
@@ -86,7 +92,7 @@ const servicesColumns = [
     hideInput: true
   },
   {
-    headerName: 'Catalogo del servicio',
+    headerName: 'Catálogo del servicio',
     field: 'serviceCatID',
     type: 'select',
     endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
@@ -148,7 +154,7 @@ const servicesColumns = [
     type: 'cash',
     value: '',
     isRequired: true,
-    width: 6,
+    width: 6
   },
   {
     flex: true,
@@ -169,7 +175,7 @@ const servicesColumns = [
     type: 'multimedia',
     value: [],
     hideColumn: true,
-    width: 6,
+    width: 6
   },
   {
     flex: true,
@@ -192,65 +198,65 @@ export default function PruebaSimple() {
   const [servicesForm, setServicesForm] = useState(servicesColumns)
   const areas = useMemo(
     () => [
-      { name: 'Materiales', id: 'Material' },
-      { name: 'Dimensiones', id: 'Dimensión' },
-      { name: 'Variables', id: 'Variable' },
-      { name: 'Concepto', id: 'Concepto' },
+      {name: 'Materiales', id: 'Material'},
+      {name: 'Dimensiones', id: 'Dimensión'},
+      {name: 'Variables', id: 'Variable'},
+      {name: 'Concepto', id: 'Concepto'}
     ],
     []
-  );
+  )
   const status = useMemo(
     () => [
-    { name: 'Planeación', id: 'Planeación'},
-    { name: 'Desarrollo', id: 'Desarrollo'},
-    { name: 'Finalizado', id: 'Finalizado'},
-    { name: 'Cancelado', id: 'Cancelado' },
-  ],[]
-  );
+      {name: 'Planeación', id: 'Planeación'},
+      {name: 'Desarrollo', id: 'Desarrollo'},
+      {name: 'Finalizado', id: 'Finalizado'},
+      {name: 'Cancelado', id: 'Cancelado'}
+    ],
+    []
+  )
 
   // inicilaizar opciones de servicio
   useEffect(() => {
     setServicesForm(prevInputs => {
       const newInputs = [...prevInputs]
-      newInputs[4].options = areas;
-      newInputs[9].options = status;
-      return newInputs;
-    });
+      newInputs[4].options = areas
+      newInputs[9].options = status
+      return newInputs
+    })
     dispatch(getMaterialsCat())
     dispatch(getDimensionsCat())
     dispatch(getVariablesCat())
     dispatch(getConceptsCat())
   }, [areas, status, dispatch])
 
-  const handleAreaId = (options) => {
+  const handleAreaId = options => {
     setServicesForm(prevInputs => {
       const newInputs = [...prevInputs]
-      newInputs[5].options = options;
-      return newInputs;
+      newInputs[5].options = options
+      return newInputs
     })
   }
 
   // cambiar opciones en area
   useEffect(() => {
-    if(form?.Servicio) {
+    if (form?.Servicio) {
       if (form.Servicio.area) {
-        switch (form.Servicio.area){
+        switch (form.Servicio.area) {
           case 'Material':
             handleAreaId(materialsCat)
-            break;
+            break
           case 'Dimensión':
             handleAreaId(dimensionsCat)
-            break;
+            break
           case 'Variable':
             handleAreaId(variablesCat)
-            break;
+            break
           case 'Concepto':
             handleAreaId(conceptsCat)
-            break;
+            break
           default:
-            break;
+            break
         }
-        
       }
     }
   }, [form])
@@ -303,9 +309,9 @@ export default function PruebaSimple() {
                     save: 'Guardar'
                   }
                 },
-                width: 12,
-              },
-            ],
+                width: 12
+              }
+            ]
           }
         ],
         form: [
@@ -359,7 +365,7 @@ export default function PruebaSimple() {
             isRequired: true,
             value: '',
             width: 6
-          },
+          }
         ],
         actions: {
           back: 'Regresar',
