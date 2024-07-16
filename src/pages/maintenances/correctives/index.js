@@ -1,12 +1,21 @@
 import {Simple} from 'src/components/simple'
-import {MAINTENANCES_ENDPOINT, BRANCHES_ENDPOINT, SERVICES_ENDPOINT, SERVICES_CAT_ENDPOINT, SUPPLIERS_ENDPOINT} from 'src/services/endpoints'
+import {
+  MAINTENANCES_ENDPOINT,
+  BRANCHES_ENDPOINT,
+  SERVICES_ENDPOINT,
+  SERVICES_CAT_ENDPOINT,
+  SUPPLIERS_ENDPOINT,
+  MATERIALS_ENDPOINT,
+  MATERIALS_CAT_ENDPOINT
+} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
-import { useEffect, useState, useMemo } from 'react'
+import {useEffect, useState, useMemo} from 'react'
 import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {t} from 'i18next'
+import Tooltip from '@mui/material/Tooltip'
 
 const maintenancesColumns = [
   {
@@ -70,6 +79,75 @@ const maintenancesColumns = [
   }
 ]
 
+const maintenancesDetails = [
+  {
+    flex: true,
+    headerName: 'Nombre del mantenimiento',
+    field: 'name',
+    type: 'text',
+    value: '',
+    isRequired: true,
+    disabled: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'branchName',
+    headerName: 'Sucursal',
+    disabled: true,
+    hideInput: true
+  },
+  {
+    headerName: 'Sucursal',
+    field: 'branchID',
+    type: 'select',
+    endpoint: `${BRANCHES_ENDPOINT}/branches`,
+    options: [],
+    value: 0,
+    isRequired: true,
+    width: 6,
+    disabled: true,
+    hideColumn: true
+  },
+  {
+    flex: true,
+    headerName: 'Descripción de mantenimiento',
+    field: 'description',
+    type: 'text',
+    value: '',
+    disabled: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'date',
+    headerName: 'Fecha',
+    type: 'date',
+    value: '',
+    isRequired: true,
+    disabled: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    flex: true,
+    field: 'zoneName',
+    headerName: 'Zona',
+    disabled: true,
+    hideInput: true
+  },
+  {
+    flex: true,
+    headerName: 'Comentarios',
+    field: 'notes',
+    type: 'textarea',
+    disabled: true,
+    value: '',
+    width: 6,
+    hideColumn: true
+  }
+]
+
 const servicesColumns = [
   {
     flex: true,
@@ -86,7 +164,7 @@ const servicesColumns = [
     hideInput: true
   },
   {
-    headerName: 'Catalogo del servicio',
+    headerName: 'Catálogo del servicio',
     field: 'serviceCatID',
     type: 'select',
     endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
@@ -148,7 +226,7 @@ const servicesColumns = [
     type: 'cash',
     value: '',
     isRequired: true,
-    width: 6,
+    width: 6
   },
   {
     flex: true,
@@ -170,7 +248,7 @@ const servicesColumns = [
     type: 'multimedia',
     value: [],
     hideColumn: true,
-    width: 6,
+    width: 6
   },
   {
     flex: true,
@@ -183,7 +261,118 @@ const servicesColumns = [
   }
 ]
 
-export default function PruebaSimple() {
+const materialsColumns = [
+  {
+    flex: 1.4,
+    headerName: 'Catálogo de Materiales',
+    field: 'materialCatID',
+    type: 'select',
+    endpoint: `${MATERIALS_CAT_ENDPOINT}/materials-cat`,
+    isRequired: true,
+    width: 6,
+    renderCell: params => {
+      if (params.row.name) {
+        const materialName = params.row.name
+        return (
+          <Tooltip title={materialName}>
+            {materialName.length > 15 ? materialName.substring(0, 15) + '...' : materialName}
+          </Tooltip>
+        )
+      } else {
+        return ''
+      }
+    }
+  },
+  {
+    flex: true,
+
+    headerName: 'Servicios',
+    field: 'serviceID',
+    type: 'select',
+    endpoint: `${SERVICES_ENDPOINT}/services`,
+    isRequired: true,
+    width: 6,
+    renderCell: params => {
+      if (params.row.serviceName) {
+        const serviceName = params.row.serviceName
+        return (
+          <Tooltip title={serviceName}>
+            {serviceName.length > 15 ? serviceName.substring(0, 15) + '...' : serviceName}
+          </Tooltip>
+        )
+      } else {
+        return ''
+      }
+    }
+  },
+  {
+    flex: true,
+    field: 'units',
+    headerName: 'Unidades',
+    type: 'select',
+    options: [
+      {name: 'Kilómetro'},
+      {name: 'Metro'},
+      {name: 'Centímetro'},
+      {name: 'Milímetro'},
+      {name: 'Pulgada'},
+      {name: 'Kilogramo'},
+      {name: 'Gramo'},
+      {name: 'Miligramo'},
+      {name: 'Litro'},
+      {name: 'Mililitro'},
+      {name: 'Metro cúbico'},
+      {name: 'Centímetro cúbico'},
+      {name: 'Metro cuadrado'},
+      {name: 'Centímetro cuadrado'},
+      {name: 'NA'}
+    ],
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'unitCost',
+    headerName: 'Costo por unidad',
+    type: 'cash',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'cantity',
+    headerName: 'Cantidad',
+    type: 'number',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'totalCost',
+    headerName: 'Costo total',
+    type: 'cash',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Notas',
+    field: 'notes',
+    type: 'textarea',
+    value: '',
+    width: 6,
+    renderCell: params => {
+      if (params.row.notes) {
+        const notes = params.row.notes
+        return <Tooltip title={notes}>{notes.length > 15 ? notes.substring(0, 15) + '...' : notes}</Tooltip>
+      } else {
+        return ''
+      }
+    }
+  }
+]
+
+export default function Correctives() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
   const {materialsCat} = useSelector(state => state.materialsCat)
@@ -193,65 +382,65 @@ export default function PruebaSimple() {
   const [servicesForm, setServicesForm] = useState(servicesColumns)
   const areas = useMemo(
     () => [
-      { name: 'Materiales', id: 'Material' },
-      { name: 'Dimensiones', id: 'Dimensión' },
-      { name: 'Variables', id: 'Variable' },
-      { name: 'Concepto', id: 'Concepto' },
+      {name: 'Materiales', id: 'Material'},
+      {name: 'Dimensiones', id: 'Dimensión'},
+      {name: 'Variables', id: 'Variable'},
+      {name: 'Concepto', id: 'Concepto'}
     ],
     []
-  );
+  )
   const status = useMemo(
     () => [
-    { name: 'Planeación', id: 'Planeación'},
-    { name: 'Desarrollo', id: 'Desarrollo'},
-    { name: 'Finalizado', id: 'Finalizado'},
-    { name: 'Cancelado', id: 'Cancelado' },
-  ],[]
-  );
+      {name: 'Planeación', id: 'Planeación'},
+      {name: 'Desarrollo', id: 'Desarrollo'},
+      {name: 'Finalizado', id: 'Finalizado'},
+      {name: 'Cancelado', id: 'Cancelado'}
+    ],
+    []
+  )
 
   // inicilaizar opciones de servicio
   useEffect(() => {
     setServicesForm(prevInputs => {
       const newInputs = [...prevInputs]
-      newInputs[4].options = areas;
-      newInputs[9].options = status;
-      return newInputs;
-    });
+      newInputs[4].options = areas
+      newInputs[9].options = status
+      return newInputs
+    })
     dispatch(getMaterialsCat())
     dispatch(getDimensionsCat())
     dispatch(getVariablesCat())
     dispatch(getConceptsCat())
   }, [areas, status, dispatch])
 
-  const handleAreaId = (options) => {
+  const handleAreaId = options => {
     setServicesForm(prevInputs => {
       const newInputs = [...prevInputs]
-      newInputs[5].options = options;
-      return newInputs;
+      newInputs[5].options = options
+      return newInputs
     })
   }
 
   // cambiar opciones en area
   useEffect(() => {
-    if(form?.Servicio) {
+    if (form?.Servicio) {
       if (form.Servicio.area) {
-        switch (form.Servicio.area){
+        switch (form.Servicio.area) {
           case 'Material':
             handleAreaId(materialsCat)
-            break;
+            break
           case 'Dimensión':
             handleAreaId(dimensionsCat)
-            break;
+            break
           case 'Variable':
             handleAreaId(variablesCat)
-            break;
+            break
           case 'Concepto':
             handleAreaId(conceptsCat)
-            break;
+            break
           default:
-            break;
+            break
         }
-        
       }
     }
   }, [form])
@@ -269,13 +458,13 @@ export default function PruebaSimple() {
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
-        title: 'Mantenimiento',
+        title: `Mantenimiento ${form?.Detalles?.name} ${form?.Detalles?.branchName}`,
         size: 'lg',
         tabs: [
           {
             title: 'Detalles',
             indexActions: 1,
-            form: maintenancesColumns
+            form: maintenancesDetails
           },
           {
             title: 'Servicios',
@@ -304,9 +493,40 @@ export default function PruebaSimple() {
                     save: 'Guardar'
                   }
                 },
-                width: 12,
-              },
-            ],
+                width: 12
+              }
+            ]
+          },
+          {
+            title: 'Materiales',
+            indexActions: 1,
+            form: [
+              {
+                headerName: 'Materiales del mantenimiento',
+                field: 'id',
+                fieldName: 'materialsID',
+                type: 'table',
+                table: {
+                  label: 'Materiales',
+                  endpoints: {
+                    baseUrl: `${MATERIALS_ENDPOINT}/materials/maintenance/:id`
+                  },
+                  showAddButton: true,
+                  columns: materialsColumns,
+                  actions: ['edit', 'delete']
+                },
+                modal: {
+                  title: 'Servicio',
+                  size: 'md',
+                  form: materialsColumns,
+                  actions: {
+                    back: 'Regresar',
+                    save: 'Guardar'
+                  }
+                },
+                width: 12
+              }
+            ]
           }
         ],
         form: [
@@ -357,10 +577,9 @@ export default function PruebaSimple() {
             headerName: 'Comentarios',
             field: 'notes',
             type: 'textarea',
-            isRequired: true,
             value: '',
             width: 6
-          },
+          }
         ],
         actions: {
           back: 'Regresar',

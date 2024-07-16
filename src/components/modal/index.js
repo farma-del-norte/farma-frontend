@@ -1,18 +1,10 @@
-import {
-  Dialog, 
-  DialogTitle, 
-  DialogActions, 
-  Button, 
-  useMediaQuery,
-  Box,
-} 
-from '@mui/material'
+import {Dialog, DialogTitle, DialogActions, Button, IconButton, useMediaQuery, Box} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 const Actions = ({actions, toIndex = undefined}) => {
-
   const limit = toIndex ?? actions.length
 
-  return(
+  return (
     <DialogActions>
       {actions.length
         ? actions.slice(0, limit).map((action, index) => (
@@ -25,19 +17,34 @@ const Actions = ({actions, toIndex = undefined}) => {
   )
 }
 
-const ReusableDialog = ({open = false, onClose = () => {}, title = '', children, actions = [], size = false, footerButtons}) => {
+const ReusableDialog = ({
+  open = false,
+  onClose = () => {},
+  title = '',
+  children,
+  actions = [],
+  size = false,
+  footerButtons
+}) => {
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
-
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth={size}
-      fullWidth={!isMobile}
-      fullScreen={isMobile}
-    >
+    <Dialog open={open} onClose={onClose} maxWidth={size} fullWidth={!isMobile} fullScreen={isMobile}>
       <Box>
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>
+          {title}
+          <IconButton
+            aria-label='close'
+            onClick={onClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: theme => theme.palette.grey[500]
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         {children}
         <Actions actions={actions} toIndex={footerButtons} />
       </Box>

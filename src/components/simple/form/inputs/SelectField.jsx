@@ -54,6 +54,7 @@ const Text = ({input, value, onChange, error}) => {
       select
       value={value}
       defaultValue={defaultValue}
+      disabled={input.disabled}
       label={label}
       onChange={onChange}
       error={!!error}

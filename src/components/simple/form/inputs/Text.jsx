@@ -10,6 +10,7 @@ const Text = ({input, value, onChange, error}) => {
       value={value}
       defaultValue={defaultValue}
       onChange={onChange}
+      disabled={input.disabled}
       type={input.type}
       error={!!error}
       helperText={error ? error.message : ' '}

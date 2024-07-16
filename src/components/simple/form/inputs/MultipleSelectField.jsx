@@ -41,6 +41,7 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
       <Select
         multiple
         value={value || []}
+        disabled={input.disabled}
         defaultValue={defaultValue}
         input={<OutlinedInput label={label} />}
         onChange={onChange}

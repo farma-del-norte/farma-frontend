@@ -14,6 +14,7 @@ const PhoneField = ({input, value, onChange, error}) => {
         <TextField
           label={input.headerName + (input.isRequired ? '*' : '')}
           value={value}
+          disabled={input.disabled}
           onChange={handlePhoneChange}
           error={!!error}
           helperText={error ? error.message : ' '}

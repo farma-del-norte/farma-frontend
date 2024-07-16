@@ -39,16 +39,16 @@
     "services_delete_message": "Servicio eliminado con éxito",
     "empty_select": "Selecciona un tipo de area para ver resultados",
     "actions": "Acciones",
-    "services":{
+    "services": {
         "columns": {
-            "serviceCat": "Catalogo del servicio",
+            "serviceCat": "Catálogo del servicio",
             "date": "Fecha",
             "area_type": "Tipo de Area",
             "area": "Area",
             "supplier": "Proveedor",
             "cost": "Costo",
             "status": "Estatus",
-            "notes": "notas",
+            "notes": "Notas",
             "evidence": "Evidencia digital"
         },
         "expanded_title": "Información del servicio",
@@ -61,14 +61,14 @@
         "create_message": "servicio creado con éxito",
         "delete_message": "servicio eliminado con éxito"
     },
-    "materials":{
+    "materials": {
         "columns": {
-            "materialCat": "Catalogo de material",
+            "materialCat": "Catálogo de material",
             "unitCost": "Costo por unidad",
             "quantity": "Cantidad",
             "units": "Unidad",
             "totalCost": "Costo total",
-            "notes": "notas"
+            "notes": "Notas"
         },
         "title": "Materiales",
         "edit_modal": "Editar material",

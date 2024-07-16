@@ -8,6 +8,7 @@ const EmailField = ({input, value, onChange, error}) => {
       label={labelContent}
       value={value}
       defaultValue={input.value}
+      disabled={input.disabled}
       onChange={onChange}
       type={input.type}
       error={!!error}
