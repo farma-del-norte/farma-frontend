@@ -40,6 +40,7 @@ export const usersSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(createMediaService.rejected, state => {
+      state.media = []
       state.isLoading = false
     })
     builder.addCase(getMediaByOwnerId.pending, state => {
