@@ -217,6 +217,7 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
         )
       ).then(file => {
         // Send base64Images to evidence
+        console.log(file)
         if (file) {
           onChange(file)
           setImages(file)
@@ -240,7 +241,8 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
           newImages.push({file: file, url: url, name: file.name})
         }
       } else if (file.type === 'application/pdf' && accept.includes('pdf')) {
-        newImages.push({file: file, name: file.name})
+        const url = URL.createObjectURL(file)
+        newImages.push({file: file, url: url, name: file.name})
       }
     }
     convertImagesToBase64(newImages)
@@ -267,7 +269,8 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
           newImages.push({file: file, url: url, name: file.name})
         }
       } else if (file.type === 'application/pdf' && accept.includes('pdf')) {
-        newImages.push({file: file, name: file.name})
+        const url = URL.createObjectURL(file)
+        newImages.push({file: file, url: url, name: file.name})
       }
     }
     convertImagesToBase64(newImages)
@@ -309,18 +312,17 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
       >
         {isLoading ? <FallbackSpinner /> : null}
         {images.map((media, index) => (
-          <div
-            key={index}
-            style={{
-              position: 'relative',
-              width: '150px',
-              height: '150px',
-              overflow: 'hidden',
-              margin: '10px 5px'
-            }}
-          >
+          <React.Fragment key={index}>
             {media.type.includes('image') ? (
-              <>
+              <div
+                style={{
+                  position: 'relative',
+                  width: '150px',
+                  height: '150px',
+                  overflow: 'hidden',
+                  margin: '10px 5px'
+                }}
+              >
                 <img alt={media.file} src={media.file} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                 <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
                   <button
@@ -342,11 +344,19 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
                     </Typography>
                   </button>
                 </div>
-              </>
+              </div>
             ) : (
               media.type.includes('pdf') && (
-                <>
-                  <embed src={media.file} width='270' height='150' />
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '270px',
+                    height: '150px',
+                    overflow: 'hidden',
+                    margin: '10px 5px'
+                  }}
+                >
+                  <embed src={media.url} type="application/pdf" width='270px' height='150'/>
                   <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
                     <button
                       style={{
@@ -367,10 +377,10 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
                       </Typography>
                     </button>
                   </div>
-                </>
+                </div>
               )
             )}
-          </div>
+          </React.Fragment>
         ))}
       </div>
       <Typography
