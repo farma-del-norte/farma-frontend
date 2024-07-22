@@ -145,7 +145,7 @@ const SelectMedia = ({media, handleRemove, index}) => {
 const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
   const dispatch = useDispatch()
   const {media, isLoading} = useSelector(state => state.media)
-  const {headerName, accept = '.jpg,.png,.webp,video/mp4,video/x-m4v,video/*,pdf,application/pdf'} = input
+  const {headerName, accept = '.jpg,.png,.webp,video/mp4,video/x-m4v,image/png,image/jpeg,video/*,pdf,application/pdf'} = input
   const theme = useTheme()
   const borderDesign = theme.palette.divider
   const [images, setImages] = useState([])
@@ -225,10 +225,6 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
     }
   }
 
-  useEffect(() => {
-    console.log(images)
-  })
-
   const handleDrop = e => {
     e.preventDefault()
     const newImages = [...images]
@@ -261,7 +257,7 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
     const newImages = [...images]
     for (const file of e.target.files) {
       if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
-        if (accept.includes('image')) {
+        if (accept.includes('jpg') || accept.includes('png') || accept.includes('webp')) {
           newImages.push({file: file, name: file.name})
         }
       } else if (file.type === 'video/mp4' || file.type === 'video/x-m4v' || file.type === 'video/*') {

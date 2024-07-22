@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(
   config => {
     const token = localStorage.getItem('im-user')
 
-    if (token) {
+    if (token && !config.url.includes('media-farma-dev.s3.us-east-1.amazonaws.com')) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
