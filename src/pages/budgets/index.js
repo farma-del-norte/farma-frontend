@@ -2,7 +2,7 @@ import {Simple} from 'src/components/simple'
 import {BUDGETS_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
 import Tooltip from '@mui/material/Tooltip'
 
-export default function Users() {
+export default function Budgets() {
   const data = [
     {
       headerName: 'Zona',
