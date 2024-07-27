@@ -1,35 +1,82 @@
-import {Fragment} from 'react'
-import {useForm} from 'react-hook-form'
-import {useSelector, useDispatch} from 'react-redux'
+import {Simple} from 'src/components/simple'
+import {BUDGETS_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
+import Tooltip from '@mui/material/Tooltip'
 
-import {toggleDeleteModal} from 'src/store/budgets/reducer'
-import {deleteBudget} from 'src/store/budgets/actions'
-import DataTable from 'src/pages/budgets/DataTable'
-import EditItem from 'src/pages/budgets/EditItem'
-import RemoveItem from 'src/views/modals/RemoveItem'
-
-const Budgets = () => {
-  const dispatch = useDispatch(),
-    dialogText = 'Seguro de eliminar el presupuesto seleccionado?',
-    methods = useForm(),
-    {isOpen, isDeleteOpen, currentRow} = useSelector(state => state.budgets)
+export default function Users() {
+  const data = [
+    {
+      headerName: 'Zona',
+      field: 'zoneID',
+      type: 'multipleSelect',
+      endpoint: `${ZONES_ENDPOINT}/zones`,
+      options: [],
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true,
+      renderCell: params => {
+        if (params.row.zones && params.row.zones.length > 0) {
+          const zoneNames = params.row.zones.map(zone => zone.zoneName)
+          const fullResponse = zoneNames.join(', ')
+          return (
+            <Tooltip title={fullResponse}>
+              {fullResponse.length > 15 ? fullResponse.substring(0, 15) + '...' : fullResponse}
+            </Tooltip>
+          )
+        } else {
+          return ''
+        }
+      }
+    },
+    {
+      headerName: 'Fecha de asignación',
+      field: 'assignmentDate',
+      type: 'date',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
+    },
+    {
+      headerName: 'Presupuesto',
+      field: 'budget',
+      type: 'cash',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
+    },
+    {
+      headerName: 'Monto actual',
+      field: 'currentAmount',
+      type: 'cash',
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
+    }
+  ]
 
   return (
-    <Fragment>
-      <DataTable />
-      {isOpen && <EditItem methods={methods} isOpen={isOpen} />}
-
-      {isDeleteOpen && (
-        <RemoveItem
-          isOpen={isDeleteOpen}
-          deleteGeneric={deleteBudget}
-          dialogText={dialogText}
-          toggleDeleteModal={toggleDeleteModal}
-          getRowFunction={state => state.budgets}
-        />
-      )}
-    </Fragment>
+    <Simple
+      table={{
+        label: 'Presupuestos',
+        endpoints: {
+          baseUrl: `${BUDGETS_ENDPOINT}/budgets`
+        },
+        columns: data,
+        showAddButton: true,
+        actions: ['edit', 'delete']
+      }}
+      modal={{
+        title: 'Crear presupuesto',
+        form: data,
+        size: 'md',
+        actions: {
+          back: 'Regresar',
+          save: 'Guardar'
+        }
+      }}
+    />
   )
 }
-
-export default Budgets
