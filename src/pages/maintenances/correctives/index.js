@@ -490,7 +490,8 @@ export default function Correctives() {
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
-        title: `Mantenimiento ${form?.Detalles?.name} en ${form?.Detalles?.branchName}`,
+        title: `Mantenimiento`,
+        detailsTitle: `Mantenimiento ${form?.Detalles?.name} en ${form?.Detalles?.branchName}`,
         size: 'lg',
         tabs: [
           {

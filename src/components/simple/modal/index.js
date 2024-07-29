@@ -106,7 +106,7 @@ export const Modal = ({
       open={open}
       size={modal.size}
       onClose={handleCloseModal}
-      title={Boolean(isEditing) ? 'Editar' : modal.title}
+      title={Boolean(isEditing) ? 'Editar' : Boolean(useTabs) ? modal.detailsTitle : modal.title}
       footerButtons={Boolean(useTabs) ? modal.tabs[selectedTab]?.indexActions : undefined}
       actions={[
         {label: modal?.actions?.back ?? 'Regresar', onClick: handleCloseModal, color: 'primary', variant: 'outlined'},
