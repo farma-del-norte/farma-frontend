@@ -285,11 +285,9 @@ const materialsColumns = [
   },
   {
     flex: true,
-
     headerName: 'Servicios',
     field: 'serviceID',
     type: 'select',
-    endpoint: `${SERVICES_ENDPOINT}/services`,
     isRequired: true,
     width: 6,
     renderCell: params => {
@@ -308,7 +306,8 @@ const materialsColumns = [
   {
     flex: true,
     field: 'units',
-    headerName: 'Unidades',
+    headerName: 'Unidad',
+    disabled: true,
     type: 'select',
     options: [
       {name: 'Kilómetro'},
@@ -380,6 +379,7 @@ export default function Correctives() {
   const {variablesCat} = useSelector(state => state.variablesCat)
   const {conceptsCat} = useSelector(state => state.conceptsCat)
   const [servicesForm, setServicesForm] = useState(servicesColumns)
+  const [materialsForm, setMaterialsForm] = useState(materialsColumns)
   const areas = useMemo(
     () => [
       {name: 'Materiales', id: 'Material'},
@@ -445,6 +445,38 @@ export default function Correctives() {
     }
   }, [form])
 
+  const handleMaterialId = value => {
+    console.log('handleMaterialId', value)
+    setMaterialsForm(prevInputs => {
+      const newInputs = [...prevInputs]
+      newInputs[2].value = value
+      return newInputs
+    })
+  }
+  // Cambiar valor en unit
+  useEffect(() => {
+    if (form.Material?.materialCatID) {
+      const foundMaterialCat = materialsCat.find(cat => cat.id === form.Material.materialCatID)
+      handleMaterialId(foundMaterialCat.units)
+    }
+  }, [form])
+
+  // agregar endpoint a select services
+  useEffect(() => {
+    if (form.Detalles?.id) {
+      setServicesForm(prevInputs => {
+        const newInputs = [...prevInputs]
+        newInputs[1].endpoint = `${SERVICES_ENDPOINT}/services/maintenances/${form.Detalles.id}`
+        return newInputs
+      })
+    }
+  }, [form])
+
+  useEffect(() => {
+    console.log('form units', form?.Material?.units)
+    console.log('form', form)
+  }, [form])
+
   return (
     <Simple
       table={{
@@ -458,7 +490,7 @@ export default function Correctives() {
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
-        title: `Mantenimiento ${form?.Detalles?.name} ${form?.Detalles?.branchName}`,
+        title: `Mantenimiento ${form?.Detalles?.name} en ${form?.Detalles?.branchName}`,
         size: 'lg',
         tabs: [
           {
@@ -516,9 +548,9 @@ export default function Correctives() {
                   actions: ['edit', 'delete']
                 },
                 modal: {
-                  title: 'Servicio',
+                  title: 'Material',
                   size: 'md',
-                  form: materialsColumns,
+                  form: materialsForm,
                   actions: {
                     back: 'Regresar',
                     save: 'Guardar'
