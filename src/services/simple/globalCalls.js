@@ -11,6 +11,10 @@ const getIdKey = object => {
   return keyWithId
 }
 
+const setPagination = (endpoint, paginationModel) => {
+  return `${endpoint}?page=${paginationModel.page + 1}&limit=${paginationModel.pageSize}`
+}
+
 const createMedia = async body => {
   const url = `${MEDIA_ENDPOINT}/media`
   const token = process.env.S3_TOKEN
@@ -62,7 +66,7 @@ const createMedia = async body => {
 }
 
 export const get = async params => {
-  let url = `${params.endpoint}`
+  let url = `${params?.pagination ? setPagination(params.endpoint, params.paginationModel) : `${params.endpoint}`}`
   try {
     if (url.includes(':id')) {
       const paramKey = getIdKey(params)

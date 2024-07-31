@@ -18,11 +18,18 @@ export const simpleSlice = createSlice({
     builder.addCase(getCall.pending, (state, action) => {
       const key = action.meta.arg.key
       if (!state.tables[key])
-        state.tables[key] = { isLoading: true, list: [] }
+        state.tables[key] = { isLoading: true, list: [], pagination: { lastPage: 0, rowsPerPage: 8 } }
     })
     builder.addCase(getCall.fulfilled, (state, action) => {
       const key = action.meta.arg.key
+      const {pagination} = action.meta.arg
       state.tables[key].list = action.payload.content
+      // pagination
+      if (pagination) {
+        const rowsPerPage = Math.round(action.payload.meta.totalItems / action.payload.meta.lastPage)
+        state.tables[key].pagination.lastPage = Math.round(action.payload.meta.lastPage / rowsPerPage)
+        state.tables[key].pagination.rowsPerPage = rowsPerPage
+      }
       state.tables[key].isLoading = false
     })
     builder.addCase(getCall.rejected, (state, action) => {

@@ -484,7 +484,7 @@ export default function Correctives() {
         endpoints: {
           baseUrl: `${MAINTENANCES_ENDPOINT}/maintenances`
         },
-        loading: true,
+        serverMode: true,
         showAddButton: true,
         columns: maintenancesColumns,
         actions: ['edit', 'detail', 'delete']
@@ -513,6 +513,7 @@ export default function Correctives() {
                   endpoints: {
                     baseUrl: `${SERVICES_ENDPOINT}/services/maintenances/:id`
                   },
+                  serverMode: true,
                   showAddButton: true,
                   columns: servicesColumns,
                   actions: ['edit', 'delete']
