@@ -5,7 +5,6 @@ import {Pencil, Delete, TextBoxSearch} from 'mdi-material-ui'
 import {Fragment, useState, useEffect, useMemo} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getCall, deleteCall} from 'src/store/simple/actions'
-import {MAINTENANCES} from 'src/utils/constants'
 import {Typography, IconButton, Tooltip, CardContent} from '@mui/material'
 
 export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
