@@ -17,6 +17,11 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
   const [openDelModal, setOpenDelModal] = useState(false)
   const [delItem, setDelItem] = useState({})
   const [rowItem, setRowItem] = useState({})
+  // pagination
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  })
   // key for reducer
   const keyList = table.label.replace(/\s+/g, '')
   // params fro endpoints
@@ -24,7 +29,8 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
     return {
       endpoint: table.endpoints.baseUrl,
       key: keyList,
-      [tablekey]: id
+      [tablekey]: id,
+      pagination: table?.serverMode ? true : false
     }
   }, [table.endpoints, keyList, id])
 
@@ -63,8 +69,13 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
 
   // init get
   useEffect(() => {
-    dispatch(getCall(endpointsParams))
+    dispatch(getCall({...endpointsParams, paginationModel}))
   }, [])
+
+  const handlePaginationModelChange = (paginationModel) => {
+    setPaginationModel(paginationModel)
+    dispatch(getCall({...endpointsParams, paginationModel}))
+  };
 
   const actionableColumns = [
     ...table.columns,
@@ -108,12 +119,16 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
     <Fragment>
       <CardTable
         showAddButton={table.showAddButton}
+        paginationModel={table?.serverMode ? paginationModel : null}
+        onPaginationModelChange={handlePaginationModelChange}
         columns={filteredColumns}
         rows={tables[keyList]?.list || []}
         isLoading={tables[keyList]?.isLoading || !tables[keyList]}
-        pageSize={MAINTENANCES.TABLE_PAGE_SIZE}
         label={table.label}
         onAddItem={handleAddItem}
+        paginationMode={table?.serverMode ? "server" : "client"}
+        rowCount={tables[keyList]?.pagination.lastPage || 1}
+        pageSizeOptions={[10, 20, 50, 100]}
       />
       <Modal
         open={openModal}
