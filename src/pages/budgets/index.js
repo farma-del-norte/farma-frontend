@@ -1,38 +1,31 @@
 import {Simple} from 'src/components/simple'
 import {BUDGETS_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
-import Tooltip from '@mui/material/Tooltip'
 
 export default function Budgets() {
   const data = [
     {
       headerName: 'Zona',
       field: 'zoneID',
-      type: 'multipleSelect',
+      type: 'select',
       endpoint: `${ZONES_ENDPOINT}/zones`,
       options: [],
       value: '',
       isRequired: true,
       width: 6,
       flex: true,
-      renderCell: params => {
-        if (params.row.zones && params.row.zones.length > 0) {
-          const zoneNames = params.row.zones.map(zone => zone.zoneName)
-          const fullResponse = zoneNames.join(', ')
-          return (
-            <Tooltip title={fullResponse}>
-              {fullResponse.length > 15 ? fullResponse.substring(0, 15) + '...' : fullResponse}
-            </Tooltip>
-          )
-        } else {
-          return ''
-        }
-      }
+      hideColumn: true
+    },
+    {
+      headerName: 'Zona',
+      field: 'zoneName',
+      flex: true,
+      hideInput: true
     },
     {
       headerName: 'Fecha de asignación',
       field: 'assignmentDate',
       type: 'date',
-      value: '',
+      valueGetter: params => new Date(params.row.assignmentDate),
       isRequired: true,
       width: 6,
       flex: true
