@@ -402,13 +402,13 @@ export default function Correctives() {
 
   // inicilaizar opciones de servicio
   useEffect(() => {
-    dispatch(setValue(
+    setValue(
       {
         fields: servicesForm, 
         setFields: setServicesForm,
         inputFields: [{area: 'options'}, {status: 'options'}], 
         values: [areas, status]
-      })
+      }
     )
     dispatch(getMaterialsCat())
     dispatch(getDimensionsCat())
@@ -420,7 +420,7 @@ export default function Correctives() {
   useEffect(() => {
     if (form?.Servicio) {
       if (form.Servicio.area) {
-        dispatch(setValue(
+        setValue(
           {
             form,
             fields: servicesForm, 
@@ -428,7 +428,7 @@ export default function Correctives() {
             inputFields: {areaID: 'options'},
             watch: {Servicio: 'area'},
             values: {Material: materialsCat, Dimensión: dimensionsCat, Variable: variablesCat, Concepto: conceptsCat}
-          })
+          }
         )
       }
     }
