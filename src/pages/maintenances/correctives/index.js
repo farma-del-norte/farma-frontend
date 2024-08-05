@@ -14,6 +14,7 @@ import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
+import { setValue } from 'src/store/form/reducer'
 import {t} from 'i18next'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -243,7 +244,7 @@ const servicesColumns = [
     flex: true,
     headerName: t('services.columns.evidence', {ns: 'maintenances'}),
     field: 'evidence',
-    accept: '.jpg,.png,.webp,pdf,application/pdf',
+    accept: '.jpg,jpeg,.png,.webp,pdf,application/pdf,video/*',
     owner: 'services',
     type: 'multimedia',
     value: [],
@@ -401,52 +402,39 @@ export default function Correctives() {
 
   // inicilaizar opciones de servicio
   useEffect(() => {
-    setServicesForm(prevInputs => {
-      const newInputs = [...prevInputs]
-      newInputs[4].options = areas
-      newInputs[9].options = status
-      return newInputs
-    })
+    dispatch(setValue(
+      {
+        fields: servicesForm, 
+        setFields: setServicesForm,
+        inputFields: [{area: 'options'}, {status: 'options'}], 
+        values: [areas, status]
+      })
+    )
     dispatch(getMaterialsCat())
     dispatch(getDimensionsCat())
     dispatch(getVariablesCat())
     dispatch(getConceptsCat())
   }, [areas, status, dispatch])
 
-  const handleAreaId = options => {
-    setServicesForm(prevInputs => {
-      const newInputs = [...prevInputs]
-      newInputs[5].options = options
-      return newInputs
-    })
-  }
-
   // cambiar opciones en area
   useEffect(() => {
     if (form?.Servicio) {
       if (form.Servicio.area) {
-        switch (form.Servicio.area) {
-          case 'Material':
-            handleAreaId(materialsCat)
-            break
-          case 'Dimensión':
-            handleAreaId(dimensionsCat)
-            break
-          case 'Variable':
-            handleAreaId(variablesCat)
-            break
-          case 'Concepto':
-            handleAreaId(conceptsCat)
-            break
-          default:
-            break
-        }
+        dispatch(setValue(
+          {
+            form,
+            fields: servicesForm, 
+            setFields: setServicesForm,
+            inputFields: {areaID: 'options'},
+            watch: {Servicio: 'area'},
+            values: {Material: materialsCat, Dimensión: dimensionsCat, Variable: variablesCat, Concepto: conceptsCat}
+          })
+        )
       }
     }
   }, [form])
 
   const handleMaterialId = value => {
-    console.log('handleMaterialId', value)
     setMaterialsForm(prevInputs => {
       const newInputs = [...prevInputs]
       newInputs[2].value = value
@@ -470,11 +458,6 @@ export default function Correctives() {
         return newInputs
       })
     }
-  }, [form])
-
-  useEffect(() => {
-    console.log('form units', form?.Material?.units)
-    console.log('form', form)
   }, [form])
 
   return (
