@@ -1,12 +1,12 @@
 import {Simple} from 'src/components/simple'
-import {BRANCHES_ENDPOINT} from 'src/services/endpoints'
+import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
 // import {useSelector, useDispatch} from 'react-redux'
 // import {useEffect, useState, useMemo} from 'react'
 
 const branchesColumns = [
   {
     flex: true,
-    headerName: 'Nombre del mantenimiento',
+    headerName: 'Sucursal',
     field: 'name',
     type: 'text',
     value: '',
@@ -15,15 +15,40 @@ const branchesColumns = [
   },
   {
     flex: true,
-    field: 'branchName',
-    headerName: 'Sucursal',
+    field: 'simiAlias',
+    headerName: 'Alias',
+    type: 'text',
+    width: 6,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'key',
+    headerName: 'Clave',
+    type: 'text',
+    width: 6,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'type',
+    headerName: 'Tipo',
+    type: 'text',
+    width: 6,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'zoneName',
+    headerName: 'Zona',
+    type: 'text',
     hideInput: true
   },
   {
-    headerName: 'Sucursal',
-    field: 'branchID',
+    headerName: 'Zona',
+    field: 'zoneID',
     type: 'select',
-    endpoint: `${BRANCHES_ENDPOINT}/branches`,
+    endpoint: `${ZONES_ENDPOINT}/zones`,
     options: [],
     value: 0,
     isRequired: true,
@@ -32,36 +57,48 @@ const branchesColumns = [
   },
   {
     flex: true,
-    headerName: 'Descripcion de mantenimiento',
-    field: 'description',
+    headerName: 'Codigo Postal',
+    field: 'zipCode',
     type: 'text',
     value: '',
+    isRequired: true,
     width: 6
   },
   {
     flex: true,
-    field: 'date',
-    headerName: 'Fecha',
-    type: 'date',
+    headerName: 'Colonia',
+    field: 'neighborhood',
+    type: 'text',
     value: '',
     isRequired: true,
-    width: 6,
-    hideColumn: true
+    width: 6
   },
   {
     flex: true,
-    field: 'zoneName',
-    headerName: 'Zona',
-    hideInput: true
-  },
-  {
-    flex: true,
-    headerName: 'Comentarios',
-    field: 'notes',
-    type: 'textarea',
+    headerName: 'Ciudad',
+    field: 'city',
+    type: 'text',
     value: '',
-    width: 6,
-    hideColumn: true
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Estado',
+    field: 'federalEntity',
+    type: 'text',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Calle',
+    field: 'street',
+    type: 'text',
+    value: '',
+    isRequired: true,
+    width: 6
   }
 ]
 
@@ -152,7 +189,7 @@ export default function Branches() {
         form: branchesColumns,
         tabs: [
           {
-            title: 'Detalles',
+            title: 'Sucursal',
             indexActions: 1,
             form: branchesColumns
           }
