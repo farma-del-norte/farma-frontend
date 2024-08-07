@@ -1,9 +1,14 @@
 import {Simple} from 'src/components/simple'
 import {USERS_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
+import {useSelector} from 'react-redux'
+import { setValue } from 'src/store/form/reducer'
 import Tooltip from '@mui/material/Tooltip'
+import { useEffect, useState } from 'react'
 
 export default function Users() {
-  const data = [
+  const {form, lists} = useSelector(state => state.form)
+
+  const [data, setData] = useState([
     {
       headerName: 'Nombre(s)',
       field: 'firstname',
@@ -52,7 +57,7 @@ export default function Users() {
     },
     {
       headerName: 'Zona',
-      field: 'zoneID',
+      field: 'zoneIDs',
       type: 'multipleSelect',
       endpoint: `${ZONES_ENDPOINT}/zones`,
       options: [],
@@ -84,7 +89,63 @@ export default function Users() {
       width: 6,
       flex: true
     }
-  ]
+  ])
+  
+  // pos admin set all zones
+  useEffect(() => {
+    if(form?.Crearusuario?.position === 'Administrador') {
+      setValue({
+        form,
+        watch: {
+          Crearusuario: 'position'
+        },
+        fields: data,
+        setFields: setData,
+        inputFields: [{zoneIDs: 'value'}, {zoneIDs: 'disabled'}],
+        values: [lists?.Zona?.map(option => option.id), true]
+      })
+    } else if (data[5].disabled) {
+      // reset values for new user
+      setValue({
+        form,
+        watch: {
+          Crearusuario: 'position'
+        },
+        fields: data,
+        setFields: setData,
+        inputFields: [{zoneIDs: 'value'}, {zoneIDs: 'disabled'}],
+        values: ['', false]
+      })
+    }
+  }, [form.Crearusuario?.position, lists])
+
+  // set psw optional at edit
+  useEffect(() => {
+    // is editing make psw optional
+    if (form?.Crearusuario?.id && data[4].isRequired) {
+      setValue({
+        form,
+        watch: {
+          Crearusuario: 'password'
+        },
+        fields: data,
+        setFields: setData,
+        inputFields: {password: 'isRequired'},
+        values: false
+      })
+    } else if (!data[4].isRequired && !form?.Crearusuario?.id) {
+      setValue({
+        form,
+        watch: {
+          Crearusuario: 'password'
+        },
+        fields: data,
+        setFields: setData,
+        inputFields: {password: 'isRequired'},
+        values: true
+      })
+    }
+  }, [form.Crearusuario])
 
   return (
     <Simple

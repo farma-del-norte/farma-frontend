@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
+  lists: {},
   form: {},
 }
 
@@ -12,6 +13,10 @@ export const formSlice = createSlice({
     changeForm: (state, {payload}) => {
       const { keyForm, watch } = payload;
       state.form[keyForm] = watch
+    },
+    addList: (state, {payload}) => {
+      const { label, watch } = payload;
+      state.lists[label] = watch
     },
   },
 })
@@ -82,4 +87,4 @@ export const setValue = ({form, watch, fields, setFields, inputFields, values}) 
 
 export default formSlice.reducer
 
-export const {changeForm} = formSlice.actions
+export const {changeForm, addList} = formSlice.actions

@@ -2,16 +2,17 @@ import {Select, MenuItem, InputLabel, FormControl} from '@mui/material'
 import {useState, useEffect, useMemo} from 'react'
 import {getCall} from 'src/store/simple/actions' // Assuming this fetches options
 import {useSelector, useDispatch} from 'react-redux'
+import {addList} from 'src/store/form/reducer'
 import Checkbox from '@mui/material/Checkbox'
 import ListItemText from '@mui/material/ListItemText'
 import FormHelperText from '@mui/material/FormHelperText'
 import OutlinedInput from '@mui/material/OutlinedInput'
-const MultipleSelectField = ({input, value, onChange, error}) => {
+const MultipleSelectField = ({input, value, onChange, disabled = input.disabled, error}) => {
   const dispatch = useDispatch()
   const [options, setOptions] = useState(input.options || []) // Initial options
+  const defaultValue = input.value || [] // Initial value
   const label = input.isRequired ? `${input.headerName}* ` : input.headerName
   const {tables} = useSelector(state => state.simple)
-  const defaultValue = input.value || []
 
   // for reducer
   const keyList = input.headerName.replace(/\s+/g, '')
@@ -22,18 +23,31 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
     }),
     [input.endpoint, keyList]
   )
-
+  // si opciones se agregan por endpoint, obtiene las options
   useEffect(() => {
     if (input.endpoint) {
       dispatch(getCall(endpointsParams))
     }
-  }, [dispatch, keyList, endpointsParams, input])
+  }, [dispatch, endpointsParams, input])
 
+  // si opciones se agregan por endpoint, se guardara en su watch
+  useEffect(() => {
+    if (options.length) {
+      dispatch(addList({label: input.headerName, watch: options}));
+    }
+  }, [dispatch, options, input.headerName])
+
+  // actualiza options
   useEffect(() => {
     if (tables[keyList]) {
       setOptions(tables[keyList]?.list || [])
     }
   }, [tables, keyList])
+
+  // set value
+  useEffect(() => {
+    onChange(input.value)
+  }, [input.value])
 
   return (
     <FormControl fullWidth error={!!error}>
@@ -41,10 +55,9 @@ const MultipleSelectField = ({input, value, onChange, error}) => {
       <Select
         multiple
         value={value || []}
-        disabled={input.disabled}
         defaultValue={defaultValue}
         input={<OutlinedInput label={label} />}
-        onChange={onChange}
+        onChange={disabled ? () => null : onChange}
         renderValue={selected =>
           selected.map(id => {
             const item = options.find(option => option.id === id)

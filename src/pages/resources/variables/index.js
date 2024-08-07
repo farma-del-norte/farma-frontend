@@ -350,7 +350,6 @@ export default function VariablesCat() {
       field: 'specifications',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },
@@ -359,7 +358,6 @@ export default function VariablesCat() {
       field: 'guidelines',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },
@@ -368,7 +366,6 @@ export default function VariablesCat() {
       field: 'maintenance',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },

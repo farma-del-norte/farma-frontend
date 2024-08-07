@@ -54,7 +54,6 @@ export default function Concepts() {
       field: 'observations',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true,
       renderCell: params => {
@@ -88,22 +87,11 @@ export default function Concepts() {
       }
     },
     {
-      headerName: 'Tipo',
-      field: 'type',
-      type: 'select',
-      options: [{name: 'Concepto'}, {name: 'Elemento'}],
-      value: '',
-      isRequired: true,
-      width: 6,
-      flex: true
-    },
-    {
       headerName: 'Definición',
       field: 'definition',
       type: 'textarea',
       value: '',
-      isRequired: true,
-      width: 12,
+      width: 6,
       flex: true,
       renderCell: params => {
         return (

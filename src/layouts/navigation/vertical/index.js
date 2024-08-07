@@ -72,20 +72,6 @@ const navigation = () => {
           permission: PERMISSIONS.correctivesMaintenances
         },
         {
-          title: i18n.t('services_title'),
-          path: '/maintenances/services',
-          icon: FormatListBulleted,
-
-          permission: PERMISSIONS.servicesMaintenances
-        },
-        {
-          title: i18n.t('preventives_title'),
-          path: '/maintenances/preventives',
-          icon: FormatListBulleted,
-
-          permission: PERMISSIONS.preventivesMaintenances
-        },
-        {
           title: i18n.t('damages_cat_title'),
           path: '/maintenances/damages',
           icon: Warning,

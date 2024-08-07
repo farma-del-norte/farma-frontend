@@ -48,16 +48,6 @@ export default function Services() {
       width: 12,
       flex: true
     },
-    {
-      headerName: 'Categoría',
-      field: 'category',
-      type: 'select',
-      value: '',
-      options: [{name: 'Normal'}, {name: 'Especial'}],
-      isRequired: true,
-      width: 12,
-      flex: true
-    }
   ]
 
   return (

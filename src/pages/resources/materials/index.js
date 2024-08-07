@@ -77,7 +77,7 @@ export default function Materials() {
       field: 'obligation',
       type: 'select',
       value: 'Requisito',
-      options: [{name: 'Material mandatorio'}, {name: 'Material opcional'}, {name: 'Obligatorio'}, {name: 'Requisito'}],
+      options: [{name: 'Material mandatorio'}, {name: 'Material opcional'}],
       isRequired: true,
       width: 6,
       flex: true
@@ -85,15 +85,6 @@ export default function Materials() {
     {
       headerName: 'Observaciones',
       field: 'observations',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 6,
-      flex: true
-    },
-    {
-      headerName: 'Rendimiento',
-      field: 'performance',
       type: 'text',
       value: '',
       isRequired: true,
