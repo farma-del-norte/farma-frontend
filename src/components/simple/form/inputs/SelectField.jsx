@@ -20,7 +20,9 @@ const Text = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    setOptions(input.options || [])
+    if (!input.options.length) {
+      setOptions(input.options || [])
+    }
   }, [input.options])
 
   // get options
@@ -28,7 +30,7 @@ const Text = ({input, value, onChange, error}) => {
     if (input.endpoint) {
       dispatch(getCall(endpointsParams))
     }
-  }, [dispatch, keyList, endpointsParams, input])
+  }, [dispatch, endpointsParams, input.endpoint])
 
   // set options
   useEffect(() => {
