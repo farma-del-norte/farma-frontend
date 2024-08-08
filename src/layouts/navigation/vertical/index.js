@@ -8,7 +8,7 @@ import {
   Build,
   Storage,
   FormatListBulleted,
-  Nature,
+  // Nature,
   ShoppingCart,
   Settings,
   Label,
@@ -107,13 +107,13 @@ const navigation = () => {
 
           permission: PERMISSIONS.materialsResources
         },
-        {
-          title: i18n.t('requirements_cat_title'),
-          path: '/resources/requirements',
-          icon: Nature,
+        // {
+        //   title: i18n.t('requirements_cat_title'),
+        //   path: '/resources/requirements',
+        //   icon: Nature,
 
-          permission: PERMISSIONS.requirementsResources
-        },
+        //   permission: PERMISSIONS.requirementsResources
+        // },
         {
           title: i18n.t('services_cat_title'),
           path: '/resources/services',
