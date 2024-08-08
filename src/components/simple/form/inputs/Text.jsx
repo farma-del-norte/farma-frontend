@@ -1,8 +1,13 @@
 import TextField from '@mui/material/TextField'
+import {useEffect} from 'react'
 
 const Text = ({input, value, onChange, error}) => {
   const defaultValue = input.value || ''
   const label = input.isRequired ? `${input.headerName}* ` : input.headerName
+
+  useEffect(() => {
+    onChange(input.value)
+  }, [input.value])
 
   return (
     <TextField

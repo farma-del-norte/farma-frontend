@@ -3,7 +3,7 @@ import {useState, useEffect, useMemo} from 'react'
 import {getCall} from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
 
-const Text = ({input, value, onChange, error}) => {
+const Select = ({input, value, onChange, error}) => {
   const dispatch = useDispatch()
   const [options, setOptions] = useState(input.options || [])
   const label = input.isRequired ? `${input.headerName}* ` : input.headerName
@@ -20,7 +20,7 @@ const Text = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    if (!input.options.length) {
+    if (!input.options?.length) {
       setOptions(input.options || [])
     }
   }, [input.options])
@@ -51,10 +51,14 @@ const Text = ({input, value, onChange, error}) => {
     return row.name
   }
 
+  useEffect(() => {
+    onChange(input.value)
+  }, [input.value])
+
   return (
     <TextField
       select
-      value={value}
+      value={value || ''}
       defaultValue={defaultValue}
       disabled={input.disabled}
       label={label}
@@ -71,4 +75,4 @@ const Text = ({input, value, onChange, error}) => {
   )
 }
 
-export default Text
+export default Select

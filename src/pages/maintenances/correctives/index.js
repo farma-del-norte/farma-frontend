@@ -14,7 +14,7 @@ import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
 import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
 import {getVariablesCat} from 'src/store/catalogs/variables/actions'
 import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
-import { setValue } from 'src/store/form/reducer'
+import {setValue} from 'src/store/form/reducer'
 import {t} from 'i18next'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -333,6 +333,7 @@ const materialsColumns = [
   {
     flex: true,
     field: 'unitCost',
+    defaultValue: 0,
     headerName: 'Costo por unidad',
     type: 'cash',
     isRequired: true,
@@ -341,6 +342,7 @@ const materialsColumns = [
   {
     flex: true,
     field: 'cantity',
+    defaultValue: 0,
     headerName: 'Cantidad',
     type: 'number',
     isRequired: true,
@@ -381,6 +383,7 @@ export default function Correctives() {
   const {conceptsCat} = useSelector(state => state.conceptsCat)
   const [servicesForm, setServicesForm] = useState(servicesColumns)
   const [materialsForm, setMaterialsForm] = useState(materialsColumns)
+  const [foundMaterialCat, setFoundMaterialCat] = useState(null)
   const areas = useMemo(
     () => [
       {name: 'Materiales', id: 'Material'},
@@ -402,14 +405,12 @@ export default function Correctives() {
 
   // inicilaizar opciones de servicio
   useEffect(() => {
-    setValue(
-      {
-        fields: servicesForm, 
-        setFields: setServicesForm,
-        inputFields: [{area: 'options'}, {status: 'options'}], 
-        values: [areas, status]
-      }
-    )
+    setValue({
+      fields: servicesForm,
+      setFields: setServicesForm,
+      inputFields: [{area: 'options'}, {status: 'options'}],
+      values: [areas, status]
+    })
     dispatch(getMaterialsCat())
     dispatch(getDimensionsCat())
     dispatch(getVariablesCat())
@@ -420,42 +421,60 @@ export default function Correctives() {
   useEffect(() => {
     if (form?.Servicio) {
       if (form.Servicio.area) {
-        setValue(
-          {
-            form,
-            fields: servicesForm, 
-            setFields: setServicesForm,
-            inputFields: {areaID: 'options'},
-            watch: {Servicio: 'area'},
-            values: {Material: materialsCat, Dimensión: dimensionsCat, Variable: variablesCat, Concepto: conceptsCat}
-          }
-        )
+        setValue({
+          form,
+          fields: servicesForm,
+          setFields: setServicesForm,
+          inputFields: {areaID: 'options'},
+          watch: {Servicio: 'area'},
+          values: {Material: materialsCat, Dimensión: dimensionsCat, Variable: variablesCat, Concepto: conceptsCat}
+        })
       }
     }
   }, [form])
 
-  const handleMaterialId = value => {
-    setMaterialsForm(prevInputs => {
-      const newInputs = [...prevInputs]
-      newInputs[2].value = value
-      return newInputs
-    })
-  }
+  useEffect(() => {
+    if (form.Material?.materialCatID) {
+      setFoundMaterialCat(materialsCat.find(cat => cat.id === form.Material?.materialCatID))
+    }
+  }, [form, materialsCat])
+
   // Cambiar valor en unit
   useEffect(() => {
     if (form.Material?.materialCatID) {
-      const foundMaterialCat = materialsCat.find(cat => cat.id === form.Material.materialCatID)
-      handleMaterialId(foundMaterialCat.units)
+      if (foundMaterialCat?.units) {
+        setValue({
+          fields: materialsForm,
+          setFields: setMaterialsForm,
+          inputFields: {units: 'value'},
+          values: foundMaterialCat.units
+        })
+      }
     }
-  }, [form])
+  }, [form, foundMaterialCat])
 
   // agregar endpoint a select services
   useEffect(() => {
     if (form.Detalles?.id) {
-      setServicesForm(prevInputs => {
-        const newInputs = [...prevInputs]
-        newInputs[1].endpoint = `${SERVICES_ENDPOINT}/services/maintenances/${form.Detalles.id}`
-        return newInputs
+      setValue({
+        form,
+        fields: materialsForm,
+        setFields: setMaterialsForm,
+        inputFields: {serviceID: 'endpoint'},
+        values: `${SERVICES_ENDPOINT}/services/maintenances/${form.Detalles.id}`
+      })
+    }
+  }, [form])
+
+  useEffect(() => {
+    if (form.Material?.cantity && form.Material?.unitCost) {
+      const totalPrice = form.Material.unitCost * form.Material.cantity
+      setValue({
+        form,
+        fields: materialsForm,
+        setFields: setMaterialsForm,
+        inputFields: {totalCost: 'value'},
+        values: totalPrice.toString()
       })
     }
   }, [form])

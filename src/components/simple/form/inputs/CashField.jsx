@@ -1,11 +1,16 @@
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import {NumericFormat} from 'react-number-format'
+import {useEffect} from 'react'
 
 const CashField = ({input, value, onChange, error}) => {
   const handleValueChange = values => {
     onChange(values.value)
   }
+
+  useEffect(() => {
+    onChange(input.value)
+  }, [input.value])
 
   return (
     <NumericFormat
