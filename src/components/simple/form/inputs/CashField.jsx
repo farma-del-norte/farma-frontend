@@ -28,6 +28,9 @@ const CashField = ({input, value, onChange, error}) => {
       InputProps={{
         startAdornment: <InputAdornment position='start'>$</InputAdornment>
       }}
+      inputProps={{
+        disabled: input.disabled
+      }}
     />
   )
 }
