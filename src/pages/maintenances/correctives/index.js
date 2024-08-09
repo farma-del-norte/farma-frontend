@@ -6,7 +6,8 @@ import {
   SERVICES_CAT_ENDPOINT,
   SUPPLIERS_ENDPOINT,
   MATERIALS_ENDPOINT,
-  MATERIALS_CAT_ENDPOINT
+  MATERIALS_CAT_ENDPOINT,
+  DAMAGES_CAT_ENDPOINT
 } from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState, useMemo} from 'react'
@@ -169,6 +170,7 @@ const servicesColumns = [
     field: 'serviceCatID',
     type: 'select',
     endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
+    options: [],
     isRequired: true,
     width: 6,
     hideColumn: true
@@ -215,6 +217,7 @@ const servicesColumns = [
     type: 'select',
     endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
     fieldName: ['firstname', 'lastname'],
+    options: [],
     value: 0,
     isRequired: true,
     width: 6,
@@ -374,6 +377,42 @@ const materialsColumns = [
   }
 ]
 
+const siniestroColumns = [
+  {
+    headerName: 'Siniestro',
+    field: 'damageCatID',
+    fieldName: 'Siniestro',
+    type: 'select',
+    options: [],
+    value: '',
+    width: 6
+  },
+  {
+    headerName: 'Descripción',
+    field: 'description',
+    fieldName: 'Descripción',
+    type: 'text',
+    value: '',
+    width: 6
+  },
+  {
+    headerName: 'Notas',
+    field: 'notes',
+    fieldName: 'Notas',
+    type: 'text',
+    value: '',
+    width: 6
+  },
+  {
+    headerName: 'Fecha',
+    field: 'date',
+    fieldName: 'Fecha',
+    type: 'date',
+    value: '',
+    width: 6
+  }
+]
+
 export default function Correctives() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
@@ -500,6 +539,17 @@ export default function Correctives() {
             title: 'Detalles',
             indexActions: 1,
             form: maintenancesDetails
+          },
+          {
+            title: 'Siniestro',
+            endpoints: {
+              baseUrl: `${DAMAGES_CAT_ENDPOINT}/damages-cat/:id`
+            },
+            idField: {
+              field: 'id',
+              fieldName: 'maintenanceID',
+            },
+            form: siniestroColumns
           },
           {
             title: 'Servicios',

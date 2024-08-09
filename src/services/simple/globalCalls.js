@@ -118,11 +118,10 @@ export const edit = async params => {
     // casos donde [guardar sera a esa id]
     if (url.includes(':id')) {
       let urlSplit = url.split('/')
-      urlSplit = urlSplit.slice(0, -3)
+      urlSplit = urlSplit.slice(0, -2)
       url = urlSplit.join('/')
-      url += `/${params.form.id}`
     }
-    url = `${params.endpointsParams.endpoint}/${params.form.id}`
+    url = `${url}/${params.form.id}`
     const result = await api_patch(url, params.form)
     return result
   } catch (error) {
@@ -131,8 +130,14 @@ export const edit = async params => {
 }
 
 export const del = async params => {
-  const url = `${params.endpointsParams.endpoint}/${params.id}`
+  let url = `${params.endpointsParams.endpoint}`
   try {
+    if (url.includes(':id')) {
+      let urlSplit = url.split('/')
+      urlSplit = urlSplit.slice(0, -2)
+      url = urlSplit.join('/')
+    }
+    url = `${url}/${params.id}`
     const result = await api_delete(url)
     return result
   } catch {

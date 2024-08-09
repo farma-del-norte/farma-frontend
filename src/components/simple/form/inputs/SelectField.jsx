@@ -20,9 +20,7 @@ const Select = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    if (!input.options?.length) {
-      setOptions(input.options || [])
-    }
+    setOptions(input.options || [])
   }, [input.options])
 
   // get options
