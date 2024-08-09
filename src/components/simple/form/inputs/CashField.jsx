@@ -9,7 +9,7 @@ const CashField = ({input, value, onChange, error}) => {
   }
 
   useEffect(() => {
-    onChange(input.value)
+    if (input.value) onChange(input.value)
   }, [input.value])
 
   return (

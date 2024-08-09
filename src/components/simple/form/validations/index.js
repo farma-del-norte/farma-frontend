@@ -4,7 +4,7 @@ const createValidationSchema = formFields => {
   const schemaFields = {}
 
   formFields.forEach(input => {
-    if (['text', 'textarea'].includes(input.type)) {
+    if (['text', 'textarea', 'number'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired ? Yup.string().required(`Requerido`) : Yup.string().notRequired()
     } else if (['email'].includes(input.type)) {
       schemaFields[input.field] = input.isRequired

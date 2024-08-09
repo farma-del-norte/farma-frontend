@@ -336,7 +336,6 @@ const materialsColumns = [
   {
     flex: true,
     field: 'unitCost',
-    defaultValue: 0,
     headerName: 'Costo por unidad',
     type: 'cash',
     isRequired: true,
@@ -344,8 +343,7 @@ const materialsColumns = [
   },
   {
     flex: true,
-    field: 'cantity',
-    defaultValue: 0,
+    field: 'quantity',
     headerName: 'Cantidad',
     type: 'number',
     isRequired: true,
@@ -365,7 +363,7 @@ const materialsColumns = [
     field: 'notes',
     type: 'textarea',
     value: '',
-    width: 6,
+    width: 12,
     renderCell: params => {
       if (params.row.notes) {
         const notes = params.row.notes
@@ -506,8 +504,8 @@ export default function Correctives() {
   }, [form])
 
   useEffect(() => {
-    if (form.Material?.cantity && form.Material?.unitCost) {
-      const totalPrice = form.Material.unitCost * form.Material.cantity
+    if (form.Material?.quantity && form.Material?.unitCost) {
+      const totalPrice = form.Material.unitCost * form.Material.quantity
       setValue({
         form,
         fields: materialsForm,
@@ -547,7 +545,7 @@ export default function Correctives() {
             },
             idField: {
               field: 'id',
-              fieldName: 'maintenanceID',
+              fieldName: 'maintenanceID'
             },
             form: siniestroColumns
           },

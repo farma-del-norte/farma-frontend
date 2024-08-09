@@ -6,7 +6,7 @@ const Text = ({input, value, onChange, error}) => {
   const label = input.isRequired ? `${input.headerName}* ` : input.headerName
 
   useEffect(() => {
-    onChange(input.value)
+    if (input.value) onChange(input.value)
   }, [input.value])
 
   return (
