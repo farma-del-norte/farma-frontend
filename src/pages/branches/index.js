@@ -1,7 +1,8 @@
 import {Simple} from 'src/components/simple'
 import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
-// import {useSelector, useDispatch} from 'react-redux'
-// import {useEffect, useState, useMemo} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {useEffect, useState} from 'react'
+import {setValue} from 'src/store/form/reducer'
 
 const branchesColumns = [
   {
@@ -102,74 +103,142 @@ const branchesColumns = [
   }
 ]
 
+const branchDetails = [
+  {
+    flex: true,
+    headerName: 'Latitud',
+    field: 'latitude',
+    type: 'number',
+    value: '',
+    isRequired: true,
+    width: 4
+  },
+  {
+    flex: true,
+    headerName: 'Longitud',
+    field: 'longitude',
+    type: 'number',
+    value: '',
+    isRequired: true,
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'mts2',
+    headerName: 'Metros cuadrados',
+    type: 'number',
+    width: 4,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'reflectiveCrossAds',
+    headerName: 'Anuncios de cruz reflejantes',
+    type: 'number',
+    width: 4,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'crossAds',
+    headerName: 'Anuncios de cruz',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'lettersAds',
+    headerName: 'Anuncios de letras',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'reflectiveAds',
+    headerName: 'Anuncios reflejantes',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'tarpAds',
+    headerName: 'Anuncios de lona',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'waterproofing',
+    headerName: 'Impermeabilizado',
+    type: 'select',
+    options: [
+      {name: 'Si', id: true},
+      {name: 'No', id: false}
+    ],
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'bathrooms',
+    headerName: 'Baños',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'airWash',
+    headerName: 'Aire Lavado',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'minisplit',
+    headerName: 'Aire acondicionado',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'curtains',
+    headerName: 'Cortinas',
+    type: 'number',
+    width: 4
+  },
+  {
+    flex: true,
+    field: 'solarPanels',
+    headerName: 'Paneles solares',
+    type: 'select',
+    options: [
+      {name: 'Si', id: true},
+      {name: 'No', id: false}
+    ],
+    width: 4
+  }
+]
+
+const branchImages = [
+  {
+    flex: true,
+    headerName: 'Fotos',
+    field: 'pictures',
+    accept: '.jpg,jpeg,.png,.webp,pdf,application/pdf,video/*',
+    owner: 'services',
+    type: 'textarea',
+    //type: 'multimedia',
+    value: [],
+    width: 12
+  }
+]
+
 export default function Branches() {
-  // const dispatch = useDispatch()
-  // const {form} = useSelector(state => state.form)
-  // const [servicesForm, setServicesForm] = useState([])
-  // const areas = useMemo(
-  //   () => [
-  //     {name: 'Materiales', id: 'Material'},
-  //     {name: 'Dimensiones', id: 'Dimensión'},
-  //     {name: 'Variables', id: 'Variable'},
-  //     {name: 'Concepto', id: 'Concepto'}
-  //   ],
-  //   []
-  // )
-  // const status = useMemo(
-  //   () => [
-  //     {name: 'Planeación', id: 'Planeación'},
-  //     {name: 'Desarrollo', id: 'Desarrollo'},
-  //     {name: 'Finalizado', id: 'Finalizado'},
-  //     {name: 'Cancelado', id: 'Cancelado'}
-  //   ],
-  //   []
-  // )
+  const dispatch = useDispatch()
+  const {form} = useSelector(state => state.form)
 
-  // // inicilaizar opciones de servicio
-  // useEffect(() => {
-  //   setServicesForm(prevInputs => {
-  //     const newInputs = [...prevInputs]
-  //     newInputs[4].options = areas
-  //     newInputs[9].options = status
-  //     return newInputs
-  //   })
-  //   dispatch(getMaterialsCat())
-  //   dispatch(getDimensionsCat())
-  //   dispatch(getVariablesCat())
-  //   dispatch(getConceptsCat())
-  // }, [areas, status, dispatch])
-
-  // const handleAreaId = options => {
-  //   setServicesForm(prevInputs => {
-  //     const newInputs = [...prevInputs]
-  //     newInputs[5].options = options
-  //     return newInputs
-  //   })
-  // }
-
-  // cambiar opciones en area
-  // useEffect(() => {
-  //   if (form?.Servicio) {
-  //     if (form.Servicio.area) {
-  //       switch (form.Servicio.area) {
-  //         case 'Material':
-  //           handleAreaId(materialsCat)
-  //           break
-  //         case 'Dimensión':
-  //           handleAreaId(dimensionsCat)
-  //           break
-  //         case 'Variable':
-  //           handleAreaId(variablesCat)
-  //           break
-  //         case 'Concepto':
-  //           handleAreaId(conceptsCat)
-  //           break
-  //         default:
-  //           break
-  //       }
-  //     }
-  //   }
-  // }, [form])
+  useEffect(() => {
+    console.debug(form)
+  }, [])
 
   return (
     <Simple
@@ -192,6 +261,28 @@ export default function Branches() {
             title: 'Sucursal',
             indexActions: 1,
             form: branchesColumns
+          },
+          {
+            title: 'Detalles',
+            endpoints: {
+              baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
+            },
+            idField: {
+              field: 'id',
+              fieldName: 'branchID'
+            },
+            form: branchDetails
+          },
+          {
+            title: 'Fotos',
+            endpoints: {
+              baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
+            },
+            idField: {
+              field: 'id',
+              fieldName: 'branchID'
+            },
+            form: branchImages
           }
         ],
         actions: {
