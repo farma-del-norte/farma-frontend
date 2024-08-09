@@ -50,13 +50,16 @@ const Select = ({input, value, onChange, error}) => {
   }
 
   useEffect(() => {
-    onChange(defaultValue)
-  }, [defaultValue])
+    if (input.value) {
+      onChange(input.value)
+    }
+  }, [input.value])
 
   return (
     <TextField
       select
       value={value}
+      defaultValue={defaultValue}
       disabled={input.disabled}
       label={label}
       onChange={onChange}
