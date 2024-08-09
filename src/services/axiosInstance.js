@@ -43,7 +43,6 @@ axiosInstance.interceptors.request.use(
 
     if (token && !config.url.includes('media-farma-dev.s3.us-east-1.amazonaws.com')) {
       config.headers.Authorization = `Bearer ${token}`
-      console.log(config.headers)
     }
 
     return config
