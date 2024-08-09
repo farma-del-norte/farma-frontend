@@ -311,6 +311,8 @@ const materialsColumns = [
     flex: true,
     field: 'units',
     headerName: 'Unidad',
+    value: 'NA',
+    defaultValue: 'NA',
     disabled: true,
     type: 'select',
     options: [
@@ -420,7 +422,6 @@ export default function Correctives() {
   const {conceptsCat} = useSelector(state => state.conceptsCat)
   const [servicesForm, setServicesForm] = useState(servicesColumns)
   const [materialsForm, setMaterialsForm] = useState(materialsColumns)
-  const [foundMaterialCat, setFoundMaterialCat] = useState(null)
   const areas = useMemo(
     () => [
       {name: 'Materiales', id: 'Material'},
@@ -469,26 +470,38 @@ export default function Correctives() {
       }
     }
   }, [form])
-
-  useEffect(() => {
-    if (form.Material?.materialCatID) {
-      setFoundMaterialCat(materialsCat.find(cat => cat.id === form.Material?.materialCatID))
-    }
-  }, [form, materialsCat])
-
+  //TODO: no cambia el valor de units al crear
   // Cambiar valor en unit
   useEffect(() => {
-    if (form.Material?.materialCatID) {
-      if (foundMaterialCat?.units) {
+    const material = materialsCat.find(cat => cat.id === form.Material?.materialCatID)
+    if (material) {
+      if (!form?.Material?.id) {
         setValue({
+          form,
           fields: materialsForm,
           setFields: setMaterialsForm,
           inputFields: {units: 'value'},
-          values: foundMaterialCat.units
+          values: material.units
+        })
+      } else {
+        setValue({
+          form,
+          fields: materialsForm,
+          setFields: setMaterialsForm,
+          inputFields: {units: 'value'},
+          values: material.units
         })
       }
+    } else {
+      setValue({
+        form,
+        fields: materialsForm,
+        setFields: setMaterialsForm,
+        inputFields: {units: 'value'},
+        values: material?.units
+      })
     }
-  }, [form, foundMaterialCat])
+  }, [materialsCat, form?.Material?.materialCatID])
 
   // agregar endpoint a select services
   useEffect(() => {
