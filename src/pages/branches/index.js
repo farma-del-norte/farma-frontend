@@ -2,7 +2,7 @@ import {Simple} from 'src/components/simple'
 import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState} from 'react'
-import {setValue} from 'src/store/form/reducer'
+//import {setValue} from 'src/store/form/reducer'
 
 const branchesColumns = [
   {
@@ -235,6 +235,7 @@ const branchImages = [
 export default function Branches() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
+  const [branchesForm, setBranchesForm] = useState(branchesColumns)
 
   useEffect(() => {
     console.debug(form)
@@ -255,7 +256,7 @@ export default function Branches() {
       modal={{
         title: `Sucursales`,
         size: 'lg',
-        form: branchesColumns,
+        form: branchesForm,
         tabs: [
           {
             title: 'Sucursal',
