@@ -70,13 +70,6 @@ const navigation = () => {
           icon: FormatListBulleted,
 
           permission: PERMISSIONS.correctivesMaintenances
-        },
-        {
-          title: i18n.t('damages_cat_title'),
-          path: '/maintenances/damages',
-          icon: Warning,
-
-          permission: PERMISSIONS.damagesMaintenances
         }
       ]
     },
