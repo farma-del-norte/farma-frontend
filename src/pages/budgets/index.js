@@ -55,6 +55,7 @@ const data = [
 export default function Budgets() {
   const {form} = useSelector(state => state.form)
   const [dataForm, setDataForm] = useState(data)
+
   useEffect(() => {
     if (form.Crearpresupuesto?.budget) {
       setValue({
@@ -67,6 +68,7 @@ export default function Budgets() {
       })
     }
   }, [form])
+
   return (
     <Simple
       table={{
