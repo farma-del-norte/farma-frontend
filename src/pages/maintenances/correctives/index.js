@@ -7,7 +7,8 @@ import {
   SUPPLIERS_ENDPOINT,
   MATERIALS_ENDPOINT,
   MATERIALS_CAT_ENDPOINT,
-  DAMAGES_CAT_ENDPOINT
+  DAMAGES_CAT_ENDPOINT,
+  DAMAGE_MAINTENANCE_ENDPOINT,
 } from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState, useMemo} from 'react'
@@ -381,7 +382,7 @@ const siniestroColumns = [
   {
     headerName: 'Siniestro',
     field: 'damageCatID',
-    fieldName: 'Siniestro',
+    endpoint: `${DAMAGES_CAT_ENDPOINT}/damages-cat`,
     type: 'select',
     options: [],
     value: '',
@@ -554,7 +555,7 @@ export default function Correctives() {
           {
             title: 'Siniestro',
             endpoints: {
-              baseUrl: `${DAMAGES_CAT_ENDPOINT}/damages-cat/:id`
+              baseUrl: `${DAMAGE_MAINTENANCE_ENDPOINT}/damages/:id`
             },
             idField: {
               field: 'id',
