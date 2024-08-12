@@ -58,7 +58,7 @@ const Select = ({input, value, onChange, error}) => {
   return (
     <TextField
       select
-      value={value}
+      value={value || ''}
       defaultValue={defaultValue}
       disabled={input.disabled}
       label={label}
