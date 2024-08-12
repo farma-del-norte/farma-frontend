@@ -156,7 +156,6 @@ export const Modal = ({
           </>
         ) : (
           <Form
-            values={values}
             title={modal.title}
             inputs={modal.form}
             control={control}

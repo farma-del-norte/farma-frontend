@@ -16,7 +16,7 @@ const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
   
   useEffect(() => {
     // si valores del form se obtienen del reducer
-    if (forms[`${title}_${values.id}`]) {
+    if (forms[`${title}_${values?.id}`]) {
       if (Object.keys(forms[`${title}_${values.id}`]?.values || {}).length) {
         reset(forms[`${title}_${id}`].values)
       } else {
@@ -26,7 +26,7 @@ const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
         }, {});
         reset({...defaultFormValues})
       }
-    } else {
+    } else if (values) {
       // got back to details
       reset(values)
     }
