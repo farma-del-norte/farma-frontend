@@ -557,10 +557,7 @@ export default function Correctives() {
             endpoints: {
               baseUrl: `${DAMAGE_MAINTENANCE_ENDPOINT}/damages/:id`
             },
-            idField: {
-              field: 'id',
-              fieldName: 'maintenanceID'
-            },
+            fieldName: 'maintenanceID',
             form: siniestroColumns
           },
           {

@@ -5,12 +5,32 @@ import {changeForm} from 'src/store/form/reducer'
 import {useDispatch, useSelector} from 'react-redux'
 import InputManager from 'src/components/simple/form/inputManager'
 
-const Form = ({title, inputs, control, watch, getValues}) => {
+const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
+  const {forms} = useSelector(state => state.simple)
   const filteredInputs = inputs.filter(input => !input.hideInput)
   const watchForm = watch()
   const keyForm = title.replace(/\s+/g, '')
+
+  
+  useEffect(() => {
+    // si valores del form se obtienen del reducer
+    if (forms[`${title}_${values.id}`]) {
+      if (Object.keys(forms[`${title}_${values.id}`]?.values || {}).length) {
+        reset(forms[`${title}_${id}`].values)
+      } else {
+        const defaultFormValues = filteredInputs.reduce((acc, current) => {
+          acc[current.field] = current.value;
+          return acc;
+        }, {});
+        reset({...defaultFormValues})
+      }
+    } else {
+      // got back to details
+      reset(values)
+    }
+  }, [dispatch, reset, forms, title, values]);
 
   // set form changed values to store
   useEffect(() => {

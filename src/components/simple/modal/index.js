@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import Form from 'src/components/simple/form'
 import {yupResolver} from '@hookform/resolvers/yup'
-import {createCall, editCall} from 'src/store/simple/actions'
+import {createCall, editCall, getCall} from 'src/store/simple/actions'
 import {editMediaService} from 'src/store/media/actions'
 import {useDispatch} from 'react-redux'
 import createValidationSchema from '../form/validations'
@@ -23,6 +23,7 @@ export const Modal = ({
   const dispatch = useDispatch()
   const [actions, setActions] = useState([])
   const [selectedTab, setSelectedTab] = useState(0)
+  const [currentEndpointParams, setCurrentEndpointParams] = useState(endpointsParams)
   const [defaultValues, setDefaultValues] = useState(
     modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {})
   )
@@ -45,7 +46,7 @@ export const Modal = ({
     const saveMultimedia = modal.form.some(item => item.type === 'multimedia')
     const mediaInput = modal.form.find(item => item.type === 'multimedia')
     if (values?.id) {
-      dispatch(editCall({form: values, endpointsParams}))
+      dispatch(editCall({form: values, endpointsParams: currentEndpointParams}))
       if (saveMultimedia && values[mediaInput?.field]?.length) {
         dispatch(
           editMediaService({
@@ -58,7 +59,7 @@ export const Modal = ({
       dispatch(
         createCall({
           form: values,
-          endpointsParams,
+          endpointsParams: currentEndpointParams,
           media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}
         })
       )
@@ -76,6 +77,19 @@ export const Modal = ({
       setDefaultValues(modal.tabs[selectedTab].form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {}))
     }
   }, [selectedTab, useTabs, setDefaultValues, modal.tabs])
+
+  // if form has tabs, and had endpoints, get data
+  useEffect(() => {
+    if (useTabs && modal?.tabs[selectedTab]?.endpoints) {
+      const tempParams = {
+        endpoint: modal.tabs[selectedTab]?.endpoints.baseUrl,
+        type: 'forms',
+        key: `${modal.tabs[selectedTab]?.title.replace(/\s+/g, '')}_${values.id}`,
+        [modal?.tabs[selectedTab].fieldName]: modal?.tabs[selectedTab].field ? modal?.tabs[selectedTab].field : values.id
+      }
+      dispatch(getCall({... tempParams}))
+    }
+  }, [selectedTab])
 
   //init fields when is not creating
   useEffect(() => {
@@ -126,6 +140,7 @@ export const Modal = ({
                 selectedTab === index && (
                   <div key={index}>
                     <Form
+                      values={values}
                       title={tab.title}
                       inputs={tab.form}
                       control={control}
@@ -141,6 +156,7 @@ export const Modal = ({
           </>
         ) : (
           <Form
+            values={values}
             title={modal.title}
             inputs={modal.form}
             control={control}

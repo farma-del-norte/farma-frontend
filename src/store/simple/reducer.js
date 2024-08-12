@@ -3,6 +3,7 @@ import {getCall, createCall, editCall, deleteCall} from './actions'
 
 const initialState = {
   tables: {},
+  forms: {},
 }
 
 export const simpleSlice = createSlice({
@@ -16,25 +17,34 @@ export const simpleSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(getCall.pending, (state, action) => {
+      const type = action.meta.arg.type || 'tables';
       const key = action.meta.arg.key
-      if (!state.tables[key])
+      if (!state[type][key] && type === 'tables')
         state.tables[key] = { isLoading: true, list: [], pagination: { lastPage: 0, rowsPerPage: 8 } }
+      if (!state[type][key] && type === 'forms') state.forms[key] = { isLoading: true, values: {} }
     })
     builder.addCase(getCall.fulfilled, (state, action) => {
+      const type = action.meta.arg.type || 'tables';
       const key = action.meta.arg.key
-      const {pagination} = action.meta.arg
-      state.tables[key].list = action.payload.content
-      // pagination
-      if (pagination) {
-        const rowsPerPage = Math.round(action.payload.meta.totalItems / action.payload.meta.lastPage)
-        state.tables[key].pagination.lastPage = Math.round(action.payload.meta.lastPage / rowsPerPage)
-        state.tables[key].pagination.rowsPerPage = rowsPerPage
+      if (state[type][key] && type === 'tables') {
+        const {pagination} = action.meta.arg
+        state.tables[key].list = action.payload.content
+        // pagination
+        if (pagination) {
+          const rowsPerPage = Math.round(action.payload.meta.totalItems / action.payload.meta.lastPage)
+          state.tables[key].pagination.lastPage = Math.round(action.payload.meta.lastPage / rowsPerPage)
+          state.tables[key].pagination.rowsPerPage = rowsPerPage
+        }
+        state.tables[key].isLoading = false
       }
-      state.tables[key].isLoading = false
+      if (state[type][key] && type === 'forms') state.forms[key] = { isLoading: false, values: action.payload.content }
     })
     builder.addCase(getCall.rejected, (state, action) => {
+      const type = action.meta.arg.type || 'tables';
       const key = action.meta.arg.key
-      state.tables[key].isLoading = false
+
+      if (!state[type][key] && type === 'tables') state.tables[key] = { isLoading: false, list: [] }
+      if (!state[type][key] && type === 'forms') state.forms[key] = { isLoading: true, values: [] }
     })
     builder.addCase(createCall.pending, (state, action) => {
       const key = action.meta.arg.endpointsParams.key
