@@ -4,6 +4,7 @@ export default function Table({input, value}) {
 
   const id = value
 
+  if (!id) return null
   return (
     <Simple
       table={input.table}
