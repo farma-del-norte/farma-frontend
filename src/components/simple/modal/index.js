@@ -23,7 +23,8 @@ export const Modal = ({
   const dispatch = useDispatch()
   const [actions, setActions] = useState([])
   const [selectedTab, setSelectedTab] = useState(0)
-  const [currentEndpointParams, setCurrentEndpointParams] = useState(endpointsParams)
+  const baseEndpointsParams = { ...endpointsParams }
+  const [currentEndpointParams, setCurrentEndpointParams] = useState(baseEndpointsParams)
   const [defaultValues, setDefaultValues] = useState(
     modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {})
   )
@@ -87,7 +88,11 @@ export const Modal = ({
         key: `${modal.tabs[selectedTab]?.title.replace(/\s+/g, '')}_${values.id}`,
         [modal?.tabs[selectedTab].fieldName]: modal?.tabs[selectedTab].field ? modal?.tabs[selectedTab].field : values.id
       }
+      setCurrentEndpointParams(tempParams)
       dispatch(getCall({... tempParams}))
+    } else {
+      // set base endpoints params
+      setCurrentEndpointParams(baseEndpointsParams)
     }
   }, [selectedTab])
 
@@ -156,7 +161,6 @@ export const Modal = ({
           </>
         ) : (
           <Form
-            values={values}
             title={modal.title}
             inputs={modal.form}
             control={control}

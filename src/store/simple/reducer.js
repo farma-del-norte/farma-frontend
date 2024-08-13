@@ -47,17 +47,27 @@ export const simpleSlice = createSlice({
       if (!state[type][key] && type === 'forms') state.forms[key] = { isLoading: true, values: [] }
     })
     builder.addCase(createCall.pending, (state, action) => {
+      const type = action.meta.arg.endpointsParams.type || 'tables';
       const key = action.meta.arg.endpointsParams.key
-      state.tables[key].isLoading = true
+
+      if (!state[type][key] && type === 'tables') {
+        state.tables[key].isLoading = true
+      } else if (!state[type][key] && type === 'forms') state.forms[key].isLoading = true
     })
     builder.addCase(createCall.fulfilled, (state, action) => {
+      const type = action.meta.arg.endpointsParams.type || 'tables';
       const key = action.meta.arg.endpointsParams.key
-      state.tables[key].list = action.payload.content
-      state.tables[key].isLoading = false
+      if (!state[type][key] && type === 'tables') {
+        state.tables[key].list = action.payload.content
+        state.tables[key].isLoading = false
+      } else if (!state[type][key] && type === 'forms') state.forms[key].isLoading = false
     })
     builder.addCase(createCall.rejected, (state, action) => {
+      const type = action.meta.arg.endpointsParams.type || 'tables';
       const key = action.meta.arg.endpointsParams.key
-      state.tables[key].isLoading = false
+      if (!state[type][key] && type === 'tables') {
+        state.tables[key].isLoading = false
+      } else if (!state[type][key] && type === 'forms') state.forms[key].isLoading = false
     })
     builder.addCase(editCall.pending, (state, action) => {
       const key = action.meta.arg.endpointsParams.key

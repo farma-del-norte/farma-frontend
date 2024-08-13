@@ -8,7 +8,7 @@ import {
   MATERIALS_ENDPOINT,
   MATERIALS_CAT_ENDPOINT,
   DAMAGES_CAT_ENDPOINT,
-  DAMAGE_MAINTENANCE_ENDPOINT,
+  DAMAGE_MAINTENANCE_ENDPOINT
 } from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState, useMemo} from 'react'
@@ -275,18 +275,13 @@ const materialsColumns = [
     endpoint: `${MATERIALS_CAT_ENDPOINT}/materials-cat`,
     isRequired: true,
     width: 6,
-    renderCell: params => {
-      if (params.row.name) {
-        const materialName = params.row.name
-        return (
-          <Tooltip title={materialName}>
-            {materialName.length > 15 ? materialName.substring(0, 15) + '...' : materialName}
-          </Tooltip>
-        )
-      } else {
-        return ''
-      }
-    }
+    hideColumn: true
+  },
+  {
+    flex: true,
+    field: 'materialCatName',
+    headerName: 'Material',
+    hideInput: true
   },
   {
     flex: true,
