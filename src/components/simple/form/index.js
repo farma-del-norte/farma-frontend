@@ -18,7 +18,7 @@ const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
     // si valores del form se obtienen del reducer
     if (forms[`${title}_${values?.id}`]) {
       if (Object.keys(forms[`${title}_${values.id}`]?.values || {}).length) {
-        reset(forms[`${title}_${id}`].values)
+        reset(forms[`${title}_${values?.id}`].values)
       } else {
         const defaultFormValues = filteredInputs.reduce((acc, current) => {
           acc[current.field] = current.value;

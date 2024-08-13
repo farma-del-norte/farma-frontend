@@ -86,7 +86,7 @@ export const create = async params => {
     // casos donde [guardar sera a esa id]
     if (url.includes(':id')) {
       let urlSplit = url.split('/')
-      urlSplit = urlSplit.slice(0, -2)
+      urlSplit = urlSplit.slice(0, -1)
       url = urlSplit.join('/')
       const paramKey = getIdKey(params.endpointsParams)
       // se agrega el campo necesario id (no el que se genera al crear, seria a donde pertenece esta data en comun)
