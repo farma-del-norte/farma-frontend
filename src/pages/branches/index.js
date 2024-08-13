@@ -110,7 +110,7 @@ const branchDetails = [
     field: 'latitude',
     type: 'number',
     value: '',
-    isRequired: true,
+    isRequired: false,
     width: 4
   },
   {
@@ -119,7 +119,7 @@ const branchDetails = [
     field: 'longitude',
     type: 'number',
     value: '',
-    isRequired: true,
+    isRequired: false,
     width: 4
   },
   {
@@ -143,28 +143,32 @@ const branchDetails = [
     field: 'crossAds',
     headerName: 'Anuncios de cruz',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'lettersAds',
     headerName: 'Anuncios de letras',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'reflectiveAds',
     headerName: 'Anuncios reflejantes',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'tarpAds',
     headerName: 'Anuncios de lona',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
@@ -175,35 +179,40 @@ const branchDetails = [
       {name: 'Si', id: true},
       {name: 'No', id: false}
     ],
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'bathrooms',
     headerName: 'Baños',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'airWash',
     headerName: 'Aire Lavado',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'minisplit',
     headerName: 'Aire acondicionado',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
     field: 'curtains',
     headerName: 'Cortinas',
     type: 'number',
-    width: 4
+    width: 4,
+    isRequired: true
   },
   {
     flex: true,
@@ -214,7 +223,8 @@ const branchDetails = [
       {name: 'Si', id: true},
       {name: 'No', id: false}
     ],
-    width: 4
+    width: 4,
+    isRequired: true
   }
 ]
 
@@ -268,10 +278,7 @@ export default function Branches() {
             endpoints: {
               baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
             },
-            idField: {
-              field: 'id',
-              fieldName: 'branchID'
-            },
+            fieldName: 'branchID',
             form: branchDetails
           },
           {
@@ -279,10 +286,7 @@ export default function Branches() {
             endpoints: {
               baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
             },
-            idField: {
-              field: 'id',
-              fieldName: 'branchID'
-            },
+            fieldName: 'branchID',
             form: branchImages
           }
         ],
