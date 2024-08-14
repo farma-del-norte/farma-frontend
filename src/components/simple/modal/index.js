@@ -5,7 +5,7 @@ import Form from 'src/components/simple/form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {createCall, editCall, getCall} from 'src/store/simple/actions'
 import {editMediaService} from 'src/store/media/actions'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import createValidationSchema from '../form/validations'
 import {DialogContent, Tab, Tabs} from '@mui/material'
 
@@ -21,8 +21,10 @@ export const Modal = ({
   values
 }) => {
   const dispatch = useDispatch()
+  const {forms} = useSelector(state => state.simple)
   const [actions, setActions] = useState([])
   const [selectedTab, setSelectedTab] = useState(0)
+  const [formKey, setFormKey] = useState(undefined)
   const baseEndpointsParams = { ...endpointsParams }
   const [currentEndpointParams, setCurrentEndpointParams] = useState(baseEndpointsParams)
   const [defaultValues, setDefaultValues] = useState(
@@ -46,7 +48,8 @@ export const Modal = ({
     // multimedia purpose
     const saveMultimedia = modal.form.some(item => item.type === 'multimedia')
     const mediaInput = modal.form.find(item => item.type === 'multimedia')
-    if (values?.id) {
+    console.log(currentEndpointParams)
+    if (values?.id || forms[formKey]?.found) {
       dispatch(editCall({form: values, endpointsParams: currentEndpointParams}))
       if (saveMultimedia && values[mediaInput?.field]?.length) {
         dispatch(
@@ -65,10 +68,13 @@ export const Modal = ({
         })
       )
     }
-    handleCloseModal()
+    if(!useTabs) {
+      handleCloseModal()
+    }
   }
 
   const handleTabChange = (event, newValue) => {
+    setFormKey(`${modal.tabs[newValue].title.replace(/\s+/g, '')}_${values.id}`)
     setSelectedTab(newValue)
   }
 

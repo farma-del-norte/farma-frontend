@@ -67,7 +67,6 @@ const createMedia = async body => {
 
 export const get = async params => {
   let url = `${params?.pagination ? setPagination(params.endpoint, params.paginationModel) : `${params.endpoint}`}`
-  console.log(params)
   try {
     if (url.includes(':id')) {
       const paramKey = getIdKey(params)
