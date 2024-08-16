@@ -48,7 +48,6 @@ export const Modal = ({
     // multimedia purpose
     const saveMultimedia = modal.form.some(item => item.type === 'multimedia')
     const mediaInput = modal.form.find(item => item.type === 'multimedia')
-    console.log(currentEndpointParams)
     if (values?.id || forms[formKey]?.found) {
       dispatch(editCall({form: values, endpointsParams: currentEndpointParams}))
       if (saveMultimedia && values[mediaInput?.field]?.length) {

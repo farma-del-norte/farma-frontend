@@ -43,8 +43,8 @@ export const simpleSlice = createSlice({
       const type = action.meta.arg.type || 'tables';
       const key = action.meta.arg.key
 
-      if (!state[type][key] && type === 'tables') state.tables[key] = { isLoading: false, list: [] }
-      if (!state[type][key] && type === 'forms') state.forms[key] = { isLoading: true, values: [] }
+      if (state[type][key] && type === 'tables') state.tables[key] = { isLoading: false, list: [] }
+      if (state[type][key] && type === 'forms') state.forms[key] = { isLoading: true, values: [] }
     })
     builder.addCase(createCall.pending, (state, action) => {
       const type = action.meta.arg.endpointsParams.type || 'tables';
@@ -57,17 +57,17 @@ export const simpleSlice = createSlice({
     builder.addCase(createCall.fulfilled, (state, action) => {
       const type = action.meta.arg.endpointsParams.type || 'tables';
       const key = action.meta.arg.endpointsParams.key
-      if (!state[type][key] && type === 'tables') {
+      if (state[type][key] && type === 'tables') {
         state.tables[key].list = action.payload.content
         state.tables[key].isLoading = false
-      } else if (!state[type][key] && type === 'forms') state.forms[key].isLoading = false
+      } else if (state[type][key] && type === 'forms') state.forms[key].isLoading = false
     })
     builder.addCase(createCall.rejected, (state, action) => {
       const type = action.meta.arg.endpointsParams.type || 'tables';
       const key = action.meta.arg.endpointsParams.key
-      if (!state[type][key] && type === 'tables') {
+      if (state[type][key] && type === 'tables') {
         state.tables[key].isLoading = false
-      } else if (!state[type][key] && type === 'forms') state.forms[key].isLoading = false
+      } else if (state[type][key] && type === 'forms') state.forms[key].isLoading = false
     })
     builder.addCase(editCall.pending, (state, action) => {
       const type = action.meta.arg.endpointsParams.type || 'tables';
@@ -80,11 +80,14 @@ export const simpleSlice = createSlice({
     builder.addCase(editCall.fulfilled, (state, action) => {
       const type = action.meta.arg.endpointsParams.type || 'tables';
       const key = action.meta.arg.endpointsParams.key
-      if (!state[type][key] && type === 'tables') {
+
+      console.log('before', state.forms[key].values)
+      if (state[type][key] && type === 'tables') {
         state.tables[key].list = action.payload.content
         state.tables[key].isLoading = false
-      } else if (!state[type][key] && type === 'forms'){ 
+      } else if (state[type][key] && type === 'forms'){ 
         state.forms[key].isLoading = false
+        console.log(state.forms[key].values)
         state.forms[key].values = action.payload.content
       }
     })

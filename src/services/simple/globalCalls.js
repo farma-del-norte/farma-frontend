@@ -11,6 +11,14 @@ const getIdKey = object => {
   return keyWithId
 }
 
+const getUrlUntilNthSlash = (url, n) => {
+  let index = 0;
+  for (let i = 0; i < n; i++) {
+    index = url.indexOf("/", index + 1);
+  }
+  return url.substring(0, index);
+}
+
 const setPagination = (endpoint, paginationModel) => {
   return `${endpoint}?page=${paginationModel.page + 1}&limit=${paginationModel.pageSize}`
 }
@@ -84,9 +92,7 @@ export const create = async params => {
   try {
     // casos donde [guardar sera a esa id]
     if (url.includes(':id')) {
-      let urlSplit = url.split('/')
-      urlSplit = urlSplit.slice(0, -2)
-      url = urlSplit.join('/')
+      url = getUrlUntilNthSlash(url, 4)
       const paramKey = getIdKey(params.endpointsParams)
       // se agrega el campo necesario id (no el que se genera al crear, seria a donde pertenece esta data en comun)
       params.form[paramKey] = params.endpointsParams[paramKey]
@@ -116,11 +122,10 @@ export const edit = async params => {
   try {
     // casos donde [guardar sera a esa id]
     if (url.includes(':id')) {
-      let urlSplit = url.split('/')
-      urlSplit = urlSplit.slice(0, -2)
-      url = urlSplit.join('/')
+      url = getUrlUntilNthSlash(url, 4)
     }
-    url = `${url}/${params.form.id}`
+    const paramKey = getIdKey(params.endpointsParams)
+    url = `${url}/${params.form.id || params.endpointsParams[paramKey]}`
     const result = await api_patch(url, params.form)
     return result
   } catch (error) {
@@ -132,9 +137,7 @@ export const del = async params => {
   let url = `${params.endpointsParams.endpoint}`
   try {
     if (url.includes(':id')) {
-      let urlSplit = url.split('/')
-      urlSplit = urlSplit.slice(0, -2)
-      url = urlSplit.join('/')
+      url = getUrlUntilNthSlash(url, 4)
     }
     url = `${url}/${params.id}`
     const result = await api_delete(url)
