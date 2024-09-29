@@ -3,21 +3,23 @@ import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Image from 'next/image'
 
-const FallbackSpinner = () => {
+const FallbackSpinner = ({h = '75vh', mb = '200px', mt = '0px'}) => {
   // ** Hook
   //const theme = useTheme()
+
+  console.log(h, mb, mt)
 
   return (
     <Box
       sx={{
-        height: '75vh',
+        height: h,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center'
       }}
     >
-      <Box sx={{mb: '200px', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
+      <Box sx={{mb, mt, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
         <Image
           src='/images/logos/simiLogo.png'
           alt='Simi Logo'

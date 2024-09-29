@@ -3,7 +3,6 @@ import ImageIcon from '@mui/icons-material/Image'
 import TheatersIcon from '@mui/icons-material/Theaters'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import {useSelector, useDispatch} from 'react-redux'
-import {getMediaByOwnerId} from 'src/store/media/actions'
 import {setMedia} from 'src/store/media/reducer'
 import {Typography, Button} from '@mui/material'
 import React, {useEffect, useState, useRef} from 'react'
@@ -144,19 +143,20 @@ const SelectMedia = ({media, handleRemove, index}) => {
 
 const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
   const dispatch = useDispatch()
-  const {media, isLoading} = useSelector(state => state.media)
+  const {media} = useSelector(state => state.media)
   const {headerName, accept = '.jpg,.png,.webp,video/mp4,video/x-m4v,image/png,image/jpeg,video/*,pdf,application/pdf'} = input
   const theme = useTheme()
   const borderDesign = theme.palette.divider
   const [images, setImages] = useState([])
   const divContent = useRef(null)
   const animateField = document.getElementById('movingText')
+  const [isLoading, setIsLoading] = useState(false)
 
   // if is editing bring media
   useEffect(() => {
     const row = getValues()
     if (row?.id) {
-      dispatch(getMediaByOwnerId({id: row.id}))
+      dispatch(setMedia(row[input.getField || input.field]))
     }
 
     return () => {
@@ -188,6 +188,7 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
     const awsImages = images.filter(image => image.id && !image.file)
     //al editar convierto images a blob para que no afecte a nuevo contenido
     if (awsImages.length > 0) {
+      setIsLoading(true)
       Promise.all(awsImages.map(image => getBlobFromUrl(image.url))).then(file => {
         let addOnimages = [...images]
         for (var i = 0; i < awsImages.length; i++) {
@@ -195,6 +196,7 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
           addOnimages[i] = {...addOnimages[i], file: newContent}
         }
         convertImagesToBase64(addOnimages)
+        setIsLoading(false)
       })
     } else {
       // al crear
@@ -217,7 +219,6 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
         )
       ).then(file => {
         // Send base64Images to evidence
-        console.log(file)
         if (file) {
           onChange(file)
           setImages(file)
