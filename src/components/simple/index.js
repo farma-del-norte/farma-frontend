@@ -126,7 +126,7 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
         label={table.label}
         onAddItem={handleAddItem}
         paginationMode={table?.serverMode ? "server" : "client"}
-        rowCount={tables[keyList]?.pagination.lastPage || 1}
+        rowCount={tables[keyList]?.pagination?.lastPage || 1}
         pageSizeOptions={[10, 20, 50, 100]}
       />
       <Modal

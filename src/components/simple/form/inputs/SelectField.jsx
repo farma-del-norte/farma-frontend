@@ -3,6 +3,7 @@ import {useState, useEffect, useMemo} from 'react'
 import {getCall} from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
 
+
 const Select = ({input, value, onChange, error}) => {
   const dispatch = useDispatch()
   const [options, setOptions] = useState(input.options || [])
@@ -20,8 +21,9 @@ const Select = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    setOptions(input.options || [])
-  }, [input.options])
+    console.log('input.options', input.options)
+    if (input?.options?.length) setOptions(input.options)
+  }, [JSON.stringify(input.options)])
 
   // get options
   useEffect(() => {
@@ -53,7 +55,7 @@ const Select = ({input, value, onChange, error}) => {
     if (input.value) {
       onChange(input.value)
     }
-  }, [input.value])
+  }, [input.value, onChange])
 
   return (
     <TextField
