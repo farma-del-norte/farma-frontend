@@ -21,7 +21,6 @@ const Select = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    console.log('input.options', input.options)
     if (input?.options?.length) setOptions(input.options)
   }, [JSON.stringify(input.options)])
 
