@@ -1,5 +1,5 @@
 import {Simple} from 'src/components/simple'
-import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
+import {BRANCHES_ENDPOINT, ZONES_ENDPOINT, MEDIA_ENDPOINT} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState} from 'react'
 import {setValue} from 'src/store/form/reducer'
@@ -154,7 +154,7 @@ const branchDetails = [
     headerName: 'Metros cuadrados',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -162,7 +162,7 @@ const branchDetails = [
     headerName: 'Anuncios de cruz reflejantes',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -170,7 +170,7 @@ const branchDetails = [
     headerName: 'Anuncios de cruz',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -178,7 +178,7 @@ const branchDetails = [
     headerName: 'Anuncios de letras',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -186,7 +186,7 @@ const branchDetails = [
     headerName: 'Anuncios reflejantes',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -194,7 +194,7 @@ const branchDetails = [
     headerName: 'Anuncios de lona',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -202,11 +202,11 @@ const branchDetails = [
     headerName: 'Impermeabilizado',
     type: 'select',
     options: [
-      {name: 'Si', id: true},
-      {name: 'No', id: false}
+      {name: 'Si', id: 1},
+      {name: 'No', id: 0}
     ],
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -214,7 +214,7 @@ const branchDetails = [
     headerName: 'Baños',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -222,7 +222,7 @@ const branchDetails = [
     headerName: 'Aire Lavado',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -230,7 +230,7 @@ const branchDetails = [
     headerName: 'Aire acondicionado',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -238,7 +238,7 @@ const branchDetails = [
     headerName: 'Cortinas',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -246,11 +246,11 @@ const branchDetails = [
     headerName: 'Paneles solares',
     type: 'select',
     options: [
-      {name: 'Si', id: true},
-      {name: 'No', id: false}
+      {name: 'Si', id: 1},
+      {name: 'No', id: 0}
     ],
     width: 4,
-    isRequired: true
+    isRequired: false
   }
 ]
 
@@ -275,15 +275,9 @@ export default function Branches() {
   const [AddressInfo, setAddressInfo] = useState([])
 
   useEffect(() => {
-    console.log(form)
-  }, [form])
-
-  useEffect(() => {
     if (form.Sucursales?.id !== undefined && form.Sucursales.id !== null) {
-      console.log('no sirvo')
       setAddressInfo(onZipCodeChange(form.Sucursales.zipCode))
     } else if (form.Sucursales?.id === undefined || form.Sucursales.id === null) {
-      console.log('tampoco sirvo')
       setAddressInfo([])
     }
   }, [form.Sucursales?.id])
@@ -371,7 +365,7 @@ export default function Branches() {
           {
             title: 'Fotos',
             endpoints: {
-              baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
+              baseUrl: `${MEDIA_ENDPOINT}/media/owner/:id`
             },
             fieldName: 'branchID',
             form: branchImages
