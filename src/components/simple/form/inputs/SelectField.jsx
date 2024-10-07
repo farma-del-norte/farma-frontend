@@ -3,7 +3,6 @@ import {useState, useEffect, useMemo} from 'react'
 import {getCall} from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
 
-
 const Select = ({input, value, onChange, error}) => {
   const dispatch = useDispatch()
   const [options, setOptions] = useState(input.options || [])
@@ -40,12 +39,14 @@ const Select = ({input, value, onChange, error}) => {
 
   // set field name
   const rowField = row => {
-    if (input.fieldName) {
+    if (Array.isArray(input.fieldName)) {
       let name = ''
       for (let i = 0; i < input.fieldName.length; i++) {
         name += `${row[input.fieldName[i]]} `
       }
       return name
+    } else if (input.fieldName) {
+      return row[input.fieldName]
     }
     return row.name
   }
@@ -61,14 +62,15 @@ const Select = ({input, value, onChange, error}) => {
       select
       value={value || ''}
       defaultValue={defaultValue}
-      disabled={input.disabled}
+      disabled={input.disabled === 'true' ? true : false}
       label={label}
       onChange={onChange}
       error={!!error}
       helperText={error ? error.message : ' '}
     >
+      {}
       {options.map((item, id) => (
-        <MenuItem key={id} value={item.id ? item.id : item.name}>
+        <MenuItem key={id} value={item.id ? item.id : item.name ? item.name : rowField(item)}>
           {rowField(item)}
         </MenuItem>
       ))}

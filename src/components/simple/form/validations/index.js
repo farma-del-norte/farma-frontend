@@ -47,6 +47,30 @@ const createValidationSchema = formFields => {
             .required('Requerido')
             .min(0, 'El valor no puede ser negativo')
         : Yup.number().typeError('Debe ser un número válido').notRequired().min(0, 'El valor no puede ser negativo')
+    } else if (['zipCode'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired
+        ? Yup.string()
+            .required('Requerido')
+            .matches(/^[0-9]{4,5}$/, 'Debe ser un código postal válido (4 o 5 Dígitos)')
+        : Yup.string().notRequired()
+    } else if (['neighborhood'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired
+        ? Yup.string()
+            .required('Requerido')
+            .test('no-blank', 'Requerido', val => val !== ' ')
+        : Yup.string().notRequired()
+    } else if (['city'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired
+        ? Yup.string()
+            .required('Requerido')
+            .test('no-blank', 'Requerido', val => val !== ' ')
+        : Yup.string().notRequired()
+    } else if (['federalEntity'].includes(input.type)) {
+      schemaFields[input.field] = input.isRequired
+        ? Yup.string()
+            .required('Requerido')
+            .test('no-blank', 'Requerido', val => val !== ' ')
+        : Yup.string().notRequired()
     }
   })
 
