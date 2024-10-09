@@ -248,6 +248,7 @@ const servicesColumns = [
     flex: true,
     headerName: t('services.columns.evidence', {ns: 'maintenances'}),
     field: 'evidence',
+    getField: 'media',
     accept: '.jpg,jpeg,.png,.webp,pdf,application/pdf,video/*',
     owner: 'services',
     type: 'multimedia',

@@ -47,7 +47,6 @@ const EditCardTable = ({...props}) => {
 
   const handleOpenModal = params => {
     const {row, open} = params
-    console.log('fila', row)
     reset(row)
     setIsOpen(open)
   }

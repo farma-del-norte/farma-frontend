@@ -8,6 +8,34 @@ import {editMediaService} from 'src/store/media/actions'
 import {useDispatch, useSelector} from 'react-redux'
 import createValidationSchema from '../form/validations'
 import {DialogContent, Tab, Tabs} from '@mui/material'
+import FallbackSpinner from 'src/@core/components/spinner'
+
+const TabForm = ({currentTab, form, values, watch, control, reset, resetField, setValue, getValues}) => {
+  const isLoading = form?.isLoading ?? true
+  return (
+    <>
+      {currentTab.endpoints && isLoading ? (
+        <FallbackSpinner
+          h="20vh"
+          mt="100px"
+          mb="100px"
+        />
+      ) : (
+        <Form
+          values={values}
+          title={currentTab.title}
+          inputs={currentTab.form}
+          control={control}
+          resetField={resetField}
+          reset={reset}
+          watch={watch}
+          setValue={setValue}
+          getValues={getValues}
+        />
+      )}
+    </>
+  );
+}
 
 export const Modal = ({
   open,
@@ -149,10 +177,10 @@ export const Modal = ({
               (tab, index) =>
                 selectedTab === index && (
                   <div key={index}>
-                    <Form
+                    <TabForm
+                      currentTab={tab}
                       values={values}
-                      title={tab.title}
-                      inputs={tab.form}
+                      form={forms[formKey]}
                       control={control}
                       resetField={resetField}
                       reset={reset}

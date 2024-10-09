@@ -310,7 +310,6 @@ export default function Suppliers() {
       field: 'lastname',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },
@@ -319,7 +318,6 @@ export default function Suppliers() {
       field: 'email',
       type: 'email',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },
@@ -328,7 +326,6 @@ export default function Suppliers() {
       field: 'phone',
       type: 'phone',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },
@@ -337,7 +334,6 @@ export default function Suppliers() {
       field: 'address',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     },
@@ -346,7 +342,6 @@ export default function Suppliers() {
       field: 'services',
       type: 'text',
       value: '',
-      isRequired: true,
       width: 6,
       flex: true
     }
