@@ -83,15 +83,6 @@ export default function Materials() {
       flex: true
     },
     {
-      headerName: 'Observaciones',
-      field: 'observations',
-      type: 'text',
-      value: '',
-      isRequired: true,
-      width: 6,
-      flex: true
-    },
-    {
       headerName: 'Unidades',
       field: 'units',
       type: 'select',
@@ -116,7 +107,15 @@ export default function Materials() {
       isRequired: true,
       width: 6,
       flex: true
-    }
+    },
+    {
+      headerName: 'Observaciones',
+      field: 'observations',
+      type: 'text',
+      value: '',
+      width: 6,
+      flex: true
+    },
   ]
 
   return (

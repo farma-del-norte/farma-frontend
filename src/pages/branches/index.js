@@ -1,8 +1,9 @@
 import {Simple} from 'src/components/simple'
-import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
+import {BRANCHES_ENDPOINT, ZONES_ENDPOINT, MEDIA_ENDPOINT} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState} from 'react'
-//import {setValue} from 'src/store/form/reducer'
+import {setValue} from 'src/store/form/reducer'
+import {onZipCodeChange} from 'src/utils/functions'
 
 const branchesColumns = [
   {
@@ -34,8 +35,10 @@ const branchesColumns = [
     flex: true,
     field: 'type',
     headerName: 'Tipo',
-    type: 'text',
+    type: 'select',
+    options: [{name: 'Sucursal'}, {name: 'Oficina'}, {name: 'Bodega'}],
     width: 6,
+    value: 0,
     isRequired: true
   },
   {
@@ -58,9 +61,36 @@ const branchesColumns = [
   },
   {
     flex: true,
-    headerName: 'Codigo Postal',
-    field: 'zipCode',
+    headerName: 'Calle',
+    field: 'street',
     type: 'text',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Numero de Exterior',
+    field: 'extNumber',
+    type: 'text',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Numero de Interior',
+    field: 'intNumber',
+    type: 'text',
+    value: '',
+    isRequired: false,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Código Postal',
+    field: 'zipCode',
+    type: 'zipCode',
     value: '',
     isRequired: true,
     width: 6
@@ -69,7 +99,10 @@ const branchesColumns = [
     flex: true,
     headerName: 'Colonia',
     field: 'neighborhood',
-    type: 'text',
+    type: 'select',
+    options: [],
+    disabled: 'true',
+    fieldName: 'neighborhood',
     value: '',
     isRequired: true,
     width: 6
@@ -78,7 +111,8 @@ const branchesColumns = [
     flex: true,
     headerName: 'Ciudad',
     field: 'city',
-    type: 'text',
+    disabled: 'true',
+    type: 'city',
     value: '',
     isRequired: true,
     width: 6
@@ -87,16 +121,8 @@ const branchesColumns = [
     flex: true,
     headerName: 'Estado',
     field: 'federalEntity',
-    type: 'text',
-    value: '',
-    isRequired: true,
-    width: 6
-  },
-  {
-    flex: true,
-    headerName: 'Calle',
-    field: 'street',
-    type: 'text',
+    disabled: 'true',
+    type: 'federalEntity',
     value: '',
     isRequired: true,
     width: 6
@@ -128,7 +154,7 @@ const branchDetails = [
     headerName: 'Metros cuadrados',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -136,7 +162,7 @@ const branchDetails = [
     headerName: 'Anuncios de cruz reflejantes',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -144,7 +170,7 @@ const branchDetails = [
     headerName: 'Anuncios de cruz',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -152,7 +178,7 @@ const branchDetails = [
     headerName: 'Anuncios de letras',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -160,7 +186,7 @@ const branchDetails = [
     headerName: 'Anuncios reflejantes',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -168,7 +194,7 @@ const branchDetails = [
     headerName: 'Anuncios de lona',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -176,11 +202,11 @@ const branchDetails = [
     headerName: 'Impermeabilizado',
     type: 'select',
     options: [
-      {name: 'Si', id: true},
-      {name: 'No', id: false}
+      {name: 'Si', id: 1},
+      {name: 'No', id: 0}
     ],
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -188,7 +214,7 @@ const branchDetails = [
     headerName: 'Baños',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -196,7 +222,7 @@ const branchDetails = [
     headerName: 'Aire Lavado',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -204,7 +230,7 @@ const branchDetails = [
     headerName: 'Aire acondicionado',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -212,7 +238,7 @@ const branchDetails = [
     headerName: 'Cortinas',
     type: 'number',
     width: 4,
-    isRequired: true
+    isRequired: false
   },
   {
     flex: true,
@@ -220,11 +246,11 @@ const branchDetails = [
     headerName: 'Paneles solares',
     type: 'select',
     options: [
-      {name: 'Si', id: true},
-      {name: 'No', id: false}
+      {name: 'Si', id: 1},
+      {name: 'No', id: 0}
     ],
     width: 4,
-    isRequired: true
+    isRequired: false
   }
 ]
 
@@ -246,10 +272,65 @@ export default function Branches() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
   const [branchesForm, setBranchesForm] = useState(branchesColumns)
+  const [AddressInfo, setAddressInfo] = useState([])
 
   useEffect(() => {
-    console.debug(form)
-  }, [])
+    if (form.Sucursales?.id !== undefined && form.Sucursales.id !== null) {
+      setAddressInfo(onZipCodeChange(form.Sucursales.zipCode))
+    } else if (form.Sucursales?.id === undefined || form.Sucursales.id === null) {
+      setAddressInfo([])
+    }
+  }, [form.Sucursales?.id])
+
+  useEffect(() => {
+    if (form.Sucursales?.zipCode && form.Sucursales.zipCode.length >= 4 && /^\d+$/.test(form.Sucursales.zipCode)) {
+      setAddressInfo(onZipCodeChange(form.Sucursales.zipCode))
+    } else if (form.Sucursales?.zipCode && form.Sucursales.zipCode.length < 4 && AddressInfo.length > 0) {
+      setAddressInfo([])
+    }
+  }, [form.Sucursales?.zipCode])
+
+  useEffect(() => {
+    if (AddressInfo.length > 0) {
+      setValue({
+        form,
+        fields: branchesForm,
+
+        setFields: setBranchesForm,
+        inputFields: [
+          {neighborhood: 'type'},
+          {neighborhood: 'disabled'},
+          {neighborhood: 'options'},
+          {neighborhood: 'value'},
+          {federalEntity: 'value'},
+          {city: 'value'}
+        ],
+        values: [
+          'select',
+          'false',
+          AddressInfo,
+          AddressInfo[0]?.neighborhood,
+          AddressInfo[0]?.federalEntity,
+          AddressInfo[0]?.city
+        ]
+      })
+    } else if (AddressInfo.length === 0) {
+      setValue({
+        form,
+        fields: branchesForm,
+        setFields: setBranchesForm,
+        inputFields: [
+          {neighborhood: 'type'},
+          {neighborhood: 'disabled'},
+          {neighborhood: 'options'},
+          {neighborhood: 'value'},
+          {federalEntity: 'value'},
+          {city: 'value'}
+        ],
+        values: ['neighborhood', 'true', [], ' ', ' ', ' ']
+      })
+    }
+  }, [AddressInfo])
 
   return (
     <Simple
@@ -260,7 +341,7 @@ export default function Branches() {
         },
         loading: true,
         showAddButton: true,
-        columns: branchesColumns,
+        columns: branchesForm,
         actions: ['edit', 'detail', 'delete']
       }}
       modal={{
@@ -284,7 +365,7 @@ export default function Branches() {
           {
             title: 'Fotos',
             endpoints: {
-              baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
+              baseUrl: `${MEDIA_ENDPOINT}/media/owner/:id`
             },
             fieldName: 'branchID',
             form: branchImages

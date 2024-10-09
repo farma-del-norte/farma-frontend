@@ -56,6 +56,16 @@ export default function Users() {
       flex: true
     },
     {
+      headerName: 'Posición',
+      field: 'position',
+      type: 'select',
+      options: [{name: 'Gerente de zona'}, {name: 'Administrador'}],
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
+    },
+    {
       headerName: 'Zona',
       field: 'zoneIDs',
       type: 'multipleSelect',
@@ -63,7 +73,7 @@ export default function Users() {
       options: [],
       value: '',
       isRequired: true,
-      width: 6,
+      width: 12,
       flex: true,
       renderCell: params => {
         if (params.row.zones && params.row.zones.length > 0) {
@@ -79,16 +89,6 @@ export default function Users() {
         }
       }
     },
-    {
-      headerName: 'Posición',
-      field: 'position',
-      type: 'select',
-      options: [{name: 'Gerente de zona'}, {name: 'Administrador'}],
-      value: '',
-      isRequired: true,
-      width: 6,
-      flex: true
-    }
   ])
   
   // pos admin set all zones

@@ -20,8 +20,8 @@ const Select = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    setOptions(input.options || [])
-  }, [input.options])
+    if (input?.options?.length) setOptions(input.options)
+  }, [JSON.stringify(input.options)])
 
   // get options
   useEffect(() => {
@@ -39,12 +39,14 @@ const Select = ({input, value, onChange, error}) => {
 
   // set field name
   const rowField = row => {
-    if (input.fieldName) {
+    if (Array.isArray(input.fieldName)) {
       let name = ''
       for (let i = 0; i < input.fieldName.length; i++) {
         name += `${row[input.fieldName[i]]} `
       }
       return name
+    } else if (input.fieldName) {
+      return row[input.fieldName]
     }
     return row.name
   }
@@ -53,21 +55,22 @@ const Select = ({input, value, onChange, error}) => {
     if (input.value) {
       onChange(input.value)
     }
-  }, [input.value])
+  }, [input.value, onChange])
 
   return (
     <TextField
       select
       value={value || ''}
       defaultValue={defaultValue}
-      disabled={input.disabled}
+      disabled={input.disabled === 'true' ? true : false}
       label={label}
       onChange={onChange}
       error={!!error}
       helperText={error ? error.message : ' '}
     >
+      {}
       {options.map((item, id) => (
-        <MenuItem key={id} value={item.id ? item.id : item.name}>
+        <MenuItem key={id} value={item.id ? item.id : item.name ? item.name : rowField(item)}>
           {rowField(item)}
         </MenuItem>
       ))}
