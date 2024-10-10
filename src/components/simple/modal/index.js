@@ -15,11 +15,7 @@ const TabForm = ({currentTab, form, values, watch, control, reset, resetField, s
   return (
     <>
       {currentTab.endpoints && isLoading ? (
-        <FallbackSpinner
-          h="20vh"
-          mt="100px"
-          mb="100px"
-        />
+        <FallbackSpinner h='20vh' mt='100px' mb='100px' />
       ) : (
         <Form
           values={values}
@@ -34,7 +30,7 @@ const TabForm = ({currentTab, form, values, watch, control, reset, resetField, s
         />
       )}
     </>
-  );
+  )
 }
 
 export const Modal = ({
@@ -53,7 +49,7 @@ export const Modal = ({
   const [actions, setActions] = useState([])
   const [selectedTab, setSelectedTab] = useState(0)
   const [formKey, setFormKey] = useState(undefined)
-  const baseEndpointsParams = { ...endpointsParams }
+  const baseEndpointsParams = {...endpointsParams}
   const [currentEndpointParams, setCurrentEndpointParams] = useState(baseEndpointsParams)
   const [defaultValues, setDefaultValues] = useState(
     modal.form.reduce((acc, input) => ({...acc, [input.field]: undefined}), {})
@@ -73,29 +69,59 @@ export const Modal = ({
   }
 
   const onSubmit = values => {
-    // multimedia purpose
-    const saveMultimedia = modal.form.some(item => item.type === 'multimedia')
-    const mediaInput = modal.form.find(item => item.type === 'multimedia')
+    const formStructure = useTabs ? modal.tabs[selectedTab].form : modal.form
+
+    const saveMultimedia = formStructure.some(item => item.type === 'multimedia')
+    const mediaInput = formStructure.find(item => item.type === 'multimedia')
+    const body = {}
+
+    formStructure.forEach(formItem => {
+      const fieldName = formItem.field
+
+      if (fieldName in values) {
+        if (formItem.type === 'number') {
+          body[fieldName] = values[fieldName] && Number(values[fieldName])
+        } else {
+          body[fieldName] = values[fieldName]
+        }
+      }
+    })
+
+    Object.keys(values).forEach(key => {
+      if (!(key in body)) {
+        body[key] = values[key]
+      }
+    })
+
     if (values?.id || forms[formKey]?.found) {
-      dispatch(editCall({form: values, endpointsParams: currentEndpointParams}))
-      if (saveMultimedia && values[mediaInput?.field]?.length) {
+      dispatch(editCall({form: body, endpointsParams: currentEndpointParams}))
+      if (saveMultimedia && mediaInput && values[mediaInput.field]?.length) {
         dispatch(
           editMediaService({
-            form: values,
-            media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}
+            form: body,
+            media: {
+              saveMultimedia,
+              mediaOwner: mediaInput.owner,
+              field: mediaInput.field
+            }
           })
         )
       }
     } else {
       dispatch(
         createCall({
-          form: values,
+          form: body,
           endpointsParams: currentEndpointParams,
-          media: {saveMultimedia, mediaOwner: mediaInput?.owner, field: mediaInput?.field}
+          media: {
+            saveMultimedia,
+            mediaOwner: mediaInput?.owner,
+            field: mediaInput?.field
+          }
         })
       )
     }
-    if(!useTabs) {
+
+    if (!useTabs) {
       handleCloseModal()
     }
   }
@@ -119,10 +145,12 @@ export const Modal = ({
         endpoint: modal.tabs[selectedTab]?.endpoints.baseUrl,
         type: 'forms',
         key: `${modal.tabs[selectedTab]?.title.replace(/\s+/g, '')}_${values.id}`,
-        [modal?.tabs[selectedTab].fieldName]: modal?.tabs[selectedTab].field ? modal?.tabs[selectedTab].field : values.id
+        [modal?.tabs[selectedTab].fieldName]: modal?.tabs[selectedTab].field
+          ? modal?.tabs[selectedTab].field
+          : values.id
       }
       setCurrentEndpointParams(tempParams)
-      dispatch(getCall({... tempParams}))
+      dispatch(getCall({...tempParams}))
     } else {
       // set base endpoints params
       setCurrentEndpointParams(baseEndpointsParams)
