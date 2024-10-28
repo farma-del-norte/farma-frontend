@@ -357,7 +357,7 @@ export default function Branches() {
           {
             title: 'Detalles',
             endpoints: {
-              baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
+              baseUrl: `${BRANCHES_ENDPOINT}/branch-details/:id`
             },
             fieldName: 'branchID',
             form: branchDetails
