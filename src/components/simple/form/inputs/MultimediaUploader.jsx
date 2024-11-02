@@ -4,6 +4,7 @@ import TheatersIcon from '@mui/icons-material/Theaters'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import {useSelector, useDispatch} from 'react-redux'
 import {setMedia} from 'src/store/media/reducer'
+import { getMediaByOwnerId } from 'src/store/media/actions'
 import {Typography, Button} from '@mui/material'
 import React, {useEffect, useState, useRef} from 'react'
 import {useTheme} from '@mui/material/styles'
@@ -156,7 +157,11 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
   useEffect(() => {
     const row = getValues()
     if (row?.id) {
-      dispatch(setMedia(row[input.getField || input.field]))
+      if (input?.useEndpoint) {
+        dispatch(getMediaByOwnerId({id: row.id}))
+      } else {
+        dispatch(setMedia(row[input.getField || input.field] || []))
+      }
     }
 
     return () => {
