@@ -96,7 +96,7 @@ export const create = async params => {
       const paramKey = getIdKey(params.endpointsParams)
       // se agrega el campo necesario id (no el que se genera al crear, seria a donde pertenece esta data en comun)
       params.form[paramKey] = params.endpointsParams[paramKey]
-      const created = await api_post(url, params.form)
+      let created = await api_post(url, params.form)
       // si un campo del form tiene media
       if (params.form[params.media.field] && params.media.saveMultimedia) {
         const mediaId = created.content[0].id
@@ -105,7 +105,8 @@ export const create = async params => {
           belongsTo: params.media.mediaOwner,
           files: params.form[params.media.field]
         }
-        createMedia(media)
+        await createMedia(media)
+        created = await get(params.endpointsParams)
       }
       return created
     } else {

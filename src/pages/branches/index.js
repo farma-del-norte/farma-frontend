@@ -1,5 +1,5 @@
 import {Simple} from 'src/components/simple'
-import {BRANCHES_ENDPOINT, ZONES_ENDPOINT, MEDIA_ENDPOINT} from 'src/services/endpoints'
+import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState} from 'react'
 import {setValue} from 'src/store/form/reducer'
@@ -257,12 +257,12 @@ const branchDetails = [
 const branchImages = [
   {
     flex: true,
+    useEndpoint: true,
     headerName: 'Fotos',
     field: 'pictures',
     accept: '.jpg,jpeg,.png,.webp,pdf,application/pdf,video/*',
-    owner: 'services',
-    type: 'textarea',
-    //type: 'multimedia',
+    owner: 'branches',
+    type: 'multimedia',
     value: [],
     width: 12
   }
@@ -364,9 +364,8 @@ export default function Branches() {
           },
           {
             title: 'Fotos',
-            endpoints: {
-              baseUrl: `${MEDIA_ENDPOINT}/media/owner/:id`
-            },
+            field: 'id',
+            useMediaEndpoint: true,
             fieldName: 'branchID',
             form: branchImages
           }
