@@ -94,18 +94,34 @@ export const Modal = ({
     })
 
     if (values?.id || forms[formKey]?.found) {
-      dispatch(editCall({form: body, endpointsParams: currentEndpointParams}))
-      if (saveMultimedia && mediaInput && values[mediaInput.field]?.length) {
-        dispatch(
-          editMediaService({
-            form: body,
-            media: {
-              saveMultimedia,
-              mediaOwner: mediaInput.owner,
-              field: mediaInput.field
-            }
-          })
-        )
+      // si useMediaEndpoint quiere decir que solo guardara media, (no existe una url base endpoint)
+      if (modal.useMediaEndpoint || useTabs && modal?.tabs[selectedTab]?.useMediaEndpoint) {
+        if (saveMultimedia && mediaInput && values[mediaInput.field]?.length) {
+          dispatch(
+            editMediaService({
+              form: body,
+              media: {
+                saveMultimedia,
+                mediaOwner: mediaInput.owner,
+                field: mediaInput.field
+              }
+            })
+          )
+        }
+      } else {
+        dispatch(editCall({form: body, endpointsParams: currentEndpointParams}))
+        if (saveMultimedia && mediaInput && values[mediaInput.field]?.length) {
+          dispatch(
+            editMediaService({
+              form: body,
+              media: {
+                saveMultimedia,
+                mediaOwner: mediaInput.owner,
+                field: mediaInput.field
+              }
+            })
+          )
+        }
       }
     } else {
       dispatch(
