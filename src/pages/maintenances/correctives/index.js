@@ -19,17 +19,9 @@ import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {setValue} from 'src/store/form/reducer'
 import {t} from 'i18next'
 import Tooltip from '@mui/material/Tooltip'
+import {customDateFormat} from 'src/utils/functions'
 
 const maintenancesColumns = [
-  {
-    flex: true,
-    headerName: 'Nombre del mantenimiento',
-    field: 'name',
-    type: 'text',
-    value: '',
-    isRequired: true,
-    width: 6
-  },
   {
     flex: true,
     field: 'branchName',
@@ -49,7 +41,7 @@ const maintenancesColumns = [
   },
   {
     flex: true,
-    headerName: 'Descripcion de mantenimiento',
+    headerName: 'Descripción',
     field: 'description',
     type: 'text',
     value: '',
@@ -59,26 +51,104 @@ const maintenancesColumns = [
     flex: true,
     field: 'date',
     headerName: 'Fecha',
-    type: 'date',
-    value: '',
-    isRequired: true,
     width: 6,
-    hideColumn: true
+    renderCell: (params) => customDateFormat(params.value),
+  },
+  {
+    flex: true,
+    field: 'areaName',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierName',
+    type: 'select',
   },
   {
     flex: true,
     field: 'zoneName',
     headerName: 'Zona',
-    hideInput: true
+  },
+  {
+    headerName: 'Costo inicial',
+    field: 'cost',
+    type: 'cash',
+    value: '',
+    isRequired: true,
+    width: 6,
+    flex: true,
+    renderCell: (params) => {
+      const formattedPrice = new Intl.NumberFormat('en-US').format(params.value);
+      return `$${formattedPrice}`;
+    },
+  },
+]
+
+const maintenancesCreateForm = [
+  {
+    headerName: 'Descripcion de mantenimiento',
+    field: 'description',
+    type: 'text',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    headerName: 'Sucursal',
+    field: 'branchID',
+    type: 'select',
+    endpoint: `${BRANCHES_ENDPOINT}/branches`,
+    options: [],
+    value: 0,
+    isRequired: true,
+    width: 6
   },
   {
     flex: true,
+    field: 'areaID',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+    options: [],
+    isRequired: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierID',
+    type: 'select',
+    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+    fieldName: ['firstname', 'lastname'],
+    options: [],
+    value: 0,
+    isRequired: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    headerName: 'Costo inicial',
+    field: 'cost',
+    type: 'cash',
+    value: '',
+    isRequired: true,
+    width: 6,
+    flex: true
+  },
+  {
+    headerName: 'Fecha',
+    field: 'date',
+    type: 'date',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
     headerName: 'Comentarios',
     field: 'notes',
     type: 'textarea',
     value: '',
-    width: 6,
-    hideColumn: true
+    width: 6
   }
 ]
 
@@ -154,16 +224,8 @@ const maintenancesDetails = [
 const servicesColumns = [
   {
     flex: true,
-    headerName: 'Nombre del Servicio',
-    field: 'name',
-    type: 'text',
-    value: '',
-    width: 6
-  },
-  {
-    flex: true,
     field: 'serviceCatName',
-    headerName: t('services.columns.serviceCat', {ns: 'maintenances'}),
+    headerName: 'Servicio',
     hideInput: true
   },
   {
@@ -173,7 +235,7 @@ const servicesColumns = [
     endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
     options: [],
     isRequired: true,
-    width: 6,
+    width: 12,
     hideColumn: true
   },
   {
@@ -184,54 +246,7 @@ const servicesColumns = [
     value: '',
     isRequired: true,
     width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'area',
-    headerName: t('services.columns.area', {ns: 'maintenances'}),
-    type: 'select',
-    options: [],
-    isRequired: true,
-    width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'areaID',
-    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
-    type: 'select',
-    options: [],
-    isRequired: true,
-    width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'supplierName',
-    headerName: t('services.columns.supplier', {ns: 'maintenances'}),
-    hideInput: true
-  },
-  {
-    headerName: 'Proveedor',
-    field: 'supplierID',
-    type: 'select',
-    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
-    fieldName: ['firstname', 'lastname'],
-    options: [],
-    value: 0,
-    isRequired: true,
-    width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    headerName: t('services.columns.cost', {ns: 'maintenances'}),
-    field: 'cost',
-    type: 'cash',
-    value: '',
-    isRequired: true,
-    width: 6
+    renderCell: (params) => customDateFormat(params.value),
   },
   {
     flex: true,
@@ -254,17 +269,8 @@ const servicesColumns = [
     type: 'multimedia',
     value: [],
     hideColumn: true,
-    width: 6
+    width: 12
   },
-  {
-    flex: true,
-    headerName: t('services.columns.notes', {ns: 'maintenances'}),
-    field: 'notes',
-    type: 'textarea',
-    hideColumn: true,
-    value: '',
-    width: 6
-  }
 ]
 
 const materialsColumns = [
@@ -417,7 +423,9 @@ export default function Correctives() {
   const {dimensionsCat} = useSelector(state => state.dimensionsCat)
   const {variablesCat} = useSelector(state => state.variablesCat)
   const {conceptsCat} = useSelector(state => state.conceptsCat)
+  const [area, setArea] = useState([])
   const [servicesForm, setServicesForm] = useState(servicesColumns)
+  const [maintenancesForm, setMaintenancesForm] = useState(maintenancesCreateForm)
   const [materialsForm, setMaterialsForm] = useState(materialsColumns)
   const areas = useMemo(
     () => [
@@ -438,13 +446,53 @@ export default function Correctives() {
     []
   )
 
+  // agregando tipo de area para que sea 1 en conjunto
+  useEffect(() => {
+    const areasModify = []
+    const areasTypes = ['M', 'D', 'V', 'C']
+    const tempAreas = [materialsCat, dimensionsCat, variablesCat, conceptsCat]
+    const nameValues = [];
+
+    tempAreas.forEach((area, index) => {
+      const sourceLabel = areasTypes[index];
+
+      area.forEach(item => {
+        const { name } = item;
+        let conteo = 0;
+
+        if (!nameValues.includes(name)) {
+          tempAreas.flat().forEach(item => {
+            if (item.name === name) {
+              conteo += 1;
+            }
+          });
+        }
+
+        if (nameValues.includes(name) || conteo > 1) {
+          const uniqueName = `${name} (${sourceLabel})`;
+          areasModify.push({ ...item, name: uniqueName });
+        } else {
+          nameValues.push(name);
+          areasModify.push({ ...item })
+        }
+      });
+    });
+    setArea(areasModify)
+  }, [materialsCat, dimensionsCat, variablesCat, conceptsCat])
+
   // inicilaizar opciones de servicio
   useEffect(() => {
     setValue({
       fields: servicesForm,
       setFields: setServicesForm,
-      inputFields: [{area: 'options'}, {status: 'options'}],
-      values: [areas, status]
+      inputFields: {status: 'options'},
+      values: status
+    })
+    setValue({
+      fields: maintenancesForm,
+      setFields: setMaintenancesForm,
+      inputFields: {area: 'options'},
+      values: areas
     })
     dispatch(getMaterialsCat())
     dispatch(getDimensionsCat())
@@ -454,19 +502,14 @@ export default function Correctives() {
 
   // cambiar opciones en area
   useEffect(() => {
-    if (form?.Servicio) {
-      if (form.Servicio.area) {
-        setValue({
-          form,
-          fields: servicesForm,
-          setFields: setServicesForm,
-          inputFields: {areaID: 'options'},
-          watch: {Servicio: 'area'},
-          values: {Material: materialsCat, Dimensión: dimensionsCat, Variable: variablesCat, Concepto: conceptsCat}
-        })
-      }
-    }
-  }, [form])
+    setValue({
+      form,
+      fields: maintenancesForm,
+      setFields: setMaintenancesForm,
+      inputFields: {areaID: 'options'},
+      values: area
+    })
+  }, [area])
   //TODO: no cambia el valor de units al crear
   // Cambiar valor en unit
   useEffect(() => {
@@ -524,6 +567,18 @@ export default function Correctives() {
         values: totalPrice.toString()
       })
     }
+    // asignar fecha del mantenimiento al crear servicio
+    if (form.Detalles?.date) {
+      if (!form.Servicio?.id) {
+        setValue({
+          form,
+          fields: servicesForm,
+          setFields: setServicesForm,
+          inputFields: {date: 'value'},
+          values: form.Detalles.date
+        })
+      }
+    }
   }, [form])
 
   return (
@@ -577,6 +632,7 @@ export default function Correctives() {
                 modal: {
                   title: 'Servicio',
                   size: 'md',
+                  extendedValues: {date: undefined},
                   form: servicesForm,
                   actions: {
                     back: 'Regresar',
@@ -619,58 +675,7 @@ export default function Correctives() {
             ]
           }
         ],
-        form: [
-          {
-            headerName: 'Nombre del mantenimiento',
-            field: 'name',
-            type: 'text',
-            value: '',
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Sucursal',
-            field: 'branchID',
-            type: 'select',
-            endpoint: `${BRANCHES_ENDPOINT}/branches`,
-            options: [],
-            value: 0,
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Descripcion de mantenimiento',
-            field: 'description',
-            type: 'text',
-            value: '',
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Costo inicial',
-            field: 'cost',
-            type: 'cash',
-            value: '',
-            isRequired: true,
-            width: 6,
-            flex: true
-          },
-          {
-            headerName: 'Fecha',
-            field: 'date',
-            type: 'date',
-            value: '',
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Comentarios',
-            field: 'notes',
-            type: 'textarea',
-            value: '',
-            width: 6
-          }
-        ],
+        form: maintenancesForm,
         actions: {
           back: 'Regresar',
           save: 'Guardar'

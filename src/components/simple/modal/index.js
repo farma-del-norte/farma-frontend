@@ -12,6 +12,7 @@ import FallbackSpinner from 'src/@core/components/spinner'
 
 const TabForm = ({currentTab, form, values, watch, control, reset, resetField, setValue, getValues}) => {
   const isLoading = form?.isLoading ?? true
+
   return (
     <>
       {currentTab.endpoints && isLoading ? (

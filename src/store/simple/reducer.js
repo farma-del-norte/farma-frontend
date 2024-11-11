@@ -86,7 +86,6 @@ export const simpleSlice = createSlice({
         state.tables[key].isLoading = false
       } else if (state[type][key] && type === 'forms'){ 
         state.forms[key].isLoading = false
-        console.log(state.forms[key].values)
         state.forms[key].values = action.payload.content
       }
     })
