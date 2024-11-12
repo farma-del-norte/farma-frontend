@@ -142,7 +142,7 @@ const SelectMedia = ({media, handleRemove, index}) => {
   return <PDFMedia media={media} handleRemove={handleRemove} index={index} />
 }
 
-const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
+const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
   const dispatch = useDispatch()
   const {media} = useSelector(state => state.media)
   const {headerName, accept = '.jpg,.png,.webp,video/mp4,video/x-m4v,image/png,image/jpeg,video/*,pdf,application/pdf'} = input
@@ -155,8 +155,9 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
 
   // if is editing bring media
   useEffect(() => {
-    const row = getValues()
+    const row = input?.useEndpoint ? values : getValues()
     if (row?.id) {
+      setIsLoading(true)
       if (input?.useEndpoint) {
         dispatch(getMediaByOwnerId({id: row.id}))
       } else {
@@ -193,7 +194,6 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
     const awsImages = images.filter(image => image.id && !image.file)
     //al editar convierto images a blob para que no afecte a nuevo contenido
     if (awsImages.length > 0) {
-      setIsLoading(true)
       Promise.all(awsImages.map(image => getBlobFromUrl(image.url))).then(file => {
         let addOnimages = [...images]
         for (var i = 0; i < awsImages.length; i++) {
@@ -201,7 +201,6 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
           addOnimages[i] = {...addOnimages[i], file: newContent}
         }
         convertImagesToBase64(addOnimages)
-        setIsLoading(false)
       })
     } else {
       // al crear
@@ -227,6 +226,10 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
         if (file) {
           onChange(file)
           setImages(file)
+        }
+
+        if (isLoading) {
+          setIsLoading(false)
         }
       })
     }

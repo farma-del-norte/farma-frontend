@@ -12,7 +12,6 @@ const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
   const filteredInputs = inputs.filter(input => !input.hideInput)
   const watchForm = watch()
   const keyForm = title.replace(/\s+/g, '')
-
   
   useEffect(() => {
     // si valores del form se obtienen del reducer
@@ -49,7 +48,7 @@ const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
               name={input.field}
               control={control}
               render={({field: {value, onChange}, fieldState: {error}}) => (
-                <InputManager input={input} value={value} onChange={onChange} getValues={getValues} error={error} />
+                <InputManager input={input} values={values} value={value} onChange={onChange} getValues={getValues} error={error} />
               )}
             />
           </FormControl>
