@@ -113,7 +113,8 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
       }
     }
   ]
-  const filteredColumns = actionableColumns.filter(column => !column.hideColumn)
+  const filteredColumns = actionableColumns.filter(column => !column.hideColumn).map(obj => ({ ...obj }));
+  filteredColumns.forEach(obj => delete obj.type);
   return (
     <Fragment>
       <CardTable

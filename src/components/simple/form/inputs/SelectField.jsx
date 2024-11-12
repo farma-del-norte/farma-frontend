@@ -2,6 +2,7 @@ import {TextField, MenuItem} from '@mui/material'
 import {useState, useEffect, useMemo} from 'react'
 import {getCall} from 'src/store/simple/actions'
 import {useSelector, useDispatch} from 'react-redux'
+import { orderListByRowField } from 'src/utils/functions'
 
 const Select = ({input, value, onChange, error}) => {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const Select = ({input, value, onChange, error}) => {
 
   // cuando desde la raiz se cambian opciones
   useEffect(() => {
-    if (input?.options?.length) setOptions(input.options)
+    if (input?.options?.length) setOptions(orderListByRowField(input.options, input))
   }, [JSON.stringify(input.options)])
 
   // get options
@@ -33,7 +34,7 @@ const Select = ({input, value, onChange, error}) => {
   // set options
   useEffect(() => {
     if (tables[keyList]) {
-      setOptions(tables[keyList]?.list || [])
+      setOptions(orderListByRowField(tables[keyList]?.list || [], input))
     }
   }, [tables, keyList])
 
@@ -51,6 +52,13 @@ const Select = ({input, value, onChange, error}) => {
     return row.name
   }
 
+  const rowFieldValue = row => {
+    if (input.fieldValue) {
+      return row[input.fieldValue]
+    }
+    return row.id ?? row.name
+  }
+
   useEffect(() => {
     if (input.value) {
       onChange(input.value)
@@ -62,15 +70,14 @@ const Select = ({input, value, onChange, error}) => {
       select
       value={value || ''}
       defaultValue={defaultValue}
-      disabled={input.disabled === 'true' ? true : false}
+      disabled={input.disabled === 'true' || input.disabled ? true : false}
       label={label}
       onChange={onChange}
       error={!!error}
       helperText={error ? error.message : ' '}
     >
-      {}
       {options.map((item, id) => (
-        <MenuItem key={id} value={item.id ? item.id : item.name ? item.name : rowField(item)}>
+        <MenuItem key={id} value={rowFieldValue(item)}>
           {rowField(item)}
         </MenuItem>
       ))}
