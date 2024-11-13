@@ -5,7 +5,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import {useSelector, useDispatch} from 'react-redux'
 import {setMedia} from 'src/store/media/reducer'
 import { getMediaByOwnerId } from 'src/store/media/actions'
-import {Typography, Button} from '@mui/material'
+import {Typography, Button, Dialog, DialogContent, DialogTitle} from '@mui/material'
 import React, {useEffect, useState, useRef} from 'react'
 import {useTheme} from '@mui/material/styles'
 import styles from './styles/styles.module.css'
@@ -152,6 +152,9 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
   const divContent = useRef(null)
   const animateField = document.getElementById('movingText')
   const [isLoading, setIsLoading] = useState(false)
+  //preview
+  const [openPreview, setOpenPreview] = useState(false)
+  const [selectedMedia, setSelectedMedia] = useState(null)
 
   // if is editing bring media
   useEffect(() => {
@@ -176,6 +179,21 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
       convertImagesToBase64(media)
     }
   }, [media])
+
+  useEffect(() => {
+    // Verifica si el div tiene contenido
+    if (divContent.current.children.length > 0) {
+      // Si tiene contenido, agrega una clase para activar la animación
+      animateField.style.position = 'absolute'
+      animateField.style.top = '-14px'
+      animateField.style.transition = 'all 1s ease'
+      animateField.style.fontSize = '0.75rem'
+    } else if (divContent.current.children.length === 0 && animateField) {
+      animateField.style.position = 'relative'
+      animateField.style.top = '5px'
+      animateField.style.fontSize = '1.25rem'
+    }
+  })
 
   const getBlobFromUrl = myImageUrl => {
     return new Promise((resolve, reject) => {
@@ -285,22 +303,20 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
     convertImagesToBase64(newImages)
   }
 
+  const handleOpenPreview = index => {
+    setSelectedMedia(images[index])
+    setOpenPreview(true)
+  }
+
   useEffect(() => {
-    // Verifica si el div tiene contenido
-    if (divContent.current.children.length > 0) {
-      // Si tiene contenido, agrega una clase para activar la animación
-      animateField.style.position = 'absolute'
-      animateField.style.top = '-14px'
-      animateField.style.transition = 'all 1s ease'
-      animateField.style.fontSize = '0.75rem'
-    } else if (divContent.current.children.length === 0 && animateField) {
-      animateField.style.position = 'relative'
-      animateField.style.top = '5px'
-      animateField.style.fontSize = '1.25rem'
+    if (selectedMedia) {
+      console.log(selectedMedia)
+      setOpenPreview(true)
     }
-  })
+  }, [selectedMedia])
 
   return (
+    <>
     <Box
       onDragOver={e => {
         e.preventDefault()
@@ -331,6 +347,7 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
                   overflow: 'hidden',
                   margin: '10px 5px'
                 }}
+                onClick={() => handleOpenPreview(index)}
               >
                 <img alt={media.file} src={media.file} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                 <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
@@ -364,6 +381,7 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
                     overflow: 'hidden',
                     margin: '10px 5px'
                   }}
+                  onClick={() => handleOpenPreview(index)}
                 >
                   <embed src={media.url} type="application/pdf" width='270px' height='150'/>
                   <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
@@ -442,6 +460,31 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
         </label>
       </div>
     </Box>
+
+    {/* PREVIEW MULTIMEDIA */}
+    <Dialog open={openPreview} onClose={() => setOpenPreview(false)} maxWidth="md" fullWidth>
+      <DialogTitle>Media Preview</DialogTitle>
+      <DialogContent>
+        {selectedMedia?.type.includes('image') && (
+          <img src={selectedMedia.url} alt={selectedMedia.name} style={{ width: '100%' }} />
+        )}
+        {selectedMedia?.type.includes('video') && (
+          <video controls style={{ width: '100%' }}>
+            <source src={selectedMedia.url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+        {selectedMedia?.type.includes('pdf') && (
+          <iframe
+            src={selectedMedia.url}
+            title={selectedMedia.name}
+            style={{ width: '100%', height: '500px' }}
+            frameBorder="0"
+          />
+        )}
+      </DialogContent>
+    </Dialog>
+    </>
   )
 }
 
