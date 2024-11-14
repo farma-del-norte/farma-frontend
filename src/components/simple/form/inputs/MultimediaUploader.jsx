@@ -10,6 +10,10 @@ import React, {useEffect, useState, useRef} from 'react'
 import {useTheme} from '@mui/material/styles'
 import styles from './styles/styles.module.css'
 import FallbackSpinner from 'src/@core/components/spinner'
+import {
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+} from '@mui/icons-material'
 //TODO: Separate the URLS from Files array maybe handling two arrays on images object (urlImages, fileImages)
 const PDFMedia = ({media, handleRemove, index}) => {
   return (
@@ -160,7 +164,9 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
   useEffect(() => {
     const row = input?.useEndpoint ? values : getValues()
     if (row?.id) {
-      setIsLoading(true)
+      if (row[input.getField || input.field].length) {
+        setIsLoading(true)
+      }
       if (input?.useEndpoint) {
         dispatch(getMediaByOwnerId({id: row.id}))
       } else {
@@ -304,13 +310,12 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
   }
 
   const handleOpenPreview = index => {
-    setSelectedMedia(images[index])
+    setSelectedMedia(index)
     setOpenPreview(true)
   }
 
   useEffect(() => {
     if (selectedMedia) {
-      console.log(selectedMedia)
       setOpenPreview(true)
     }
   }, [selectedMedia])
@@ -347,9 +352,10 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
                   overflow: 'hidden',
                   margin: '10px 5px'
                 }}
-                onClick={() => handleOpenPreview(index)}
+                className={styles.cardMedia}
               >
-                <img alt={media.file} src={media.file} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                <ImageIcon className={styles.previewIcon} sx={{width: '2.5rem', height: '2.5rem'}} />
+                <img alt={media.file} src={media.file} style={{width: '100%', height: '100%', objectFit: 'cover'}} loading="lazy"/>
                 <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
                   <button
                     style={{
@@ -370,6 +376,9 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
                     </Typography>
                   </button>
                 </div>
+                <button className={styles.cardButton} onClick={() => handleOpenPreview(index)}>
+                  Ver
+                </button>
               </div>
             ) : (
               media.type.includes('pdf') && (
@@ -381,8 +390,10 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
                     overflow: 'hidden',
                     margin: '10px 5px'
                   }}
+                  className={styles.cardMedia}
                   onClick={() => handleOpenPreview(index)}
                 >
+                  <PictureAsPdfIcon className={styles.previewIcon} sx={{width: '2.5rem', height: '2.5rem'}} />
                   <embed src={media.url} type="application/pdf" width='270px' height='150'/>
                   <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
                     <button
@@ -404,6 +415,9 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
                       </Typography>
                     </button>
                   </div>
+                  <button className={styles.cardButton} onClick={() => handleOpenPreview(index)}>
+                    Ver
+                  </button>
                 </div>
               )
             )}
@@ -462,25 +476,35 @@ const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
     </Box>
 
     {/* PREVIEW MULTIMEDIA */}
-    <Dialog open={openPreview} onClose={() => setOpenPreview(false)} maxWidth="md" fullWidth>
-      <DialogTitle>Media Preview</DialogTitle>
-      <DialogContent>
-        {selectedMedia?.type.includes('image') && (
-          <img src={selectedMedia.url} alt={selectedMedia.name} style={{ width: '100%' }} />
+    <Dialog open={openPreview} onClose={() => setOpenPreview(false)}
+      fullHeight
+      fullWidth
+      PaperProps={{
+        className: styles.transparentDialog,
+      }}
+    >
+      <DialogTitle>
+        <div className={styles.previewActions}>
+          <div className={styles.buttonAction} onClick={() => setSelectedMedia(selectedMedia > 0 ? selectedMedia - 1 : 0)}>
+            <KeyboardArrowLeft fontSize="large"/> Anterior
+          </div>
+          <div className={styles.buttonAction} onClick={() => setSelectedMedia(selectedMedia < images.length - 1 ? selectedMedia + 1 : images.length - 1)}>
+            Siguiente <KeyboardArrowRight fontSize="large" />
+          </div>
+        </div>
+      </DialogTitle>
+      <DialogContent className={styles.previewContent}>
+        {images[selectedMedia]?.type.includes('image') && (
+          <img src={images[selectedMedia]?.url ?? images[selectedMedia].file} alt={images[selectedMedia].name} style={{ width: '100%', height: 'auto' }} />
         )}
-        {selectedMedia?.type.includes('video') && (
+        {images[selectedMedia]?.type.includes('video') && (
           <video controls style={{ width: '100%' }}>
-            <source src={selectedMedia.url} type="video/mp4" />
+            <source src={images[selectedMedia]?.url ?? images[selectedMedia].file} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         )}
-        {selectedMedia?.type.includes('pdf') && (
-          <iframe
-            src={selectedMedia.url}
-            title={selectedMedia.name}
-            style={{ width: '100%', height: '500px' }}
-            frameBorder="0"
-          />
+        {images[selectedMedia]?.type.includes('pdf') && (
+          <embed src={images[selectedMedia]?.url ?? images[selectedMedia].file} type="application/pdf" width='100%' height='800px'></embed>
         )}
       </DialogContent>
     </Dialog>
