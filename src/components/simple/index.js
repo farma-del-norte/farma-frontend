@@ -22,7 +22,7 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
     pageSize: 10,
   })
   // key for reducer
-  const keyList = table.label.replace(/\s+/g, '')
+  const keyList = id ? `${table.label.replace(/\s+/g, '')}_${id}` : table.label.replace(/\s+/g, '')
   // params fro endpoints
   const endpointsParams = useMemo(() => {
     return {

@@ -13,6 +13,11 @@ const Text = ({input, value, onChange, error}) => {
     }
   }, [input.value, onChange])
 
+  const handleValueChange = value => {
+    setDateValue(value)
+    onChange(value)
+  }
+
   return (
     <TextField
       type='date'
@@ -21,7 +26,7 @@ const Text = ({input, value, onChange, error}) => {
       disabled={input.disabled}
       value={dateValue}
       defaultValue={defaultValue}
-      onChange={onChange}
+      onChange={(e) => handleValueChange(e.target.value)}
       error={!!error}
       helperText={error ? error.message : ' '}
     />
