@@ -82,7 +82,7 @@ export const editMedia = async body => {
     belongsTo: body.media.mediaOwner,
     files: body.form[body.media.field]
   }
-  const news = media.files.filter((media) => !media.url && media.file)
+  const news = media.files.filter((media) => !media.id && media.file)
   const existed = media.files.filter((media) => media.url)
   const getUrl = `${MEDIA_ENDPOINT}/media/owner/${media.id}`
   try {
@@ -100,7 +100,6 @@ export const editMedia = async body => {
     const medias = await getMediaById(media.id)
     return medias
   } catch (error) {
-    console.log('manda error aqui', error)
     throw error
   }
 }

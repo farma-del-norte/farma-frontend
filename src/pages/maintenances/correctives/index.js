@@ -155,16 +155,6 @@ const maintenancesCreateForm = [
 const maintenancesDetails = [
   {
     flex: true,
-    headerName: 'Nombre del mantenimiento',
-    field: 'name',
-    type: 'text',
-    value: '',
-    isRequired: true,
-    disabled: true,
-    width: 6
-  },
-  {
-    flex: true,
     field: 'branchName',
     headerName: 'Sucursal',
     disabled: true,
@@ -298,8 +288,8 @@ const materialsColumns = [
     isRequired: true,
     width: 6,
     renderCell: params => {
-      if (params.row.serviceName) {
-        const serviceName = params.row.serviceName
+      if (params.row.serviceCatName) {
+        const serviceName = params.row.serviceCatName
         return (
           <Tooltip title={serviceName}>
             {serviceName.length > 15 ? serviceName.substring(0, 15) + '...' : serviceName}
@@ -595,7 +585,7 @@ export default function Correctives() {
       }}
       modal={{
         title: `Mantenimiento`,
-        detailsTitle: `Mantenimiento ${form?.Detalles?.name} en ${form?.Detalles?.branchName}`,
+        detailsTitle: `Mantenimiento ${form?.Detalles?.description} en ${form?.Detalles?.branchName}`,
         size: 'lg',
         tabs: [
           {
