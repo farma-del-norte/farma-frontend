@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {getMaintenances, createMaintenance, editMaintenance, deleteMaintenance} from './actions'
+import {getMaintenances, getAreas, createMaintenance, editMaintenance, deleteMaintenance} from './actions'
 
 const initialState = {
   isLoading: false,
   maintenances: [],
+  areas: [],
   isOpen: false,
   modalItem: null,
   isDeleteOpen: false,
@@ -73,6 +74,16 @@ export const maintenancesSlice = createSlice({
     })
     builder.addCase(deleteMaintenance.fulfilled, (state, {payload}) => {
       state.maintenances = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(getAreas.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(getAreas.fulfilled, (state, {payload}) => {
+      state.areas = payload.content
+      state.isLoading = false
+    })
+    builder.addCase(getAreas.rejected, state => {
       state.isLoading = false
     })
   }
