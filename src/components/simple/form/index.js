@@ -42,7 +42,7 @@ const Form = ({values, title, inputs, control, reset, watch, getValues}) => {
   return (
     <Grid container spacing={3} sx={{pt: 2}}>
       {filteredInputs.map((input, index) => (
-        <Grid key={index} item xs={12} md={input.width}>
+        <Grid key={index} item xs={input.hidden ? 0 : 12} md={input.hidden ? 0 : input.width} sx={{ display: input.hidden ? 'none' : 'flex', }}>
           <FormControl fullWidth>
             <Controller
               name={input.field}

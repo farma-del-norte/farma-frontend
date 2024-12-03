@@ -12,10 +12,8 @@ import {
 } from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState, useMemo} from 'react'
+import {getAreas} from 'src/store/maintenances/correctives/actions'
 import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
-import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
-import {getVariablesCat} from 'src/store/catalogs/variables/actions'
-import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {setValue} from 'src/store/form/reducer'
 import {t} from 'i18next'
 import Tooltip from '@mui/material/Tooltip'
@@ -95,6 +93,18 @@ const maintenancesCreateForm = [
     width: 6
   },
   {
+    headerName: 'Motivo',
+    field: 'reason',
+    type: 'select',
+    options: [
+      { name: 'Apertura' },
+      { name: 'Mantenimiento' },
+    ],
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
     headerName: 'Sucursal',
     field: 'branchID',
     type: 'select',
@@ -103,6 +113,16 @@ const maintenancesCreateForm = [
     value: 0,
     isRequired: true,
     width: 6
+  },
+  {
+    flex: true,
+    field: 'area',
+    headerName: 'Area',
+    type: 'select',
+    options: [],
+    isRequired: true,
+    width: 6,
+    hidden: true
   },
   {
     flex: true,
@@ -161,6 +181,28 @@ const maintenancesDetails = [
     hideInput: true
   },
   {
+    flex: true,
+    headerName: 'Descripción de mantenimiento',
+    field: 'description',
+    type: 'text',
+    value: '',
+    disabled: true,
+    width: 6
+  },
+  {
+    headerName: 'Motivo',
+    field: 'reason',
+    type: 'select',
+    options: [
+      { name: 'Apertura' },
+      { name: 'Mantenimiento' },
+    ],
+    value: '',
+    isRequired: true,
+    disabled: true,
+    width: 6
+  },
+  {
     headerName: 'Sucursal',
     field: 'branchID',
     type: 'select',
@@ -174,12 +216,36 @@ const maintenancesDetails = [
   },
   {
     flex: true,
-    headerName: 'Descripción de mantenimiento',
-    field: 'description',
-    type: 'text',
-    value: '',
+    field: 'areaID',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+    options: [],
+    width: 6,
+    hideColumn: true,
     disabled: true,
-    width: 6
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierID',
+    type: 'select',
+    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+    fieldName: ['firstname', 'lastname'],
+    options: [],
+    value: 0,
+    isRequired: true,
+    disabled: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    headerName: 'Costo inicial',
+    field: 'cost',
+    type: 'cash',
+    value: '',
+    isRequired: true,
+    disabled: true,
+    width: 6,
+    flex: true
   },
   {
     flex: true,
@@ -191,13 +257,6 @@ const maintenancesDetails = [
     disabled: true,
     width: 6,
     hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'zoneName',
-    headerName: 'Zona',
-    disabled: true,
-    hideInput: true
   },
   {
     flex: true,
@@ -409,23 +468,12 @@ const siniestroColumns = [
 export default function Correctives() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
+  const {areas} = useSelector(state => state.maintenances)
   const {materialsCat} = useSelector(state => state.materialsCat)
-  const {dimensionsCat} = useSelector(state => state.dimensionsCat)
-  const {variablesCat} = useSelector(state => state.variablesCat)
-  const {conceptsCat} = useSelector(state => state.conceptsCat)
-  const [area, setArea] = useState([])
   const [servicesForm, setServicesForm] = useState(servicesColumns)
   const [maintenancesForm, setMaintenancesForm] = useState(maintenancesCreateForm)
+  const [maintenancesDetailsForm, setMaintenancesDetailsForm] = useState(maintenancesDetails)
   const [materialsForm, setMaterialsForm] = useState(materialsColumns)
-  const areas = useMemo(
-    () => [
-      {name: 'Materiales', id: 'Material'},
-      {name: 'Dimensiones', id: 'Dimensión'},
-      {name: 'Variables', id: 'Variable'},
-      {name: 'Concepto', id: 'Concepto'}
-    ],
-    []
-  )
   const status = useMemo(
     () => [
       {name: 'Planeación', id: 'Planeación'},
@@ -436,39 +484,9 @@ export default function Correctives() {
     []
   )
 
-  // agregando tipo de area para que sea 1 en conjunto
-  useEffect(() => {
-    const areasModify = []
-    const areasTypes = ['M', 'D', 'V', 'C']
-    const tempAreas = [materialsCat, dimensionsCat, variablesCat, conceptsCat]
-    const nameValues = [];
-
-    tempAreas.forEach((area, index) => {
-      const sourceLabel = areasTypes[index];
-
-      area.forEach(item => {
-        const { name } = item;
-        let conteo = 0;
-
-        if (!nameValues.includes(name)) {
-          tempAreas.flat().forEach(item => {
-            if (item.name === name) {
-              conteo += 1;
-            }
-          });
-        }
-
-        if (nameValues.includes(name) || conteo > 1) {
-          const uniqueName = `${name} (${sourceLabel})`;
-          areasModify.push({ ...item, name: uniqueName });
-        } else {
-          nameValues.push(name);
-          areasModify.push({ ...item })
-        }
-      });
-    });
-    setArea(areasModify)
-  }, [materialsCat, dimensionsCat, variablesCat, conceptsCat])
+  const getEnumArea = id => {
+    return areas.find(area => area.id === id)
+  }
 
   // inicilaizar opciones de servicio
   useEffect(() => {
@@ -478,17 +496,9 @@ export default function Correctives() {
       inputFields: {status: 'options'},
       values: status
     })
-    setValue({
-      fields: maintenancesForm,
-      setFields: setMaintenancesForm,
-      inputFields: {area: 'options'},
-      values: areas
-    })
+    dispatch(getAreas())
     dispatch(getMaterialsCat())
-    dispatch(getDimensionsCat())
-    dispatch(getVariablesCat())
-    dispatch(getConceptsCat())
-  }, [areas, status, dispatch])
+  }, [status, dispatch])
 
   // cambiar opciones en area
   useEffect(() => {
@@ -497,9 +507,17 @@ export default function Correctives() {
       fields: maintenancesForm,
       setFields: setMaintenancesForm,
       inputFields: {areaID: 'options'},
-      values: area
+      values: areas
     })
-  }, [area])
+
+    setValue({
+      form,
+      fields: maintenancesDetailsForm,
+      setFields: setMaintenancesDetailsForm,
+      inputFields: {areaID: 'options'},
+      values: areas
+    })
+  }, [areas])
   //TODO: no cambia el valor de units al crear
   // Cambiar valor en unit
   useEffect(() => {
@@ -571,6 +589,19 @@ export default function Correctives() {
     }
   }, [form])
 
+  // Agregar tipo de area
+  useEffect(() => {
+    if (form?.Mantenimiento?.areaID) {
+      setValue({
+        form,
+        fields: maintenancesForm,
+        setFields: setMaintenancesForm,
+        inputFields: {area: 'value'},
+        values: getEnumArea(form?.Mantenimiento.areaID).area
+      })
+    }
+  }, [form])
+
   return (
     <Simple
       table={{
@@ -591,7 +622,7 @@ export default function Correctives() {
           {
             title: 'Detalles',
             indexActions: 1,
-            form: maintenancesDetails
+            form: maintenancesDetailsForm
           },
           {
             title: 'Siniestro',

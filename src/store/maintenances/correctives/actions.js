@@ -49,3 +49,15 @@ export const deleteMaintenance = createAsyncThunk('/service/deleteMaintenance', 
     return thunkApi.rejectWithValue('error')
   }
 })
+
+export const getAreas = createAsyncThunk('/service/getAreas', async thunkApi => {
+  try {
+    const payload = await MaintenancesApi.getAreas()
+    return payload
+  } catch (error) {
+    if (error.response.status !== 404) {
+      toast.error(error)
+    }
+    return thunkApi.rejectWithValue('error')
+  }
+})
