@@ -40,3 +40,13 @@ export const deleteMaintenance = async id => {
     throw error
   }
 }
+
+export const getAreas = async () => {
+  const url = `${MAINTENANCES_ENDPOINT}/maintenances/areas`
+  try {
+    const result = await api_get(url)
+    return result
+  } catch {
+    throw error
+  }
+}
