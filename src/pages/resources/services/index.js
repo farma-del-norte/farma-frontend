@@ -45,9 +45,22 @@ export default function Services() {
       type: 'text',
       value: '',
       isRequired: true,
-      width: 12,
+      width: 6,
       flex: true
     },
+    {
+      headerName: 'Categoria',
+      field: 'category',
+      type: 'select',
+      options: [
+        { name: 'Normal' },
+        { name: 'Especial' },
+      ],
+      value: '',
+      isRequired: true,
+      width: 6,
+      flex: true
+    }
   ]
 
   return (
