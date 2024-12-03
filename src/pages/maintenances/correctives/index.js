@@ -12,24 +12,14 @@ import {
 } from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState, useMemo} from 'react'
+import {getAreas} from 'src/store/maintenances/correctives/actions'
 import {getMaterialsCat} from 'src/store/catalogs/materials/actions'
-import {getDimensionsCat} from 'src/store/catalogs/dimensions/actions'
-import {getVariablesCat} from 'src/store/catalogs/variables/actions'
-import {getConceptsCat} from 'src/store/catalogs/concepts/actions'
 import {setValue} from 'src/store/form/reducer'
 import {t} from 'i18next'
 import Tooltip from '@mui/material/Tooltip'
+import {customDateFormat} from 'src/utils/functions'
 
 const maintenancesColumns = [
-  {
-    flex: true,
-    headerName: 'Nombre del mantenimiento',
-    field: 'name',
-    type: 'text',
-    value: '',
-    isRequired: true,
-    width: 6
-  },
   {
     flex: true,
     field: 'branchName',
@@ -49,7 +39,7 @@ const maintenancesColumns = [
   },
   {
     flex: true,
-    headerName: 'Descripcion de mantenimiento',
+    headerName: 'Descripción',
     field: 'description',
     type: 'text',
     value: '',
@@ -59,46 +49,60 @@ const maintenancesColumns = [
     flex: true,
     field: 'date',
     headerName: 'Fecha',
-    type: 'date',
-    value: '',
-    isRequired: true,
     width: 6,
-    hideColumn: true
+    renderCell: (params) => customDateFormat(params.value),
+  },
+  {
+    flex: true,
+    field: 'areaName',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierName',
+    type: 'select',
   },
   {
     flex: true,
     field: 'zoneName',
     headerName: 'Zona',
-    hideInput: true
   },
   {
-    flex: true,
-    headerName: 'Comentarios',
-    field: 'notes',
-    type: 'textarea',
+    headerName: 'Costo inicial',
+    field: 'cost',
+    type: 'cash',
     value: '',
+    isRequired: true,
     width: 6,
-    hideColumn: true
-  }
+    flex: true,
+    renderCell: (params) => {
+      const formattedPrice = new Intl.NumberFormat('en-US').format(params.value);
+      return `$${formattedPrice}`;
+    },
+  },
 ]
 
-const maintenancesDetails = [
+const maintenancesCreateForm = [
   {
-    flex: true,
-    headerName: 'Nombre del mantenimiento',
-    field: 'name',
+    headerName: 'Descripcion de mantenimiento',
+    field: 'description',
     type: 'text',
     value: '',
     isRequired: true,
-    disabled: true,
     width: 6
   },
   {
-    flex: true,
-    field: 'branchName',
-    headerName: 'Sucursal',
-    disabled: true,
-    hideInput: true
+    headerName: 'Motivo',
+    field: 'reason',
+    type: 'select',
+    options: [
+      { name: 'Apertura' },
+      { name: 'Mantenimiento' },
+    ],
+    value: '',
+    isRequired: true,
+    width: 6
   },
   {
     headerName: 'Sucursal',
@@ -108,9 +112,73 @@ const maintenancesDetails = [
     options: [],
     value: 0,
     isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'area',
+    headerName: 'Area',
+    type: 'select',
+    options: [],
+    isRequired: true,
     width: 6,
-    disabled: true,
+    hidden: true
+  },
+  {
+    flex: true,
+    field: 'areaID',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+    options: [],
+    isRequired: true,
+    width: 6,
     hideColumn: true
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierID',
+    type: 'select',
+    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+    fieldName: ['firstname', 'lastname'],
+    options: [],
+    value: 0,
+    isRequired: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    headerName: 'Costo inicial',
+    field: 'cost',
+    type: 'cash',
+    value: '',
+    isRequired: true,
+    width: 6,
+    flex: true
+  },
+  {
+    headerName: 'Fecha',
+    field: 'date',
+    type: 'date',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    headerName: 'Comentarios',
+    field: 'notes',
+    type: 'textarea',
+    value: '',
+    width: 6
+  }
+]
+
+const maintenancesDetails = [
+  {
+    flex: true,
+    field: 'branchName',
+    headerName: 'Sucursal',
+    disabled: true,
+    hideInput: true
   },
   {
     flex: true,
@@ -122,6 +190,64 @@ const maintenancesDetails = [
     width: 6
   },
   {
+    headerName: 'Motivo',
+    field: 'reason',
+    type: 'select',
+    options: [
+      { name: 'Apertura' },
+      { name: 'Mantenimiento' },
+    ],
+    value: '',
+    isRequired: true,
+    disabled: true,
+    width: 6
+  },
+  {
+    headerName: 'Sucursal',
+    field: 'branchID',
+    type: 'select',
+    endpoint: `${BRANCHES_ENDPOINT}/branches`,
+    options: [],
+    value: 0,
+    isRequired: true,
+    width: 6,
+    disabled: true,
+    hideColumn: true
+  },
+  {
+    flex: true,
+    field: 'areaID',
+    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
+    type: 'select',
+    options: [],
+    width: 6,
+    hideColumn: true,
+    disabled: true,
+  },
+  {
+    headerName: 'Proveedor',
+    field: 'supplierID',
+    type: 'select',
+    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
+    fieldName: ['firstname', 'lastname'],
+    options: [],
+    value: 0,
+    isRequired: true,
+    disabled: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    headerName: 'Costo inicial',
+    field: 'cost',
+    type: 'cash',
+    value: '',
+    isRequired: true,
+    disabled: true,
+    width: 6,
+    flex: true
+  },
+  {
     flex: true,
     field: 'date',
     headerName: 'Fecha',
@@ -131,13 +257,6 @@ const maintenancesDetails = [
     disabled: true,
     width: 6,
     hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'zoneName',
-    headerName: 'Zona',
-    disabled: true,
-    hideInput: true
   },
   {
     flex: true,
@@ -154,16 +273,8 @@ const maintenancesDetails = [
 const servicesColumns = [
   {
     flex: true,
-    headerName: 'Nombre del Servicio',
-    field: 'name',
-    type: 'text',
-    value: '',
-    width: 6
-  },
-  {
-    flex: true,
     field: 'serviceCatName',
-    headerName: t('services.columns.serviceCat', {ns: 'maintenances'}),
+    headerName: 'Servicio',
     hideInput: true
   },
   {
@@ -173,7 +284,7 @@ const servicesColumns = [
     endpoint: `${SERVICES_CAT_ENDPOINT}/services-cat`,
     options: [],
     isRequired: true,
-    width: 6,
+    width: 12,
     hideColumn: true
   },
   {
@@ -184,54 +295,7 @@ const servicesColumns = [
     value: '',
     isRequired: true,
     width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'area',
-    headerName: t('services.columns.area', {ns: 'maintenances'}),
-    type: 'select',
-    options: [],
-    isRequired: true,
-    width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'areaID',
-    headerName: t('services.columns.area_type', {ns: 'maintenances'}),
-    type: 'select',
-    options: [],
-    isRequired: true,
-    width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    field: 'supplierName',
-    headerName: t('services.columns.supplier', {ns: 'maintenances'}),
-    hideInput: true
-  },
-  {
-    headerName: 'Proveedor',
-    field: 'supplierID',
-    type: 'select',
-    endpoint: `${SUPPLIERS_ENDPOINT}/suppliers`,
-    fieldName: ['firstname', 'lastname'],
-    options: [],
-    value: 0,
-    isRequired: true,
-    width: 6,
-    hideColumn: true
-  },
-  {
-    flex: true,
-    headerName: t('services.columns.cost', {ns: 'maintenances'}),
-    field: 'cost',
-    type: 'cash',
-    value: '',
-    isRequired: true,
-    width: 6
+    renderCell: (params) => customDateFormat(params.value),
   },
   {
     flex: true,
@@ -254,17 +318,8 @@ const servicesColumns = [
     type: 'multimedia',
     value: [],
     hideColumn: true,
-    width: 6
+    width: 12
   },
-  {
-    flex: true,
-    headerName: t('services.columns.notes', {ns: 'maintenances'}),
-    field: 'notes',
-    type: 'textarea',
-    hideColumn: true,
-    value: '',
-    width: 6
-  }
 ]
 
 const materialsColumns = [
@@ -292,8 +347,8 @@ const materialsColumns = [
     isRequired: true,
     width: 6,
     renderCell: params => {
-      if (params.row.serviceName) {
-        const serviceName = params.row.serviceName
+      if (params.row.serviceCatName) {
+        const serviceName = params.row.serviceCatName
         return (
           <Tooltip title={serviceName}>
             {serviceName.length > 15 ? serviceName.substring(0, 15) + '...' : serviceName}
@@ -413,21 +468,12 @@ const siniestroColumns = [
 export default function Correctives() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
+  const {areas} = useSelector(state => state.maintenances)
   const {materialsCat} = useSelector(state => state.materialsCat)
-  const {dimensionsCat} = useSelector(state => state.dimensionsCat)
-  const {variablesCat} = useSelector(state => state.variablesCat)
-  const {conceptsCat} = useSelector(state => state.conceptsCat)
   const [servicesForm, setServicesForm] = useState(servicesColumns)
+  const [maintenancesForm, setMaintenancesForm] = useState(maintenancesCreateForm)
+  const [maintenancesDetailsForm, setMaintenancesDetailsForm] = useState(maintenancesDetails)
   const [materialsForm, setMaterialsForm] = useState(materialsColumns)
-  const areas = useMemo(
-    () => [
-      {name: 'Materiales', id: 'Material'},
-      {name: 'Dimensiones', id: 'Dimensión'},
-      {name: 'Variables', id: 'Variable'},
-      {name: 'Concepto', id: 'Concepto'}
-    ],
-    []
-  )
   const status = useMemo(
     () => [
       {name: 'Planeación', id: 'Planeación'},
@@ -438,35 +484,40 @@ export default function Correctives() {
     []
   )
 
+  const getEnumArea = id => {
+    return areas.find(area => area.id === id)
+  }
+
   // inicilaizar opciones de servicio
   useEffect(() => {
     setValue({
       fields: servicesForm,
       setFields: setServicesForm,
-      inputFields: [{area: 'options'}, {status: 'options'}],
-      values: [areas, status]
+      inputFields: {status: 'options'},
+      values: status
     })
+    dispatch(getAreas())
     dispatch(getMaterialsCat())
-    dispatch(getDimensionsCat())
-    dispatch(getVariablesCat())
-    dispatch(getConceptsCat())
-  }, [areas, status, dispatch])
+  }, [status, dispatch])
 
   // cambiar opciones en area
   useEffect(() => {
-    if (form?.Servicio) {
-      if (form.Servicio.area) {
-        setValue({
-          form,
-          fields: servicesForm,
-          setFields: setServicesForm,
-          inputFields: {areaID: 'options'},
-          watch: {Servicio: 'area'},
-          values: {Material: materialsCat, Dimensión: dimensionsCat, Variable: variablesCat, Concepto: conceptsCat}
-        })
-      }
-    }
-  }, [form])
+    setValue({
+      form,
+      fields: maintenancesForm,
+      setFields: setMaintenancesForm,
+      inputFields: {areaID: 'options'},
+      values: areas
+    })
+
+    setValue({
+      form,
+      fields: maintenancesDetailsForm,
+      setFields: setMaintenancesDetailsForm,
+      inputFields: {areaID: 'options'},
+      values: areas
+    })
+  }, [areas])
   //TODO: no cambia el valor de units al crear
   // Cambiar valor en unit
   useEffect(() => {
@@ -524,6 +575,31 @@ export default function Correctives() {
         values: totalPrice.toString()
       })
     }
+    // asignar fecha del mantenimiento al crear servicio
+    if (form.Detalles?.date) {
+      if (!form.Servicio?.id) {
+        setValue({
+          form,
+          fields: servicesForm,
+          setFields: setServicesForm,
+          inputFields: {date: 'value'},
+          values: form.Detalles.date
+        })
+      }
+    }
+  }, [form])
+
+  // Agregar tipo de area
+  useEffect(() => {
+    if (form?.Mantenimiento?.areaID) {
+      setValue({
+        form,
+        fields: maintenancesForm,
+        setFields: setMaintenancesForm,
+        inputFields: {area: 'value'},
+        values: getEnumArea(form?.Mantenimiento.areaID).area
+      })
+    }
   }, [form])
 
   return (
@@ -540,13 +616,13 @@ export default function Correctives() {
       }}
       modal={{
         title: `Mantenimiento`,
-        detailsTitle: `Mantenimiento ${form?.Detalles?.name} en ${form?.Detalles?.branchName}`,
+        detailsTitle: `Mantenimiento ${form?.Detalles?.description} en ${form?.Detalles?.branchName}`,
         size: 'lg',
         tabs: [
           {
             title: 'Detalles',
             indexActions: 1,
-            form: maintenancesDetails
+            form: maintenancesDetailsForm
           },
           {
             title: 'Siniestro',
@@ -577,6 +653,7 @@ export default function Correctives() {
                 modal: {
                   title: 'Servicio',
                   size: 'md',
+                  extendedValues: {date: undefined},
                   form: servicesForm,
                   actions: {
                     back: 'Regresar',
@@ -619,58 +696,7 @@ export default function Correctives() {
             ]
           }
         ],
-        form: [
-          {
-            headerName: 'Nombre del mantenimiento',
-            field: 'name',
-            type: 'text',
-            value: '',
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Sucursal',
-            field: 'branchID',
-            type: 'select',
-            endpoint: `${BRANCHES_ENDPOINT}/branches`,
-            options: [],
-            value: 0,
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Descripcion de mantenimiento',
-            field: 'description',
-            type: 'text',
-            value: '',
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Costo inicial',
-            field: 'cost',
-            type: 'cash',
-            value: '',
-            isRequired: true,
-            width: 6,
-            flex: true
-          },
-          {
-            headerName: 'Fecha',
-            field: 'date',
-            type: 'date',
-            value: '',
-            isRequired: true,
-            width: 6
-          },
-          {
-            headerName: 'Comentarios',
-            field: 'notes',
-            type: 'textarea',
-            value: '',
-            width: 6
-          }
-        ],
+        form: maintenancesForm,
         actions: {
           back: 'Regresar',
           save: 'Guardar'

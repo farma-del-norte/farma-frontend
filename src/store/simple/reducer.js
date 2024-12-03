@@ -31,9 +31,8 @@ export const simpleSlice = createSlice({
         state.tables[key].list = action.payload.content
         // pagination
         if (pagination) {
-          const rowsPerPage = Math.round(action.payload.meta.totalItems / action.payload.meta.lastPage)
-          state.tables[key].pagination.lastPage = Math.round(action.payload.meta.lastPage / rowsPerPage)
-          state.tables[key].pagination.rowsPerPage = rowsPerPage
+          state.tables[key].pagination.lastPage = action.payload.meta.totalItems
+          state.tables[key].pagination.rowsPerPage = action.meta.arg.paginationModel?.pageSize
         }
         state.tables[key].isLoading = false
       }
@@ -86,7 +85,6 @@ export const simpleSlice = createSlice({
         state.tables[key].isLoading = false
       } else if (state[type][key] && type === 'forms'){ 
         state.forms[key].isLoading = false
-        console.log(state.forms[key].values)
         state.forms[key].values = action.payload.content
       }
     })

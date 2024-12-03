@@ -1,11 +1,11 @@
 import {Simple} from 'src/components/simple'
-import {BRANCHES_ENDPOINT, ZONES_ENDPOINT, MEDIA_ENDPOINT} from 'src/services/endpoints'
+import {BRANCHES_ENDPOINT, ZONES_ENDPOINT} from 'src/services/endpoints'
 import {useSelector, useDispatch} from 'react-redux'
 import {useEffect, useState} from 'react'
 import {setValue} from 'src/store/form/reducer'
 import {onZipCodeChange} from 'src/utils/functions'
 
-const branchesColumns = [
+const branchesCreateEdit = [
   {
     flex: true,
     headerName: 'Sucursal',
@@ -92,6 +92,140 @@ const branchesColumns = [
     field: 'zipCode',
     type: 'zipCode',
     value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Colonia',
+    field: 'neighborhood',
+    type: 'select',
+    options: [],
+    disabled: 'true',
+    fieldName: 'neighborhood',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Ciudad',
+    field: 'city',
+    disabled: 'true',
+    type: 'city',
+    value: '',
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Estado',
+    field: 'federalEntity',
+    disabled: 'true',
+    type: 'federalEntity',
+    value: '',
+    isRequired: true,
+    width: 6
+  }
+]
+
+const branchesColumns = [
+  {
+    flex: true,
+    headerName: 'Sucursal',
+    field: 'name',
+    type: 'text',
+    value: '',
+    disabled: true,
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    field: 'simiAlias',
+    headerName: 'Alias',
+    type: 'text',
+    width: 6,
+    disabled: true,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'key',
+    headerName: 'Clave',
+    type: 'text',
+    disabled: true,
+    width: 6,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'type',
+    headerName: 'Tipo',
+    type: 'select',
+    options: [{name: 'Sucursal'}, {name: 'Oficina'}, {name: 'Bodega'}],
+    width: 6,
+    value: 0,
+    disabled: true,
+    isRequired: true
+  },
+  {
+    flex: true,
+    field: 'zoneName',
+    headerName: 'Zona',
+    type: 'text',
+    disabled: true,
+    hideInput: true
+  },
+  {
+    headerName: 'Zona',
+    field: 'zoneID',
+    type: 'select',
+    endpoint: `${ZONES_ENDPOINT}/zones`,
+    options: [],
+    value: 0,
+    disabled: true,
+    isRequired: true,
+    width: 6,
+    hideColumn: true
+  },
+  {
+    flex: true,
+    headerName: 'Calle',
+    field: 'street',
+    type: 'text',
+    value: '',
+    disabled: true,
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Numero de Exterior',
+    field: 'extNumber',
+    type: 'text',
+    value: '',
+    disabled: true,
+    isRequired: true,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Numero de Interior',
+    field: 'intNumber',
+    type: 'text',
+    value: '',
+    disabled: true,
+    isRequired: false,
+    width: 6
+  },
+  {
+    flex: true,
+    headerName: 'Código Postal',
+    field: 'zipCode',
+    type: 'zipCode',
+    value: '',
+    disabled: true,
     isRequired: true,
     width: 6
   },
@@ -246,8 +380,8 @@ const branchDetails = [
     headerName: 'Paneles solares',
     type: 'select',
     options: [
-      {name: 'Si', id: 1},
-      {name: 'No', id: 0}
+      {name: 'Si', id: '1'},
+      {name: 'No', id: '0'}
     ],
     width: 4,
     isRequired: false
@@ -257,12 +391,12 @@ const branchDetails = [
 const branchImages = [
   {
     flex: true,
+    useEndpoint: true,
     headerName: 'Fotos',
     field: 'pictures',
     accept: '.jpg,jpeg,.png,.webp,pdf,application/pdf,video/*',
-    owner: 'services',
-    type: 'textarea',
-    //type: 'multimedia',
+    owner: 'branches',
+    type: 'multimedia',
     value: [],
     width: 12
   }
@@ -271,7 +405,7 @@ const branchImages = [
 export default function Branches() {
   const dispatch = useDispatch()
   const {form} = useSelector(state => state.form)
-  const [branchesForm, setBranchesForm] = useState(branchesColumns)
+  const [branchesForm, setBranchesForm] = useState(branchesCreateEdit)
   const [AddressInfo, setAddressInfo] = useState([])
 
   useEffect(() => {
@@ -357,16 +491,15 @@ export default function Branches() {
           {
             title: 'Detalles',
             endpoints: {
-              baseUrl: `${BRANCHES_ENDPOINT}/branches/details/:id`
+              baseUrl: `${BRANCHES_ENDPOINT}/branch-details/:id`
             },
             fieldName: 'branchID',
             form: branchDetails
           },
           {
             title: 'Fotos',
-            endpoints: {
-              baseUrl: `${MEDIA_ENDPOINT}/media/owner/:id`
-            },
+            field: 'id',
+            useMediaEndpoint: true,
             fieldName: 'branchID',
             form: branchImages
           }

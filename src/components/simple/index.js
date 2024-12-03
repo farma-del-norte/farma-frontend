@@ -22,7 +22,7 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
     pageSize: 10,
   })
   // key for reducer
-  const keyList = table.label.replace(/\s+/g, '')
+  const keyList = id ? `${table.label.replace(/\s+/g, '')}_${id}` : table.label.replace(/\s+/g, '')
   // params fro endpoints
   const endpointsParams = useMemo(() => {
     return {
@@ -113,7 +113,8 @@ export const Simple = ({table, modal, tablekey = 'tableId', id}) => {
       }
     }
   ]
-  const filteredColumns = actionableColumns.filter(column => !column.hideColumn)
+  const filteredColumns = actionableColumns.filter(column => !column.hideColumn).map(obj => ({ ...obj }));
+  filteredColumns.forEach(obj => delete obj.type);
   return (
     <Fragment>
       <CardTable

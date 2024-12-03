@@ -4,11 +4,16 @@ import TheatersIcon from '@mui/icons-material/Theaters'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import {useSelector, useDispatch} from 'react-redux'
 import {setMedia} from 'src/store/media/reducer'
-import {Typography, Button} from '@mui/material'
+import { getMediaByOwnerId } from 'src/store/media/actions'
+import {Typography, Button, Dialog, DialogContent, DialogTitle} from '@mui/material'
 import React, {useEffect, useState, useRef} from 'react'
 import {useTheme} from '@mui/material/styles'
 import styles from './styles/styles.module.css'
 import FallbackSpinner from 'src/@core/components/spinner'
+import {
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+} from '@mui/icons-material'
 //TODO: Separate the URLS from Files array maybe handling two arrays on images object (urlImages, fileImages)
 const PDFMedia = ({media, handleRemove, index}) => {
   return (
@@ -141,7 +146,7 @@ const SelectMedia = ({media, handleRemove, index}) => {
   return <PDFMedia media={media} handleRemove={handleRemove} index={index} />
 }
 
-const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
+const MultimediaUploader = ({input, values, onChange, getValues, error}) => {
   const dispatch = useDispatch()
   const {media} = useSelector(state => state.media)
   const {headerName, accept = '.jpg,.png,.webp,video/mp4,video/x-m4v,image/png,image/jpeg,video/*,pdf,application/pdf'} = input
@@ -151,12 +156,22 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
   const divContent = useRef(null)
   const animateField = document.getElementById('movingText')
   const [isLoading, setIsLoading] = useState(false)
+  //preview
+  const [openPreview, setOpenPreview] = useState(false)
+  const [selectedMedia, setSelectedMedia] = useState(null)
 
   // if is editing bring media
   useEffect(() => {
-    const row = getValues()
+    const row = input?.useEndpoint ? values : getValues()
     if (row?.id) {
-      dispatch(setMedia(row[input.getField || input.field]))
+      if (row[input.getField || input.field].length) {
+        setIsLoading(true)
+      }
+      if (input?.useEndpoint) {
+        dispatch(getMediaByOwnerId({id: row.id}))
+      } else {
+        dispatch(setMedia(row[input.getField || input.field] || []))
+      }
     }
 
     return () => {
@@ -170,6 +185,21 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
       convertImagesToBase64(media)
     }
   }, [media])
+
+  useEffect(() => {
+    // Verifica si el div tiene contenido
+    if (divContent.current.children.length > 0) {
+      // Si tiene contenido, agrega una clase para activar la animación
+      animateField.style.position = 'absolute'
+      animateField.style.top = '-14px'
+      animateField.style.transition = 'all 1s ease'
+      animateField.style.fontSize = '0.75rem'
+    } else if (divContent.current.children.length === 0 && animateField) {
+      animateField.style.position = 'relative'
+      animateField.style.top = '5px'
+      animateField.style.fontSize = '1.25rem'
+    }
+  })
 
   const getBlobFromUrl = myImageUrl => {
     return new Promise((resolve, reject) => {
@@ -188,7 +218,6 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
     const awsImages = images.filter(image => image.id && !image.file)
     //al editar convierto images a blob para que no afecte a nuevo contenido
     if (awsImages.length > 0) {
-      setIsLoading(true)
       Promise.all(awsImages.map(image => getBlobFromUrl(image.url))).then(file => {
         let addOnimages = [...images]
         for (var i = 0; i < awsImages.length; i++) {
@@ -196,7 +225,6 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
           addOnimages[i] = {...addOnimages[i], file: newContent}
         }
         convertImagesToBase64(addOnimages)
-        setIsLoading(false)
       })
     } else {
       // al crear
@@ -222,6 +250,10 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
         if (file) {
           onChange(file)
           setImages(file)
+        }
+
+        if (isLoading) {
+          setIsLoading(false)
         }
       })
     }
@@ -277,22 +309,19 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
     convertImagesToBase64(newImages)
   }
 
+  const handleOpenPreview = index => {
+    setSelectedMedia(index)
+    setOpenPreview(true)
+  }
+
   useEffect(() => {
-    // Verifica si el div tiene contenido
-    if (divContent.current.children.length > 0) {
-      // Si tiene contenido, agrega una clase para activar la animación
-      animateField.style.position = 'absolute'
-      animateField.style.top = '-14px'
-      animateField.style.transition = 'all 1s ease'
-      animateField.style.fontSize = '0.75rem'
-    } else if (divContent.current.children.length === 0 && animateField) {
-      animateField.style.position = 'relative'
-      animateField.style.top = '5px'
-      animateField.style.fontSize = '1.25rem'
+    if (selectedMedia) {
+      setOpenPreview(true)
     }
-  })
+  }, [selectedMedia])
 
   return (
+    <>
     <Box
       onDragOver={e => {
         e.preventDefault()
@@ -323,8 +352,10 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
                   overflow: 'hidden',
                   margin: '10px 5px'
                 }}
+                className={styles.cardMedia}
               >
-                <img alt={media.file} src={media.file} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                <ImageIcon className={styles.previewIcon} sx={{width: '2.5rem', height: '2.5rem'}} />
+                <img alt={media.file} src={media.file} style={{width: '100%', height: '100%', objectFit: 'cover'}} loading="lazy"/>
                 <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
                   <button
                     style={{
@@ -345,6 +376,9 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
                     </Typography>
                   </button>
                 </div>
+                <button className={styles.cardButton} onClick={() => handleOpenPreview(index)}>
+                  Ver
+                </button>
               </div>
             ) : (
               media.type.includes('pdf') && (
@@ -356,7 +390,10 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
                     overflow: 'hidden',
                     margin: '10px 5px'
                   }}
+                  className={styles.cardMedia}
+                  onClick={() => handleOpenPreview(index)}
                 >
+                  <PictureAsPdfIcon className={styles.previewIcon} sx={{width: '2.5rem', height: '2.5rem'}} />
                   <embed src={media.url} type="application/pdf" width='270px' height='150'/>
                   <div style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', fontWeight: 'bold'}}>
                     <button
@@ -378,6 +415,9 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
                       </Typography>
                     </button>
                   </div>
+                  <button className={styles.cardButton} onClick={() => handleOpenPreview(index)}>
+                    Ver
+                  </button>
                 </div>
               )
             )}
@@ -434,6 +474,41 @@ const MultimediaUploader = ({input, value, onChange, getValues, error}) => {
         </label>
       </div>
     </Box>
+
+    {/* PREVIEW MULTIMEDIA */}
+    <Dialog open={openPreview} onClose={() => setOpenPreview(false)}
+      fullHeight
+      fullWidth
+      PaperProps={{
+        className: styles.transparentDialog,
+      }}
+    >
+      <DialogTitle>
+        <div className={styles.previewActions}>
+          <div className={styles.buttonAction} onClick={() => setSelectedMedia(selectedMedia > 0 ? selectedMedia - 1 : 0)}>
+            <KeyboardArrowLeft fontSize="large"/> Anterior
+          </div>
+          <div className={styles.buttonAction} onClick={() => setSelectedMedia(selectedMedia < images.length - 1 ? selectedMedia + 1 : images.length - 1)}>
+            Siguiente <KeyboardArrowRight fontSize="large" />
+          </div>
+        </div>
+      </DialogTitle>
+      <DialogContent className={styles.previewContent}>
+        {images[selectedMedia]?.type.includes('image') && (
+          <img src={images[selectedMedia]?.url ?? images[selectedMedia].file} alt={images[selectedMedia].name} style={{ width: '100%', height: 'auto' }} />
+        )}
+        {images[selectedMedia]?.type.includes('video') && (
+          <video controls style={{ width: '100%' }}>
+            <source src={images[selectedMedia]?.url ?? images[selectedMedia].file} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+        {images[selectedMedia]?.type.includes('pdf') && (
+          <embed src={images[selectedMedia]?.url ?? images[selectedMedia].file} type="application/pdf" width='100%' height='800px'></embed>
+        )}
+      </DialogContent>
+    </Dialog>
+    </>
   )
 }
 

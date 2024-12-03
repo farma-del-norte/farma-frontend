@@ -44,7 +44,6 @@ export const services = createSlice({
       state.isLoading = true
     })
     builder.addCase(createServices.fulfilled, (state, {payload}) => {
-      console.log(payload)
       state.createdService = payload.createdService.content[0]
       state.services = payload.payload.content
       state.isLoading = false

@@ -25,9 +25,9 @@ const inputs = {
   multimedia: MultimediaUploader
 }
 
-const InputManager = ({input, value, getValues, onChange, error}) => {
+const InputManager = ({input, value, values, getValues, onChange, error}) => {
   const Input = inputs[input.type] || Text
-  return <Input input={input} value={value} getValues={getValues} onChange={onChange} error={error} />
+  return <Input input={input} value={value} values={values} getValues={getValues} onChange={onChange} error={error} />
 }
 
 export default InputManager
